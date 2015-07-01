@@ -10,7 +10,7 @@
                       <i class="fa fa fa-user" style="font-size:100px;"></i>
 
                   </div>
-             <div class="col-xs-10 col-sm-10 "> <br>
+             <div class="col-xs-12 col-sm-12 "> <br>
                   <dl>
                     <dt>Registration number <em style="font-size:12px;font-weight:100"></em>
                       {!! $errors->first('registration_number','<em class="has-error">(:message)</em>') !!}
@@ -143,7 +143,5 @@
 
                 </div>
               </div>
-            </div>
-          </div>
             </div>
     </div>
