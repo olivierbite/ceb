@@ -12,5 +12,5 @@
  */
 
 Route::get('/', ['as' => 'home', function () {
-	return view('welcome');
+	return view('layouts.default');
 }]);
