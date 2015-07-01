@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title> Forgot your Password? </title>
+    <title>PIASS Student</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
        <!-- Bootstrap 3.3.2 -->
     <link href="{{Url()}}/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
@@ -26,37 +26,47 @@
     <div class="login-box">
       
       <div class="login-box-body">
-      <!-- Notifications -->
+      <div class="login-logo">
+        <a href="{{Url()}}" class="logo">
+          <img src="{!! Url() !!}/assets/dist/img/logo.gif" alt="">
+        </a>
+       </div><!-- /.login-logo -->
+       <!-- Notifications -->
   @include('Sentinel::layouts/notifications')
   <!-- ./ notifications -->
 
-<form method="POST" action="{{ route('sentinel.reset.request') }}" accept-charset="UTF-8">
-    <input name="_token" value="{{ csrf_token() }}" type="hidden">
-    
-        <div class="small-6 large-centered columns">           
-            <h3>Forgot your Password?</h3>
-            
-            
-                <div class="small-2 columns">
-                    <label for="right-label" class="right inline">Email</label>
-                </div>
-                <div class="small-10 columns {{ ($errors->has('email')) ? 'error' : '' }}">
-                    <input class="form-control" placeholder="E-mail" autofocus="autofocus" name="email" type="text" value="{{ Input::old('email') }}">
-                    {{ ($errors->has('email') ? $errors->first('email', '<small class="error">:message</small>') : '') }}
-                </div>
-           
+        <p class="login-box-msg">Sign in to continue</p>
 
-            
-                <div class="small-10 col-offset-2 columns">
-                <br>
-                    <input class="btn btn-success" value="Send Instructions" type="submit">
-               
-           
-  		
-      	</div>
-    </div>
-</form>
- 
+       <form method="POST" action="{{ route('sentinel.session.store') }}" accept-charset="UTF-8">
+          <div class="form-group has-feedback">
+               <input placeholder="Email" autofocus="autofocus" class="form-control" name="email" type="text"  value="{{ Input::old('email') }}">
+                {{ ($errors->has('email') ? $errors->first('email', '<small class="error">:message</small>') : '') }}
+          </div>
+          <div class="form-group has-feedback">
+             <input class="form-control" placeholder="Password" name="password" value="" type="password">
+                {{ ($errors->has('password') ?  $errors->first('password', '<small class="error">:message</small>') : '') }}
+          </div>
+          <div class="row">
+            <div class="col-xs-8">    
+              <div class="checkbox icheck">
+                <label>
+                  <input name="rememberMe" value="rememberMe" type="checkbox">
+                Remember Me
+                </label>
+
+              </div>  
+                        <a href="{{ route('sentinel.forgot.form') }}">Forgot Password</a>                      
+            </div><!-- /.col -->
+            <div class="col-xs-4">
+              <input class="btn btn-primary  btn-block btn-flat" value="Sign In" type="submit">
+            </div><!-- /.col -->
+    
+          </div>
+
+        </form>
+
+        
+       
 
       </div><!-- /.login-box-body -->
     </div><!-- /.login-box -->

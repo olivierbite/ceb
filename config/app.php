@@ -146,6 +146,7 @@ return [
 
 		// Adding service provider for the authentication
 		Sentinel\SentinelServiceProvider::class,
+		Illuminate\Html\HtmlServiceProvider::class,
 
 	],
 
@@ -194,6 +195,10 @@ return [
 		'URL' => Illuminate\Support\Facades\URL::class,
 		'Validator' => Illuminate\Support\Facades\Validator::class,
 		'View' => Illuminate\Support\Facades\View::class,
+
+		// Additional facades
+		'Form' => 'Illuminate\Html\FormFacade',
+		'HTML' => 'Illuminate\Html\HtmlFacade',
 
 	],
 

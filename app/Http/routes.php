@@ -11,6 +11,6 @@
 |
  */
 
-Route::get('/', ['as' => 'home', function () {
+Route::get('/', ['as' => 'home', 'middleware' => 'sentry.auth', function () {
 	return view('layouts.default');
 }]);

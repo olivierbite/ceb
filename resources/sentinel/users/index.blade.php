@@ -1,20 +1,19 @@
 @extends(config('sentinel.layout'))
 
-{{-- Page Title --}}
-@section('content_title')
- {{ trans('navigations.members') }}
+{{-- Web site Title --}}
+@section('title')
+Current Users 
 @stop
-@section('content_descriptions')
-  Member modules
+@section('description')
+Click here for <a href="{!! route('sentinel.groups.index') !!}" class="btn btn-success">User groups</a>
 @stop
 
 {{-- Content --}}
 @section('content')
 
+<div class="box">
                 <div class="box-header">
-                  <a class='btn btn-primary' href="{{ route('sentinel.users.create') }}">
-                    {{ trans('member.add_new') }}
-                  </a>
+                  <a class='btn btn-primary' href="{{ route('sentinel.users.create') }}">Create User</a>
                   <div class="box-tools">
                     <div class="input-group">
                       <input type="text" name="table_search" class="form-control input-sm pull-right" style="width: 150px;" placeholder="Search">
@@ -55,4 +54,5 @@
 		</tbody>
 	</table>
 	 </div><!-- /.box-body -->
-  @stop
+              </div>
+@stop

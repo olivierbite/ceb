@@ -22,6 +22,8 @@
         <!-- Main content -->
         <section class="content">
 
+        @include('layouts.notifications')
+
           <!-- Default box -->
             @include('partials.content_box')
           <!-- /.box -->

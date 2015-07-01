@@ -27,7 +27,7 @@
               <li class="dropdown user user-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                   <img src="/assets/dist/img/user2-160x160.jpg" class="user-image" alt="User Image"/>
-                  <span class="hidden-xs">Kamaro Lambert</span>
+                  <span class="hidden-xs">{{ Session::get('email') }}</span>
                 </a>
                 <ul class="dropdown-menu">
                   <!-- User image -->
@@ -41,30 +41,27 @@
                   <!-- Menu Body -->
                   <li class="user-body">
                     <div class="col-xs-4 text-center">
-                      <a href="#">Contribution</a>
+                      <a href="#">{{ trans('member.contribution') }}</a>
                     </div>
                     <div class="col-xs-4 text-center">
-                      <a href="#">Files</a>
+                      <a href="#">{{ trans('member.files') }}</a>
                     </div>
                     <div class="col-xs-4 text-center">
-                      <a href="#">Epargne</a>
+                      <a href="#">{{ trans('member.Epargne') }}</a>
                     </div>
                   </li>
                   <!-- Menu Footer-->
                   <li class="user-footer">
                     <div class="pull-left">
-                      <a href="#" class="btn btn-default btn-flat">Profile</a>
+                      <a href="#" class="btn btn-default btn-flat">{{ trans('member.profile') }}</a>
                     </div>
                     <div class="pull-right">
-                      <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                      <a href="#" class="btn btn-default btn-flat">{{ trans('member.logout') }}</a>
                     </div>
                   </li>
                 </ul>
               </li>
               <!-- Control Sidebar Toggle Button -->
-              <li>
-                <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
-              </li>
             </ul>
           </div>
         </nav>
