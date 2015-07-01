@@ -31,8 +31,8 @@
                 <span>{{ trans('navigations.dashboard') }}</span>
               </a>
             </li>
-            <li class="treeview  {{ (Request::is('users*') ? 'class="active"' : '') }}">
-              <a href="{{ route('sentinel.users.index') }}">
+            <li class="{{ (Request::is('members*') ? 'class="active"' : '') }} treeview">
+              <a href="{{ route('members.index') }}">
                 <i class="fa fa-users"></i>
                 <span>{{ trans('navigations.members') }}<span>
                 <span class="label label-primary pull-right">4</span>

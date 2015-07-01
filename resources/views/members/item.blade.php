@@ -1,13 +1,17 @@
 <tr>
-	<td>{!! $customer->email!!}</td>
-	<td>{!! $customer->description !!}</td>
-	<td>{!! $customer->livemode !!}</td>
+	<td>{!! $member->adhesion_id!!}</td>
+	<td>{!! $member->first_name !!}{!! $member->last_name !!}</td>
+	<td>{!! $member->institution !!}</td>
+	<td>{!! $member->service !!}</td>
+	<td>{!! $member->member_nid !!}</td>
+	<td>{!! $member->district !!}</td>
+	<td>{!! $member->created_at !!}</td>
 	<td>
-{!! Form::open(array('route' => array('customers.destroy', $customer->id), 'method' => 'delete')) !!}
+{!! Form::open(array('route' => array('members.destroy', $member->id), 'method' => 'delete')) !!}
 
-		<a href="{!! route('customers.edit',$customer->id) !!}" onclick="modal(this,28)" class="ui left button"><i class="edit blue icon"></i></a>
+		<a href="{!! route('members.edit',$member->id) !!}" class="ui left button"><i class="fa fa-edit"></i></a>
 
-        <button type="submit" class="ui button "onclick="return confirm('{!! trans('general.are_you_sure_you_want_to_delete_this_item') !!}')"><i class="cancel red icon"></i></button>
+        <button type="submit" class="ui button "onclick="return confirm('{!! trans('general.are_you_sure_you_want_to_delete_this_item') !!}')"><i class="fa fa-cancel"></i></button>
     {!! Form::close() !!}
 
 		</td>

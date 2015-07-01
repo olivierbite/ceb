@@ -14,3 +14,5 @@
 Route::get('/', ['as' => 'home', 'middleware' => 'sentry.auth', function () {
 	return view('layouts.default');
 }]);
+
+Route::resource('members', 'MemberController');

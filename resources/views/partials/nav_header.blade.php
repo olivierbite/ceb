@@ -56,7 +56,7 @@
                       <a href="#" class="btn btn-default btn-flat">{{ trans('member.profile') }}</a>
                     </div>
                     <div class="pull-right">
-                      <a href="#" class="btn btn-default btn-flat">{{ trans('member.logout') }}</a>
+                      <a href="{{ route('sentinel.logout') }}" class="btn btn-default btn-flat">{{ trans('member.logout') }}</a>
                     </div>
                   </li>
                 </ul>
