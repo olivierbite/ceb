@@ -147,6 +147,7 @@ return [
 		// Adding service provider for the authentication
 		Sentinel\SentinelServiceProvider::class,
 		Illuminate\Html\HtmlServiceProvider::class,
+		'Laracasts\Flash\FlashServiceProvider',
 
 	],
 
@@ -199,6 +200,7 @@ return [
 		// Additional facades
 		'Form' => 'Illuminate\Html\FormFacade',
 		'HTML' => 'Illuminate\Html\HtmlFacade',
+		'Flash' => 'Laracasts\Flash\Flash',
 
 	],
 

@@ -13,15 +13,16 @@ class AddMemberFieldsToUser extends Migration {
 		// Add the Member fields to the users table
 		Schema::table('users', function ($table) {
 
-			$table->integer('adhesion_id')->nullable()->unique();
+			$table->integer('adhersion_id')->nullable()->unique();
 			$table->integer('savings_contract_id')->nullable();
 			$table->string('date_of_birth')->nullable();
 			$table->string('district')->nullable();
 			$table->string('province')->nullable();
 			$table->string('sex')->nullable();
-			$table->string('member_nid')->nullable();
+			$table->string('member_nid')->nullable()->unique();
 			$table->string('telephone')->nullable();
-			$table->timestamp('departure_date')->nullable();
+			$table->timestamp('termination_date')->nullable();
+			$table->string('nationality')->nullable();
 			$table->string('institution')->nullable();
 			$table->string('service')->nullable();
 			$table->decimal('monthly_fee', 10, 2)->nullable();
@@ -43,16 +44,16 @@ class AddMemberFieldsToUser extends Migration {
 	public function down() {
 		// Remove member fields from the users table
 		Schema::table('users', function ($table) {
-			$table->dropColumn('adhesion_id');
+			$table->dropColumn('adhersion_id');
 			$table->dropColumn('savings_contract_id');
 			$table->dropColumn('date_of_birth');
 			$table->dropColumn('district');
 			$table->dropColumn('province');
+			// $table->dropColumn('nationality');
 			$table->dropColumn('sex');
 			$table->dropColumn('member_nid');
 			$table->dropColumn('telephone');
-			$table->dropColumn('adhesion_date');
-			$table->dropColumn('departure_date');
+			$table->dropColumn('termination_date');
 			$table->dropColumn('institution');
 			$table->dropColumn('service');
 			$table->dropColumn('monthly_fee');

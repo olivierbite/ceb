@@ -16,3 +16,7 @@ Route::get('/', ['as' => 'home', 'middleware' => 'sentry.auth', function () {
 }]);
 
 Route::resource('members', 'MemberController');
+
+Route::get('/test', function () {
+	dd(new Ceb\Repositories\Member\MemberRepository);
+});

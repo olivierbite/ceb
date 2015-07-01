@@ -23,6 +23,7 @@
         <section class="content">
 
         @include('layouts.notifications')
+        @include('flash::message')
 
           <!-- Default box -->
             @include('partials.content_box')

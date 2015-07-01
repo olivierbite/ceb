@@ -17,7 +17,24 @@ class User extends Model {
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['name', 'email', 'password'];
+	protected $fillable = [
+		'adhersion_id',
+		'district',
+		'province',
+		'institution',
+		'service',
+		'termination_date',
+		'first_name',
+		'last_name',
+		'password',
+		'date_of_birth',
+		'sex',
+		'member_nid',
+		'nationality',
+		'email',
+		'telephone',
+		'monthly_fee',
+	];
 
 	/**
 	 * The attributes excluded from the model's JSON form.

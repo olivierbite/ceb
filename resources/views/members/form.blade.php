@@ -12,48 +12,42 @@
                   </div>
              <div class="col-xs-12 col-sm-12 "> <br>
                   <dl>
-                    <dt>Registration number <em style="font-size:12px;font-weight:100"></em>
+                    <dt>{{ trans('member.adhersion_number') }} <em style="font-size:12px;font-weight:100"></em>
                       {!! $errors->first('registration_number','<em class="has-error">(:message)</em>') !!}
                     </dt>
                     <dd class=" {{ ($errors->has('registration_number')) ? 'has-error' : '' }}">
-                     {!! Form::text('registration_number', $member->registration_number, ['class'=>'form-control','placeholder'=>'registration number ']) !!}
+                     {!! Form::text('registration_number', $member->adhersion_id, ['class'=>'form-control','placeholder'=>trans('member.adhersion_number'),'disabled']) !!}
                   </dd>
-                    <dt>Residence <em style="font-size:12px;font-weight:100">(Sector, District...)</em>
-                      {!! $errors->first('residence','<em class="has-error">(:message)</em>') !!}
+                    <dt>{{ trans('member.district') }} <em style="font-size:12px;font-weight:100">(Kicukiro, Nyarugenge...)</em>
+                      {!! $errors->first('district','<em class="has-error">(:message)</em>') !!}
                     </dt>
-                    <dd class=" {{ ($errors->has('residence')) ? 'has-error' : '' }}">
-                     {!! Form::text('residence', $member->residence, ['class'=>'form-control','placeholder'=>'residence ']) !!}
+                    <dd class=" {{ ($errors->has('district')) ? 'has-error' : '' }}">
+                     {!! Form::text('district', $member->district, ['class'=>'form-control','placeholder'=>trans('member.district')]) !!}
                   </dd>
-                    <dt>Occupation
-                     {!! $errors->first('occupation','<em class="has-error">(:message)</em>') !!}
+                    <dt>{{ trans('member.province') }}
+                     {!! $errors->first('province','<em class="has-error">(:message)</em>') !!}
                     </dt>
-                    <dd class=" {{ ($errors->has('occupation')) ? 'has-error' : '' }}">
-                       {!! Form::text('occupation', $member->occupation, ['class'=>'form-control','placeholder'=>'Occupation ']) !!}
+                    <dd class=" {{ ($errors->has('province')) ? 'has-error' : '' }}">
+                       {!! Form::text('province', $member->province, ['class'=>'form-control','placeholder'=>trans('member.province')]) !!}
                     </dd>
-                    <dt>Father's name
-                     {!! $errors->first('father_name','<em class="has-error">(:message)</em>') !!}
+                    <dt>{{ trans('member.institution') }}
+                     {!! $errors->first('institution','<em class="has-error">(:message)</em>') !!}
                     </dt>
-                    <dd class=" {{ ($errors->has('father_name')) ? 'has-error' : '' }}">
-                       {!! Form::text('father_name', $member->father_name, ['class'=>'form-control','placeholder'=>'Father\'s names ']) !!}
+                    <dd class=" {{ ($errors->has('institution')) ? 'has-error' : '' }}">
+                       {!! Form::text('institution', $member->institution, ['class'=>'form-control','placeholder'=>trans('member.institution')]) !!}
                     </dd>
-                    <dt>Mother's name
-                     {!! $errors->first('mother_name','<em class="has-error">(:message)</em>') !!}
+                    <dt>{{ trans('member.service') }}
+                     {!! $errors->first('service','<em class="has-error">(:message)</em>') !!}
                     </dt>
-                    <dd class=" {{ ($errors->has('mother_name')) ? 'has-error' : '' }}">
-                        {!! Form::text('mother_name', $member->mother_name, ['class'=>'form-control','placeholder'=>'Mother\'s names ']) !!}
+                    <dd class=" {{ ($errors->has('service')) ? 'has-error' : '' }}">
+                        {!! Form::text('service', $member->service, ['class'=>'form-control','placeholder'=>trans('member.service') ]) !!}
                     </dd>
-                   <dt>Campus
-                     {!! $errors->first('Campus','<em class="has-error">(:message)</em>') !!}
+                   <dt>{{ trans('member.termination_date') }}
+                     {!! $errors->first('termination_date','<em class="has-error">(:message)</em>') !!}
                     </dt>
-                    <dd class=" {{ ($errors->has('Campus')) ? 'has-error' : '' }}">
-                        {!! Form::select('campus',['Huye'=>'Huye','Karongi'=>'Karongi'], $member->campus, ['class'=>'form-control','placeholder'=>'Campus']) !!}
-                    </dd>
-                    <dt>Study mode
-                     {!! $errors->first('mode_of_study','<em class="has-error">(:message)</em>') !!}
-                    </dt>
-                    <dd class=" {{ ($errors->has('mode_of_study')) ? 'has-error' : '' }}">
-                       {!! Form::select('mode_of_study',['Full time'=>'Full time','Part time'=>'Part time','Holidays'=>'Holidays'],$member->mode_of_study) !!}
-                       {!! Form::select('session',['Day'=>'Day','Evening'=>'Evening','Weekend'=>'Weekend'],$member->session) !!}
+                    <dd class=" {{ ($errors->has('termination_date')) ? 'has-error' : '' }}">
+                        {!! Form::text('termination_date', $member->termination_date, ['class'=>'form-control',
+                        'id'=>'date','placeholder'=>trans('member.termination_date') ]) !!}
                     </dd>
                   </dl>
                 </div>
@@ -65,83 +59,83 @@
                   <table class="table table-user-information">
                     <tbody>
                       <tr>
-                        <th>Names:
+                        <th>{{ trans('member.names') }}:
                           {!! $errors->first('names','<em class="has-error">(:message)</em>') !!}
                         </th>
                         <td class=" {{ ($errors->has('names')) ? 'has-error' : '' }}">
-                          {!! Form::text('names', $member->names, ['class'=>'form-control','placeholder'=>'Enter member names']) !!}
+                          {!! Form::text('names', $member->first_name.' '.$member->last_name, ['class'=>'form-control','placeholder'=>trans('member.names') ]) !!}
                            </td>
                       </tr>
 
                       <tr>
-                        <th>Date of Birth:
-                        {!! $errors->first('DOB','<em class="has-error">(:message)</em>') !!}
+                        <th>{{ trans('member.date_of_birth') }}:
+                        {!! $errors->first('date_of_birth','<em class="has-error">(:message)</em>') !!}
                         </th>
-                        <td class=" {{ ($errors->has('DOB')) ? 'has-error' : '' }}">
-                          {!! Form::text('DOB',date('Y-m-d',strtotime($member->DOB)),['class'=>'form-control','id'=>'date','data-inputmask'=>'\'alias\':\'dd-mm-yyyy\'']) !!}</td>
+                        <td class=" {{ ($errors->has('date_of_birth')) ? 'has-error' : '' }}">
+                          {!! Form::text('date_of_birth',date('Y-m-d',strtotime($member->date_of_birth)),['class'=>'form-control','id'=>'date2','data-inputmask'=>'\'alias\':\'dd-mm-yyyy\'']) !!}</td>
                       </tr>
                       <tr>
                         <tr>
-                        <th>Gender:
-                      {!! $errors->first('gender','<em class="has-error">(:message)</em>') !!}
+                        <th>{{ trans('member.sex') }}:
+                      {!! $errors->first('sex','<em class="has-error">(:message)</em>') !!}
                         </th>
-                        <td class=" {{ ($errors->has('gender')) ? 'has-error' : '' }}">
-                           {!! Form::select('gender',['Male'=>'Male','Female'=>'Female'],$member->gender, ['class' => 'form-control']) !!}
+                        <td class=" {{ ($errors->has('sex')) ? 'has-error' : '' }}">
+                           {!! Form::select('sex',['Male'=>'Male','Female'=>'Female'],$member->sex, ['class' => 'form-control']) !!}
                         </td>
                       </tr>
-                      <tr>
-                        <th>Martial status:
-                           {!! $errors->first('martial_status','<em class="has-error">(:message)</em>') !!}
-                        </th>
-                        <td class=" {{ ($errors->has('martial_status')) ? 'has-error' : '' }}">
-                          {!! Form::select('martial_status',['Single'=>'Single','Married'=>'Married'],$member->martial_status, ['class' => 'form-control']) !!}
-                        </td>
-                      </tr>
+
                        <tr>
-                        <th>National ID:
-                        {!! $errors->first('NID','<em class="has-error">(:message)</em>') !!}
+                        <th>{{ trans('member.nid') }}:
+                        {!! $errors->first('member_nid','<em class="has-error">(:message)</em>') !!}
                         </th>
-                        <td class=" {{ ($errors->has('NID')) ? 'has-error' : '' }}">
-                        {!! Form::text('NID', $member->NID, ['class'=>'form-control','placeholder'=>'Enter member national ID']) !!}
+                        <td class=" {{ ($errors->has('member_nid')) ? 'has-error' : '' }}">
+                        {!! Form::text('member_nid', $member->member_nid, ['class'=>'form-control','placeholder'=> trans('member.nid') ]) !!}
                         </td>
                       </tr>
                         <tr>
-                        <th>Nationality:
+                        <th>{{ trans('member.nationality') }}:
                           {!! $errors->first('nationality','<em class="has-error">(:message)</em>') !!}
                         </th>
                         <td class=" {{ ($errors->has('nationality')) ? 'has-error' : '' }}">
-                          {!! Form::text('nationality', $member->nationality, ['class'=>'form-control','placeholder'=>'Nationality ']) !!}</td>
+                          {!! Form::text('nationality', $member->nationality, ['class'=>'form-control','placeholder'=>trans('member.nationality')]) !!}</td>
                       </tr>
                       <tr>
-                        <th>Email:
+                        <th>{{ trans('member.email') }}:
                          {!! $errors->first('email','<em class="has-error">(:message)</em>') !!}
                         </th>
                         <td class=" {{ ($errors->has('email')) ? 'has-error' : '' }}">
-                           {!! Form::input('email','email', $member->email, ['class'=>'form-control email','placeholder'=>'Email  address']) !!}
+                           {!! Form::input('email','email', $member->email, ['class'=>'form-control email','placeholder'=>trans('member.email')]) !!}
                         </td>
                       </tr>
                       <tr>
-                        <th>Phone Number:
+                        <th> {{ trans('member.telephone') }}:
                          {!! $errors->first('telephone','<em class="has-error">(:message)</em>') !!}
                         </th>
                         <td class=" {{ ($errors->has('telephone')) ? 'has-error' : '' }}">
 
-                          {!! Form::text('telephone', $member->telephone, ['class'=>'form-control','placeholder'=>'Telephone or Mobile']) !!}
+                          {!! Form::text('telephone', $member->telephone, ['class'=>'form-control','placeholder'=> trans('member.telephone')]) !!}
                         </td>
                       </tr>
+                      <tr>
+                        <th> {{ trans('member.monthly_fee') }}:
+                         {!! $errors->first('monthly_fee','<em class="has-error">(:message)</em>') !!}
+                        </th>
+                        <td class=" {{ ($errors->has('monthly_fee')) ? 'has-error' : '' }}">
 
+                          {!! Form::text('monthly_fee', $member->monthly_fee, ['class'=>'form-control','placeholder'=> trans('member.monthly_fee')]) !!}
+                        </td>
+                      </tr>
                     </tbody>
                   </table>
 
-                 @if(isset($member->id))
-                     <a href="{!! route('members.modules.show',$member->id) !!}" class="btn btn-success">
-                     <i class="fa fa-book"></i> Register modules
-                     </a>
-                  @endif
                   <a href="{!!route('members.index')!!}" class="btn btn-warning"><i class="fa fa-remove"></i> Cancel</a>
-                  <button href="#" class="btn btn-primary"><i class="fa fa-floppy-o"></i> {!! $button !!}</button>
+                  <button href="#" class="btn btn-success"><i class="fa fa-floppy-o"></i> {!! $button !!}</button>
 
                 </div>
               </div>
             </div>
     </div>
+
+
+    <script src="{{Url()}}/assets/dist/js/datepickr.js" type="text/javascript"></script>
+    <script src="{{Url()}}/assets/dist/js/date.js" type="text/javascript"></script>

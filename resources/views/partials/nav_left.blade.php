@@ -31,7 +31,7 @@
                 <span>{{ trans('navigations.dashboard') }}</span>
               </a>
             </li>
-            <li class="{{ (Request::is('members*') ? 'class="active"' : '') }} treeview">
+            <li class="{{ (Request::is('members*') ? 'active' : '') }} treeview">
               <a href="{{ route('members.index') }}">
                 <i class="fa fa-users"></i>
                 <span>{{ trans('navigations.members') }}<span>

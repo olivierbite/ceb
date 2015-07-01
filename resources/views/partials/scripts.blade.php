@@ -6,8 +6,8 @@
     <script src="{{Url()}}/assets/plugins/slimScroll/jquery.slimscroll.min.js" type="text/javascript"></script>
     <!-- FastClick -->
     <script src='/assets/plugins/fastclick/fastclick.min.js'></script>
-    <!-- AdminLTE App -->
-    <script src="{{Url()}}/assets/dist/js/app.min.js" type="text/javascript"></script>
 
     <!-- Demo -->
     <script src="{{Url()}}/assets/dist/js/demo.js" type="text/javascript"></script>
+        <!-- CEB App -->
+    <script src="{{Url()}}/assets/dist/js/app.js" type="text/javascript"></script>

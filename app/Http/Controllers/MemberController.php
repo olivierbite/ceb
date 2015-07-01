@@ -3,13 +3,18 @@
 namespace Ceb\Http\Controllers;
 
 use Ceb\Http\Controllers\Controller;
-use Ceb\Models\User;
+use Ceb\Http\Requests\AddNewMemberRequest;
+use Ceb\Http\Requests\EditMemberRequest;
+use Ceb\Repositories\Member\MemberRepository;
+use Redirect;
+use Sentinel\Models\User;
 
 class MemberController extends Controller {
 	public $member;
 	function __construct(User $member) {
 		$this->middleware('sentry.auth');
 		$this->member = $member;
+		parent::__construct();
 	}
 	/**
 	 * Display a listing of the resource.
@@ -18,6 +23,12 @@ class MemberController extends Controller {
 	 */
 	public function index() {
 
+		// First check if the user has the permission to do this
+		if (!$this->user->hasAccess('member.list')) {
+			flash()->error(trans('Sentinel::users.noaccess'));
+
+			return redirect()->back();
+		}
 		$members = $this->member->all();
 
 		return view('members.list', compact('members'));
@@ -29,6 +40,12 @@ class MemberController extends Controller {
 	 * @return Response
 	 */
 	public function create() {
+		// First check if the user has the permission to do this
+		if (!$this->user->hasAccess('member.create')) {
+			flash()->error(trans('Sentinel::users.noaccess'));
+
+			return redirect()->back();
+		}
 		$member = $this->member;
 		return view('members.create', compact('member'));
 	}
@@ -38,8 +55,16 @@ class MemberController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function store() {
-		//
+	public function store(AddNewMemberRequest $request, MemberRepository $memberRepository) {
+		// First check if the user has the permission to do this
+		if (!$this->user->hasAccess('member.create')) {
+			flash()->error(trans('Sentinel::users.noaccess'));
+
+			return redirect()->back();
+		}
+		$message = $memberRepository->store($request->all());
+		flash()->success($message);
+		return Redirect::route('members.index');
 	}
 
 	/**
@@ -49,7 +74,17 @@ class MemberController extends Controller {
 	 * @return Response
 	 */
 	public function show($id) {
-		//
+		// First check if the user has the permission to do this
+		if (!$this->user->hasAccess('member.view')) {
+			flash()->error(trans('Sentinel::users.noaccess'));
+
+			return redirect()->back();
+		}
+
+		$member = $this->member->findOrfail($id);
+
+		return view('members.edit', compact('member'));
+
 	}
 
 	/**
@@ -59,7 +94,16 @@ class MemberController extends Controller {
 	 * @return Response
 	 */
 	public function edit($id) {
-		//
+		// First check if the user has the permission to do this
+		if (!$this->user->hasAccess('member.edit')) {
+			flash()->error(trans('Sentinel::users.noaccess'));
+
+			return redirect()->back();
+		}
+
+		$member = $this->member->findOrfail($id);
+
+		return view('members.edit', compact('member'));
 	}
 
 	/**
@@ -68,8 +112,25 @@ class MemberController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id) {
-		//
+	public function update(EditMemberRequest $request, MemberRepository $memberRepository, $id) {
+
+		// First check if the user has the permission to do this
+		if (!$this->user->hasAccess('member.edit')) {
+			flash()->error(trans('Sentinel::users.noaccess'));
+
+			return redirect()->back();
+		}
+
+		// First prepare data
+		$data = (array) $request->all();
+		$data['id'] = $id;
+
+		// Attempt update
+		$message = $memberRepository->update($data);
+
+		flash()->success($message);
+
+		return Redirect::route('members.edit', ['members' => $id]);
 	}
 
 	/**
@@ -78,7 +139,16 @@ class MemberController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy($id) {
-		//
+	public function destroy(MemberRepository $memberRepository, $id) {
+		// First check if the user has the permission to do this
+		if (!$this->user->hasAccess('member.delete')) {
+			flash()->error(trans('Sentinel::users.noaccess'));
+
+			return redirect()->back();
+		}
+
+		$message = $memberRepository->destroy($id);
+		flash()->success($message);
+		return Redirect::route('members.index', ['success' => $message]);
 	}
 }
