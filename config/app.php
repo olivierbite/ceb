@@ -145,7 +145,7 @@ return [
 		Ceb\Providers\RouteServiceProvider::class,
 
 		// Adding service provider for the authentication
-		'Sentinel\SentinelServiceProvider',
+		Sentinel\SentinelServiceProvider::class,
 
 	],
 

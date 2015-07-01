@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "5af56b809a3e0d17c15afbed74337c74",
+    "hash": "008576cb7cf95f73a9e6acbda1edd5e6",
     "packages": [
         {
             "name": "cartalyst/sentry",
@@ -1116,12 +1116,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/rydurham/Sentinel.git",
-                "reference": "66c711fbd418a29b63f6cf5645136e0090e31313"
+                "reference": "4235c3ec82ecc762d307d46fc3c389a470f92944"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rydurham/Sentinel/zipball/66c711fbd418a29b63f6cf5645136e0090e31313",
-                "reference": "66c711fbd418a29b63f6cf5645136e0090e31313",
+                "url": "https://api.github.com/repos/rydurham/Sentinel/zipball/4235c3ec82ecc762d307d46fc3c389a470f92944",
+                "reference": "4235c3ec82ecc762d307d46fc3c389a470f92944",
                 "shasum": ""
             },
             "require": {
@@ -1164,7 +1164,7 @@
                 "laravel",
                 "sentry"
             ],
-            "time": "2015-06-13 21:20:21"
+            "time": "2015-06-19 21:36:48"
         },
         {
             "name": "swiftmailer/swiftmailer",
