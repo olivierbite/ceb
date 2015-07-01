@@ -7,9 +7,7 @@ use Ceb\Models\User;
 use Illuminate\Config\Repository;
 use Illuminate\Events\Dispatcher;
 use Sentinel\DataTransferObjects\BaseResponse;
-use Sentinel\DataTransferObjects\ExceptionResponse;
 use Sentinel\DataTransferObjects\FailureResponse;
-use Sentinel\DataTransferObjects\SuccessResponse;
 
 class MemberRepository implements MemberRepositoryInterface {
 	protected $dispatcher;
@@ -164,15 +162,13 @@ class MemberRepository implements MemberRepositoryInterface {
 				//Fire the sentinel.user.destroyed event
 				$this->dispatcher->fire('sentinel.user.destroyed', ['user' => $user]);
 
-				return new SuccessResponse(trans('Sentinel::users.destroyed'), ['user' => $user]);
+				return trans('Sentinel::users.destroyed');
 			}
 
 			// Unable to delete the user
-			return new FailureResponse(trans('Sentinel::users.notdestroyed'), ['user' => $user]);
+			return trans('Sentinel::users.notdestroyed');
 		} catch (UserNotFoundException $e) {
-			$message = trans('Sentinel::sessions.invalid');
-
-			return new ExceptionResponse($message);
+			return $message = trans('Sentinel::sessions.invalid');
 		}
 	}
 	/**
