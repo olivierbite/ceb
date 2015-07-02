@@ -4463,3 +4463,42 @@ fieldset[disabled] .btn-vk.active {
       }
   /** End of date picker */
 
+/** START OF THE INPUT FILES UPLOADS */
+   .track-info-art {
+  width: 80%;
+}
+
+  .upload-btn-text {
+  /*float: left;*/
+  /*padding: 0 10px;*/
+  width: 90px;
+}
+.upload-btn {
+  float: left;
+  width: 100%;
+  box-sizing: border-box;
+  text-align: center;
+  cursor: pointer;
+  margin-top: 5px;
+  padding: 6px 0;
+}
+.button-normal {
+  border: 1px solid #BFBFBF;
+  background: #fff;
+  color: #AAA;
+  border-radius: 3px;
+  overflow: auto;
+  padding: 6px 10px 6px 10px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline;
+}
+.upload-btn input {
+  width: 78%;
+  position: absolute;
+  left: 40px;
+  height: 175px;
+  top: 1px;
+  opacity: 0.0;
+  cursor: pointer;}
+  /** END OF UPLOADS */
