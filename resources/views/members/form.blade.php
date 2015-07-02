@@ -163,6 +163,39 @@
               </div>
             </div>
     </div>
+    </div>
+     <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3" >
+     <div class="box-header with-border">
+              <h3 class="box-title">
+              {{ trans('member.member_attornes') }}
+</h3>
+              <div class="box-tools pull-right">
+ </div>
+            </div>
+     <!-- Button trigger modal -->
+<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+  {{ trans('member.add_new_attorney') }}
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">{{ trans('member.add_new_attorney') }}</h4>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">{{ trans('general.close') }}</button>
+        <button type="button" class="btn btn-primary">{{ trans('general.save') }}</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
 
 
     <script src="{{Url()}}/assets/dist/js/datepickr.js" type="text/javascript"></script>
