@@ -94,6 +94,14 @@
                     <dd class=" {{ ($errors->has('service')) ? 'has-error' : '' }}">
                         {!! Form::text('service', $member->service, ['class'=>'form-control','placeholder'=>trans('member.service') ]) !!}
                     </dd>
+                    <dt>{{ trans('member.monthly_fee') }}:
+                         {!! $errors->first('monthly_fee','<em class="has-error">(:message)</em>') !!}
+                     </dt>
+                    <dd  class=" {{ ($errors->has('monthly_fee')) ? 'has-error' : '' }}">
+
+                          {!! Form::text('monthly_fee', $member->monthly_fee, ['class'=>'form-control','placeholder'=> trans('member.monthly_fee')]) !!}
+                       </dd>
+
                    <dt>{{ trans('member.termination_date') }}
                      {!! $errors->first('termination_date','<em class="has-error">(:message)</em>') !!}
                     </dt>
@@ -183,15 +191,7 @@
                           {!! Form::text('telephone', $member->telephone, ['class'=>'form-control','placeholder'=> trans('member.telephone')]) !!}
                         </td>
                       </tr>
-                      <tr>
-                        <th> {{ trans('member.monthly_fee') }}:
-                         {!! $errors->first('monthly_fee','<em class="has-error">(:message)</em>') !!}
-                        </th>
-                        <td class=" {{ ($errors->has('monthly_fee')) ? 'has-error' : '' }}">
 
-                          {!! Form::text('monthly_fee', $member->monthly_fee, ['class'=>'form-control','placeholder'=> trans('member.monthly_fee')]) !!}
-                        </td>
-                      </tr>
                     </tbody>
                   </table>
 
