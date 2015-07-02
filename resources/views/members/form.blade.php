@@ -1,3 +1,42 @@
+    <style type="text/css">
+    .track-info-art {
+  width: 80%;
+}
+
+  .upload-btn-text {
+  /*float: left;*/
+  /*padding: 0 10px;*/
+  width: 90px;
+}
+.upload-btn {
+  float: left;
+  width: 100%;
+  box-sizing: border-box;
+  text-align: center;
+  cursor: pointer;
+  margin-top: 5px;
+  padding: 6px 0;
+}
+.button-normal {
+  border: 1px solid #BFBFBF;
+  background: #fff;
+  color: #AAA;
+  border-radius: 3px;
+  overflow: auto;
+  padding: 6px 10px 6px 10px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline;
+}
+.upload-btn input {
+  width: 78%;
+  position: absolute;
+  left: 40px;
+  height: 175px;
+  top: 1px;
+  opacity: 0.0;
+  cursor: pointer;}
+</style>
      <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8" >
           <div class="panel panel-info">
 
@@ -6,10 +45,23 @@
                 <div class="col-md-5 col-lg-5 ">
 
                   <div class="img-circle" alt="member Image" align="center">
+                  <div class="track-info-art">
+                      <div class="button-normal upload-btn" id="upload-photo-btn">
+                      <div>
+                                  <i class="fa fa-picture-o" style="font-size:140px;"></i>
+                              </div>
 
-                      <i class="fa fa fa-user" style="font-size:100px;"></i>
-
+                          <span id="cover-photo" class="upload-btn-text">
+                             {{ trans('general.upload_photo') }}
+                          </span>
+                          <span id="cover-photo-sel" class="upload-btn-text" style="display: none;color:green;font-weight:bold;">
+                          {{ trans('general.photo_selected') }}
+                          </span>
+                          <input type="file" name="photo" id="upload-photo" accept="image/*">
+                          </div>
+                      </div>
                   </div>
+
              <div class="col-xs-12 col-sm-12 "> <br>
                   <dl>
                     <dt>{{ trans('member.adhersion_number') }} <em style="font-size:12px;font-weight:100"></em>
@@ -56,13 +108,28 @@
 
 
                 <div class=" col-md-7 col-lg-7 ">
+<div class="img-circle" alt="member Image" align="center" style="margin-bottom:210px;">
+                  <div class="track-info-art" >
+                      <div class="button-normal upload-btn" id="upload-signature-btn">
+                       <div>
+                                  <i class="fa fa-picture-o" style="font-size:140px;"></i>
+                              </div>
+
+                          <span id="cover-signature" class="upload-btn-text">
+                            {{ trans('general.upload_signature') }}
+                          </span>
+                          <span id="cover-signature-sel" class="upload-btn-text" style="display: none;color:green;font-weight:bold;">{{ trans('general.signature_selected') }}</span>
+                          <input type="file" name="signature" id="upload-signature" accept="image/*">
+                          </div>
+                      </div>
+                  </div>
                   <table class="table table-user-information">
                     <tbody>
                       <tr>
-                        <th>{{ trans('member.names') }}:
+                        <th style="border-top: none;">{{ trans('member.names') }}:
                           {!! $errors->first('names','<em class="has-error">(:message)</em>') !!}
                         </th>
-                        <td class=" {{ ($errors->has('names')) ? 'has-error' : '' }}">
+                        <td class=" {{ ($errors->has('names')) ? 'has-error' : '' }}" style="border-top: none;">
                           {!! Form::text('names', $member->first_name.' '.$member->last_name, ['class'=>'form-control','placeholder'=>trans('member.names') ]) !!}
                            </td>
                       </tr>

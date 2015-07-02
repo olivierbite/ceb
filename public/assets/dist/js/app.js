@@ -701,3 +701,28 @@ function _init() {
     });
   };
 }(jQuery));
+
+
+  $(document).on('change', '#upload-photo:file', function() {
+    if(this.files.length == 0) {
+      $('#cover-photo').show();
+      $('#cover-photo-sel').hide();
+      $('#upload-photo-btn').removeClass('upload-btn-selected');
+    } else {
+      $('#cover-photo').hide();
+      $('#cover-photo-sel').show();
+      $('#upload-photo-btn').addClass('upload-btn-selected');
+    }
+  });
+
+    $(document).on('change', '#upload-signature:file', function() {
+    if(this.files.length == 0) {
+      $('#cover-signature').show();
+      $('#cover-signature-sel').hide();
+      $('#upload-signature-btn').removeClass('upload-btn-selected');
+    } else {
+      $('#cover-signature').hide();
+      $('#cover-signature-sel').show();
+      $('#upload-signature-btn').addClass('upload-btn-selected');
+    }
+  });
