@@ -9,7 +9,7 @@
                   <div class="track-info-art">
                       <div class="button-normal upload-btn" id="upload-photo-btn">
                       <div>
-                                  <i class="fa fa-picture-o" style="font-size:140px;"></i>
+                              @include('files.show',['filename'=>$member->photo])
                               </div>
 
                           <span id="cover-photo" class="upload-btn-text">
@@ -77,13 +77,12 @@
 
 
                 <div class=" col-md-7 col-lg-7 ">
-<div class="img-circle" alt="member Image" align="center" style="margin-bottom:210px;">
+                 <div class="img-circle" alt="member Image" align="center" style="margin-bottom:210px;">
                   <div class="track-info-art" >
                       <div class="button-normal upload-btn" id="upload-signature-btn">
                        <div>
-                                  <i class="fa fa-picture-o" style="font-size:140px;"></i>
-                              </div>
-
+                            @include('files.show',['filename'=>$member->signature])
+                         </div>
                           <span id="cover-signature" class="upload-btn-text">
                             {{ trans('general.upload_signature') }}
                           </span>

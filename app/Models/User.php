@@ -35,6 +35,8 @@ class User extends Model {
 		'email',
 		'telephone',
 		'monthly_fee',
+		'photo',
+		'signature',
 	];
 
 	/**

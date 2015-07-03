@@ -8,21 +8,28 @@ use Illuminate\Config\Repository;
 use Illuminate\Events\Dispatcher;
 use Sentinel\DataTransferObjects\BaseResponse;
 use Sentinel\DataTransferObjects\FailureResponse;
-
+use Ceb\Traits\FileTrait;
+use Illuminate\Contracts\Filesystem\Factory as Storage;
+use Str;
 class MemberRepository implements MemberRepositoryInterface {
+
+	use FileTrait;
+
 	protected $dispatcher;
 	protected $user;
 	protected $config;
 	protected $sentry;
+	protected $storage;
 
 	/**
 	 * Construct a new SentryUser Object
 	 */
-	public function __construct(Sentry $sentry, Repository $config, Dispatcher $dispatcher, User $user) {
+	public function __construct(Sentry $sentry,Storage $storage, Repository $config, Dispatcher $dispatcher, User $user) {
 		$this->dispatcher = $dispatcher;
 		$this->user = $user;
 		$this->config = $config;
 		$this->sentry = $sentry;
+		$this->storage = $storage;
 
 	}
 
@@ -58,6 +65,12 @@ class MemberRepository implements MemberRepositoryInterface {
 				}
 			}
 
+			// Trying to upload the attached images
+			$filename = time(). $this->slug($data['names']).$newAdhersionNumber;
+
+			$data['photo'] = $this->addImage($formData['photo'],$filename.'-photo');
+			$data['signature'] = $this->addImage($formData['signature'],$filename.'-signature');
+			
 			// Attempt user registration
 			$userModel = $this->user->create($data);
 
@@ -117,6 +130,13 @@ class MemberRepository implements MemberRepositoryInterface {
 			//Clean data by  Remove tocket and Method and names fields
 			unset($data['_method']);
 			unset($data['_token']);
+
+			// Trying to upload the attached images
+			$filename = time().$this->slug($data['names']).$user->adhersion_id;
+
+			$data['photo'] = isset($data['photo']) ? $this->addImage($data['photo'],$filename.'-photo'):null;
+			$data['signature'] =isset($data['signature']) ? $this->addImage($data['signature'],$filename.'-signature') :null;
+			
 			unset($data['names']);
 
 			// Start setting new data and update them here.
