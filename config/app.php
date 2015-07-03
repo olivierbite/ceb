@@ -148,7 +148,6 @@ return [
 		Sentinel\SentinelServiceProvider::class,
 		Illuminate\Html\HtmlServiceProvider::class,
 		'Laracasts\Flash\FlashServiceProvider',
-		'Artesaos\Attacher\Providers\AttacherServiceProvider',
 
 	],
 
@@ -202,7 +201,6 @@ return [
 		'Form' => 'Illuminate\Html\FormFacade',
 		'HTML' => 'Illuminate\Html\HtmlFacade',
 		'Flash' => 'Laracasts\Flash\Flash',
-		'Attacher' => 'Artesaos\Attacher\Facades\Attacher',
 
 	],
 

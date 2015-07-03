@@ -31,7 +31,7 @@ class MemberRepository implements MemberRepositoryInterface {
 	 *
 	 * @return BaseResponse
 	 */
-	public function store($data) {
+	public function store($formData) {
 		try {
 			// Get the unique adhersion number for this member
 			$countUsers = $this->user->count() + 1;
@@ -41,7 +41,7 @@ class MemberRepository implements MemberRepositoryInterface {
 
 			//Prepare the member data
 			//Make sure data passed is array
-			$data = (array) $data;
+			$data = (array) $formData;
 
 			$data['adhersion_id'] = $newAdhersionNumber;
 			// Setting default password
@@ -59,9 +59,9 @@ class MemberRepository implements MemberRepositoryInterface {
 			}
 
 			// Attempt user registration
-			$user = $this->user->create($data);
+			$userModel = $this->user->create($data);
 
-			$user = $this->sentry->getUserProvider()->findById($user->id);
+			$user = $this->sentry->getUserProvider()->findById($userModel->id);
 
 			// If no group memberships were specified, use the default groups from config
 			if (array_key_exists('groups', $data)) {
@@ -171,6 +171,7 @@ class MemberRepository implements MemberRepositoryInterface {
 			return $message = trans('Sentinel::sessions.invalid');
 		}
 	}
+
 	/**
 	 * Return the all active user
 	 *
@@ -197,6 +198,10 @@ class MemberRepository implements MemberRepositoryInterface {
 	 */
 	public function retrieveById($identifier) {
 		return $this->findOrfail($identifier);
+	}
+
+	public function uploadImage($object, $image) {
+
 	}
 
 }

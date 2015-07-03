@@ -9,9 +9,8 @@
         "laravel/framework": "5.1.*",
         "rydurham/sentinel": "dev-master",
         "illuminate/html": "^5.0@dev",
-        "laracasts/flash": "dev-master",
-        "artesaos/attacher": "dev-master"
-    },
+        "laracasts/flash": "dev-master"    
+        },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
         "mockery/mockery": "0.9.*",
