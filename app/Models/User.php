@@ -2,9 +2,19 @@
 
 namespace Ceb\Models;
 
+use Artesaos\Attacher\Traits\HasImage;
 use Illuminate\Database\Eloquent\Model;
 
 class User extends Model {
+
+	/**
+	 * Attacher traits to provide relationship morphMany and morphOne
+	 *
+	 * @var  trait
+	 */
+	use HasImage;
+
+	use HasImages;
 	/**
 	 * The database table used by the model.
 	 *
