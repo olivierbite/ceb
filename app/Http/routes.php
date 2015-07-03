@@ -17,6 +17,10 @@ Route::get('/', ['as' => 'home', 'middleware' => 'sentry.auth', function () {
 
 Route::resource('members', 'MemberController');
 
-Route::get('/test', function () {
-	dd(new Ceb\Repositories\Member\MemberRepository);
-});
+/** Files routes */
+Route::get('files', 'FileController@index');
+
+Route::get('files/get/{filename}', [
+	'as' => 'files.get', 'uses' => 'FileController@get']);
+Route::post('files/add', [
+	'as' => 'files.add', 'uses' => 'FileController@add']);
