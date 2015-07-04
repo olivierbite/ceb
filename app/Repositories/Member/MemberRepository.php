@@ -4,13 +4,14 @@ use Cartalyst\Sentry\Sentry;
 use Cartalyst\Sentry\Users\UserExistsException;
 use Cartalyst\Sentry\Users\UserNotFoundException;
 use Ceb\Models\User;
+use Ceb\Traits\FileTrait;
 use Illuminate\Config\Repository;
+use Illuminate\Contracts\Filesystem\Factory as Storage;
 use Illuminate\Events\Dispatcher;
 use Sentinel\DataTransferObjects\BaseResponse;
 use Sentinel\DataTransferObjects\FailureResponse;
-use Ceb\Traits\FileTrait;
-use Illuminate\Contracts\Filesystem\Factory as Storage;
 use Str;
+
 class MemberRepository implements MemberRepositoryInterface {
 
 	use FileTrait;
@@ -24,7 +25,7 @@ class MemberRepository implements MemberRepositoryInterface {
 	/**
 	 * Construct a new SentryUser Object
 	 */
-	public function __construct(Sentry $sentry,Storage $storage, Repository $config, Dispatcher $dispatcher, User $user) {
+	public function __construct(Sentry $sentry, Storage $storage, Repository $config, Dispatcher $dispatcher, User $user) {
 		$this->dispatcher = $dispatcher;
 		$this->user = $user;
 		$this->config = $config;
@@ -40,17 +41,12 @@ class MemberRepository implements MemberRepositoryInterface {
 	 */
 	public function store($formData) {
 		try {
-			// Get the unique adhersion number for this member
-			$countUsers = $this->user->count() + 1;
-
-			// Format the number to  something like "00001"
-			$newAdhersionNumber = date('Y') . sprintf("%05d", $countUsers);
-
 			//Prepare the member data
 			//Make sure data passed is array
 			$data = (array) $formData;
 
-			$data['adhersion_id'] = $newAdhersionNumber;
+			// Get the unique adhersion number for this member
+			$data['adhersion_id'] = $this->generateAdhersionNumber();
 			// Setting default password
 			$data['password'] = e('Test1234');
 
@@ -66,11 +62,11 @@ class MemberRepository implements MemberRepositoryInterface {
 			}
 
 			// Trying to upload the attached images
-			$filename = time(). $this->slug($data['names']).$newAdhersionNumber;
+			$filename = time() . $this->slug($data['names']) . $data['adhersion_id'];
 
-			$data['photo'] = $this->addImage($formData['photo'],$filename.'-photo');
-			$data['signature'] = $this->addImage($formData['signature'],$filename.'-signature');
-			
+			$data['photo'] = $this->addImage($formData['photo'], $filename . '-photo');
+			$data['signature'] = $this->addImage($formData['signature'], $filename . '-signature');
+
 			// Attempt user registration
 			$userModel = $this->user->create($data);
 
@@ -132,11 +128,11 @@ class MemberRepository implements MemberRepositoryInterface {
 			unset($data['_token']);
 
 			// Trying to upload the attached images
-			$filename = time().$this->slug($data['names']).$user->adhersion_id;
+			$filename = time() . $this->slug($data['names']) . $user->adhersion_id;
 
-			$data['photo'] = isset($data['photo']) ? $this->addImage($data['photo'],$filename.'-photo'):null;
-			$data['signature'] =isset($data['signature']) ? $this->addImage($data['signature'],$filename.'-signature') :null;
-			
+			$data['photo'] = isset($data['photo']) ? $this->addImage($data['photo'], $filename . '-photo') : null;
+			$data['signature'] = isset($data['signature']) ? $this->addImage($data['signature'], $filename . '-signature') : null;
+
 			unset($data['names']);
 
 			// Start setting new data and update them here.
@@ -220,8 +216,20 @@ class MemberRepository implements MemberRepositoryInterface {
 		return $this->findOrfail($identifier);
 	}
 
-	public function uploadImage($object, $image) {
+	/**
+	 * Generate unique Adhersion number
+	 */
+	protected function generateAdhersionNumber() {
+		$countUsers = $this->user->count() + 1;
+		$newAdhersionNumber = date('Y') . sprintf("%05d", $countUsers);
 
+		// if we have this adhersion number generate another
+		while ($this->user->where('adhersion_id', '=', $newAdhersionNumber)->first() != null) {
+			$countUsers++;
+			$newAdhersionNumber = date('Y') . sprintf("%05d", $countUsers);
+		}
+		// Format the number to  something like "00001"
+		return $newAdhersionNumber;
 	}
 
 }

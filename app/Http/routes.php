@@ -24,3 +24,10 @@ Route::get('files/get/{filename}', [
 	'as' => 'files.get', 'uses' => 'FileController@get']);
 Route::post('files/add', [
 	'as' => 'files.add', 'uses' => 'FileController@add']);
+
+Route::get('/api/users', function () {
+
+	return Ceb\Models\User::where('first_name', 'LIKE', '%' . Input::get('query') . '%')
+	->orWhere('last_name', 'LIKE', '%' . Input::get('query') . '%')
+	->orWhere('adhersion_id', 'LIKE', '%' . Input::get('query') . '%')->get();
+});

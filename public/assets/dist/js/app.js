@@ -726,3 +726,57 @@ function _init() {
       $('#upload-signature-btn').addClass('upload-btn-selected');
     }
   });
+
+  /** SEARCHING SECTION */
+  $(document).ready(function(){
+    var users = new Bloodhound({
+      datumTokenizer : Bloodhound.tokenizers.obj.whitespace('username'),
+      queryTokenizer: Bloodhound.tokenizers.whitespace,
+      remote: '/api/users?query=%QUERY'
+    });
+
+    users.initialize();
+
+    $('#search-input').typeahead({
+      hint:true,
+      highlight:true,
+      minLength:2
+    },{
+      name:'users',
+      displayKey : 'username',
+      source: users.ttAdapter(),
+      templates: {
+    empty: [
+      '<div class="empty-message">',
+        'unable to find any Best Picture winners that match the current query',
+      '</div>'
+    ].join('\n'),
+    suggestion: Handlebars.compile('<div class="autocomplete-wrapper"><p class="item-content" ><img src="/files/get/{{photo}}" align="left"> <span class="adhersion_number">{{adhersion_id}}</span> <span class="names">{{first_name}} {{last_name}} </span> <span class="service">{{service}} - {{institution}}</span><p></div>')
+    }
+    }).bind("typeahead:selected", function(obj, user, name) {
+      // console.log(datum.id);
+    window.location.href = '/members/' + user.id;
+    });
+
+    var typeahead = $('#search-input');
+
+    typeahead.on('keyup', function(e) {
+       var old_input = $(this).typeahead('val');
+
+      if ($(this).val() === '' && old_input.length == $(this).typeahead('val')) {
+        typeahead.closest('#search-wrapper').removeClass('not-empty');
+      } else {
+        typeahead.closest('#search-wrapper').addClass('not-empty');
+      }
+    });
+
+
+
+    $('#cross').click(function() {
+      typeahead.val('').keyup();
+      typeahead.closest('#search-wrapper').removeClass();
+    });
+  });
+
+
+

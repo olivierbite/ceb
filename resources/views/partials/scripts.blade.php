@@ -8,6 +8,8 @@
     <script src='/assets/plugins/fastclick/fastclick.min.js'></script>
 
     <!-- Demo -->
-    <script src="{{Url()}}/assets/dist/js/demo.js" type="text/javascript"></script>
-        <!-- CEB App -->
+    <script src="{{Url()}}/assets/dist/js/handlebars.js" type="text/javascript"></script>
+    <script src="{{Url()}}/assets/dist/js/typeahead.js" type="text/javascript"></script>
+
+     <!-- CEB App -->
     <script src="{{Url()}}/assets/dist/js/app.js" type="text/javascript"></script>
