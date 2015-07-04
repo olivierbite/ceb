@@ -5,9 +5,11 @@ namespace Ceb\Http\Controllers;
 use Ceb\Http\Controllers\Controller;
 use Ceb\Http\Requests\AddNewMemberRequest;
 use Ceb\Http\Requests\EditMemberRequest;
-use Ceb\Repositories\Member\MemberRepository;
+use Ceb\Models\User;
+use Ceb\Repositories\Member\MemberRepositoryInterface;
+use Illuminate\Http\Request;
 use Redirect;
-use Sentinel\Models\User;
+use Response;
 
 class MemberController extends Controller {
 	public $member;
@@ -47,6 +49,7 @@ class MemberController extends Controller {
 			return redirect()->back();
 		}
 		$member = $this->member;
+
 		return view('members.create', compact('member'));
 	}
 
@@ -55,7 +58,7 @@ class MemberController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function store(AddNewMemberRequest $request, MemberRepository $memberRepository) {
+	public function store(AddNewMemberRequest $request, MemberRepositoryInterface $memberRepository) {
 		// First check if the user has the permission to do this
 		if (!$this->user->hasAccess('member.create')) {
 			flash()->error(trans('Sentinel::users.noaccess'));
@@ -112,7 +115,7 @@ class MemberController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update(EditMemberRequest $request, MemberRepository $memberRepository, $id) {
+	public function update(EditMemberRequest $request, MemberRepositoryInterface $memberRepository, $id) {
 
 		// First check if the user has the permission to do this
 		if (!$this->user->hasAccess('member.edit')) {
@@ -139,7 +142,7 @@ class MemberController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy(MemberRepository $memberRepository, $id) {
+	public function destroy(MemberRepositoryInterface $memberRepository, $id) {
 		// First check if the user has the permission to do this
 		if (!$this->user->hasAccess('member.delete')) {
 			flash()->error(trans('Sentinel::users.noaccess'));
@@ -151,4 +154,18 @@ class MemberController extends Controller {
 		flash()->success($message);
 		return Redirect::route('members.index', ['success' => $message]);
 	}
+
+	/**
+	 * Search method for member
+	 * @param  MemberRepository $member
+	 * @param  Request          $request
+	 * @return [type]
+	 */
+	public function search(MemberRepositoryInterface $member, Request $request) {
+
+		$results = $member->search($request->input('query'));
+
+		return Response::json($results);
+	}
+
 }

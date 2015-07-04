@@ -732,7 +732,7 @@ function _init() {
     var users = new Bloodhound({
       datumTokenizer : Bloodhound.tokenizers.obj.whitespace('username'),
       queryTokenizer: Bloodhound.tokenizers.whitespace,
-      remote: '/api/users?query=%QUERY'
+      remote: window.location.href +'/search?query=%QUERY'
     });
 
     users.initialize();
@@ -769,8 +769,6 @@ function _init() {
         typeahead.closest('#search-wrapper').addClass('not-empty');
       }
     });
-
-
 
     $('#cross').click(function() {
       typeahead.val('').keyup();

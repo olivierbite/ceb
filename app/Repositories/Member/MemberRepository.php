@@ -206,6 +206,19 @@ class MemberRepository implements MemberRepositoryInterface {
 	}
 
 	/**
+	 * Search against member
+	 * @param  string $keyword
+	 * @return mixed
+	 */
+	public function search($keyword) {
+		return $this->user->where('first_name', 'LIKE', '%' . $keyword . '%')
+		            ->orWhere('last_name', 'LIKE', '%' . $keyword . '%')
+		            ->orWhere('member_nid', 'LIKE', '%' . $keyword . '%')
+		            ->orWhere('adhersion_id', 'LIKE', '%' . $keyword . '%')
+		            ->get();
+	}
+
+	/**
 	 * Retrieve a user by their unique identifier.
 	 *
 	 * @param  mixed $identifier
