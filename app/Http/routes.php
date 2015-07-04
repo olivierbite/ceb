@@ -29,5 +29,6 @@ Route::get('/api/users', function () {
 
 	return Ceb\Models\User::where('first_name', 'LIKE', '%' . Input::get('query') . '%')
 	->orWhere('last_name', 'LIKE', '%' . Input::get('query') . '%')
+	->orWhere('member_nid', 'LIKE', '%' . Input::get('query') . '%')
 	->orWhere('adhersion_id', 'LIKE', '%' . Input::get('query') . '%')->get();
 });

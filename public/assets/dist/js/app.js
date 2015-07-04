@@ -751,7 +751,7 @@ function _init() {
         'unable to find any Best Picture winners that match the current query',
       '</div>'
     ].join('\n'),
-    suggestion: Handlebars.compile('<div class="autocomplete-wrapper"><p class="item-content" ><img src="/files/get/{{photo}}" align="left"> <span class="adhersion_number">{{adhersion_id}}</span> <span class="names">{{first_name}} {{last_name}} </span> <span class="service">{{service}} - {{institution}}</span><p></div>')
+    suggestion: Handlebars.compile('<div class="autocomplete-wrapper"><p class="item-content" ><img src="/files/get/{{photo}}" align="left"> <span class="adhersion_number">{{adhersion_id}}</span> <span class="names">{{first_name}} {{last_name}} ({{ member_nid }})</span> <span class="service">{{service}} - {{institution}}</span><p></div>')
     }
     }).bind("typeahead:selected", function(obj, user, name) {
       // console.log(datum.id);
