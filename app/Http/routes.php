@@ -19,6 +19,7 @@ Route::get('/', ['as' => 'home', 'middleware' => 'sentry.auth', function () {
 Route::get('members/search', 'MemberController@search');
 
 Route::resource('members', 'MemberController');
+Route::resource('contributions', 'ContributionAndSavingsController');
 
 /** Files routes */
 Route::get('files', 'FileController@index');

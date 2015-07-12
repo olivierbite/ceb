@@ -2,8 +2,8 @@
 
 namespace Ceb\Http\Controllers;
 
-use Ceb\File as FileModel;
 use Ceb\Http\Controllers\Controller;
+use Ceb\Models\File as FileModel;
 use Illuminate\Contracts\Filesystem\Factory as Storage;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\File;

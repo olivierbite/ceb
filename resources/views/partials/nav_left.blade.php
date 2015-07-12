@@ -39,7 +39,7 @@
               </a>
             </li>
             <li>
-              <a href="#">
+              <a href="{{ route('contributions.index') }}">
                 <i class="fa fa-th"></i> <span>{{ trans('navigations.contributions_and_savings') }}</span>
               </a>
             </li>
