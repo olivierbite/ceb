@@ -1,7 +1,7 @@
 <tr>
 	<td>{!! $member->adhersion_id!!}</td>
 	<td>{!! $member->first_name !!} {!! $member->last_name !!}</td>
-	<td>{!! $member->institution !!}</td>
+	<td>{!! $member->institution?$member->institution->name:null !!}</td>
 	<td>{!! $member->service !!}</td>
 	<td>{!! $member->member_nid !!}</td>
 	<td>{!! $member->district !!}</td>

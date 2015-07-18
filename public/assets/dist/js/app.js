@@ -774,7 +774,9 @@ function _init() {
       typeahead.val('').keyup();
       typeahead.closest('#search-wrapper').removeClass();
     });
+
+    $('#institutions').on('change', function() {
+      window.location.href = window.location.protocol + '//' +window.location.host+''+window.location.pathname+'?institution='+this.value;
+      });
   });
-
-
 

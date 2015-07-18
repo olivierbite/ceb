@@ -20,4 +20,5 @@ return [
 	'nid' => 'National ID',
 	'district' => 'District',
 	'adhersion_date' => 'Adhersion date',
+	'monthly_fee' => 'Monthly fees',
 ];

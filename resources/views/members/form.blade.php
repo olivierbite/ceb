@@ -47,7 +47,7 @@
                      {!! $errors->first('institution','<em class="has-error">(:message)</em>') !!}
                     </dt>
                     <dd class=" {{ ($errors->has('institution')) ? 'has-error' : '' }}">
-                       {!! Form::text('institution', $member->institution, ['class'=>'form-control','placeholder'=>trans('member.institution')]) !!}
+                      {!! Form::select('institution_id', $institutions, $member->institution_id,['class'=>'form-control']) !!}
                     </dd>
                     <dt>{{ trans('member.service') }}
                      {!! $errors->first('service','<em class="has-error">(:message)</em>') !!}

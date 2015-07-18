@@ -22,7 +22,7 @@ class User extends Model {
 		'adhersion_id',
 		'district',
 		'province',
-		'institution',
+		'institution_id',
 		'service',
 		'termination_date',
 		'first_name',
@@ -45,4 +45,9 @@ class User extends Model {
 	 * @var array
 	 */
 	protected $hidden = ['password', 'remember_token'];
+
+	public function institution() {
+		return $this->belongsTo('Ceb\Models\Institution');
+	}
+
 }

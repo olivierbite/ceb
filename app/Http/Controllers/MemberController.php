@@ -5,6 +5,7 @@ namespace Ceb\Http\Controllers;
 use Ceb\Http\Controllers\Controller;
 use Ceb\Http\Requests\AddNewMemberRequest;
 use Ceb\Http\Requests\EditMemberRequest;
+use Ceb\Models\Institution;
 use Ceb\Models\User;
 use Ceb\Repositories\Member\MemberRepositoryInterface;
 use Illuminate\Http\Request;
@@ -41,7 +42,7 @@ class MemberController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function create() {
+	public function create(Institution $institutions) {
 		// First check if the user has the permission to do this
 		if (!$this->user->hasAccess('member.create')) {
 			flash()->error(trans('Sentinel::users.noaccess'));
@@ -49,8 +50,9 @@ class MemberController extends Controller {
 			return redirect()->back();
 		}
 		$member = $this->member;
+		$institutions = $institutions->lists('name', 'id');
 
-		return view('members.create', compact('member'));
+		return view('members.create', compact('member', 'institutions'));
 	}
 
 	/**
@@ -96,7 +98,7 @@ class MemberController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function edit($id) {
+	public function edit($id, Institution $institutions) {
 		// First check if the user has the permission to do this
 		if (!$this->user->hasAccess('member.edit')) {
 			flash()->error(trans('Sentinel::users.noaccess'));
@@ -105,8 +107,9 @@ class MemberController extends Controller {
 		}
 
 		$member = $this->member->findOrfail($id);
+		$institutions = $institutions->lists('name', 'id');
 
-		return view('members.edit', compact('member'));
+		return view('members.edit', compact('member', 'institutions'));
 	}
 
 	/**

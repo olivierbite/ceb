@@ -5,27 +5,30 @@
 @stop
 
 @section('content')
-  <a class="btn btn-primary" href="{{ route('contributions.create')}}">
-  <i class="fa fa-plus"></i>
-  {{ trans('contribution.add') }}
-  </a>
+
+<script language="JavaScript">
+function toggle(source) {
+ checkboxes = document.getElementsByName('memberIds[]');
+  for(var i=0, n=checkboxes.length;i<n;i++) {
+    checkboxes[i].checked = source.checked;
+  }
+}
+</script>
+  @include('contributionsandsavings.form',['institutions'=>$institutions,'institutionId'=>'institutionId'])
 
   <table class="ui table">
   	 <thead>
   	 	<tr>
-      <th>{{ trans('contribution.adhersion_number') }}</th>
-  	 		<th>{{ trans('contribution.names') }}</th>
-  	 		<th>{{ trans('contribution.institution') }}</th>
-  	 		<th>{{ trans('contribution.service') }}</th>
-        <th>{{ trans('contribution.nid') }}</th>
-        <th>{{ trans('contribution.district') }}</th>
-        <th>{{ trans('contribution.adhersion_date') }}</th>
-
+        <th> <input type="checkbox" onClick="toggle(this)" checked/><th>
+        <th> {{ trans('member.adhersion_number') }}</th>
+        <th> {{ trans('member.names') }}</th>
+        <th> {{ trans('member.institution') }}</th>
+        <th> {{ trans('member.monthly_fee') }}</th>
   	 		<th><i class="fa fa-gear"></i></th>
   	 	</tr>
    	 </thead>
  <tbody>
-   @each ('contributions.item', $contributions, 'contribution', 'contributionsandsavings.no-items')
+   @each ('contributionsandsavings.item', $members, 'member', 'contributionsandsavings.no-items')
  </tbody>
   </table>
 @stop
