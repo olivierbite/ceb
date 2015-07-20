@@ -3,6 +3,7 @@
 namespace Ceb\Http\Controllers;
 
 use Ceb\Http\Controllers\Controller;
+use Ceb\Models\Account;
 use Ceb\Models\Institution;
 use Ceb\Repositories\Contribution\ContributionRepository as Contribution;
 use Input;
@@ -19,15 +20,16 @@ class ContributionAndSavingsController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function index(Institution $institution) {
+	public function index(Institution $institution, Account $account) {
 
 		$institutionId = Input::get('institution');
 		$institutionId = $institutionId ?: 1;
 		$members = $institution->find($institutionId)->members;
 
 		$institutions = $institution->lists('name', 'id');
+		$accounts = $account->lists('entitled', 'id');
 
-		return view('contributionsandsavings.list', compact('members', 'institutions', 'institutionId'));
+		return view('contributionsandsavings.list', compact('members', 'institutions', 'institutionId', 'accounts'));
 	}
 
 	/**

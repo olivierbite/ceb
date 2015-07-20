@@ -775,8 +775,10 @@ function _init() {
       typeahead.closest('#search-wrapper').removeClass();
     });
 
+    //If we change the inistitution drop down, Then load 
+    //New list of members in that constitution
     $('#institutions').on('change', function() {
-      window.location.href = window.location.protocol + '//' +window.location.host+''+window.location.pathname+'?institution='+this.value;
+      window.location.href = window.location.protocol + '//' +window.location.host+window.location.pathname+'?institution='+this.value;
       });
   });
 
