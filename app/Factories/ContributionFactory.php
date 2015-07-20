@@ -14,6 +14,12 @@ class ContributionFactory {
 	}
 
 	public function setByInsitution($institutionId = 1) {
+
+		// Do we have some savings ongoing ?
+		if (Session::has('contributions') && count($this->getConstributions()) > 0) {
+			// We have things in the session continue with them first
+			return true;
+		}
 		// Get the institution by its id
 		$members = $this->institution->find($institutionId)->members;
 
