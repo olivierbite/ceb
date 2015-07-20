@@ -17,7 +17,7 @@
 <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" >
 <label>{{ trans('contribution.totalAmount') }}</label>
 
-	{!! Form::input('text', 'totalAmount', number_format(rand()), ['class'=>'form-control']) !!}
+	{!! Form::input('text', 'totalAmount', number_format($total), ['class'=>'form-control']) !!}
 </div>
 <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" >
 <label>{{ trans('contribution.debit_account') }}</label>

@@ -2,6 +2,7 @@
 
 namespace Ceb\Http\Controllers;
 
+use Ceb\Factories\ContributionFactory;
 use Ceb\Http\Controllers\Controller;
 use Ceb\Models\Account;
 use Ceb\Models\Institution;
@@ -11,25 +12,26 @@ use Input;
 class ContributionAndSavingsController extends Controller {
 
 	private $contribution;
-	function __construct(Contribution $contribution) {
+	function __construct(Contribution $contribution, Institution $institution, Account $account, ContributionFactory $contributionFactory) {
 		parent::__construct();
 		$this->contribution = $contribution;
+		$this->account = $account;
+		$this->institution = $institution;
+		$this->contributionFactory = $contributionFactory;
 	}
 	/**
 	 * Display a listing of the resource.
 	 *
 	 * @return Response
 	 */
-	public function index(Institution $institution, Account $account) {
+	public function index() {
 
 		$institutionId = Input::get('institution');
 		$institutionId = $institutionId ?: 1;
-		$members = $institution->find($institutionId)->members;
 
-		$institutions = $institution->lists('name', 'id');
-		$accounts = $account->lists('entitled', 'id');
+		$this->contributionFactory->setByInsitution($institutionId);
 
-		return view('contributionsandsavings.list', compact('members', 'institutions', 'institutionId', 'accounts'));
+		return $this->reload();
 	}
 
 	/**
@@ -42,41 +44,6 @@ class ContributionAndSavingsController extends Controller {
 	}
 
 	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @return Response
-	 */
-	public function store() {
-		//
-	}
-
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function show($id) {
-		//
-		$contribution = $this->contribution->findOrfail($id);
-
-		return view('contributionsandsavings.create', compact('contribution'));
-	}
-
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function edit($id) {
-
-		$contribution = $this->contribution->findOrfail($id);
-
-		return view('contributionsandsavings.edit', compact('contribution'));
-	}
-
-	/**
 	 * Update the specified resource in storage.
 	 *
 	 * @param  int  $id
@@ -84,8 +51,24 @@ class ContributionAndSavingsController extends Controller {
 	 */
 	public function update($id) {
 		// Update
+		$adhersion_number = Input::get('adhersion_number');
+		$monthly_fee = Input::get('monthly_fee');
+
+		$this->contributionFactory->updateMonthlyFee($adhersion_number, $monthly_fee);
+
+		return $this->reload();
 	}
 
+	private function reload() {
+
+		$members = $this->contributionFactory->getConstributions();
+		$total = $this->contributionFactory->total();
+		$institutions = $this->institution->lists('name', 'id');
+		$accounts = $this->account->lists('entitled', 'id');
+
+		return view('contributionsandsavings.list', compact('members', 'institutions', 'institutionId', 'accounts', 'total'));
+
+	}
 	/**
 	 * Remove the specified resource from storage.
 	 *
