@@ -10,18 +10,14 @@ function toggle(source) {
   }
 }
 </script>
-<style type="text/css">
-  .header-container{
-    background: rgba(0,0,0,0.1) !important;
-    padding: 10px;
-  }
-</style>
 @stop
 
 @section('content')
+
+
   @include('contributionsandsavings.form',['institutions'=>$institutions,'institutionId'=>'institutionId'])
 
-  <span role="separator" class="divider" style="padding:10px;"></span>
+  @include('contributionsandsavings.buttons')
   <table class="ui table">
   	 <thead>
   	 	<tr>

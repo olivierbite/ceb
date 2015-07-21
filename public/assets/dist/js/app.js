@@ -780,5 +780,17 @@ function _init() {
     $('#institutions').on('change', function() {
       window.location.href = window.location.protocol + '//' +window.location.host+window.location.pathname+'?institution='+this.value;
       });
+
+    $('#debit_account').on('change',function(event) {
+      window.location.href = window.location.protocol + '//'+ window.location.host+window.location.pathname+'?debit_account='+this.value;
+    });
+
+    $('#credit_account').on('change',function(event) {
+      window.location.href = window.location.protocol+'//'+window.location.host+window.location.pathname+'?credit_account='+this.value;
+    });
+
+    $('#month').on('change',function(event) {
+      window.location.href = window.location.protocol+'//'+window.location.host+window.location.pathname+'?month='+this.value;
+    });
   });
 

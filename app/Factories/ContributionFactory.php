@@ -13,6 +13,10 @@ class ContributionFactory {
 		$this->institution = $institution;
 	}
 
+	/**
+	 * Set members by institutions
+	 * @param integer $institutionId
+	 */
 	public function setByInsitution($institutionId = 1) {
 
 		// Do we have some savings ongoing ?
@@ -85,6 +89,73 @@ class ContributionFactory {
 		return $sum;
 	}
 
+	/**
+	 * Set debit account
+	 * @param mixed $accountId
+	 */
+	public function setDebitAccount($accountId) {
+		return Session::put('debit_account', $accountId);
+	}
+
+	/**
+	 * GetDebit account id
+	 * @return Integer
+	 */
+	public function getDebitAccount() {
+		return Session::get('debit_account', 13);
+	}
+	/**
+	 * Set credit account in the session
+	 * @param integer $accountId Account ID to be credited
+	 */
+	public function setCreditAccount($accountId) {
+		return Session::put('credit_account', $accountId);
+	}
+	/**
+	 * get current set credited account
+	 * @return [type] [description]
+	 */
+	public function getCreditAccount() {
+		return Session::get('credit_account', 26); // Here we assume the account with id 26 is default
+	}
+
+	/**
+	 * Set the month we are paying for
+	 * @param mixed $month
+	 */
+	public function setMonth($month) {
+		return Session::put('month', $month);
+	}
+
+	/**
+	 * Get the contribution month
+	 * @return integer
+	 */
+	public function getMonth() {
+		return Session::get('month', date('m'));
+	}
+
+	/**
+	 * Set the institution
+	 * @param mixed $institutionId
+	 */
+	public function setInstitution($institutionId) {
+		return Session::put('institution', $institutionId);
+	}
+	/**
+	 * get the current contribution institutions
+	 * @return ID
+	 */
+	public function getInstitution() {
+		return Session::get('institution', 1); // We assume institution 1 is dhe default one
+	}
+
+	/**
+	 * Search  adhresion key
+	 * @param   $keyword
+	 * @param   $data
+	 * @return
+	 */
 	protected function searchAdhersionKey($keyword, $data) {
 		foreach ($data as $key => $value) {
 			$current_key = $key;
@@ -94,5 +165,17 @@ class ContributionFactory {
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * Clear all present SessionIds
+	 * @return void
+	 */
+	public function clearAll() {
+		Session::forget('contributions');
+		Session::forget('debit_account');
+		Session::forget('credit_account');
+		Session::forget('month');
+		Session::forget('institution');
 	}
 }

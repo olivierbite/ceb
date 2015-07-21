@@ -4707,3 +4707,12 @@ fieldset[disabled] .btn-vk.active {
   padding-left: 10px;
   display: block;
 }
+  .header-container{
+    background: rgba(0,0,0,0.1) !important;
+    padding: 10px;
+  }
+.contribution-total{
+  background:green !important;
+  color:#fff;
+  font-size:20px;
+}
