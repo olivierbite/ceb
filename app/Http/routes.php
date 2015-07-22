@@ -23,8 +23,13 @@ Route::resource('members', 'MemberController');
 Route::get('contributions/complete', [
 	'as' => 'contributions.complete', 'uses' => 'ContributionAndSavingsController@complete',
 ]);
-
+Route::get('contributions/cancel', [
+	'as' => 'contributions.cancel', 'uses' => 'ContributionAndSavingsController@cancel',
+]);
 Route::resource('contributions', 'ContributionAndSavingsController');
+
+//Loan Routets
+Route::resource('loans', 'LoanController');
 
 /** Files routes */
 Route::get('files', 'FileController@index');

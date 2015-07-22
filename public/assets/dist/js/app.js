@@ -794,3 +794,34 @@ function _init() {
     });
   });
 
+
+/**
+ * DYNAMIC FORM
+ * @param   
+ * @return 
+ */
+$(document).ready(function(){
+    $('.debit_accounts').each(function() {
+    var $wrapper = $('.multi-fields', this);
+    $(".add-field-debit", $(this)).click(function(e) {
+        $('.form-group:last-child', $wrapper).clone(true).appendTo($wrapper).find('input').val('').focus();
+    });
+
+    $('.form-group .remove-field-debit', $wrapper).click(function() {
+        if ($('.form-group', $wrapper).length > 1)
+            $(this).parent('.form-group').remove();
+    });
+  });
+
+    $('.credit_account').each(function() {
+    var $wrapper = $('.multi-fields-credit', this);
+    $(".add-field-credit", $(this)).click(function(e) {
+        $('.form-group:last-child', $wrapper).clone(true).appendTo($wrapper).find('input').val('').focus();
+    });
+
+    $('.form-group .remove-field-credit', $wrapper).click(function() {
+        if ($('.form-group', $wrapper).length > 1)
+            $(this).parent('.form-group').remove();
+    });
+});
+});

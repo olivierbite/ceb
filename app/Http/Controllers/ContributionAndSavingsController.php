@@ -26,13 +26,6 @@ class ContributionAndSavingsController extends Controller {
 	 */
 	public function index() {
 
-		$institutionId = $this->contributionFactory->getInstitution();
-		if (Input::has('institution')) {
-			$institution = Input::get('institution');
-			$this->contributionFactory->setInstitution($institutionId);
-		}
-
-		$this->contributionFactory->setByInsitution($institutionId);
 		return $this->reload();
 	}
 
@@ -72,6 +65,7 @@ class ContributionAndSavingsController extends Controller {
 	public function complete() {
 
 		if ($this->contribution->complete() == true) {
+
 			$this->contributionFactory->clearAll();
 			$message = trans('contribution.contribution_well_saved');
 			flash()->success($message);
@@ -87,6 +81,12 @@ class ContributionAndSavingsController extends Controller {
 	 * @return mixed
 	 */
 	private function reload() {
+
+		// If the user has changed new institution, then set it and get it's dta
+		if (Input::has('institution')) {
+			$this->contributionFactory->setInstitution(Input::get('institution'));
+			$this->contributionFactory->setByInsitution(Input::get('institution'));
+		}
 
 		// If we have Debit account in the url , then set it
 		if (Input::has('debit_account')) {
@@ -108,10 +108,24 @@ class ContributionAndSavingsController extends Controller {
 		$creditAccount = $this->contributionFactory->getCreditAccount();
 		$members = $this->contributionFactory->getConstributions();
 		$total = $this->contributionFactory->total();
-		$institutions = $this->institution->lists('name', 'id');
+		$institutions = ['' => trans('institutions.select_institution')] + $this->institution->lists('name', 'id')->toArray();
 		$accounts = $this->account->lists('entitled', 'id');
 
 		return view('contributionsandsavings.list', compact('members', 'institutions', 'institutionId', 'accounts', 'total', 'debitAccount', 'creditAccount', 'month'));
+
+	}
+
+	/**
+	 * Cancel contribution
+	 */
+
+	public function cancel() {
+
+		$this->contributionFactory->clearAll();
+		$message = trans('contribution.contribution_cancelled');
+		flash()->success($message);
+
+		return redirect()->route('contributions.index');
 
 	}
 	/**

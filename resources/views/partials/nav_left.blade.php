@@ -44,10 +44,9 @@
               </a>
             </li>
             <li class="treeview">
-              <a href="#">
+              <a href="{{ route('loans.index') }}">
                 <i class="fa fa-pie-chart"></i>
                 <span>{{ trans('navigations.loans_and_repayments') }}</span>
-
               </a>
             </li>
             <li class="treeview">
