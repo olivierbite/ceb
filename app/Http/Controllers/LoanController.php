@@ -1,8 +1,8 @@
 <?php
 
 namespace Ceb\Http\Controllers;
-
 use Ceb\Http\Controllers\Controller;
+use Input;
 
 class LoanController extends Controller {
 	/**
@@ -29,7 +29,7 @@ class LoanController extends Controller {
 	 * @return Response
 	 */
 	public function store() {
-		//
+		dd(Input::all());
 	}
 
 	/**

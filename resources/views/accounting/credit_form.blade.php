@@ -11,13 +11,13 @@
      </div>
 </div>
 <div class="form-group account-row" >
-    <div class="col-xs-7">
+    <div class="col-xs-6">
     {!! Form::select('credit_accounts[]', $accounts,null, ['class'=>'form-control'])!!}
     </div>
     <div class="col-xs-4">
-	{!! Form::input('numeric', 'credit_amount', '', ['class'=>'form-control']) !!}
+	{!! Form::input('numeric', 'credit_amount[]', '', ['class'=>'form-control']) !!}
     </div>
-     <div class="col-xs-1">
+     <div class="col-xs-2">
      <div class="btn btn-danger input-group-addon remove-button">
           -
       </div>

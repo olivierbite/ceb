@@ -15,7 +15,7 @@
        {!! Form::select('debit_accounts[]', $accounts,null, ['class'=>'form-control'])!!}
     </div>
     <div class="col-xs-4">
-    	{!! Form::input('numeric', 'debit_amount', '', ['class'=>'form-control']) !!}
+    	{!! Form::input('numeric', 'debit_amount[]', '', ['class'=>'form-control']) !!}
     </div>
      <div class="col-xs-2">
           <div class="btn btn-danger input-group-addon remove-button">
