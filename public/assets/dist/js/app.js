@@ -801,27 +801,94 @@ function _init() {
  * @return 
  */
 $(document).ready(function(){
-    $('.debit_accounts').each(function() {
-    var $wrapper = $('.multi-fields', this);
-    $(".add-field-debit", $(this)).click(function(e) {
-        $('.form-group:last-child', $wrapper).clone(true).appendTo($wrapper).find('input').val('').focus();
+      
+    /**
+     * Deal with debit accounts dynamic form
+     */
+     $('.debit-accounts').each(function() {      
+     // Number of the debit account we currently have 
+     function countDebits()
+     {
+       return $('.debit-accounts > .account-row').length;  
+     }
+
+     function hideShowFirstRemoveButton(){
+    if(countDebits() ==1){
+          $('.credit-accounts:first').find('.remove-button').html('');
+          $('.credit-accounts:first').find('.remove-button').css({"background-color":"black !important","color":"white"});
+        }else{
+          $('.credit-accounts:first').find('.remove-button').html('-');
+        }
+     }
+    // Listening to the click event of the remove button
+    $('.remove-button').click(function(event) {
+      event.preventDefault();
+      // First verify how many debit accounts we have at the moment
+      // if we have more than 1 then we are allowed to remove one
+      // otherwise we need only to keep on input in the debit 
+      // account     
+      if(countDebits()>1){
+        // We are allowed to remove this input because 
+        // we have more than 1 input therefore we 
+        // can remove this one
+        $(this).parent().parent().remove(); 
+      }
+      hideShowFirstRemoveButton();
     });
 
-    $('.form-group .remove-field-debit', $wrapper).click(function() {
-        if ($('.form-group', $wrapper).length > 1)
-            $(this).parent('.form-group').remove();
+    $('.add-button').click(function(event){
+      event.preventDefault();
+      console.log(countDebits());
+
+      // var lastInput = $('.form-group:last',$debitAccounts).clone(true).insertBefore(this).find('input');
+      $(this).parent().find('.form-group:last-child').clone(true).insertBefore(this).find('input').val('');      
     });
   });
 
-    $('.credit_account').each(function() {
-    var $wrapper = $('.multi-fields-credit', this);
-    $(".add-field-credit", $(this)).click(function(e) {
-        $('.form-group:last-child', $wrapper).clone(true).appendTo($wrapper).find('input').val('').focus();
+    /**
+     * Deal with credit accounts dynamic form
+     */
+     $('.credit-accounts').each(function() {      
+     // Number of the credit account we currently have 
+     function countCredits()
+     {
+       return $('.credit-accounts > .account-row').length;  
+     }
+
+     function hideShowFirstRemoveButton(){
+      
+      if(countCredits() ==1){
+          $('.credit-accounts:first').find('.remove-button').html('');
+          $('.credit-accounts:first').find('.remove-button').css({"background-color":"#000 !important","color":"white"});
+        }else{
+          $('.credit-accounts:first').find('.remove-button').html('-');
+        }
+     }
+
+    // Listening to the click event of the remove button
+    $('.remove-button').click(function(event) {
+      event.preventDefault();
+      // First verify how many credit accounts we have at the moment
+      // if we have more than 1 then we are allowed to remove one
+      // otherwise we need only to keep on input in the credit 
+      // account     
+      
+      if(countCredits()>1){
+        // We are allowed to remove this input because 
+        // we have more than 1 input therefore we 
+        // can remove this one
+        $(this).parent().parent().remove(); 
+      }
+      hideShowFirstRemoveButton();
     });
 
-    $('.form-group .remove-field-credit', $wrapper).click(function() {
-        if ($('.form-group', $wrapper).length > 1)
-            $(this).parent('.form-group').remove();
+    $('.add-button').click(function(event){
+      event.preventDefault();
+      var $creditAccounts = $(this).parent();
+
+       var lastInput = $('.form-group:last',$creditAccounts).clone(true).insertBefore(this).find('input').val('');
+       
+       hideShowFirstRemoveButton();
     });
-});
+  });
 });

@@ -109,9 +109,8 @@ class ContributionAndSavingsController extends Controller {
 		$members = $this->contributionFactory->getConstributions();
 		$total = $this->contributionFactory->total();
 		$institutions = ['' => trans('institutions.select_institution')] + $this->institution->lists('name', 'id')->toArray();
-		$accounts = $this->account->lists('entitled', 'id');
 
-		return view('contributionsandsavings.list', compact('members', 'institutions', 'institutionId', 'accounts', 'total', 'debitAccount', 'creditAccount', 'month'));
+		return view('contributionsandsavings.list', compact('members', 'institutions', 'institutionId', 'total', 'debitAccount', 'creditAccount', 'month'));
 
 	}
 

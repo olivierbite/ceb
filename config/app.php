@@ -143,6 +143,7 @@ return [
 		Ceb\Providers\AppServiceProvider::class,
 		Ceb\Providers\EventServiceProvider::class,
 		Ceb\Providers\RouteServiceProvider::class,
+		Ceb\Providers\ViewComposerServiceProvider::class,
 
 		// Adding service provider for the authentication
 		Sentinel\SentinelServiceProvider::class,
