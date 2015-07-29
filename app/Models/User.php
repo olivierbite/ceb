@@ -2,6 +2,7 @@
 
 namespace Ceb\Models;
 
+use Ceb\Models\Contribution;
 use Illuminate\Database\Eloquent\Model;
 
 class User extends Model {
@@ -46,8 +47,37 @@ class User extends Model {
 	 */
 	protected $hidden = ['password', 'remember_token'];
 
+	/** Get member names */
+	public function names() {
+		return $this->first_name . ' ' . $this->last_name;
+	}
+	/**
+	 * Member institution
+	 * @return Ceb\Models\Institution
+	 */
 	public function institution() {
 		return $this->belongsTo('Ceb\Models\Institution');
 	}
+	/**
+	 * Get the contributions for the Member.
+	 */
+	public function contributions() {
+		return $this->hasMany('Ceb\Models\User', 'adhersion_id', 'adhersion_id');
+	}
 
+	/**
+	 * Get the total amount of contribution
+	 */
+	public function totalContributions() {
+		return Contribution::where('adhersion_id', $this->adhersion_id)
+			->get()
+			->sum('amount');
+	}
+
+	/**
+	 * Get Right to loan
+	 */
+	public function rightToLoan() {
+		return $this->totalContributions() * 2.5;
+	}
 }

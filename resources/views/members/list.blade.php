@@ -5,8 +5,7 @@
 @stop
 
 @section('content')
-
-    <a class="btn btn-primary" href="{{ route('members.create')}}">
+ <a class="btn btn-primary" href="{{ route('members.create')}}">
   <i class="fa fa-plus"></i>
   {{ trans('member.add') }}
   </a>

@@ -60,7 +60,11 @@
                      </dt>
                     <dd  class=" {{ ($errors->has('monthly_fee')) ? 'has-error' : '' }}">
 
-                          {!! Form::text('monthly_fee', $member->monthly_fee, ['class'=>'form-control','placeholder'=> trans('member.monthly_fee')]) !!}
+                          {!! Form::text('monthly_fee', $member->monthly_fee,
+                                         ['class'=>'form-control',
+                                          'placeholder'=> trans('member.monthly_fee')]
+                                        )
+                          !!}
                        </dd>
 
                    <dt>{{ trans('member.termination_date') }}

@@ -29,6 +29,9 @@ Route::get('contributions/cancel', [
 Route::resource('contributions', 'ContributionAndSavingsController');
 
 //Loan Routets
+Route::get('/loans/{id}', 'LoanController@selectMember')->where('id', '[0-9]+');
+Route::get('/loans/cancel', ['as' => 'loan.cancel', 'uses' => 'LoanController@cancel']);
+Route::get('/loans/complete', ['as' => 'loan.complete', 'uses' => 'loanController@complete']);
 Route::resource('loans', 'LoanController');
 
 /** Files routes */
@@ -39,9 +42,5 @@ Route::post('files/add', [
 	'as' => 'files.add', 'uses' => 'FileController@add']);
 
 Route::get('/test', function () {
-
-	return view('contributionsandsavings.index');
-	$institution = Ceb\Models\Institution::find(4);
-
-	return $institution->members;
+	dd(Ceb\Models\User::find(1)->rightToLoan());
 });

@@ -1,17 +1,23 @@
 <?php
 
 namespace Ceb\Http\Controllers;
+use Ceb\Factories\LoanFactory;
 use Ceb\Http\Controllers\Controller;
 use Input;
 
 class LoanController extends Controller {
+
+	protected $loanFactory;
+	function __construct(LoanFactory $loanFactory) {
+		$this->loanFactory = $loanFactory;
+	}
 	/**
 	 * Display a listing of the resource.
 	 *
 	 * @return Response
 	 */
 	public function index() {
-		return view('loansandrepayments.index');
+		return $this->reload();
 	}
 
 	/**
@@ -38,37 +44,29 @@ class LoanController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function show($id) {
-		//
+	public function selectMember($id) {
+		// Add the select member to the session
+		$this->loanFactory->addMember($id);
+		return $this->reload();
 	}
 
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function edit($id) {
-		//
+	/** Complete loan */
+	public function complete() {
+		$message = trans('loan.loan_completed');
+		flash()->success($message);
+		return $this->reload();
 	}
 
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function update($id) {
-		//
+	public function cancel() {
+		$this->loanFactory->cancel();
+		$message = trans('loan.loan_cancelled');
+		flash()->success($message);
+
+		return $this->reload();
 	}
 
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function destroy($id) {
-		//
+	private function reload() {
+		$member = $this->loanFactory->getMember();
+		return view('loansandrepayments.index', compact('member'));
 	}
 }

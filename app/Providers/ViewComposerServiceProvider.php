@@ -12,6 +12,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
 	 */
 	public function boot() {
 		$this->composerAccounting();
+		$this->composerInstitutions();
 	}
 
 	/**
@@ -23,6 +24,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
 		//
 	}
 
+	/** Accounts view composers */
 	private function composerAccounting() {
 		$views = [
 			'accounting.debit_form',
@@ -31,5 +33,13 @@ class ViewComposerServiceProvider extends ServiceProvider {
 		];
 
 		view()->composer($views, 'Ceb\ViewComposers\AccountViewComposer');
+	}
+
+	private function composerInstitutions() {
+		$views = [
+			'members.form',
+		];
+
+		view()->composer($views, 'Ceb\ViewComposers\InstitutionsViewComposer');
 	}
 }

@@ -702,8 +702,22 @@ function _init() {
   };
 }(jQuery));
 
+/**
+ * Get current Url segment
+ * @return string
+ */
+function getUrlSegment(segment){
+   //Determine the first pathname segment
+    var baseSegment = window.location.pathname;
 
-  $(document).on('change', '#upload-photo:file', function() {
+    baseSegment.indexOf(1);
+
+    baseSegment.toLowerCase();
+
+   return baseSegment = baseSegment.split("/")[segment];
+}
+
+$(document).on('change', '#upload-photo:file', function() {
     if(this.files.length == 0) {
       $('#cover-photo').show();
       $('#cover-photo-sel').hide();
@@ -732,7 +746,7 @@ function _init() {
     var users = new Bloodhound({
       datumTokenizer : Bloodhound.tokenizers.obj.whitespace('username'),
       queryTokenizer: Bloodhound.tokenizers.whitespace,
-      remote: window.location.href +'/search?query=%QUERY'
+      remote: window.location.protocol+'//'+window.location.host +'/members/search?query=%QUERY'
     });
 
     users.initialize();
@@ -754,8 +768,10 @@ function _init() {
     suggestion: Handlebars.compile('<div class="autocomplete-wrapper"><p class="item-content" ><img src="/files/get/{{photo}}" align="left"> <span class="adhersion_number">{{adhersion_id}}</span> <span class="names">{{first_name}} {{last_name}} ({{ member_nid }})</span> <span class="service">{{service}} - {{institution}}</span><p></div>')
     }
     }).bind("typeahead:selected", function(obj, user, name) {
-      // console.log(datum.id);
-    window.location.href = '/members/' + user.id;
+    
+   
+    // console.log(window.location.protocol+'//'+window.location.host+baseSegment);
+    window.location.href = window.location.protocol+'//'+window.location.host+'/'+getUrlSegment(1) +'/'+ user.id;
     });
 
     var typeahead = $('#search-input');

@@ -4712,11 +4712,26 @@ fieldset[disabled] .btn-vk.active {
     padding: 10px;
   }
 .contribution-total{
-  background:green !important;
+  background:#008d4c !important;
   color:#fff;
   font-size:20px;
 }
 
+.green-input{
+  background:#008d4c !important;
+  color:#fff;
+  font-size:20px;
+}
+.blue-input{
+  background:#3c8dbc !important;
+  color:#fff;
+  font-size:20px;
+}
+.orange-input{
+  background:#f39c12 !important;
+  color:#fff;
+  font-size:20px;
+}
 .even-background{
   margin-top: 10px;
   background-color: rgba(0,0,0,0.05);

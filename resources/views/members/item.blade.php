@@ -7,7 +7,9 @@
 	<td>{!! $member->district !!}</td>
 	<td>{!! $member->created_at !!}</td>
 	<td>
-{!! Form::open(array('route' => array('members.destroy', $member->id), 'method' => 'delete')) !!}
+{!! Form::open(array('route' => array('members.destroy', $member->id),
+					'method' => 'delete'))
+			 !!}
 		<a href="{!! route('members.show',$member->id) !!}" class="btn btn-success">
 			<i class="fa fa-eye"></i>
 		</a>
@@ -18,6 +20,5 @@
         		<i class="fa fa-remove"></i>
         </button>
     {!! Form::close() !!}
-
-		</td>
+	</td>
 </tr>

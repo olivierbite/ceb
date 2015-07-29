@@ -7,25 +7,25 @@
   <div class="col-md-3">
   <div class="form-group">
    <label>{{ trans('loan.type_of_bond') }}</label>
-	{!! Form::input('text', 'type_of_bond',null, ['class'=>'form-control']) !!}
+	{!! Form::input('text', 'caution[type_of_bond]',null, ['class'=>'form-control']) !!}
   </div>
   </div>
   <div class="col-md-3">
   <div class="form-group">
    <label>{{ trans('loan.cautionneur_number1') }}</label>
-	{!! Form::input('text', 'cautionneur_number1',null, ['class'=>'form-control']) !!}
+	{!! Form::input('text', 'caution[cautionneur_number1]',null, ['class'=>'form-control']) !!}
   </div>
   </div>
   <div class="col-md-3">
   <div class="form-group">
    <label>{{ trans('loan.cautionneur_number2') }}</label>
-	{!! Form::input('text', 'cautionneur_number2',null, ['class'=>'form-control']) !!}
+	{!! Form::input('text', 'caution[cautionneur_number2]',null, ['class'=>'form-control']) !!}
   </div>
   </div>
   <div class="col-md-3">
   <div class="form-group">
    <label>{{ trans('loan.amount_bonded') }}</label>
-  {!! Form::input('text', 'amount_bonded',null, ['class'=>'form-control']) !!}
+  {!! Form::input('text', 'caution[amount_bonded]',null, ['class'=>'form-control']) !!}
   </div>
   </div>
 </div>
