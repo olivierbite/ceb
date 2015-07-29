@@ -98,9 +98,12 @@
   <div class="col-md-4">
   <div class="form-group">
    <label>{{ trans('loan.bank') }}</label>
-  {!! Form::input('text', 'bank',isset($loanInputs['bank'])?$loanInputs['bank']:null,
-                  ['class'=>'form-control loan-input'])
-    !!}
+    {!! Form::select('bank',
+                   ['BK'=>'Bank of Kigali',
+                   'BCR'=>'Bank Commercial du Rwanda'],
+                   isset($loanInputs['bank'])?$loanInputs['bank']:null,
+                  ['class'=>'form-control loan-select','id'=>'bank'])
+  !!}
   </div>
   </div>
 </div>
