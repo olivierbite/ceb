@@ -25,3 +25,7 @@
 @section('content_footer')
     @include('loansandrepayments.saving_button')
 @stop
+
+@section('scripts')
+<script src="{{ Url()}}/assets/dist/js/loanForm.js"></script>
+@stop

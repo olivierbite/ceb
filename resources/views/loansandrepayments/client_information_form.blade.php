@@ -4,7 +4,7 @@
 </div>
 <div class="row">
   <div class="col-md-1">
-  <div style="width:70px;border:2px solid rgba(0,0,0,0.5);">
+  <div style="width:70px;border:2px solid rgba(0,0,0,0.8);">
     @include('files.show',['filename'=>$member->photo])
   </div>
   </div>
@@ -17,7 +17,7 @@
   <div class="col-md-3">
   <div class="form-group">
    <label>{{ trans('member.institution') }}</label>
-	{!! Form::input('text', 'member[institution]',isset($member)?$member->institution->name:null, ['class'=>'form-control']) !!}
+	{!! Form::input('text', 'member[institution]',isset($member->institution->name)?$member->institution->name:null, ['class'=>'form-control']) !!}
   </div>
   </div>
   <div class="col-md-5">
@@ -38,7 +38,8 @@
   <div class="col-md-2">
   <div class="form-group">
    <label>{{ trans('member.right_to_loan') }}</label>
-	{!! Form::input('text', 'member[right_to_loan]',isset($member)?number_format($member->rightToLoan()):null, ['class'=>'form-control blue-input']) !!}
+	{!! Form::input('text', 'member[right_to_loan]',isset($member)?number_format($member->rightToLoan()):null,
+             ['class'=>'form-control blue-input','id'=>'rightToLoan']) !!}
   </div>
   </div>
   <div class="col-md-2">
@@ -57,7 +58,7 @@
   <div class="col-md-2">
   <div class="form-group">
    <label>{{ trans('member.letter_date') }}</label>
-	{!! Form::input('text', 'member[letter_date]',null, ['class'=>'form-control','id'=>'date1']) !!}
+	{!! Form::input('text', 'member[letter_date]',null, ['class'=>'form-control','id'=>'date']) !!}
   </div>
   </div>
   <div class="col-md-2">

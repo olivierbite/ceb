@@ -34,6 +34,11 @@ Route::get('/loans/cancel', ['as' => 'loan.cancel', 'uses' => 'LoanController@ca
 Route::get('/loans/complete', ['as' => 'loan.complete', 'uses' => 'loanController@complete']);
 Route::resource('loans', 'LoanController');
 
+/** Ajax routes */
+Route::group(['prefix' => 'ajax'], function () {
+	Route::get('/loans', 'loanController@ajaxFieldUpdate');
+});
+
 /** Files routes */
 Route::get('files', 'FileController@index');
 Route::get('files/get/{filename}', [
@@ -42,5 +47,7 @@ Route::post('files/add', [
 	'as' => 'files.add', 'uses' => 'FileController@add']);
 
 Route::get('/test', function () {
-	dd(Ceb\Models\User::find(1)->rightToLoan());
+	$data = ['name' => 'kamaro'];
+
+	dd(array_values($data)[0]);
 });

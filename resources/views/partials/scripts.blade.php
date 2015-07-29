@@ -4,6 +4,7 @@
     <script src="{{Url()}}/assets/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
     <!-- SlimScroll -->
     <script src="{{Url()}}/assets/plugins/slimScroll/jquery.slimscroll.min.js" type="text/javascript"></script>
+    <script src="{{Url()}}/assets/dist/js/jquery.numeric.js"></script>
     <!-- FastClick -->
     <script src='/assets/plugins/fastclick/fastclick.min.js'></script>
 
@@ -13,3 +14,5 @@
 
      <!-- CEB App -->
     <script src="{{Url()}}/assets/dist/js/app.js" type="text/javascript"></script>
+
+    @yield('scripts')

@@ -50,13 +50,19 @@ class LoanController extends Controller {
 		return $this->reload();
 	}
 
-	/** Complete loan */
+	/**
+	 * Complete loan transaction
+	 * @return mixed
+	 */
 	public function complete() {
 		$message = trans('loan.loan_completed');
 		flash()->success($message);
 		return $this->reload();
 	}
-
+	/**
+	 * Cancel ongoing loan transaction
+	 * @return mixed
+	 */
 	public function cancel() {
 		$this->loanFactory->cancel();
 		$message = trans('loan.loan_cancelled');
@@ -65,8 +71,16 @@ class LoanController extends Controller {
 		return $this->reload();
 	}
 
+	public function ajaxFieldUpdate() {
+		$this->loanFactory->addLoanInput(Input::all());
+	}
+	/**
+	 * Reload loan page
+	 * @return mixed
+	 */
 	private function reload() {
 		$member = $this->loanFactory->getMember();
-		return view('loansandrepayments.index', compact('member'));
+		$loanInputs = $this->loanFactory->getLoanInputs();
+		return view('loansandrepayments.index', compact('member', 'loanInputs'));
 	}
 }
