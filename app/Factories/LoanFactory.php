@@ -38,10 +38,8 @@ class LoanFactory {
 	public function addLoanInput(array $data) {
 		// First get the existing loan inputs
 		$loanInputsData = $this->getLoanInputs();
-
 		// Add the submitted one before saving
 		$loanInputsData[array_keys($data)[0]] = array_values($data)[0];
-
 		Session::put('loanInputs', $loanInputsData);
 	}
 	/**
@@ -50,6 +48,32 @@ class LoanFactory {
 	 */
 	public function getLoanInputs() {
 		return Session::get('loanInputs', []);
+	}
+	/**
+	 * Set new cautionneur
+	 * @param array $cautionneur 
+	 */
+	public function setCautionneur(array $cautionneur)
+	{
+		$newCaustionneur = $this->member->findByAdhersion(array_values($cautionneur)[0]);
+		
+		if($newCaustionneur==null)
+		{
+			// Nothing to do here
+			return false;
+		}
+
+	    $newCaustionneurs =array_merge($this->getCautionneurs(),$cautionneur);
+		Session::put('cautionneurs',$newCaustionneurs);
+	}
+
+	/**
+	 * Get cautionneurs set
+	 * @return  array of cautionneur
+	 */
+	public function getCautionneurs()
+	{
+		return Session::get('cautionneurs', []);
 	}
 	/**
 	 * Complete current loan transaction
@@ -74,5 +98,6 @@ class LoanFactory {
 	private function clearAll() {
 		Session::forget('loan_member');
 		Session::forget('loanInputs');
+		Session::forget('cautionneurs');
 	}
 }

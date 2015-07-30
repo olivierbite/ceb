@@ -219,6 +219,15 @@ class MemberRepository implements MemberRepositoryInterface {
 	}
 
 	/**
+	 * Get member by adhersion
+	 * @param  integer $adhersionId adhersionId
+	 * @return Eloquent Model       
+	 */
+	public function getByAdhersion($adhersionId)
+	{
+		return $This->user->getByAdhersion($adhersionId);
+	}
+	/**
 	 * Retrieve a user by their unique identifier.
 	 *
 	 * @param  mixed $identifier
@@ -228,6 +237,7 @@ class MemberRepository implements MemberRepositoryInterface {
 	public function retrieveById($identifier) {
 		return $this->findOrfail($identifier);
 	}
+
 
 	/**
 	 * Generate unique Adhersion number

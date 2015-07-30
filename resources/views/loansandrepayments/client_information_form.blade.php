@@ -11,7 +11,7 @@
   <div class="col-md-3">
   <div class="form-group">
    <label>{{ trans('member.adhersion_number') }}</label>
-	{!! Form::input('text', 'member[adhersion_number]',isset($member)?$member->adhersion_id:null, ['class'=>'form-control']) !!}
+	{!! Form::input('text', 'adhersion_id',isset($member)?$member->adhersion_id:null, ['class'=>'form-control']) !!}
   </div>
   </div>
   <div class="col-md-3">
@@ -48,7 +48,6 @@
 	{!! Form::input('text', 'member[balance_of_loan]',number_format(0), ['class'=>'form-control orange-input']) !!}
   </div>
   </div>
-
   <div class="col-md-2">
   <div class="form-group">
    <label>{{ trans('member.adhersion_date') }}</label>
@@ -58,15 +57,14 @@
   <div class="col-md-2">
   <div class="form-group">
    <label>{{ trans('member.letter_date') }}</label>
-	{!! Form::input('text', 'member[letter_date]',null, ['class'=>'form-control','id'=>'date']) !!}
+	{!! Form::input('text', 'letter_date',null, ['class'=>'form-control','id'=>'date']) !!}
   </div>
   </div>
   <div class="col-md-2">
   <div class="form-group">
    <label>{{ trans('member.date_of_today') }}</label>
-	{!! Form::input('text', 'member[date_of_today]',null, ['class'=>'form-control','id'=>'date2']) !!}
+	{!! Form::input('text', 'date_of_today',date('Y-m-2'), ['class'=>'form-control','id'=>'date2']) !!}
   </div>
   </div>
-
 </div>
 </div>

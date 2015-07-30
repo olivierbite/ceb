@@ -10,6 +10,7 @@ jQuery(document).ready(function($) {
   
 	// Make sure that only number are entered in the box
 	$("input.loan-input").numeric();
+	$(".search-cautionneur").parent().find('input').numeric();
 
 	// Detect if an input has been written in 
 	$('.loan-input').keyup(function(event) {
@@ -142,13 +143,30 @@ jQuery(document).ready(function($) {
 
 		return true;
     }
+    $('.search-cautionneur').click(function(event) {
+    	// Prevent the default event action 
+    	event.preventDefault();
+    	var cautionneur = $(this).parent().find('input');
+    	
+    	// Check if this input has at least some data
+    	if(cautionneur.val() !== ""){
+			window.location.href = window.location.protocol+'//'+window.location.host+'/ajax/loans/setcautionneur'+'?'+cautionneur.attr('name')+'='+cautionneur.val();
+    		
+    		return true;
+    	}
+
+    	// If we reach here it means we have nothing to do, just return false
+    	return false;
+      });
 	/**
 	 * Update loan input field on the server side
 	 * @param  json array data data to be sent to the server
 	*/
-	function updateField(formData){
+	function updateField(formData,requestUrl){
+		/** If the requestUrl was not initialized then set default to ajax/loan */
+		request = typeof request!=='undefined' ? request :'/ajax/loans';
 		$.ajax({
-			url: '/ajax/loans',
+			url: requestUrl,
 			type: 'GET',	
 			data: formData,
 		})
@@ -160,5 +178,5 @@ jQuery(document).ready(function($) {
 		})
 		.always(function() {
 		});			
-	} 
+	}
 });

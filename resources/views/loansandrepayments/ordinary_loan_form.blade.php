@@ -9,7 +9,7 @@
   <div class="col-md-3">
   <div class="form-group">
    <label>{{ trans('loan.loan_contract_number') }}</label>
-	{!! Form::input('text', 'loan_contract_number',isset($loanInputs['loan_contract_number'])?$loanInputs['loan_contract_number']:null,
+	{!! Form::input('text', 'loan_contract',isset($loanInputs['loan_contract'])?$loanInputs['loan_contract']:null,
                   ['class'=>'form-control loan-input'])
     !!}
   </div>
@@ -17,7 +17,7 @@
   <div class="col-md-3">
   <div class="form-group">
    <label>{{ trans('loan.number_of_installments') }}</label>
-	{!! Form::selectRange('number_of_installments', 1, 48, isset($loanInputs['number_of_installments'])?$loanInputs['number_of_installments']:null,
+	{!! Form::selectRange('tranches_number', 1, 48, isset($loanInputs['tranches_number'])?$loanInputs['tranches_number']:null,
                          ['class'=>'form-control loan-select','id'=>'numberOfInstallment'])
     !!}
   </div>
@@ -55,7 +55,7 @@
   <div class="col-md-3">
   <div class="form-group">
    <label>{{ trans('loan.monthly_installments') }}</label>
-  {!! Form::input('text', 'monthly_installments',isset($loanInputs['monthly_installments'])?$loanInputs['monthly_installments']:null,
+  {!! Form::input('text', 'monthly_fees',isset($loanInputs['monthly_fees'])?$loanInputs['monthly_fees']:null,
                   ['class'=>'form-control loan-input','id'=>'monthlyInstallments'])
     !!}
   </div>

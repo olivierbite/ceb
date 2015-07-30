@@ -1,5 +1,5 @@
 <?php namespace Ceb\Traits;
-use Ceb\File as FileModel;
+use Ceb\Models\File as FileModel;
 use Ceb\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\File;

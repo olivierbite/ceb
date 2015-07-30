@@ -80,4 +80,14 @@ class User extends Model {
 	public function rightToLoan() {
 		return $this->totalContributions() * 2.5;
 	}
+
+	/**
+	 * Find a member by his adhersion ID
+	 * @param  integer $adhersionId member adhersion number
+	 * @return this         
+	 */
+	public function findByAdhersion($adhersionId)
+	{
+		return $this->where('adhersion_id',$adhersionId)->first();
+	}
 }

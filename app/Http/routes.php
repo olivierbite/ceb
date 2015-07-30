@@ -37,6 +37,7 @@ Route::resource('loans', 'LoanController');
 /** Ajax routes */
 Route::group(['prefix' => 'ajax'], function () {
 	Route::get('/loans', 'loanController@ajaxFieldUpdate');
+	Route::get('/loans/setcautionneur', 'loanController@setCautionneur');
 });
 
 /** Files routes */
