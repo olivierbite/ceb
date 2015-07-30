@@ -14,10 +14,12 @@
     !!}
   </div>
   </div>
+
   <div class="col-md-3">
   <div class="form-group">
    <label>{{ trans('loan.number_of_installments') }}</label>
-	{!! Form::selectRange('tranches_number', 1, 48, isset($loanInputs['tranches_number'])?$loanInputs['tranches_number']:null,
+	{!! Form::selectRange('tranches_number', 1, 48,
+                          isset($loanInputs['tranches_number'])?$loanInputs['tranches_number']:null,
                          ['class'=>'form-control loan-select','id'=>'numberOfInstallment'])
     !!}
   </div>

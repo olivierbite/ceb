@@ -40,6 +40,7 @@ jQuery(document).ready(function($) {
 		// Make sure you send request when 
 		// We only have something in the input
 		if ($(this).val()) {
+			console.log($(this).attr('name'));
 		    data[$(this).attr('name')] = $(this).val();
 			updateField(data);
 		};
@@ -164,7 +165,8 @@ jQuery(document).ready(function($) {
 	*/
 	function updateField(formData,requestUrl){
 		/** If the requestUrl was not initialized then set default to ajax/loan */
-		request = typeof request!=='undefined' ? request :'/ajax/loans';
+		requestUrl = typeof requestUrl!=='undefined' ? requestUrl :'/ajax/loans';
+
 		$.ajax({
 			url: requestUrl,
 			type: 'GET',	

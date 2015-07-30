@@ -10,8 +10,6 @@ class LoanController extends Controller {
 	protected $loanFactory;
 	function __construct(LoanFactory $loanFactory) {
 		$this->loanFactory = $loanFactory;
-
-		parent::__construct();
 	}
 	/**
 	 * Display a listing of the resource.
@@ -22,7 +20,15 @@ class LoanController extends Controller {
 		return $this->reload();
 	}
 
-	
+	/**
+	 * Show the form for creating a new resource.
+	 *
+	 * @return Response
+	 */
+	public function create() {
+		//
+	}
+
 	/**
 	 * Store a newly created resource in storage.
 	 *
@@ -64,9 +70,9 @@ class LoanController extends Controller {
 
 		return $this->reload();
 	}
-
 	/**
-	 * Update a given field with ajax
+	 * Update a loan field
+	 * @return  void
 	 */
 	public function ajaxFieldUpdate() {
 		$this->loanFactory->addLoanInput(Input::all());
@@ -75,8 +81,7 @@ class LoanController extends Controller {
 	/**
 	 * Set new cautionneur
 	 */
-	public function setCautionneur()
-	{
+	public function setCautionneur() {
 		$this->loanFactory->setCautionneur(Input::all());
 		return $this->reload();
 	}
@@ -88,6 +93,6 @@ class LoanController extends Controller {
 		$member = $this->loanFactory->getMember();
 		$loanInputs = $this->loanFactory->getLoanInputs();
 		$cautionneurs = $this->loanFactory->getCautionneurs();
-		return view('loansandrepayments.index', compact('member', 'loanInputs','cautionneurs'));
+		return view('loansandrepayments.index', compact('member', 'loanInputs', 'cautionneurs'));
 	}
 }
