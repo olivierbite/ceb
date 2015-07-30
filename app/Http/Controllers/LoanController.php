@@ -45,6 +45,7 @@ class LoanController extends Controller {
 	 * @return Response
 	 */
 	public function selectMember($id) {
+
 		// Add the select member to the session
 		$this->loanFactory->addMember($id);
 		return $this->reload();
@@ -55,6 +56,7 @@ class LoanController extends Controller {
 	 * @return mixed
 	 */
 	public function complete() {
+		$this->loanFactory->complete();
 		$message = trans('loan.loan_completed');
 		flash()->success($message);
 		return $this->reload();
@@ -83,8 +85,19 @@ class LoanController extends Controller {
 	 */
 	public function setCautionneur() {
 		$this->loanFactory->setCautionneur(Input::all());
+
 		return $this->reload();
 	}
+	/**
+	 * Remove cautionneur from the loan Factory
+	 * @param  string $cautionneur
+	 * @return   mixed
+	 */
+	public function removeCautionneur($cautionneur) {
+		$this->loanFactory->removeCautionneur($cautionneur);
+		return $this->reload();
+	}
+
 	/**
 	 * Reload loan page
 	 * @return mixed
@@ -92,7 +105,9 @@ class LoanController extends Controller {
 	private function reload() {
 		$member = $this->loanFactory->getMember();
 		$loanInputs = $this->loanFactory->getLoanInputs();
+		// dd($loanInputs);
 		$cautionneurs = $this->loanFactory->getCautionneurs();
+
 		return view('loansandrepayments.index', compact('member', 'loanInputs', 'cautionneurs'));
 	}
 }

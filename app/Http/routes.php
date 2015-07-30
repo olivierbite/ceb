@@ -32,12 +32,16 @@ Route::resource('contributions', 'ContributionAndSavingsController');
 Route::get('/loans/{id}', 'LoanController@selectMember')->where('id', '[0-9]+');
 Route::get('/loans/cancel', ['as' => 'loan.cancel', 'uses' => 'LoanController@cancel']);
 Route::get('/loans/complete', ['as' => 'loan.complete', 'uses' => 'loanController@complete']);
+Route::get('/loans/remove/cautionneur/{cautionneur}',
+	['as' => 'loan.remove.cautionneur',
+		'uses' => 'loanController@removeCautionneur']
+)->where('cautionneur', '[A-Za-z0-9]+');
+Route::get('/loans/setcautionneur', ['as' => 'loan.add.cautionneur', 'uses' => 'loanController@setCautionneur']);
 Route::resource('loans', 'LoanController');
 
 /** Ajax routes */
 Route::group(['prefix' => 'ajax'], function () {
 	Route::get('/loans', 'loanController@ajaxFieldUpdate');
-	Route::get('/loans/setcautionneur', 'loanController@setCautionneur');
 });
 
 /** Files routes */

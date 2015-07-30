@@ -84,7 +84,7 @@
   <div class="col-md-4">
   <div class="form-group">
    <label>{{ trans('loan.net_to_receive') }}</label>
-  {!! Form::input('text', 'net_to_receive',isset($loanInputs['net_to_receive'])?$loanInputs['net_to_receive']:null,
+  {!! Form::input('text', 'amount_received',isset($loanInputs['net_to_receive'])?$loanInputs['net_to_receive']:null,
                   ['class'=>'form-control loan-input','id'=>'netToReceive'])
     !!}
   </div>
@@ -92,19 +92,20 @@
   <div class="col-md-4">
   <div class="form-group">
    <label>{{ trans('loan.number_of_cheque') }}</label>
-  {!! Form::input('text', 'number_of_cheque',isset($loanInputs['number_of_cheque'])?$loanInputs['number_of_cheque']:null,
-                  ['class'=>'form-control loan-input'])
+  {!! Form::input('text', 'cheque_number',isset($loanInputs['number_of_cheque'])?$loanInputs['number_of_cheque']:null,
+                  ['class'=>'form-control loan-input','id'=>'cheque_number'])
     !!}
   </div>
   </div>
   <div class="col-md-4">
   <div class="form-group">
    <label>{{ trans('loan.bank') }}</label>
-    {!! Form::select('bank',
+    {!! Form::select('bank_id',
                    ['BK'=>'Bank of Kigali',
                    'BCR'=>'Bank Commercial du Rwanda'],
                    isset($loanInputs['bank'])?$loanInputs['bank']:null,
-                  ['class'=>'form-control loan-select','id'=>'bank'])
+                  ['class'=>'form-control loan-select','id'=>'bank']
+      )
   !!}
   </div>
   </div>

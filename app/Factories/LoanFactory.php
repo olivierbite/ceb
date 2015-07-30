@@ -1,6 +1,8 @@
 <?php
 namespace Ceb\Factories;
+use Ceb\Models\Loan;
 use Ceb\Models\User;
+use Ceb\Traits\TransactionTrait;
 use Illuminate\Support\Facades\Session;
 
 /**
@@ -8,9 +10,12 @@ use Illuminate\Support\Facades\Session;
  */
 class LoanFactory {
 
-	function __construct(Session $session, User $member) {
+	use TransactionTrait;
+
+	function __construct(Session $session, User $member, Loan $loan) {
 		$this->session = $session;
 		$this->member = $member;
+		$this->loan = $loan;
 	}
 
 	/**
@@ -20,6 +25,7 @@ class LoanFactory {
 	function addMember($memberId) {
 		$member = $this->member->find($memberId);
 		Session::put('loan_member', $member);
+		$this->updateCautionneur();
 	}
 
 	/**
@@ -38,8 +44,12 @@ class LoanFactory {
 	public function addLoanInput(array $data) {
 		// First get the existing loan inputs
 		$loanInputsData = $this->getLoanInputs();
+
 		// Add the submitted one before saving
-		$loanInputsData[array_keys($data)[0]] = array_values($data)[0];
+		foreach ($data as $key => $value) {
+			$loanInputsData[$key] = $value;
+		}
+
 		Session::put('loanInputs', $loanInputsData);
 	}
 	/**
@@ -51,28 +61,63 @@ class LoanFactory {
 	}
 	/**
 	 * Set new cautionneur
-	 * @param array $cautionneur 
+	 * @param array $cautionneur
 	 */
-	public function setCautionneur(array $cautionneur)
-	{
-		$newCaustionneur = $this->member->findByAdhersion(array_values($cautionneur)[0]);
-		
-		if($newCaustionneur==null)
-		{
+	public function setCautionneur(array $cautionneur) {
+		$arrayKey = array_keys($cautionneur)[0];
+		$cautionneurId = array_values($cautionneur)[0];
+		$cautionneurs = $this->getCautionneurs();
+
+		$cautionneurs[$arrayKey] = $this->member->findByAdhersion($cautionneurId);
+
+		if ($cautionneurs[$arrayKey] == null) {
+			flash()->error(trans('loan.adhersion_number_you_are_looking_for_cannot_be_found'));
 			// Nothing to do here
 			return false;
 		}
-
-	    $newCaustionneurs =array_merge($this->getCautionneurs(),$cautionneur);
-		Session::put('cautionneurs',$newCaustionneurs);
+		// Make sure the selected cautionneur is not
+		// same as the member
+		if ($cautionneurs[$arrayKey]->id == $this->getMember()->id) {
+			flash()->error(trans('loan.cautionneur_should_not_be_the_same_as_the_member_requesting_loan'));
+			return false;
+		}
+		flash()->success(trans('loan.cautionneur_has_been_added_successfully'));
+		Session::put('cautionneurs', $cautionneurs);
 	}
 
+	/**
+	 * Remove cautionneur from the sessoin
+	 * @param  string $cautionneur
+	 * @return mixed
+	 */
+	public function removeCautionneur($cautionneur) {
+		$cautionneurs = $this->getCautionneurs();
+		// Remove the cautionneur
+		unset($cautionneurs[$cautionneur]);
+		flash()->success(trans('loan.cautionneur_removed_successfully'));
+		Session::put('cautionneurs', $cautionneurs);
+	}
+
+	/**
+	 * Make sure cautionneur are not same as the
+	 * Selected member
+	 *
+	 */
+	public function updateCautionneur() {
+		$cautionneurs = $this->getCautionneurs();
+
+		foreach ($cautionneurs as $key => $cautionneur) {
+			if ($cautionneur->id == $this->getMember()->id) {
+				unset($cautionneurs[$key]);
+			}
+		}
+		Session::put('cautionneurs', $cautionneurs);
+	}
 	/**
 	 * Get cautionneurs set
 	 * @return  array of cautionneur
 	 */
-	public function getCautionneurs()
-	{
+	public function getCautionneurs() {
 		return Session::get('cautionneurs', []);
 	}
 	/**
@@ -80,15 +125,75 @@ class LoanFactory {
 	 * @return bool
 	 */
 	public function complete() {
-		/**
-		 * @todo impliment loan completion
-		 */
+		// 1. First record the loan
+		$transactionid = $this->getTransactionId();
+		$this->saveLoan($transactionid);
+		// 2. Debit and credit accounts
 	}
+
+	public function saveLoan($transactionid) {
+		// First refresh the data
+		$this->calculateLoanDetails();
+		$inputs = $this->getLoanInputs();
+		$inputs['transactionid'] = $transactionid;
+		$this->loan->create($inputs);
+	}
+
+	/**
+	 * Get loan interest
+	 * @return float
+	 */
+	public function getInterestRate() {
+		$numberOfInstallment = $this->getLoanInputs()['tranches_number'];
+
+		if ($numberOfInstallment > 0 && $numberOfInstallment <= 12) {return 3.4;}
+		if ($numberOfInstallment > 12 && $numberOfInstallment <= 24) {return 3.6;}
+		if ($numberOfInstallment > 24 && $numberOfInstallment <= 36) {return 4.1;}
+		if ($numberOfInstallment > 36 && $numberOfInstallment <= 48) {return 4.3;}
+	}
+	/**
+	 * Calculate loan details
+	 * @return mixed
+	 */
+	public function calculateLoanDetails() {
+		$loanDetails = $this->getLoanInputs();
+		$loanToRepay = $loanDetails['loan_to_repay'];
+		$interestRate = $this->getInterestRate();
+		$numberOfInstallment = $loanDetails['tranches_number'];
+
+		// Interest formular
+		// The formular to calculate interests at ceb is as following
+		// I =  P *(TI * N)
+		//     ------------
+		//     1200 + (TI*N)
+		//
+		// Where :   I : Interest
+		//           P : Amount to Repay
+		//           TI: Interest Rate
+		//           N : Montly payment
+		// LoanToRepay * (InterestRate*NumberOfInstallment) / 1200 +(InterestRate*NumberOfInstallment)
+
+		$interests = ($loanToRepay * ($interestRate * $numberOfInstallment)) / (1200 + ($interestRate * $numberOfInstallment));
+		$netToReceive = $loanToRepay - $interests;
+
+		// Update fields
+		$this->addLoanInput(['right_to_loan' => round(($loanToRepay * 2.5), 2)]);
+		$this->addLoanInput(['interests' => round($interests, 2)]);
+		$this->addLoanInput(['net_to_receive' => round($netToReceive, 2)]);
+		$this->addLoanInput(['monthly_fees' => round(($netToReceive / $numberOfInstallment), 2)]);
+		$this->addLoanInput(['adhersion_id' => $this->getMember()->adhersion_id]);
+
+		// Add cautionneur
+		foreach ($this->getCautionneurs() as $key => $value) {
+			$this->addLoanInput[$key] = $value->id;
+		}
+	}
+
 	/**
 	 * Cancel all activity by clearing session
 	 * @return void
 	 */
-	function cancel() {
+	public function cancel() {
 		$this->clearAll();
 	}
 

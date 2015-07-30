@@ -5,7 +5,6 @@ use Ceb\Factories\ContributionFactory;
 use Ceb\Models\AssetType;
 use Ceb\Models\Contribution;
 use Ceb\Models\Posting;
-use DateTime;
 use DB;
 use Sentry;
 
@@ -166,13 +165,5 @@ class ContributionRepository {
 		}
 		// Ouf time to go to bed now
 		return true;
-	}
-
-	/**
-	 * Get unique transaction ID
-	 * @return string
-	 */
-	private function getTransactionId() {
-		return (new DateTime)->format('YmdHis') . rand(100, 999);
 	}
 }

@@ -49,16 +49,35 @@ jQuery(document).ready(function($) {
 	});				
 
 	isValidWishedAmount();
-	$('#wished_amount').val($('#rightToLoan').val().replace(/,/g,''));
-	$('#loanToRepay').val($('#wished_amount').val());
+
+	// If wished amount doesn't have anything
+	// then set the default to be the same as the 
+	// right to loan
+	if($('#wished_amount').val() == "" || $('#wished_amount').val() == "0"){
+	 $('#wished_amount').val($('#rightToLoan').val().replace(/,/g,''));
+	};
+
+	// if the loan to pay amount is null or 
+	// doesn't have anything then set it to default
+	// which is equal to wished amount
+	if($('#loanToRepay').val()=="" || $('#loanToRepay').val()=="0"){
+	  $('#loanToRepay').val($('#wished_amount').val());
+	};
+
+	// Amount bonded or cautionnee 
+	// the amount sanctioned is equal to the excess not guaranteed by
+	// saving the borrower shared equally between the two Cautionneurs.
+	if($('#amount_bonded').val() == ""){
+		$('#amount_bonded').val(parseInt($('#netToReceive').val())/2);
+	};
+
+
 	calculateLoanDetails();
 	calculateUrgentLoanFees();
 
 	function calculateLoanDetails(){
 		var loanToRepay = $('#loanToRepay').val();
-		var monthlyInstallments  = $('#monthlyInstallments').val();
 		var interestRate  = getInterestRate();
-
 		var numberOfInstallment = $('#numberOfInstallment').val();
 
 		// Interest formular
@@ -76,23 +95,30 @@ jQuery(document).ready(function($) {
 		var interests = (loanToRepay * (interestRate*numberOfInstallment)) / (1200 +(interestRate*numberOfInstallment));
 		var netToReceive = loanToRepay - interests;
 		
-		// Update fields
+		// Update fields		
 		$('#interests').val(Math.round(interests * 100) / 100);
 		data[$('#interests').attr('name')] = $('#interests').val();
-		updateField(data);
 
 		$('#netToReceive').val(Math.round(netToReceive * 100) / 100);
 		data[$('#netToReceive').attr('name')] = $('#netToReceive').val();
-		updateField(data);
 
 		$('#monthlyInstallments').val(Math.round((netToReceive/numberOfInstallment) * 100) / 100);
+
+		data[$('#wished_amount').attr('name')] = $('#wished_amount').val().replace(/,/g,'');
+		data[$('#interest_on_urgently_loan').attr('name')] = $('#interest_on_urgently_loan').val().replace(/,/g,'');
 		data[$('#monthlyInstallments').attr('name')] = $('#monthlyInstallments').val();
+       	data[$('#numberOfInstallment').attr('name')] = $('#numberOfInstallment').val();
+		data[$('#amount_bonded').attr('name')] = $('#amount_bonded').val();
+		data[$('#netToReceive').attr('name')] = $('#netToReceive').val();
+		data[$('#cheque_number').attr('name')] = $('#cheque_number').val();
+		data[$('#bank').attr('name')] = $('#bank').val();
+		data[$('#operation_type').attr('name')] = $('#operation_type').val();
+		data[$('#interest_on_urgently_loan').attr('name')] = $('#interest_on_urgently_loan').val();
+		data[$('#loanToRepay').attr('name')] = $('#loanToRepay').val();
+
+
 		updateField(data);
-
-
 	}
-
-
 
 	function calculateUrgentLoanFees(){
 		if ($('#operation_type').val()=='urgent_ordinary_loan') {
@@ -118,7 +144,6 @@ jQuery(document).ready(function($) {
 		if (numberOfInstallment>12 && numberOfInstallment<=24) {return 3.6;};
 		if (numberOfInstallment>24 && numberOfInstallment<=36) {return 4.1;};
 		if (numberOfInstallment>36 && numberOfInstallment<=48) {return 4.3;};
-
 	}
 	/**
 	 * If the wished amount is higher than the
@@ -151,7 +176,7 @@ jQuery(document).ready(function($) {
     	
     	// Check if this input has at least some data
     	if(cautionneur.val() !== ""){
-			window.location.href = window.location.protocol+'//'+window.location.host+'/ajax/loans/setcautionneur'+'?'+cautionneur.attr('name')+'='+cautionneur.val();
+			window.location.href = window.location.protocol+'//'+window.location.host+'/loans/setcautionneur'+'?'+cautionneur.attr('name')+'='+cautionneur.val();
     		
     		return true;
     	}
@@ -164,6 +189,9 @@ jQuery(document).ready(function($) {
 	 * @param  json array data data to be sent to the server
 	*/
 	function updateField(formData,requestUrl){
+
+		/** first calculate existings fields */
+		calculateLoanDetails();
 		/** If the requestUrl was not initialized then set default to ajax/loan */
 		requestUrl = typeof requestUrl!=='undefined' ? requestUrl :'/ajax/loans';
 
