@@ -10,6 +10,8 @@ class LoanController extends Controller {
 	protected $loanFactory;
 	function __construct(LoanFactory $loanFactory) {
 		$this->loanFactory = $loanFactory;
+
+		parent::__construct();
 	}
 	/**
 	 * Display a listing of the resource.

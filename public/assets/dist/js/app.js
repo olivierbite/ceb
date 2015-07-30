@@ -700,6 +700,9 @@ function _init() {
       }
     });
   };
+
+  /** MAKE ALL SELECT TO BE SELECT2 */
+  $('select').select2();
 }(jQuery));
 
 /**
@@ -817,7 +820,7 @@ $(document).on('change', '#upload-photo:file', function() {
  * @return 
  */
 $(document).ready(function(){
-      
+       
     /**
      * Deal with debit accounts dynamic form
      */

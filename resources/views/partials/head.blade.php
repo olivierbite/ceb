@@ -9,7 +9,7 @@
     <link href="{{Url()}}/assets/fontawesome/font-awesome.min.css" rel="stylesheet" type="text/css" />
     <!-- Ionicons -->
     <link href="{{Url()}}/assets/ionicons/ionicons.min.css" rel="stylesheet" type="text/css" />
-
+    <link rel="stylesheet" href="{!! Url() !!}/assets/dist/css/select2.min.css" />
     <!-- Theme style -->
     <link href="{{Url()}}/assets/dist/css/ceb.css" rel="stylesheet" type="text/css" />
     <!-- AdminLTE Skins. Choose a skin from the css/skins

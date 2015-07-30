@@ -8,7 +8,8 @@
     <!-- FastClick -->
     <script src='/assets/plugins/fastclick/fastclick.min.js'></script>
 
-    <!-- Demo -->
+    <!-- libraries -->
+    <script src="{{Url()}}/assets/dist/js/select2.full.js" type="text/javascript"></script>
     <script src="{{Url()}}/assets/dist/js/handlebars.js" type="text/javascript"></script>
     <script src="{{Url()}}/assets/dist/js/typeahead.js" type="text/javascript"></script>
 

@@ -73,7 +73,7 @@ jQuery(document).ready(function($) {
 		
 		var interests = (loanToRepay * (interestRate*numberOfInstallment)) / (1200 +(interestRate*numberOfInstallment));
 		var netToReceive = loanToRepay - interests;
-		console.log(interests);
+		
 		// Update fields
 		$('#interests').val(Math.round(interests * 100) / 100);
 		data[$('#interests').attr('name')] = $('#interests').val();
@@ -147,20 +147,18 @@ jQuery(document).ready(function($) {
 	 * @param  json array data data to be sent to the server
 	*/
 	function updateField(formData){
-		console.log(formData);
 		$.ajax({
 			url: '/ajax/loans',
 			type: 'GET',	
 			data: formData,
 		})
 		.done(function(data) {
-			console.log("success ");
+
 		})
 		.fail(function(error) {
 			console.log("error "+error);
 		})
 		.always(function() {
-			console.log("complete");
 		});			
 	} 
 });
