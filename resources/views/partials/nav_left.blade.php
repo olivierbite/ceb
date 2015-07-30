@@ -4,7 +4,7 @@
           <!-- Sidebar user panel -->
           <div class="user-panel">
             <div class="pull-left image">
-              <img src="{{route('files.get', Sentry::getUser()->photo)}}" class="img-circle" alt="User Image" />
+              @include('files.show',['filename'=>Sentry::getUser()->photo])
             </div>
             <div class="pull-left info">
               <p>{{ Session::get('email') }}</p>

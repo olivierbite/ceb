@@ -17,21 +17,21 @@
           </a>
           <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
-
-
               <!-- User Account: style can be found in dropdown.less -->
               <li class="dropdown user user-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  <img src="{{route('files.get', Sentry::getUser()->photo)}}" class="user-image" alt="User Image"/>
+                    <div class="user-image">
+                      @include('files.show',['filename'=>\Sentry::getUser()->photo])
+                    </div> 
                   <span class="hidden-xs">{{ Session::get('email') }}</span>
                 </a>
                 <ul class="dropdown-menu">
                   <!-- User image -->
                   <li class="user-header">
-                    <img src="/assets/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image" />
+                    @include('files.show',['filename'=>\Sentry::getUser()->photo])
                     <p>
-                      Kamaro Lambert - Web Developer
-                      <small>Member since Nov. 2012</small>
+                     {!! \Sentry::getUser()->first_name .' '.\Sentry::getUser()->last_name !!}
+                      <small>Member since {!! \Sentry::getUser()->created_at->format('M. Y') !!}</small>
                     </p>
                   </li>
                   <!-- Menu Footer-->
