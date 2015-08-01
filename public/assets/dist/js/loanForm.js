@@ -28,9 +28,8 @@ jQuery(document).ready(function($) {
 		// We only have something in the input
 		if ($(this).val()) {
 		    data[fieldName] = $(this).val();
-			updateField(data);
+			setTimeout(updateField(data), 5000);
 		};
-		calculateLoanDetails();
 	});	
 
 	// Detect if an input has been written in 
@@ -42,9 +41,8 @@ jQuery(document).ready(function($) {
 		if ($(this).val()) {
 			console.log($(this).attr('name'));
 		    data[$(this).attr('name')] = $(this).val();
-			updateField(data);
+			setTimeout(updateField(data), 5000);
 		};
-		calculateLoanDetails();
 		calculateUrgentLoanFees();
 	});				
 
@@ -116,8 +114,7 @@ jQuery(document).ready(function($) {
 		data[$('#interest_on_urgently_loan').attr('name')] = $('#interest_on_urgently_loan').val();
 		data[$('#loanToRepay').attr('name')] = $('#loanToRepay').val();
 
-
-		updateField(data);
+		// setTimeout(updateField(data), 5000);
 	}
 
 	function calculateUrgentLoanFees(){
@@ -197,7 +194,8 @@ jQuery(document).ready(function($) {
 
 		$.ajax({
 			url: requestUrl,
-			type: 'GET',	
+			type: 'GET',
+			async: true,	
 			data: formData,
 		})
 		.done(function(data) {

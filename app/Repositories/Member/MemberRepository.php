@@ -221,10 +221,9 @@ class MemberRepository implements MemberRepositoryInterface {
 	/**
 	 * Get member by adhersion
 	 * @param  integer $adhersionId adhersionId
-	 * @return Eloquent Model       
+	 * @return Eloquent Model
 	 */
-	public function getByAdhersion($adhersionId)
-	{
+	public function getByAdhersion($adhersionId) {
 		return $This->user->getByAdhersion($adhersionId);
 	}
 	/**
@@ -238,7 +237,6 @@ class MemberRepository implements MemberRepositoryInterface {
 		return $this->findOrfail($identifier);
 	}
 
-
 	/**
 	 * Generate unique Adhersion number
 	 */
@@ -249,7 +247,8 @@ class MemberRepository implements MemberRepositoryInterface {
 		// if we have this adhersion number generate another
 		while ($this->user->where('adhersion_id', '=', $newAdhersionNumber)->first() != null) {
 			$countUsers++;
-			$newAdhersionNumber = date('Y') . sprintf("%05d", $countUsers);
+			// We assume that CEB can only recruit less than 10K member per year
+			$newAdhersionNumber = date('Y') . sprintf("%04d", $countUsers);
 		}
 		// Format the number to  something like "00001"
 		return $newAdhersionNumber;

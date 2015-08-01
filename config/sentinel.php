@@ -62,7 +62,7 @@ return [
 	 */
 
 	'default_permissions' => ['admin', 'users',
-		'member.list', 'member.view', 'member.edit', 'member.create', 'member.delete'],
+		'member.list', 'member.view', 'member.edit', 'member.create', 'member.delete', 'loan.give'],
 
 	/*
 	|--------------------------------------------------------------------------
