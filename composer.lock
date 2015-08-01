@@ -4,8 +4,60 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "6658bb7aa066435556a1cfd1df81d3e1",
+    "hash": "a2b896f2ac714ff0f071e4adda2cb4a6",
     "packages": [
+        {
+            "name": "barryvdh/laravel-translation-manager",
+            "version": "v0.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/barryvdh/laravel-translation-manager.git",
+                "reference": "19207f1fc1548372ec434ff78f55e063afcebf1b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/barryvdh/laravel-translation-manager/zipball/19207f1fc1548372ec434ff78f55e063afcebf1b",
+                "reference": "19207f1fc1548372ec434ff78f55e063afcebf1b",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "5.0.x|5.1.x",
+                "illuminate/translation": "5.0.x|5.1.x",
+                "php": ">=5.4.0",
+                "symfony/finder": "~2.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.2-dev"
+                }
+            },
+            "autoload": {
+                "classmap": [
+                    "database/migrations"
+                ],
+                "psr-4": {
+                    "Barryvdh\\TranslationManager\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Barry vd. Heuvel",
+                    "email": "barryvdh@gmail.com"
+                }
+            ],
+            "description": "Manage Laravel Translations",
+            "keywords": [
+                "laravel",
+                "translations",
+                "translator"
+            ],
+            "time": "2015-06-16 13:38:59"
+        },
         {
             "name": "cartalyst/sentry",
             "version": "v2.1.5",
@@ -3398,7 +3450,8 @@
         "rydurham/sentinel": 20,
         "illuminate/html": 20,
         "laracasts/flash": 20,
-        "spatie/activitylog": 20
+        "spatie/activitylog": 20,
+        "barryvdh/laravel-translation-manager": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,

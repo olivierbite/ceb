@@ -150,6 +150,7 @@ return [
 		Illuminate\Html\HtmlServiceProvider::class,
 		'Laracasts\Flash\FlashServiceProvider',
 		'Spatie\Activitylog\ActivitylogServiceProvider',
+		'Barryvdh\TranslationManager\ManagerServiceProvider',
 
 	],
 

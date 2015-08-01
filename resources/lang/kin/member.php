@@ -9,6 +9,4 @@ return array (
   'district' => 'District',
   'adhersion_date' => 'Adhersion date',
   'monthly_fee' => 'Monthly fees',
-  'contributions' => 'Contributions',
-  'right_to_loan' => 'Right to loan',
 );

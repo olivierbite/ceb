@@ -10,7 +10,8 @@
         "rydurham/sentinel": "dev-master",
         "illuminate/html": "^5.0@dev",
         "laracasts/flash": "dev-master",
-        "spatie/activitylog": "dev-master"
+        "spatie/activitylog": "dev-master",
+        "barryvdh/laravel-translation-manager": "^0.2.0@dev"
         },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
