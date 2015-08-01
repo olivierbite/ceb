@@ -2,8 +2,6 @@
 
 namespace Ceb\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
 class Loan extends Model {
 	// fillable
 	protected $fillable = [

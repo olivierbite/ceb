@@ -3,7 +3,6 @@
 namespace Ceb\Models;
 
 use Ceb\Models\Contribution;
-use Illuminate\Database\Eloquent\Model;
 
 class User extends Model {
 
@@ -84,10 +83,9 @@ class User extends Model {
 	/**
 	 * Find a member by his adhersion ID
 	 * @param  integer $adhersionId member adhersion number
-	 * @return this         
+	 * @return this
 	 */
-	public function findByAdhersion($adhersionId)
-	{
-		return $this->where('adhersion_id',$adhersionId)->first();
+	public function findByAdhersion($adhersionId) {
+		return $this->where('adhersion_id', $adhersionId)->first();
 	}
 }

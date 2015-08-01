@@ -32,7 +32,8 @@
   <div class="col-md-2">
   <div class="form-group">
    <label>{{ trans('member.contributions') }}</label>
-	{!! Form::input('text', 'member[contributions]',isset($member)?number_format($member->totalContributions()):null, ['class'=>'form-control green-input']) !!}
+	{!! Form::input('text', 'member[contributions]',isset($member)?number_format($member->totalContributions()):null,
+   ['class'=>'form-control green-input','id'=>'totalContributions']) !!}
   </div>
   </div>
   <div class="col-md-2">

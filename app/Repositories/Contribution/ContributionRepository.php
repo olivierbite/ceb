@@ -84,12 +84,10 @@ class ContributionRepository {
 		$transactionId = $this->getTransactionId();
 		// Start saving if something fails cancel everything
 		Db::beginTransaction();
-
 		$saveContibution = $this->saveContibutions($transactionId);
 		$savePosting = $this->savePostings($transactionId);
 
 		// Rollback the transaction via if one of the insert fails
-
 		if (!$saveContibution || !$savePosting) {
 			DB::rollBack();
 			return false;

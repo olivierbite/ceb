@@ -149,6 +149,7 @@ return [
 		Sentinel\SentinelServiceProvider::class,
 		Illuminate\Html\HtmlServiceProvider::class,
 		'Laracasts\Flash\FlashServiceProvider',
+		'Spatie\Activitylog\ActivitylogServiceProvider',
 
 	],
 
@@ -202,6 +203,7 @@ return [
 		'Form' => 'Illuminate\Html\FormFacade',
 		'HTML' => 'Illuminate\Html\HtmlFacade',
 		'Flash' => 'Laracasts\Flash\Flash',
+		'Activity' => 'Spatie\Activitylog\ActivitylogFacade',
 
 	],
 

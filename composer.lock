@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "e7fd2b4b712347897104d9bfc1a8ef7c",
+    "hash": "6658bb7aa066435556a1cfd1df81d3e1",
     "packages": [
         {
             "name": "cartalyst/sentry",
@@ -607,7 +607,7 @@
                     "name": "Jeremy Lindblom",
                     "email": "jeremeamia@gmail.com",
                     "homepage": "https://github.com/jeremeamia",
-                    "role": "developer"
+                    "role": "Developer"
                 }
             ],
             "description": "Serialize Closure objects, including their context and binding",
@@ -1206,7 +1206,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rydurham/Sentinel/zipball/4235c3ec82ecc762d307d46fc3c389a470f92944",
+                "url": "https://api.github.com/repos/rydurham/Sentinel/zipball/97060075b0d4dd8b83adc3c60b5ebcc040065c77",
                 "reference": "4235c3ec82ecc762d307d46fc3c389a470f92944",
                 "shasum": ""
             },
@@ -1251,6 +1251,57 @@
                 "sentry"
             ],
             "time": "2015-06-19 21:36:48"
+        },
+        {
+            "name": "spatie/activitylog",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/activitylog.git",
+                "reference": "0a0631e0bb9355438aa1c7de6ce66a2142d1a120"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/activitylog/zipball/0a0631e0bb9355438aa1c7de6ce66a2142d1a120",
+                "reference": "0a0631e0bb9355438aa1c7de6ce66a2142d1a120",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "5.*",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "0.9.*",
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "src/migrations"
+                ],
+                "psr-0": {
+                    "Spatie\\Activitylog\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Freek Van der Herten",
+                    "email": "freek@spatie.be"
+                }
+            ],
+            "description": "A very simple activity logger to monitor the users of your website or application",
+            "homepage": "https://github.com/spatie/activitylog",
+            "keywords": [
+                "activity",
+                "laravel",
+                "log",
+                "user"
+            ],
+            "time": "2015-07-21 08:16:57"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -3346,7 +3397,8 @@
     "stability-flags": {
         "rydurham/sentinel": 20,
         "illuminate/html": 20,
-        "laracasts/flash": 20
+        "laracasts/flash": 20,
+        "spatie/activitylog": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,

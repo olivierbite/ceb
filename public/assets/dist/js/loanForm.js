@@ -55,12 +55,19 @@ jQuery(document).ready(function($) {
 	 $('#wished_amount').val($('#rightToLoan').val().replace(/,/g,''));
 	};
 
+
+
+
 	// if the loan to pay amount is null or 
 	// doesn't have anything then set it to default
 	// which is equal to wished amount
 	if($('#loanToRepay').val()=="" || $('#loanToRepay').val()=="0"){
 	  $('#loanToRepay').val($('#wished_amount').val());
-	};
+	 };
+	 var loanToRepay =  parseFloat($('#loanToRepay').val());
+	 var totalContributions = parseFloat($('#totalContributions').val());
+
+	 $('#amount_bonded').val(loanToRepay - totalContributions);
 
 	// Amount bonded or cautionnee 
 	// the amount sanctioned is equal to the excess not guaranteed by
@@ -94,13 +101,13 @@ jQuery(document).ready(function($) {
 		var netToReceive = loanToRepay - interests;
 		
 		// Update fields		
-		$('#interests').val(Math.round(interests * 100) / 100);
+		$('#interests').val(Math.round(interests) );
 		data[$('#interests').attr('name')] = $('#interests').val();
 
-		$('#netToReceive').val(Math.round(netToReceive * 100) / 100);
+		$('#netToReceive').val(Math.round(netToReceive) );
 		data[$('#netToReceive').attr('name')] = $('#netToReceive').val();
-
-		$('#monthlyInstallments').val(Math.round((netToReceive/numberOfInstallment) * 100) / 100);
+        
+    	$('#monthlyInstallments').val(Math.round((loanToRepay/numberOfInstallment)) );
 
 		data[$('#wished_amount').attr('name')] = $('#wished_amount').val().replace(/,/g,'');
 		data[$('#interest_on_urgently_loan').attr('name')] = $('#interest_on_urgently_loan').val().replace(/,/g,'');
@@ -120,7 +127,7 @@ jQuery(document).ready(function($) {
 	function calculateUrgentLoanFees(){
 		if ($('#operation_type').val()=='urgent_ordinary_loan') {
 			if (loanToRepay > 0 ) {
-				$('#interest_on_urgently_loan').val(Math.round((loanToRepay*.02) * 100) / 100);
+				$('#interest_on_urgently_loan').val(Math.round((loanToRepay*.02)) );
 			};
 			$('#interest_on_urgently_loan').val(0);
 			return true;
