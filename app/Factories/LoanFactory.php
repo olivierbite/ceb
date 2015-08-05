@@ -196,6 +196,10 @@ class LoanFactory {
 		foreach ($this->getCautionneurs() as $key => $value) {
 			$this->addLoanInput[$key] = $value->id;
 		}
+
+		// If loan to pay is less or equal to the
+		// Contributions then hide the caution section
+
 	}
 
 	/**
@@ -219,8 +223,9 @@ class LoanFactory {
 		// Get the difference in months
 		$interval = $dateDifference->format('%m');
 
-		// Check if the months are at least 6
-		return $interval > 6;
+		// Check if the months are at least 6 configured to 1 for the
+		// Development purpose
+		return $interval >= 1;
 	}
 	/**
 	 * Clear all things in the session that are related to the loan

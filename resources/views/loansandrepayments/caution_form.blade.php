@@ -1,4 +1,4 @@
-<div class="box-body even-background">
+<div class="box-body even-background" id="cautionForm">
 <div class="box-header with-border">
   <h3 class="box-title">{{ trans('loan.cautions') }}</h3>
 </div>

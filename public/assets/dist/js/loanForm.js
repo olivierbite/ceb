@@ -24,12 +24,19 @@ jQuery(document).ready(function($) {
 		if(fieldName == 'wished_amount'){
 			isValidWishedAmount();
 		}
+		// Check this is empty then set it to sezo
+		if (fieldValue == "") {
+			$(this).val(0);
+		};
 		// Make sure you send request when 
 		// We only have something in the input
 		if ($(this).val()) {
 		    data[fieldName] = $(this).val();
 			setTimeout(updateField(data), 5000);
 		};
+        
+		// Update calculations
+		calculateLoanDetails();
 	});	
 
 	// Detect if an input has been written in 
@@ -53,6 +60,15 @@ jQuery(document).ready(function($) {
 	// right to loan
 	if($('#wished_amount').val() == "" || $('#wished_amount').val() == "0"){
 	 $('#wished_amount').val($('#rightToLoan').val().replace(/,/g,''));
+	};
+
+	// If loan to repay is less or equal to the total contribution 
+	// Then hide the caution form
+  	if(parseInt(loanToRepay) <= parseInt(totalContributions)){
+  		console.log('just testing');
+		$('#cautionForm').css('display', 'none');
+	}else{
+		$('#cautionForm').css('display', 'show');;
 	};
 
 
@@ -83,6 +99,7 @@ jQuery(document).ready(function($) {
 	function calculateLoanDetails(){
 		var loanToRepay = $('#loanToRepay').val();
 		var interestRate  = getInterestRate();
+		var totalContributions = $('#totalContributions').val().replace(/,/g,''); // Remove any character that is not a number
 		var numberOfInstallment = $('#numberOfInstallment').val();
 
 		// Interest formular
@@ -108,20 +125,29 @@ jQuery(document).ready(function($) {
 		data[$('#netToReceive').attr('name')] = $('#netToReceive').val();
         
     	$('#monthlyInstallments').val(Math.round((loanToRepay/numberOfInstallment)) );
+  		
+  		// If the amount to repay is less or equal to the 
+  		// User total contributions then there is no 
+  		// need to the caution then hide the form
+  		// 
+  	     console.log(parseInt(loanToRepay) <= parseInt(totalContributions));
+  		if(parseInt(loanToRepay) <= parseInt(totalContributions)){
+  			$('#cautionForm').css('display', 'none');
+  		}else{
+  			$('#cautionForm').css('display','block');
 
-		data[$('#wished_amount').attr('name')] = $('#wished_amount').val().replace(/,/g,'');
-		data[$('#interest_on_urgently_loan').attr('name')] = $('#interest_on_urgently_loan').val().replace(/,/g,'');
-		data[$('#monthlyInstallments').attr('name')] = $('#monthlyInstallments').val();
-       	data[$('#numberOfInstallment').attr('name')] = $('#numberOfInstallment').val();
-		data[$('#amount_bonded').attr('name')] = $('#amount_bonded').val();
-		data[$('#netToReceive').attr('name')] = $('#netToReceive').val();
-		data[$('#cheque_number').attr('name')] = $('#cheque_number').val();
-		data[$('#bank').attr('name')] = $('#bank').val();
-		data[$('#operation_type').attr('name')] = $('#operation_type').val();
-		data[$('#interest_on_urgently_loan').attr('name')] = $('#interest_on_urgently_loan').val();
-		data[$('#loanToRepay').attr('name')] = $('#loanToRepay').val();
+  			// Since the form is shown, let's check the data we should 
+  			// Put in the form
+  			 $('#amount_bonded').val(loanToRepay - totalContributions);
+			// Amount bonded or cautionnee 
+			// the amount sanctioned is equal to the excess not guaranteed by
+			// saving the borrower shared equally between the two Cautionneurs.
+			if($('#amount_bonded').val() == ""){
+				$('#amount_bonded').val(parseInt($('#netToReceive').val())/2);
+			};
 
-		// setTimeout(updateField(data), 5000);
+  		}
+
 	}
 
 	function calculateUrgentLoanFees(){
