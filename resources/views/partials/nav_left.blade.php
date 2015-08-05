@@ -35,7 +35,7 @@
               <a href="{{ route('members.index') }}">
                 <i class="fa fa-users"></i>
                 <span>{{ trans('navigations.members') }}<span>
-                <span class="label label-primary pull-right">4</span>
+                <span class="label label-primary pull-right">{!! $membersCount !!}</span>
               </a>
             </li>
             <li>
