@@ -31,7 +31,7 @@
                   ['class'=>'form-control loan-input','id'=>'wished_amount'])
     !!}
   </div>
-  </div>q
+  </div>
   <div class="col-md-3">
   <div class="form-group">
    <label>{{ trans('loan.operation_type') }}</label>
