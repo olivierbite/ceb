@@ -52,7 +52,7 @@ Route::post('files/add', [
 	'as' => 'files.add', 'uses' => 'FileController@add']);
 
 Route::get('/test', function () {
-	$data = ['name' => 'kamaro'];
-
-	dd(array_values($data)[0]);
+	$testUser = Ceb\Models\User::first();
+	$dateDifference = date_diff($testUser->created_at, (new Datetime));
+	dd($dateDifference->format('%m'));
 });

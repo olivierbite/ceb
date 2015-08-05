@@ -5,6 +5,7 @@ use Ceb\Factories\ContributionFactory;
 use Ceb\Models\AssetType;
 use Ceb\Models\Contribution;
 use Ceb\Models\Posting;
+use Ceb\Traits\TransactionTrait;
 use DB;
 use Sentry;
 
@@ -12,6 +13,8 @@ use Sentry;
  * Contribution Repository
  */
 class ContributionRepository {
+	use TransactionTrait;
+	/** @var  hosts the instance of contribution model */
 	protected $contribution;
 	function __construct(Contribution $contribution, AssetType $assetType, ContributionFactory $contributionFactory) {
 		$this->contribution = $contribution;
@@ -80,7 +83,6 @@ class ContributionRepository {
 	 * @return  bool
 	 */
 	public function complete() {
-
 		$transactionId = $this->getTransactionId();
 		// Start saving if something fails cancel everything
 		Db::beginTransaction();
@@ -117,6 +119,8 @@ class ContributionRepository {
 			$contribution['institution_id'] = $this->contributionFactory->getInstitution();
 			$contribution['amount'] = $contribution['monthly_fee'];
 			$contribution['state'] = 'Ancien';
+			$contribution['year'] = date('Y');
+			$contribution['contract_number'] = $this->getContributionContractNumber();
 			//Remove unwanted column
 			unset($contribution['id']);
 
@@ -139,6 +143,8 @@ class ContributionRepository {
 	private function savePostings($transactionId) {
 
 		// First prepare data to use for the debit account
+		// Once are have debited(deducted data) then we can
+		// Credit the account to be credited
 		$posting['transactionid'] = $transactionId;
 		$posting['account_id'] = $this->contributionFactory->getDebitAccount();
 		$posting['journal_id'] = 1; // We assume per default we are using journal 1
@@ -146,15 +152,15 @@ class ContributionRepository {
 		$posting['amount'] = $this->contributionFactory->total();
 		$posting['user_id'] = Sentry::getUser()->id;
 		$posting['account_period'] = date('Y');
+		$posting['transaction_type'] = 'Debit';
 
 		// Try to post the debit before crediting another account
 		$debiting = Posting::create($posting);
 
 		// Change few data for crediting
 		// Then try to credit the account too
-
+		$posting['transaction_type'] = 'Credit';
 		$posting['account_id'] = $this->contributionFactory->getCreditAccount();
-		$posting['amount'] *= -1;
 
 		$crediting = Posting::create($posting);
 

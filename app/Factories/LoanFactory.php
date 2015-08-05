@@ -3,6 +3,7 @@ namespace Ceb\Factories;
 use Ceb\Models\Loan;
 use Ceb\Models\User;
 use Ceb\Traits\TransactionTrait;
+use Datetime;
 use Illuminate\Support\Facades\Session;
 
 /**
@@ -24,6 +25,14 @@ class LoanFactory {
 	 */
 	function addMember($memberId) {
 		$member = $this->member->find($memberId);
+
+		// Detect if this member is not more than 6 months
+		// as per de definition of CEB
+		if (!$this->isEligeable($member)) {
+			flash()->error(trans('loan.error_member_has_to_be_at_least_6_months_in_ceb'));
+			return false;
+		}
+
 		Session::put('loan_member', $member);
 		$this->updateCautionneur();
 	}
@@ -197,6 +206,22 @@ class LoanFactory {
 		$this->clearAll();
 	}
 
+	/**
+	 * Check if this person we are trying to give
+	 * Loan is eligeable for it
+	 * @param  User    $user member Object
+	 * @return boolean    determine if he is eligeable or not
+	 */
+	private function isEligeable(User $user) {
+		// Check if the member has an age
+		// of 6 months in CEB
+		$dateDifference = date_diff($user->created_at, new Datetime);
+		// Get the difference in months
+		$interval = $dateDifference->format('%m');
+
+		// Check if the months are at least 6
+		return $interval > 6;
+	}
 	/**
 	 * Clear all things in the session that are related to the loan
 	 */

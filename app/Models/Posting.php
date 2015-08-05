@@ -12,5 +12,6 @@ class Posting extends Model {
 		'amount',
 		'user_id',
 		'account_period',
+		'transaction_type',
 	];
 }

@@ -11,5 +11,7 @@ class Contribution extends Model {
 		'amount',
 		'state',
 		'transactionid',
+		'year',
+		'contract_number',
 	];
 }
