@@ -58,7 +58,7 @@
   <div class="col-md-2">
   <div class="form-group">
    <label>{{ trans('member.letter_date') }}</label>
-	{!! Form::input('text', 'letter_date',null, ['class'=>'form-control','id'=>'date']) !!}
+	{!! Form::input('text', 'letter_date',date('Y-m-d'), ['class'=>'form-control','id'=>'date']) !!}
   </div>
   </div>
   <div class="col-md-2">

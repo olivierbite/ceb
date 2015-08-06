@@ -186,6 +186,7 @@ class LoanFactory {
 	 * @param array $amounts  accounts Amount
 	 */
 	public function accountAmount(array $accounts, array $amounts) {
+
 		$newData = [];
 		foreach ($accounts as $key => $value) {
 			$newData[$value['value']] = $amounts[$key]['value'];
@@ -297,5 +298,7 @@ class LoanFactory {
 		Session::forget('loan_member');
 		Session::forget('loanInputs');
 		Session::forget('cautionneurs');
+		Session::forget('creditaccounts');
+		Session::forget('debitaccounts');
 	}
 }

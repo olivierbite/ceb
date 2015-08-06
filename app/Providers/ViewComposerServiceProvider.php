@@ -32,6 +32,8 @@ class ViewComposerServiceProvider extends ServiceProvider {
 	private function composerAccounting() {
 		$views = [
 			'accounting.debit_form',
+			'accounting.debit',
+			'accounting.credit',
 			'accounting.credit_form',
 			'contributionsandsavings.form',
 		];

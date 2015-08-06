@@ -702,7 +702,7 @@ function _init() {
   };
 
   /** MAKE ALL SELECT TO BE SELECT2 */
-  $('select').select2();
+  // $('select').select2();
 }(jQuery));
 
 /**

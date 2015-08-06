@@ -91,7 +91,7 @@ $(document).ready(function(){
      */
     function submitDebitAccounts(){
       var debitAccounts = $("select[name='debit_accounts[]']").serializeArray();
-      var debitAmounts  = $("input[name='debit_amount[]']").serializeArray();
+      var debitAmounts  = $("input[name='debit_amounts[]']").serializeArray();
       var parameters ={debitAccounts,debitAmounts};
       ajaxCall(parameters);
     }
@@ -100,14 +100,24 @@ $(document).ready(function(){
      * @return mixed
      */
     function submitCreditAccounts(){
-      var  creditAccounts = $("select[name='credit_acocunts[]']").serializeArray();
-      var  creditAmounts  = $("input[name='credit_amount[]']").serializeArray();
+      var  creditAccounts = $("select[name='credit_accounts[]']").serializeArray();
+      var  creditAmounts  = $("input[name='credit_amounts[]']").serializeArray();
       var parameters     = {creditAccounts,creditAmounts};
 
       ajaxCall(parameters);
     }
 
+    $('.accountAmount').keyup(function(event) {
+      // event.preventDefault();
+      submitDebitAccounts();
+      submitCreditAccounts();
+    });
 
+    $('.account').change(function(event) {
+      // event.preventDefault();
+      submitDebitAccounts();
+      submitCreditAccounts();
+    });
     $('.add-button').click(function(event){
       event.preventDefault();
       var $creditAccounts = $(this).parent();

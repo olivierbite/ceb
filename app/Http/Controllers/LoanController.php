@@ -4,6 +4,7 @@ namespace Ceb\Http\Controllers;
 use Ceb\Factories\LoanFactory;
 use Ceb\Http\Controllers\Controller;
 use Input;
+use Redirect;
 
 class LoanController extends Controller {
 
@@ -70,7 +71,7 @@ class LoanController extends Controller {
 		$message = trans('loan.loan_cancelled');
 		flash()->success($message);
 
-		return $this->reload();
+		return Redirect::route('loans.index');
 	}
 
 	/**
@@ -99,7 +100,9 @@ class LoanController extends Controller {
 		$member = $this->loanFactory->getMember();
 		$loanInputs = $this->loanFactory->getLoanInputs();
 		$creditAccounts = $this->loanFactory->getCreditAccounts();
+		// dd($creditAccounts);
 		$debitAccounts = $this->loanFactory->getDebitAccounts();
+
 		$cautionneurs = $this->loanFactory->getCautionneurs();
 
 		return view('loansandrepayments.index', compact('member', 'loanInputs', 'cautionneurs', 'debitAccounts', 'creditAccounts'));
@@ -124,15 +127,14 @@ class LoanController extends Controller {
 	public function ajaxAccountingFeieds() {
 		// Let's try to store what is submitted
 		// in the session
-
 		// If we have debit accounts in the submission
 		// then try to set it in the session
-		if (Session::has('debitAccounts')) {
+		if (Input::has('debitAccounts')) {
 			$this->loanFactory->setDebitsAccounts(Input::get('debitAccounts'), Input::get('debitAmounts'));
 		}
 
-		if (Session::has('creditAccounts')) {
-			$this->loanFactory->setCreditAccounts(Input::get('creditAccounts'), Input::get('creditAccounts'));
+		if (Input::has('creditAccounts')) {
+			$this->loanFactory->setCreditAccounts(Input::get('creditAccounts'), Input::get('creditAmounts'));
 		}
 	}
 

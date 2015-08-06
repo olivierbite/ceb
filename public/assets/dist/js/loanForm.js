@@ -214,7 +214,38 @@ jQuery(document).ready(function($) {
     	// If we reach here it means we have nothing to do, just return false
     	return false;
       });
+
+     //If the letter date is determined
+     //Let's check if this loan is oridinary loan
+     //or a loan with ordinary urgent loan
+     //Oridinary loan is detected when someone's letter date is after 15 of each month
+     
+   	 $("input[name='letter_date']").on('click keyup keydown keypress change',function(event) {
+   	 	event.preventDefault();
+   	   	validateOrdinaryLoan($(this));
+   	   });
+   	 $('html').click(function(e) {
+  //if clicked element is not your element and parents aren't your div
+		  if (e.target.id != 'date' && $(e.target).parents('#date').length == 0) {
+		  validateOrdinaryLoan($("input[name='letter_date']"));
+
+		  }
+	 });
+	
 	/**
+   	  * Determine if this loan is urgent or not
+   	  * @param  letterdate object this 
+   	  * @return mixed    
+   	  */
+   	function validateOrdinaryLoan(element){
+   		var letterDate = new Date(element.val());
+   	   	if (letterDate.getDate() > 15) {
+   	   		$('#operation_type').val('urgent_ordinary_loan');
+   	   		return ;
+   	   	};
+   	   	$('#operation_type').val('ordinary_loan');
+   	}
+   	/**
 	 * Update loan input field on the server side
 	 * @param  json array data data to be sent to the server
 	*/
