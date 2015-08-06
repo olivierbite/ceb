@@ -17,8 +17,6 @@
 	@include('accounting.form')
 
 
-  {!! Form::submit('save', ['class'=>'btn btn-primary']) !!}
-
    {!! Form::close() !!}
      <script src="{{Url()}}/assets/dist/js/datepickr.js" type="text/javascript"></script>
     <script src="{{Url()}}/assets/dist/js/date.js" type="text/javascript"></script>

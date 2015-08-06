@@ -181,18 +181,26 @@ class LoanFactory {
 	}
 
 	/**
+	 * Check if we are not debitting and creditng same account
+	 * @param  array  $debitaccounts
+	 * @return
+	 */
+	public function validateAccounts(array $debitaccounts) {
+		# code...
+	}
+	/**
 	 * Mapping the accounts with their amount
 	 * @param array $accounts accounts IDs
 	 * @param array $amounts  accounts Amount
 	 */
 	public function accountAmount(array $accounts, array $amounts) {
-
 		$newData = [];
 		foreach ($accounts as $key => $value) {
 			$newData[$value['value']] = $amounts[$key]['value'];
 		}
 		return $newData;
 	}
+
 	/**
 	 * Complete current loan transaction
 	 * @return bool

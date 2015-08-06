@@ -39,7 +39,7 @@
                    ['ordinary_loan'=>'Ordinary Loan',
                    'urgent_ordinary_loan'=>'Urgent ordinary loan'],
                    isset($loanInputs['operation_type'])?$loanInputs['operation_type']:null,
-                  ['class'=>'form-control loan-select','id'=>'operation_type'])
+                  ['class'=>'form-control loan-select','id'=>'operation_type','disabled'])
   !!}
    </div>
   </div>

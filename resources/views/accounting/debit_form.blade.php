@@ -10,10 +10,16 @@
      <div class="col-xs-2">
      </div>
 </div>
-        @foreach($debitAccounts as $accountId => $amount)
-            @include('accounting.debit')
-        @endforeach
-        @include('accounting.debit')
+        @if(count($debitAccounts) > 0)
+            @foreach($debitAccounts as $accountId => $amount)
+                @if($amount < 1)
+                {{-- We have nothing to do here, Just go to the next loop element --}}
+                <?php continue;?>
+                @endif
+                @include('accounting.debit',['accountId' => $accountId,'amount'=>$amount])
+            @endforeach
+        @endif;
+        @include('accounting.debit',['accountId' => null,'amount'=>0])
 
 		<div class="btn btn-success add-button">
 			+
