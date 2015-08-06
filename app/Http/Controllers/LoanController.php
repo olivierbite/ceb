@@ -72,13 +72,6 @@ class LoanController extends Controller {
 
 		return $this->reload();
 	}
-	/**
-	 * Update a loan field
-	 * @return  void
-	 */
-	public function ajaxFieldUpdate() {
-		$this->loanFactory->addLoanInput(Input::all());
-	}
 
 	/**
 	 * Set new cautionneur
@@ -105,9 +98,42 @@ class LoanController extends Controller {
 	private function reload() {
 		$member = $this->loanFactory->getMember();
 		$loanInputs = $this->loanFactory->getLoanInputs();
-		// dd($loanInputs);
+		$creditAccounts = $this->loanFactory->getCreditAccounts();
+		$debitAccounts = $this->loanFactory->getDebitAccounts();
 		$cautionneurs = $this->loanFactory->getCautionneurs();
 
-		return view('loansandrepayments.index', compact('member', 'loanInputs', 'cautionneurs'));
+		return view('loansandrepayments.index', compact('member', 'loanInputs', 'cautionneurs', 'debitAccounts', 'creditAccounts'));
 	}
+
+	/**
+	 * THIS SECTION HAS THE AJAX FUNCTIONS THAT ARE CALLED BY THE
+	 * AJAX API ONLY
+	 */
+	/**
+	 * Update a loan field
+	 * @return  void
+	 */
+	public function ajaxFieldUpdate() {
+		$this->loanFactory->addLoanInput(Input::all());
+	}
+
+	/**
+	 * Stores in the session the debit accounts ids and credit accounts IDs
+	 * @return void
+	 */
+	public function ajaxAccountingFeieds() {
+		// Let's try to store what is submitted
+		// in the session
+
+		// If we have debit accounts in the submission
+		// then try to set it in the session
+		if (Session::has('debitAccounts')) {
+			$this->loanFactory->setDebitsAccounts(Input::get('debitAccounts'), Input::get('debitAmounts'));
+		}
+
+		if (Session::has('creditAccounts')) {
+			$this->loanFactory->setCreditAccounts(Input::get('creditAccounts'), Input::get('creditAccounts'));
+		}
+	}
+
 }

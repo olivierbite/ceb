@@ -129,6 +129,69 @@ class LoanFactory {
 	public function getCautionneurs() {
 		return Session::get('cautionneurs', []);
 	}
+
+	/**
+	 * Setting the debit accounts and their value
+	 *
+	 * @param void
+	 */
+	public function setDebitsAccounts(array $debits, array $amounts) {
+		Session::put('debitaccounts', $this->accountAmount($debits, $amounts));
+	}
+	/**
+	 * Get the debit accounts
+	 * @return array of debit account and their amount
+	 */
+	public function getDebitAccounts() {
+		return Session::get('debitaccounts', []);
+	}
+
+	/**
+	 * Setting Credit accounts in the sessions
+	 * @param array $credits contains the IDs of the accounts to be credited
+	 * @param array $amounts contains the amount of money to be credited per account
+	 *
+	 * @return void
+	 */
+	public function setCreditAccounts(array $credits, array $amounts) {
+		Session::put('creditaccounts', $this->accountAmount($credits, $amounts));
+	}
+
+	/**
+	 * Get the credit accounts and their correspondent amount
+	 * @return array of the credit account and their correspondent amount
+	 */
+	public function getCreditAccounts() {
+		return Session::get('creditaccounts', []);
+	}
+
+	/**
+	 * Remove credit accounts from the sessoin
+	 * @return void
+	 */
+	public function removeCreditAccounts() {
+		Session::forget('creditaccounts');
+	}
+	/**
+	 * Remote debit accounts and their amount from the session
+	 * @return void
+	 */
+	public function removeDebitAccounts() {
+		Session::forget('debitaccounts');
+	}
+
+	/**
+	 * Mapping the accounts with their amount
+	 * @param array $accounts accounts IDs
+	 * @param array $amounts  accounts Amount
+	 */
+	public function accountAmount(array $accounts, array $amounts) {
+		$newData = [];
+		foreach ($accounts as $key => $value) {
+			$newData[$value['value']] = $amounts[$key]['value'];
+		}
+		return $newData;
+	}
 	/**
 	 * Complete current loan transaction
 	 * @return bool

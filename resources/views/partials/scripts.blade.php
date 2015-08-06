@@ -1,5 +1,6 @@
 <!-- jQuery 2.1.4 -->
     <script src="{{Url()}}/assets/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+    <<script src="{{ Url()}}/assets/dist/js/config.js"></script>
     <!-- Bootstrap 3.3.2 JS -->
     <script src="{{Url()}}/assets/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
     <!-- SlimScroll -->
@@ -15,5 +16,6 @@
 
      <!-- CEB App -->
     <script src="{{Url()}}/assets/dist/js/app.js" type="text/javascript"></script>
+    <script src="{{Url()}}/assets/dist/js/debitCreditAccounts.js" type="text/javascript"></script>
 
     @yield('scripts')

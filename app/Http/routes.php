@@ -42,6 +42,8 @@ Route::resource('loans', 'LoanController');
 /** Ajax routes */
 Route::group(['prefix' => 'ajax'], function () {
 	Route::get('/loans', 'loanController@ajaxFieldUpdate');
+
+	Route::post('/loans/accounting', ['as' => 'ajax.accounting', 'uses' => 'loanController@ajaxAccountingFeieds']);
 });
 
 /** Files routes */
@@ -52,7 +54,29 @@ Route::post('files/add', [
 	'as' => 'files.add', 'uses' => 'FileController@add']);
 
 Route::get('/test', function () {
-	$testUser = Ceb\Models\User::first();
-	$dateDifference = date_diff($testUser->created_at, (new Datetime));
-	dd($dateDifference->format('%m'));
+	$accounts = [
+		0 => [
+			"name" => "debit_accounts[]",
+			"value" => "1",
+		],
+		1 => [
+			"name" => "debit_accounts[]",
+			"value" => "2",
+		]];
+	$amount = [
+		0 => [
+			"name" => "debit_amount[]",
+			"value" => "123423",
+		],
+		1 => [
+			"name" => "debit_amount[]",
+			"value" => "15100",
+		]];
+
+	foreach ($accounts as $key => $value) {
+		# code...
+		dd($amount[$key]['value']);
+	}
+	// dd($data);
+
 });
