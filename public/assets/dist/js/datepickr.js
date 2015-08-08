@@ -77,6 +77,8 @@ var datepickr = (function() {
 						parentNode = parentNode.parentNode;
 						if(parentNode == null) {
 							this.close();
+							// Customized by Lambert Kamaro in order to be able
+							// to add event update on the field sh
 							break;
 						}
 					}

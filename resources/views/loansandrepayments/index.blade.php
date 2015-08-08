@@ -18,8 +18,6 @@
 
 
    {!! Form::close() !!}
-     <script src="{{Url()}}/assets/dist/js/datepickr.js" type="text/javascript"></script>
-    <script src="{{Url()}}/assets/dist/js/date.js" type="text/javascript"></script>
 @stop
 
 @section('content_footer')
@@ -27,5 +25,6 @@
 @stop
 
 @section('scripts')
+<script src="{{Url()}}/assets/dist/js/datepickr.js" type="text/javascript"></script>
 <script src="{{ Url()}}/assets/dist/js/loanForm.js"></script>
 @stop

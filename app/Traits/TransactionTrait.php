@@ -17,7 +17,7 @@ trait TransactionTrait {
 	 * Transaction
 	 */
 	private function getContributionContractNumber() {
-		return 'CONTRACT' . date('Ymd') . (string) ($this->contribution->count() + 1);
+		return 'CONTRACT' . date('YmdHiS') . (string) Sentry::getUser()->id;
 	}
 
 }

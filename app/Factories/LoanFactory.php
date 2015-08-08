@@ -4,6 +4,7 @@ use Ceb\Models\Loan;
 use Ceb\Models\User;
 use Ceb\Traits\TransactionTrait;
 use Datetime;
+use DB;
 use Illuminate\Support\Facades\Session;
 use Sentry;
 
@@ -196,7 +197,7 @@ class LoanFactory {
 	 * @return string the operation type of this loan
 	 */
 	public function getOperationType() {
-		# code...
+		$inputs = $this->getLoanInputs();
 	}
 	/**
 	 * Mapping the accounts with their amount
@@ -217,7 +218,7 @@ class LoanFactory {
 	 */
 	public function complete() {
 		// 1. First record the loan
-		$transactionid = $this->getTransactionId();
+		$transactionId = $this->getTransactionId();
 
 		// Start saving if something fails cancel everything
 		Db::beginTransaction();
@@ -246,6 +247,9 @@ class LoanFactory {
 	 * @return bool
 	 */
 	public function saveLoan($transactionid) {
+
+		dd($transactionid);
+
 		// First refresh the data
 		$this->calculateLoanDetails();
 

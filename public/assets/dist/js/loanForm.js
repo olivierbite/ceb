@@ -7,7 +7,14 @@ jQuery(document).ready(function($) {
     notification +='message';
     notification +='</div>';
     
-  
+  	// Set the letter date to be a date	
+  	new datepickr('letter_date', {
+                'dateFormat': 'Y-m-d'
+            });
+
+  	new datepickr('today',{
+  		'dateFormat':'Y-m-d'
+  	});
 	// Make sure that only number are entered in the box
 	$("input.loan-input").numeric();
 	$(".search-cautionneur").parent().find('input').numeric();
@@ -272,4 +279,5 @@ jQuery(document).ready(function($) {
 		.always(function() {
 		});			
 	}
+	
 });
