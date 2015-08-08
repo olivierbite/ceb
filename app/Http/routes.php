@@ -54,29 +54,5 @@ Route::post('files/add', [
 	'as' => 'files.add', 'uses' => 'FileController@add']);
 
 Route::get('/test', function () {
-	$accounts = [
-		0 => [
-			"name" => "debit_accounts[]",
-			"value" => "1",
-		],
-		1 => [
-			"name" => "debit_accounts[]",
-			"value" => "2",
-		]];
-	$amount = [
-		0 => [
-			"name" => "debit_amount[]",
-			"value" => "123423",
-		],
-		1 => [
-			"name" => "debit_amount[]",
-			"value" => "15100",
-		]];
-
-	foreach ($accounts as $key => $value) {
-		# code...
-		dd($amount[$key]['value']);
-	}
-	// dd($data);
-
+	dd(array_key_exists(12, [1 => 'blo blo', 2 => 'hahaha']));
 });

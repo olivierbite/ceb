@@ -1,6 +1,7 @@
 <?php
 namespace Ceb\Factories;
 use Ceb\Models\Loan;
+use Ceb\Models\Posting;
 use Ceb\Models\User;
 use Ceb\Traits\TransactionTrait;
 use Datetime;
@@ -15,11 +16,11 @@ class LoanFactory {
 
 	use TransactionTrait;
 
-	function __construct(Session $session, User $member, Loan $loan, Sentry $user) {
+	function __construct(Session $session, User $member, Loan $loan, Posting $posting) {
 		$this->session = $session;
 		$this->member = $member;
 		$this->loan = $loan;
-		$this->user = $user;
+		$this->posting = $posting;
 	}
 
 	/**
@@ -248,12 +249,21 @@ class LoanFactory {
 	 */
 	public function saveLoan($transactionid) {
 
-		dd($transactionid);
+		// First refresh the data and validate them
+		// if the data are not validated we will recieve false
 
-		// First refresh the data
-		$this->calculateLoanDetails();
+		if (!$this->calculateLoanDetails()) {
+			// We have nothing to do here, First return false with
+			// Error that says information provided is not correct
+			flash()->error('message.loan_information_seem_not_to_be_correct');
 
+			return false;
+		}
+
+		// If we reach here it means data are valid, therefore let's try
+		// to continue processing the saving activity
 		$inputs = $this->getLoanInputs();
+
 		$member = $this->getMember();
 
 		$inputs['transactionid'] = $transactionid;
@@ -285,6 +295,8 @@ class LoanFactory {
 		$data['special_loan_interests'] = 0;
 		$data['special_loan_amount_to_receive'] = 0;
 		$data['user_id'] = $this->user->getUser()->id;
+
+		dd($data);
 		return $this->loan->create($inputs);
 	}
 
@@ -295,27 +307,34 @@ class LoanFactory {
 	 */
 	private function savePostings($transactionId) {
 
+		// Start by validating the information we
+		// are about to svae in our database
+		dd($this->isValidPosting());
+		if (!$this->isValidPosting()) {
+			# code...
+		}
+
 		// First prepare data to use for the debit account
 		// Once are have debited(deducted data) then we can
 		// Credit the account to be credited
 		$posting['transactionid'] = $transactionId;
-		$posting['account_id'] = $this->contributionFactory->getDebitAccount();
+		// $posting['account_id'] = $this->contributionFactory->getDebitAccount();
 		$posting['journal_id'] = 1; // We assume per default we are using journal 1
 		$posting['asset_type'] = null;
-		$posting['amount'] = $this->contributionFactory->total();
+		// $posting['amount'] = $this->contributionFactory->total();
 		$posting['user_id'] = Sentry::getUser()->id;
 		$posting['account_period'] = date('Y');
 		$posting['transaction_type'] = 'Debit';
 
 		// Try to post the debit before crediting another account
-		$debiting = Posting::create($posting);
+		$debiting = $this->posting->create($posting);
 
 		// Change few data for crediting
 		// Then try to credit the account too
 		$posting['transaction_type'] = 'Credit';
 		$posting['account_id'] = $this->contributionFactory->getCreditAccount();
 
-		$crediting = Posting::create($posting);
+		$crediting = $this->posting->create($posting);
 
 		if (!$debiting || !$crediting) {
 			return false;
@@ -342,6 +361,13 @@ class LoanFactory {
 	 */
 	public function calculateLoanDetails() {
 		$loanDetails = $this->getLoanInputs();
+
+		if ($this->isValidLoanData($loanDetails) == false) {
+			// We have nothing to calculate therefore
+			// let's just return false
+			return false;
+		}
+
 		$loanToRepay = $loanDetails['loan_to_repay'];
 		$interestRate = $this->getInterestRate();
 		$numberOfInstallment = $loanDetails['tranches_number'];
@@ -406,6 +432,47 @@ class LoanFactory {
 		// Check if the months are at least 6 configured to 1 for the
 		// Development purpose
 		return $interval >= 1;
+	}
+
+	/**
+	 * Are the data we are trying to validate okay?
+	 * @param  array $data
+	 * @return bool this returns true if the data is valid
+	 */
+	private function isValidLoanData(array $data) {
+		// Start by checking if the user has provided the mandatory fields
+		return isset($data['loan_to_repay']);
+	}
+
+	/**
+	 * Validate if the accounts and amount per accounts
+	 * are valid before saving them in the database
+	 * @return boolean
+	 */
+	private function isValidPosting() {
+		$debits = $this->getDebitAccounts();
+		$credits = $this->getCreditAccounts();
+
+		// First check if the sum of both credits
+		// and Debits has same sum of amount so that
+		// we can make sure that this double entry is balanced
+		if (array_sum($credits) != array_sum($debits)) {
+			// just exit because we have nothing to do here...
+			flash()->error(trans('loan.debits_and_credits_amount_must_be_equal'));
+			return false;
+		}
+
+		// Let's check if the user is trying to debit and credit
+		// Same account, which is not allowed as per account laws
+
+		if (!$this->hasNoIdenticalKey($debits, $credits)) {
+			flash()->error(trans('loan.it_is_not_allowed_to_credit_and_debit_same_account_please_correct_and_try_again'));
+			return false;
+		}
+
+		// Ahwii ! time to read the bible, let's exit here wi
+		// Good news
+		return true;
 	}
 	/**
 	 * Clear all things in the session that are related to the loan
