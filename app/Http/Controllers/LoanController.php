@@ -5,6 +5,7 @@ use Ceb\Factories\LoanFactory;
 use Ceb\Http\Controllers\Controller;
 use Input;
 use Redirect;
+use Session;
 
 class LoanController extends Controller {
 
@@ -57,7 +58,7 @@ class LoanController extends Controller {
 	 * @return mixed
 	 */
 	public function complete() {
-		dd(\Session::all());
+		dd(Session::all());
 		$this->loanFactory->complete();
 		$message = trans('loan.loan_completed');
 		flash()->success($message);
@@ -119,6 +120,7 @@ class LoanController extends Controller {
 	 */
 	public function ajaxFieldUpdate() {
 		$this->loanFactory->addLoanInput(Input::all());
+		$this->loanFactory->calculateLoanDetails();
 	}
 
 	/**

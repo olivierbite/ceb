@@ -19,4 +19,5 @@ trait TransactionTrait {
 	private function getContributionContractNumber() {
 		return 'CONTRACT' . date('Ymd') . (string) ($this->contribution->count() + 1);
 	}
+
 }

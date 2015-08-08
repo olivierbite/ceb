@@ -239,6 +239,7 @@ jQuery(document).ready(function($) {
    	  */
    	function validateOrdinaryLoan(element){
    		var letterDate = new Date(element.val());
+   		calculateUrgentLoanFees();
    	   	if (letterDate.getDate() > 15) {
    	   		$('#operation_type').val('urgent_ordinary_loan');
    	   		return ;

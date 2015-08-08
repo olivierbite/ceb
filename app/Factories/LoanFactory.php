@@ -5,6 +5,7 @@ use Ceb\Models\User;
 use Ceb\Traits\TransactionTrait;
 use Datetime;
 use Illuminate\Support\Facades\Session;
+use Sentry;
 
 /**
  * This factory helps Contribution
@@ -13,10 +14,11 @@ class LoanFactory {
 
 	use TransactionTrait;
 
-	function __construct(Session $session, User $member, Loan $loan) {
+	function __construct(Session $session, User $member, Loan $loan, Sentry $user) {
 		$this->session = $session;
 		$this->member = $member;
 		$this->loan = $loan;
+		$this->user = $user;
 	}
 
 	/**
@@ -188,6 +190,14 @@ class LoanFactory {
 	public function validateAccounts(array $debitaccounts) {
 		# code...
 	}
+
+	/**
+	 * Get the operation type of this loan
+	 * @return string the operation type of this loan
+	 */
+	public function getOperationType() {
+		# code...
+	}
 	/**
 	 * Mapping the accounts with their amount
 	 * @param array $accounts accounts IDs
@@ -208,16 +218,106 @@ class LoanFactory {
 	public function complete() {
 		// 1. First record the loan
 		$transactionid = $this->getTransactionId();
-		$this->saveLoan($transactionid);
+
+		// Start saving if something fails cancel everything
+		Db::beginTransaction();
+
+		// 1. Save loans first
+		$saveLoan = $this->saveLoan($transactionId);
+
 		// 2. Debit and credit accounts
+		$savePosting = $this->savePostings($transactionId);
+
+		// Rollback the transaction via if one of the insert fails
+		if (!$saveLoan || !$savePosting) {
+			DB::rollBack();
+			return false;
+		}
+
+		// Lastly, Let's commit a transaction since we reached here
+		DB::commit();
+		return true;
+
 	}
 
+	/**
+	 * Save loan in postings for the accounting purpose
+	 * @param  string $transactionid unique transactionId
+	 * @return bool
+	 */
 	public function saveLoan($transactionid) {
 		// First refresh the data
 		$this->calculateLoanDetails();
+
 		$inputs = $this->getLoanInputs();
+		$member = $this->getMember();
+
 		$inputs['transactionid'] = $transactionid;
-		$this->loan->create($inputs);
+		// Prepare information to be saved in the database
+		$data['loan_contract'] = $this->getContributionContractNumber();
+		$data['adhersion_id'] = $member->adhersion_id;
+		$data['movement_nature'] = 'Test movement_nature';
+		$data['operation_type'] = $this->getOperationType();
+		$data['letter_date'] = $inputs['letter_date'];
+		$data['right_to_loan'] = $inputs['right_to_loan'];
+		$data['wished_amount'] = $inputs['wished_amount'];
+		$data['loan_to_repay'] = $inputs['loan_to_repay'];
+		$data['interests'] = $inputs['interests'];
+		$data['InteretsPU'] = 0;
+		$data['amount_received'] = $inputs['amount_received'];
+		$data['tranches_number'] = $inputs['tranches_number'];
+		$data['monthly_fees'] = $inputs['monthly_fees'];
+		$data['cheque_number'] = $inputs['cheque_number'];
+		$data['bank_id'] = $inputs['bank_id'];
+		$data['security_type'] = null;
+		$data['cautionneur1'] = null;
+		$data['cautionneur2'] = null;
+		$data['average_refund'] = 0;
+		$data['amount_refounded'] = 0;
+		$data['comment'] = 'No comment so far';
+		$data['special_loan_contract_number'] = null;
+		$data['remaining_tranches'] = $inputs['tranches_number'];
+		$data['special_loan_tranches'] = 0;
+		$data['special_loan_interests'] = 0;
+		$data['special_loan_amount_to_receive'] = 0;
+		$data['user_id'] = $this->user->getUser()->id;
+		return $this->loan->create($inputs);
+	}
+
+	/**
+	 * Save posting to the database
+	 * @param  STRING $transactionId UNIQUE TRANSACTIONID
+	 * @return bool
+	 */
+	private function savePostings($transactionId) {
+
+		// First prepare data to use for the debit account
+		// Once are have debited(deducted data) then we can
+		// Credit the account to be credited
+		$posting['transactionid'] = $transactionId;
+		$posting['account_id'] = $this->contributionFactory->getDebitAccount();
+		$posting['journal_id'] = 1; // We assume per default we are using journal 1
+		$posting['asset_type'] = null;
+		$posting['amount'] = $this->contributionFactory->total();
+		$posting['user_id'] = Sentry::getUser()->id;
+		$posting['account_period'] = date('Y');
+		$posting['transaction_type'] = 'Debit';
+
+		// Try to post the debit before crediting another account
+		$debiting = Posting::create($posting);
+
+		// Change few data for crediting
+		// Then try to credit the account too
+		$posting['transaction_type'] = 'Credit';
+		$posting['account_id'] = $this->contributionFactory->getCreditAccount();
+
+		$crediting = Posting::create($posting);
+
+		if (!$debiting || !$crediting) {
+			return false;
+		}
+		// Ouf time to go to bed now
+		return true;
 	}
 
 	/**
@@ -272,6 +372,10 @@ class LoanFactory {
 		// If loan to pay is less or equal to the
 		// Contributions then hide the caution section
 
+	}
+
+	private function saveAccuntingInformation() {
+		# code...
 	}
 
 	/**
