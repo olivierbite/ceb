@@ -17,30 +17,44 @@ trait TransactionTrait {
 	 * Transaction
 	 */
 	private function getContributionContractNumber() {
-		return 'CONTRACT' . date('YmdHiS') . (string) Sentry::getUser()->id;
+		return 'CONTRACT' . date('YmdHis') . (string) Sentry::getUser()->id;
 	}
 
 	/**
-	 * Check if two array don't have one or more
-	 * key that are similar to compaire them
-	 * @param  array   $array1 First array to compaire
-	 * @param  arry    $array2 Second array to compaire same as the first
-	 * @return boolean true or False
+	 * Mapping the accounts with their amount
+	 * @param array $accounts accounts IDs
+	 * @param array $amounts  accounts Amount
 	 */
-	private function hasNoIdenticalKey(array $array1, array $array2) {
-
-		// Search all the array keys
-		foreach ($array1 as $key => $value) {
-			if (array_key_exists($key, $array2)) {
-				// We just found one key that is in another array
-				// We don't have anything to do here, just exit
-				// with bad news....
-				return false;
+	public function accountAmount(array $accounts, array $amounts) {
+		$newData = [];
+		foreach ($accounts as $key => $value) {
+			if (empty($amounts[$key]['value']) || trim($amounts[$key]['value']) == '') {
+				// This account doesn't have amount therefore
+				// Let's go to the next one
+				continue;
 			}
+			$newData[$value['value']] = $amounts[$key]['value'];
 		}
+		// Make sure we remove anything with zero
+		// or Empty value before we close
+		return array_filter($newData);
+	}
 
-		// Ahwiiii ! now we are good to go cause we have
-		// good news
-		return true;
+	public function savePosting($accountId, $amount, $transactionId, $transactionType, $journalId = 1) {
+		// First prepare data to use for the debit account
+		// Once are have debited(deducted data) then we can
+		// Credit the account to be credited
+		$posting['transactionid'] = $transactionId;
+		$posting['account_id'] = $accountId;
+		$posting['journal_id'] = $journalId; // We assume per default we are using journal 1
+		$posting['asset_type'] = null;
+		$posting['amount'] = $amount;
+		$posting['user_id'] = Sentry::getUser()->id;
+		$posting['account_period'] = date('Y');
+		$posting['transaction_type'] = $transactionType;
+
+		// Try to post the debit before crediting another account
+		return $this->posting->create($posting);
+
 	}
 }

@@ -198,19 +198,14 @@ class LoanFactory {
 	 * @return string the operation type of this loan
 	 */
 	public function getOperationType() {
-		$inputs = $this->getLoanInputs();
-	}
-	/**
-	 * Mapping the accounts with their amount
-	 * @param array $accounts accounts IDs
-	 * @param array $amounts  accounts Amount
-	 */
-	public function accountAmount(array $accounts, array $amounts) {
-		$newData = [];
-		foreach ($accounts as $key => $value) {
-			$newData[$value['value']] = $amounts[$key]['value'];
+		// Refresh data first
+		$date = date('d', strtotime($this->getLetterDate()));
+		if ($date > 15) {
+			return 'urgent_ordinary_loan';
 		}
-		return $newData;
+
+		return 'ordinary_loan';
+
 	}
 
 	/**
@@ -229,7 +224,6 @@ class LoanFactory {
 
 		// 2. Debit and credit accounts
 		$savePosting = $this->savePostings($transactionId);
-
 		// Rollback the transaction via if one of the insert fails
 		if (!$saveLoan || !$savePosting) {
 			DB::rollBack();
@@ -238,6 +232,10 @@ class LoanFactory {
 
 		// Lastly, Let's commit a transaction since we reached here
 		DB::commit();
+
+		// Since we are done let's make sure everything is cleaned fo
+		// the next transaction
+		$this->clearAll();
 		return true;
 
 	}
@@ -251,11 +249,10 @@ class LoanFactory {
 
 		// First refresh the data and validate them
 		// if the data are not validated we will recieve false
-
 		if (!$this->calculateLoanDetails()) {
 			// We have nothing to do here, First return false with
 			// Error that says information provided is not correct
-			flash()->error('message.loan_information_seem_not_to_be_correct');
+			flash()->error('loan.loan_information_seem_not_to_be_correct');
 
 			return false;
 		}
@@ -266,38 +263,37 @@ class LoanFactory {
 
 		$member = $this->getMember();
 
-		$inputs['transactionid'] = $transactionid;
 		// Prepare information to be saved in the database
+		$data['transactionid'] = $transactionid;
 		$data['loan_contract'] = $this->getContributionContractNumber();
 		$data['adhersion_id'] = $member->adhersion_id;
 		$data['movement_nature'] = 'Test movement_nature';
 		$data['operation_type'] = $this->getOperationType();
-		$data['letter_date'] = $inputs['letter_date'];
+		$data['letter_date'] = $this->getLetterDate();
 		$data['right_to_loan'] = $inputs['right_to_loan'];
 		$data['wished_amount'] = $inputs['wished_amount'];
 		$data['loan_to_repay'] = $inputs['loan_to_repay'];
 		$data['interests'] = $inputs['interests'];
 		$data['InteretsPU'] = 0;
 		$data['amount_received'] = $inputs['amount_received'];
-		$data['tranches_number'] = $inputs['tranches_number'];
+		$data['tranches_number'] = $this->getTranschesNumber();
 		$data['monthly_fees'] = $inputs['monthly_fees'];
 		$data['cheque_number'] = $inputs['cheque_number'];
-		$data['bank_id'] = $inputs['bank_id'];
-		$data['security_type'] = null;
-		$data['cautionneur1'] = null;
-		$data['cautionneur2'] = null;
+		$data['bank_id'] = isset($inputs['bank_id']) ? $inputs['bank_id'] : 'BK';
+		$data['security_type'] = 0;
+		$data['cautionneur1'] = 0;
+		$data['cautionneur2'] = 0;
 		$data['average_refund'] = 0;
 		$data['amount_refounded'] = 0;
 		$data['comment'] = 'No comment so far';
-		$data['special_loan_contract_number'] = null;
-		$data['remaining_tranches'] = $inputs['tranches_number'];
+		$data['special_loan_contract_number'] = 0;
+		$data['remaining_tranches'] = isset($inputs['tranches_number']) ? $inputs['tranches_number'] : 1;
 		$data['special_loan_tranches'] = 0;
 		$data['special_loan_interests'] = 0;
 		$data['special_loan_amount_to_receive'] = 0;
-		$data['user_id'] = $this->user->getUser()->id;
+		$data['user_id'] = Sentry::getUser()->id;
 
-		dd($data);
-		return $this->loan->create($inputs);
+		return $this->loan->create($data);
 	}
 
 	/**
@@ -309,47 +305,56 @@ class LoanFactory {
 
 		// Start by validating the information we
 		// are about to svae in our database
-		dd($this->isValidPosting());
 		if (!$this->isValidPosting()) {
-			# code...
-		}
-
-		// First prepare data to use for the debit account
-		// Once are have debited(deducted data) then we can
-		// Credit the account to be credited
-		$posting['transactionid'] = $transactionId;
-		// $posting['account_id'] = $this->contributionFactory->getDebitAccount();
-		$posting['journal_id'] = 1; // We assume per default we are using journal 1
-		$posting['asset_type'] = null;
-		// $posting['amount'] = $this->contributionFactory->total();
-		$posting['user_id'] = Sentry::getUser()->id;
-		$posting['account_period'] = date('Y');
-		$posting['transaction_type'] = 'Debit';
-
-		// Try to post the debit before crediting another account
-		$debiting = $this->posting->create($posting);
-
-		// Change few data for crediting
-		// Then try to credit the account too
-		$posting['transaction_type'] = 'Credit';
-		$posting['account_id'] = $this->contributionFactory->getCreditAccount();
-
-		$crediting = $this->posting->create($posting);
-
-		if (!$debiting || !$crediting) {
 			return false;
 		}
-		// Ouf time to go to bed now
+
+		//Debiting....
+		$debits = $this->getDebitAccounts();
+
+		foreach ($debits as $accountId => $amount) {
+			$results = $this->savePosting($accountId, $amount, $transactionId, 'Debit', $journalId = 1);
+			if (!$results) {
+
+				return false;
+			}
+		}
+
+		//Crediting
+		$credits = $this->getCreditAccounts();
+		foreach ($credits as $accountId => $amount) {
+			$results = $this->savePosting($accountId, $amount, $transactionId, 'Credit', $journalId = 1);
+			if (!$results) {
+				return false;
+			}
+		}
+		// We are safe here
 		return true;
 	}
 
+	/**
+	 * Get number of installment to pay
+	 * @return [type] [description]
+	 */
+	private function getTranschesNumber() {
+		$loanInputs = $this->getLoanInputs();
+
+		return $numberOfInstallment = isset($inputs['tranches_number']) ? $inputs['tranches_number'] : 1;
+
+	}
+	/**
+	 * Get the letter date
+	 * @return date if it's not available we assume today was the letter day
+	 */
+	private function getLetterDate() {
+		return isset($inputs['letter_date']) ? $inputs['letter_date'] : date('Y-m-d');
+	}
 	/**
 	 * Get loan interest
 	 * @return float
 	 */
 	public function getInterestRate() {
-		$numberOfInstallment = $this->getLoanInputs()['tranches_number'];
-
+		$numberOfInstallment = $this->getTranschesNumber();
 		if ($numberOfInstallment > 0 && $numberOfInstallment <= 12) {return 3.4;}
 		if ($numberOfInstallment > 12 && $numberOfInstallment <= 24) {return 3.6;}
 		if ($numberOfInstallment > 24 && $numberOfInstallment <= 36) {return 4.1;}
@@ -370,7 +375,7 @@ class LoanFactory {
 
 		$loanToRepay = $loanDetails['loan_to_repay'];
 		$interestRate = $this->getInterestRate();
-		$numberOfInstallment = $loanDetails['tranches_number'];
+		$numberOfInstallment = $this->getTranschesNumber();
 
 		// Interest formular
 		// The formular to calculate interests at ceb is as following
@@ -389,6 +394,7 @@ class LoanFactory {
 
 		// Update fields
 		$this->addLoanInput(['right_to_loan' => round(($loanToRepay * 2.5), 2)]);
+		$this->addLoanInput(['wished_amount' => round(($loanToRepay * 2.5), 2)]);
 		$this->addLoanInput(['interests' => round($interests, 2)]);
 		$this->addLoanInput(['net_to_receive' => round($netToReceive, 2)]);
 		$this->addLoanInput(['monthly_fees' => round(($netToReceive / $numberOfInstallment), 2)]);
@@ -399,6 +405,7 @@ class LoanFactory {
 			$this->addLoanInput[$key] = $value->id;
 		}
 
+		return true;
 		// If loan to pay is less or equal to the
 		// Contributions then hide the caution section
 
@@ -465,11 +472,10 @@ class LoanFactory {
 		// Let's check if the user is trying to debit and credit
 		// Same account, which is not allowed as per account laws
 
-		if (!$this->hasNoIdenticalKey($debits, $credits)) {
+		if (empty(count(array_diff_key($debits, $credits)))) {
 			flash()->error(trans('loan.it_is_not_allowed_to_credit_and_debit_same_account_please_correct_and_try_again'));
 			return false;
 		}
-
 		// Ahwii ! time to read the bible, let's exit here wi
 		// Good news
 		return true;

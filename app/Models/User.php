@@ -61,16 +61,21 @@ class User extends Model {
 	 * Get the contributions for the Member.
 	 */
 	public function contributions() {
-		return $this->hasMany('Ceb\Models\User', 'adhersion_id', 'adhersion_id');
+		return $this->hasMany('Ceb\Models\Contribution', 'adhersion_id', 'adhersion_id');
+	}
+
+	/**
+	 * Get member loans
+	 */
+	public function loans() {
+		return $this->hasMany('Ceb\Models\Loan', 'adhersion_id', 'adhersion_id');
 	}
 
 	/**
 	 * Get the total amount of contribution
 	 */
 	public function totalContributions() {
-		return Contribution::where('adhersion_id', $this->adhersion_id)
-			->get()
-			->sum('amount');
+		return $this->contributions()->sum('amount');
 	}
 
 	/**
@@ -80,6 +85,13 @@ class User extends Model {
 		return $this->totalContributions() * 2.5;
 	}
 
+	/**
+	 * total Loan that user has taken
+	 * @return  numeric
+	 */
+	public function totalLoans() {
+		return $this->loans()->sum('loan_to_repay');
+	}
 	/**
 	 * Find a member by his adhersion ID
 	 * @param  integer $adhersionId member adhersion number

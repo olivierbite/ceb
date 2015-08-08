@@ -54,5 +54,6 @@ Route::post('files/add', [
 	'as' => 'files.add', 'uses' => 'FileController@add']);
 
 Route::get('/test', function () {
-	dd(array_key_exists(12, [1 => 'blo blo', 2 => 'hahaha']));
+	$user = Ceb\Models\User::find(17);
+	dd($user->totalLoans());
 });

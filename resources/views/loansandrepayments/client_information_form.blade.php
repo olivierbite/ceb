@@ -32,21 +32,21 @@
   <div class="col-md-2">
   <div class="form-group">
    <label>{{ trans('member.contributions') }}</label>
-	{!! Form::input('text', 'member[contributions]',isset($member)?number_format($member->totalContributions()):null,
+	{!! Form::input('text', 'member[contributions]',isset($member)?number_format($member->totalContributions()):0,
    ['class'=>'form-control green-input','id'=>'totalContributions']) !!}
   </div>
   </div>
   <div class="col-md-2">
   <div class="form-group">
    <label>{{ trans('member.right_to_loan') }}</label>
-	{!! Form::input('text', 'member[right_to_loan]',isset($member)?number_format($member->rightToLoan()):null,
+	{!! Form::input('text', 'member[right_to_loan]',isset($member)?number_format($member->rightToLoan()):0,
              ['class'=>'form-control blue-input','id'=>'rightToLoan']) !!}
   </div>
   </div>
   <div class="col-md-2">
   <div class="form-group">
    <label>{{ trans('member.balance_of_loan') }}</label>
-	{!! Form::input('text', 'member[balance_of_loan]',number_format(0), ['class'=>'form-control orange-input']) !!}
+	{!! Form::input('text', 'member[balance_of_loan]',isset($member)?number_format($member->totalLoans()):0, ['class'=>'form-control orange-input']) !!}
   </div>
   </div>
   <div class="col-md-2">

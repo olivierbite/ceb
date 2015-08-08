@@ -58,11 +58,11 @@ class LoanController extends Controller {
 	 * @return mixed
 	 */
 	public function complete() {
-
-		// dd(Session::all());
-		$this->loanFactory->complete();
-		$message = trans('loan.loan_completed');
-		flash()->success($message);
+		// Did we all things well?
+		if ($this->loanFactory->complete()) {
+			$message = trans('loan.loan_completed');
+			flash()->success($message);
+		}
 		return $this->reload();
 	}
 	/**

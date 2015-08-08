@@ -18,8 +18,9 @@
             @endif
             @include('accounting.credit',['accountId'=>$accountId,'amount'=>$amount])
         @endforeach
+        @else
+            @include('accounting.credit',['accountId'=>null,'amount'=>0])
         @endif
-        @include('accounting.credit',['accountId'=>null,'amount'=>0])
 		<div class="btn btn-success add-button">
 			+
 		</div>
