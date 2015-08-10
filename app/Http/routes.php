@@ -53,7 +53,6 @@ Route::get('files/get/{filename}', [
 Route::post('files/add', [
 	'as' => 'files.add', 'uses' => 'FileController@add']);
 
-Route::get('/test', function () {
-	$user = Ceb\Models\User::find(17);
-	dd($user->totalLoans());
-});
+Route::get('/test', ['as' => 'loan.print', function () {
+	return View('layouts.printing');
+}]);

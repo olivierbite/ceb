@@ -8,7 +8,7 @@ use Redirect;
 use Session;
 
 class LoanController extends Controller {
-
+	protected $completionStatus = false;
 	protected $loanFactory;
 	function __construct(LoanFactory $loanFactory) {
 		$this->loanFactory = $loanFactory;
@@ -61,9 +61,11 @@ class LoanController extends Controller {
 		// Did we all things well?
 		if ($this->loanFactory->complete()) {
 			$message = trans('loan.loan_completed');
+			$this->completionStatus = true;
+
 			flash()->success($message);
 		}
-		return $this->reload();
+		return $this->reload($this->completionStatus);
 	}
 	/**
 	 * Cancel ongoing loan transaction
@@ -99,7 +101,7 @@ class LoanController extends Controller {
 	 * Reload loan page
 	 * @return mixed
 	 */
-	private function reload() {
+	private function reload($completionStatus = false) {
 		$member = $this->loanFactory->getMember();
 		$loanInputs = $this->loanFactory->getLoanInputs();
 		$creditAccounts = $this->loanFactory->getCreditAccounts();
@@ -108,7 +110,9 @@ class LoanController extends Controller {
 
 		$cautionneurs = $this->loanFactory->getCautionneurs();
 
-		return view('loansandrepayments.index', compact('member', 'loanInputs', 'cautionneurs', 'debitAccounts', 'creditAccounts'));
+		$completed = $completionStatus;
+
+		return view('loansandrepayments.index', compact('member', 'loanInputs', 'cautionneurs', 'debitAccounts', 'creditAccounts', 'completed'));
 	}
 
 	/**

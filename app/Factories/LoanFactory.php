@@ -185,15 +185,6 @@ class LoanFactory {
 	}
 
 	/**
-	 * Check if we are not debitting and creditng same account
-	 * @param  array  $debitaccounts
-	 * @return
-	 */
-	public function validateAccounts(array $debitaccounts) {
-		# code...
-	}
-
-	/**
 	 * Get the operation type of this loan
 	 * @return string the operation type of this loan
 	 */
@@ -411,10 +402,6 @@ class LoanFactory {
 
 	}
 
-	private function saveAccuntingInformation() {
-		# code...
-	}
-
 	/**
 	 * Cancel all activity by clearing session
 	 * @return void
@@ -489,5 +476,6 @@ class LoanFactory {
 		Session::forget('cautionneurs');
 		Session::forget('creditaccounts');
 		Session::forget('debitaccounts');
+		Session::forget('completionStatus');
 	}
 }

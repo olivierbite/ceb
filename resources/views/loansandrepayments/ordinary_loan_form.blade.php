@@ -92,7 +92,7 @@
   <div class="col-md-4">
   <div class="form-group">
    <label>{{ trans('loan.number_of_cheque') }}</label>
-  {!! Form::input('text', 'cheque_number',isset($loanInputs['number_of_cheque'])?$loanInputs['number_of_cheque']:null,
+  {!! Form::input('text', 'cheque_number',isset($loanInputs['cheque_number'])?$loanInputs['cheque_number']:null,
                   ['class'=>'form-control loan-input','id'=>'cheque_number'])
     !!}
   </div>

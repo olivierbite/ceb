@@ -5,8 +5,18 @@
 @stop
 
 @section('content')
-	{{-- @include('loansandrepayments.index_buttons') --}}
 
+	@if ($completed == true)
+		{{-- We have completed the transaction let's print the invoice --}}
+	<script type="text/javascript">
+	function print(url) {
+	  var win = window.open(url, '_blank');
+	  win.focus();
+	}
+	print('{{ route('loan.print') }}');
+	</script>
+	@endif
+	{{-- @include('loansandrepayments.index_buttons') --}}
    {!! Form::open(['method'=>'POST','url'=>route('loans.store')]) !!}
 	@include('loansandrepayments.client_information_form')
 
@@ -16,13 +26,13 @@
 
 	@include('accounting.form')
 
-
    {!! Form::close() !!}
 @stop
 
 @section('content_footer')
     @include('loansandrepayments.saving_button')
 @stop
+
 
 @section('scripts')
 <script src="{{Url()}}/assets/dist/js/datepickr.js" type="text/javascript"></script>
