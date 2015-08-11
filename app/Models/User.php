@@ -70,12 +70,41 @@ class User extends Model {
 	public function loans() {
 		return $this->hasMany('Ceb\Models\Loan', 'adhersion_id', 'adhersion_id');
 	}
+	/**
+	 * Member refunds
+	 * @return Objects contains all refunds by this memebr
+	 */
+	public function refunds() {
+		return $this->hasMany('Ceb\Models\Refund', 'adhersion_id', 'adhersion_id');
+	}
 
+	/**
+	 * Get total refunds by this member;
+	 * @return numeric
+	 */
+	public function totalRefunds() {
+		return $this->refunds()->sum('amount');
+	}
 	/**
 	 * Get the total amount of contribution
 	 */
 	public function totalContributions() {
 		return $this->contributions()->sum('amount');
+	}
+	/**
+	 * Get the loan balance
+	 * @return numeric
+	 */
+	public function loanBalance() {
+		return $this->totalLoans() - $this->totalRefunds();
+	}
+	/**
+	 * Determine if this member has active Loan
+	 *
+	 * @return  bool
+	 */
+	public function hasActiveLoan() {
+		return $this->loanBalance() > 0;
 	}
 
 	/**
@@ -91,6 +120,15 @@ class User extends Model {
 	 */
 	public function totalLoans() {
 		return $this->loans()->sum('loan_to_repay');
+	}
+
+	/**
+	 * Get member loan monthly fees that
+	 * He is supposed to pay
+	 * @return numeric with the fees this member need to pay
+	 */
+	public function loanMonthlyFees() {
+		return $this->loans()->orderBy('created_at', 'desc')->first()->monthly_fees;
 	}
 	/**
 	 * Find a member by his adhersion ID

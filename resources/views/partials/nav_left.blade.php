@@ -45,10 +45,17 @@
             </li>
             <li class="treeview">
               <a href="{{ route('loans.index') }}">
-                <i class="fa fa-pie-chart"></i>
-                <span>{{ trans('navigations.loans_and_repayments') }}</span>
+                <i class="fa fa-object-ungroup"></i>
+                <span>{{ trans('navigations.loans') }}</span>
               </a>
             </li>
+            <li class="treeview">
+              <a href="{{ route('refunds.index') }}">
+                <i class="fa fa-undo"></i>
+                <span>{{ trans('navigations.refund') }}</span>
+              </a>
+            </li>
+
             <li class="treeview">
               <a href="#">
                 <i class="fa fa-money"></i>

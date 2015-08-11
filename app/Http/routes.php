@@ -39,6 +39,8 @@ Route::get('/loans/remove/cautionneur/{cautionneur}',
 Route::get('/loans/setcautionneur', ['as' => 'loan.add.cautionneur', 'uses' => 'loanController@setCautionneur']);
 Route::resource('loans', 'LoanController');
 
+Route::resource('refunds', 'RefundController');
+
 /** Ajax routes */
 Route::group(['prefix' => 'ajax'], function () {
 	Route::get('/loans', 'loanController@ajaxFieldUpdate');
@@ -54,5 +56,6 @@ Route::post('files/add', [
 	'as' => 'files.add', 'uses' => 'FileController@add']);
 
 Route::get('/test', ['as' => 'loan.print', function () {
+	return Ceb\Models\User::find(17)->loanMonthlyFees();
 	return View('layouts.printing');
 }]);

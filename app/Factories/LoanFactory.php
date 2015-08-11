@@ -8,6 +8,7 @@ use Datetime;
 use DB;
 use Illuminate\Support\Facades\Session;
 use Sentry;
+use Validate;
 
 /**
  * This factory helps Contribution
@@ -23,6 +24,18 @@ class LoanFactory {
 		$this->posting = $posting;
 	}
 
+	public function validate($data) {
+		$validator = Validator::make($request->all(), [
+			'title' => 'required|unique:posts|max:255',
+			'body' => 'required',
+		]);
+		if ($validator->fails()) {
+			return redirect('post/create')
+				->withErrors($validator)
+				->withInput();
+		}
+
+	}
 	/**
 	 * Add member to is going to receive loan
 	 * @param integer $memberId ID of the member to add to the session
@@ -206,7 +219,7 @@ class LoanFactory {
 	public function complete() {
 		// 1. First record the loan
 		$transactionId = $this->getTransactionId();
-
+		$this->calculateLoanDetails();
 		// Start saving if something fails cancel everything
 		Db::beginTransaction();
 
@@ -240,7 +253,7 @@ class LoanFactory {
 
 		// First refresh the data and validate them
 		// if the data are not validated we will recieve false
-		if (!$this->calculateLoanDetails()) {
+		if (!$this->calculateLoanDetails(true)) {
 			// We have nothing to do here, First return false with
 			// Error that says information provided is not correct
 			flash()->error('loan.loan_information_seem_not_to_be_correct');
@@ -329,8 +342,7 @@ class LoanFactory {
 	 */
 	private function getTranschesNumber() {
 		$loanInputs = $this->getLoanInputs();
-
-		return $numberOfInstallment = isset($inputs['tranches_number']) ? $inputs['tranches_number'] : 1;
+		return $numberOfInstallment = isset($loanInputs['tranches_number']) ? $loanInputs['tranches_number'] : 1;
 
 	}
 	/**
@@ -355,10 +367,9 @@ class LoanFactory {
 	 * Calculate loan details
 	 * @return mixed
 	 */
-	public function calculateLoanDetails() {
+	public function calculateLoanDetails($validation = false) {
 		$loanDetails = $this->getLoanInputs();
-
-		if ($this->isValidLoanData($loanDetails) == false) {
+		if ($validation && $this->isValidLoanData($loanDetails) == false) {
 			// We have nothing to calculate therefore
 			// let's just return false
 			return false;
@@ -367,7 +378,6 @@ class LoanFactory {
 		$loanToRepay = $loanDetails['loan_to_repay'];
 		$interestRate = $this->getInterestRate();
 		$numberOfInstallment = $this->getTranschesNumber();
-
 		// Interest formular
 		// The formular to calculate interests at ceb is as following
 		// I =  P *(TI * N)
@@ -381,19 +391,20 @@ class LoanFactory {
 		// LoanToRepay * (InterestRate*NumberOfInstallment) / 1200 +(InterestRate*NumberOfInstallment)
 
 		$interests = ($loanToRepay * ($interestRate * $numberOfInstallment)) / (1200 + ($interestRate * $numberOfInstallment));
+
 		$netToReceive = $loanToRepay - $interests;
 
 		// Update fields
-		$this->addLoanInput(['right_to_loan' => round(($loanToRepay * 2.5), 2)]);
-		$this->addLoanInput(['wished_amount' => round(($loanToRepay * 2.5), 2)]);
-		$this->addLoanInput(['interests' => round($interests, 2)]);
-		$this->addLoanInput(['net_to_receive' => round($netToReceive, 2)]);
-		$this->addLoanInput(['monthly_fees' => round(($netToReceive / $numberOfInstallment), 2)]);
+		$this->addLoanInput(['right_to_loan' => round(($loanToRepay * 2.5), 0)]);
+		$this->addLoanInput(['wished_amount' => round(($loanToRepay * 2.5), 0)]);
+		$this->addLoanInput(['interests' => round($interests, 0)]);
+		$this->addLoanInput(['net_to_receive' => round($netToReceive, 0)]);
+		$this->addLoanInput(['monthly_fees' => round(($loanToRepay / $numberOfInstallment), 0)]);
 		$this->addLoanInput(['adhersion_id' => $this->getMember()->adhersion_id]);
 
 		// Add cautionneur
 		foreach ($this->getCautionneurs() as $key => $value) {
-			$this->addLoanInput[$key] = $value->id;
+			$this->addLoanInput([$key => $value->id]);
 		}
 
 		return true;

@@ -2,12 +2,12 @@
 namespace Ceb\Factories;
 use Ceb\Models\Institution;
 use Illuminate\Support\Facades\Session;
-
+user Ceb\Traits\TransactionTrait;
 /**
  * This factory helps Contribution
  */
 class ContributionFactory {
-
+	use TransactionTrait;
 	function __construct(Session $session, Institution $institution) {
 		$this->session = $session;
 		$this->institution = $institution;
@@ -61,7 +61,7 @@ class ContributionFactory {
 	 */
 	public function updateMonthlyFee($adhersion_number, $newMontlyFee) {
 		// First get what is in the session now
-		$data = $this->getConstributions();
+		$data = $this->getRefundMembers();
 		// in (PHP 5 >= 5.5.0) you don't have to write your own function to search through a multi dimensional array
 		$key = $this->searchAdhersionKey($adhersion_number, $data);
 
@@ -149,23 +149,6 @@ class ContributionFactory {
 	 */
 	public function getInstitution() {
 		return Session::get('institution', 1); // We assume institution 1 is dhe default one
-	}
-
-	/**
-	 * Search  adhresion key
-	 * @param   $keyword
-	 * @param   $data
-	 * @return
-	 */
-	protected function searchAdhersionKey($keyword, $data) {
-		foreach ($data as $key => $value) {
-			$current_key = $key;
-
-			if ($value['adhersion_id'] == $keyword) {
-				return $current_key;
-			}
-		}
-		return false;
 	}
 
 	/**

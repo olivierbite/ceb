@@ -23,24 +23,6 @@ class LoanController extends Controller {
 	}
 
 	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return Response
-	 */
-	public function create() {
-		//
-	}
-
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @return Response
-	 */
-	public function store() {
-		dd(Input::all());
-	}
-
-	/**
 	 * Display the specified resource.
 	 *
 	 * @param  int  $id
@@ -125,6 +107,7 @@ class LoanController extends Controller {
 	 */
 	public function ajaxFieldUpdate() {
 		$this->loanFactory->addLoanInput(Input::all());
+
 		$this->loanFactory->calculateLoanDetails();
 	}
 

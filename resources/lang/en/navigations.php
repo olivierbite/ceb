@@ -24,4 +24,6 @@ return [
 	'accounting_plan' => 'Accounting plan',
 	'closing_exercise' => 'Closing Exercise',
 	'contributions' => 'Contributions',
+	'refund' => 'Refunds',
+	'loans' => 'Loans',
 ];

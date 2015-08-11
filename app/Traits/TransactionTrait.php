@@ -10,6 +10,22 @@ trait TransactionTrait {
 	private function getTransactionId() {
 		return (new DateTime)->format('YmdHi') . Sentry::getUser()->id;
 	}
+	/**
+	 * Search  adhresion key
+	 * @param   $keyword
+	 * @param   $data
+	 * @return
+	 */
+	protected function searchAdhersionKey($keyword, $data) {
+		foreach ($data as $key => $value) {
+			$current_key = $key;
+
+			if ($value['adhersion_id'] == $keyword) {
+				return $current_key;
+			}
+		}
+		return false;
+	}
 
 	/**
 	 * Get unique contribution
@@ -57,4 +73,5 @@ trait TransactionTrait {
 		return $this->posting->create($posting);
 
 	}
+
 }
