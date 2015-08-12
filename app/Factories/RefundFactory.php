@@ -85,7 +85,8 @@ class RefundFactory {
 
 		// Lastly, Let's commit a transaction since we reached here
 		DB::commit();
-
+		// Remove everything from the session
+		$this->clearAll();
 		flash()->success(trans('refund.refun_transaction_sucessfully_registered'));
 		return true;
 
