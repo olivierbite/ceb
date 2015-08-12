@@ -29,3 +29,6 @@ function toggle(source) {
  </tbody>
   </table>
 @stop
+@section('content_footer')
+    @include('partials.buttons',['completeRoute'=>'refunds.complete','cancelRoute'=>'refunds.cancel'])
+@stop

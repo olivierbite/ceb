@@ -30,7 +30,7 @@
 @stop
 
 @section('content_footer')
-    @include('loansandrepayments.saving_button')
+    @include('partials.buttons',['completeRoute'=>'loan.complete','cancelRoute'=>'loan.cancel'])
 @stop
 
 

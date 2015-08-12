@@ -1,14 +1,14 @@
 <div class="row">
 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" >
-	<a href="{{ route('loan.complete') }}"
+	<a href="{{ route($completeRoute) }}"
 	   class="col-xs-12 col-sm-12 col-md-12 col-lg-12 btn btn-lg btn-success">
-	  {{ trans('loans.saving') }}
+	  {{ trans('general.saving') }}
 	</a>
 </div>
 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" >
-	<a href="{{ route('loan.cancel') }}"
+	<a href="{{ route($cancelRoute) }}"
 	   class="col-xs-12 col-sm-12 col-md-12 col-lg-12 btn btn-lg btn-danger">
-	  {{ trans('loans.cancel') }}
+	  {{ trans('general.cancel') }}
 	</a>
 </div>
 

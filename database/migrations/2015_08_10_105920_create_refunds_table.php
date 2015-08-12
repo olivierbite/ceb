@@ -16,7 +16,7 @@ class CreateRefundsTable extends Migration {
 			$table->string('contract_number');
 			$table->string('month');
 			$table->decimal('amount', 16, 2);
-			$table->string('tranche_number')->nullable();
+			$table->string('tranches_number')->nullable();
 			$table->string('transaction_id');
 			$table->integer('member_id');
 			$table->integer('user_id');

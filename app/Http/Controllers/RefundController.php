@@ -5,6 +5,7 @@ namespace Ceb\Http\Controllers;
 use Ceb\Factories\RefundFactory;
 use Ceb\Http\Controllers\Controller;
 use Input;
+use Redirect;
 
 class RefundController extends Controller {
 	function __construct(RefundFactory $refundFactory) {
@@ -33,6 +34,27 @@ class RefundController extends Controller {
 		$this->refundFactory->updateMonthlyFee($adhersion_number, $monthly_fee);
 
 		return $this->reload();
+	}
+
+	/**
+	 * Complete refund transaction that is ongoing
+	 * @return Redirect
+	 */
+	public function complete() {
+		// codes to complete transactions
+		$this->refundFactory->complete();
+		return Redirect::route('refunds.index');
+	}
+
+	/**
+	 * Cancel refund transaction that is ongoing
+	 * @return Redirect
+	 */
+	public function cancel() {
+		$this->refundFactory->cancel();
+		flash()->success(trans('refund.successfully_cancelled'));
+
+		return Redirect::route('refunds.index');
 	}
 	/**
 	 * Reload the refund view

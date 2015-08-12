@@ -1,7 +1,11 @@
 <?php namespace Ceb\Factories;
 use Ceb\Models\Institution;
+use Ceb\Models\Posting;
+use Ceb\Models\Refund;
 use Ceb\Traits\TransactionTrait;
+use DB;
 use Illuminate\Support\Facades\Session;
+use Sentry;
 
 /**
  * Refund Factory
@@ -12,9 +16,12 @@ class RefundFactory {
 	/** Variable to  hold the object that are going to be injected */
 	private $institution;
 
-	function __construct(Institution $institution) {
+	function __construct(Institution $institution, Refund $refund, Posting $posting) {
 		$this->institution = $institution;
+		$this->refund = $refund;
+		$this->posting = $posting;
 	}
+
 	/**
 	 * Set members by institutions
 	 * @param integer $institutionId
@@ -53,6 +60,107 @@ class RefundFactory {
 		return $this->setRefundMembers($data);
 	}
 
+	/**
+	 * Complete current transactions in refund
+	 *
+	 * @return  bool
+	 */
+	public function complete() {
+
+		$transactionId = $this->getTransactionId(); // Generating unique transactionid
+
+		// Start saving if something fails cancel everything
+		DB::beginTransaction();
+
+		$saveRefund = $this->saveRefund($transactionId);
+
+		$savePosting = $this->savePostings($transactionId);
+		// Rollback the transaction via if one of the insert fails
+		if (!$saveRefund || !$savePosting) {
+			DB::rollBack();
+
+			flash()->error(trans('refund.error_occured_during_the_processes_of_registering_refund_please_try_again'));
+			return false;
+		}
+
+		// Lastly, Let's commit a transaction since we reached here
+		DB::commit();
+
+		flash()->success(trans('refund.refun_transaction_sucessfully_registered'));
+		return true;
+
+	}
+
+	/**
+	 * Saving refunds in the database
+	 * @param  [type] $transactionId [description]
+	 * @return [type]                [description]
+	 */
+	private function saveRefund($transactionId) {
+		# Get data in the factory
+		$refundMembers = $this->getRefundMembers();
+		$month = $this->getMonth();
+		$contractNumber = $this->getContributionContractNumber();
+		$month = $this->getMonth();
+
+		foreach ($refundMembers as $refundMember) {
+			// dd($refundMember->latestLoan());
+			$refund['adhersion_id'] = $refundMember->adhersion_id;
+			$refund['contract_number'] = $refundMember->latestLoan()->loan_contract;
+			$refund['month'] = $this->getMonth();
+			$refund['amount'] = $refundMember->loanMonthlyFees();
+			$refund['tranche_number'] = $refundMember->latestLoan()->tranches_number;
+			$refund['transaction_id'] = $transactionId;
+			$refund['member_id'] = $refundMember->id;
+			$refund['user_id'] = Sentry::getUser()->id;
+
+			// dd($refund);
+			# try to save if it doesn't work then
+			# exist the loop
+			$newRefund = $this->refund->create($refund);
+			if (!$newRefund) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Save posting to the database
+	 * @param  STRING $transactionId UNIQUE TRANSACTIONID
+	 * @return bool
+	 */
+	private function savePostings($transactionId) {
+
+		// First prepare data to use for the debit account
+		// Once are have debited(deducted data) then we can
+		// Credit the account to be credited
+		$posting['transactionid'] = $transactionId;
+		$posting['account_id'] = $this->getDebitAccount();
+		$posting['journal_id'] = 1; // We assume per default we are using journal 1
+		$posting['asset_type'] = null;
+		$posting['amount'] = $this->getTotalRefunds();
+		$posting['user_id'] = Sentry::getUser()->id;
+		$posting['account_period'] = date('Y');
+		$posting['transaction_type'] = 'Debit';
+
+		// Try to post the debit before crediting another account
+		$debiting = $this->posting->create($posting);
+
+		// Change few data for crediting
+		// Then try to credit the account too
+		$posting['transaction_type'] = 'Credit';
+		$posting['account_id'] = $this->getCreditAccount();
+
+		$crediting = $this->posting->create($posting);
+
+		if (!$debiting || !$crediting) {
+			return false;
+		}
+		// Ouf time to go to bed now
+		return true;
+	}
 	/**
 	 * Get Total Refunds fees
 	 * @return decimal montly fees
@@ -173,10 +281,18 @@ class RefundFactory {
 	}
 
 	/**
+	 * Cancel transaction that is ongoin
+	 * @return  void
+	 */
+	public function cancel() {
+		$this->clearAll();
+	}
+
+	/**
 	 * Remove all things from the session;
 	 * @return [type] [description]
 	 */
-	public function clearAll() {
+	private function clearAll() {
 		$this->removeRefundMembers();
 		$this->removeMonth();
 		$this->removeInstitution();

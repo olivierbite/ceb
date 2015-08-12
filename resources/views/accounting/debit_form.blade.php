@@ -19,8 +19,8 @@
                 @include('accounting.debit',['accountId' => $accountId,'amount'=>$amount])
             @endforeach
         @else
-                @include('accounting.debit',['accountId' => null,'amount'=>0])
-        @endif;
+            @include('accounting.debit',['accountId' => 1,'amount'=> isset($loanInputs['loan_to_repay'])?$loanInputs['loan_to_repay']:0])
+        @endif
 		<div class="btn btn-success add-button">
 			+
 		</div>

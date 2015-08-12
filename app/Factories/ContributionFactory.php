@@ -1,8 +1,9 @@
 <?php
 namespace Ceb\Factories;
 use Ceb\Models\Institution;
+use Ceb\Traits\TransactionTrait;
 use Illuminate\Support\Facades\Session;
-user Ceb\Traits\TransactionTrait;
+
 /**
  * This factory helps Contribution
  */

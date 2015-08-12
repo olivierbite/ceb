@@ -128,7 +128,14 @@ class User extends Model {
 	 * @return numeric with the fees this member need to pay
 	 */
 	public function loanMonthlyFees() {
-		return $this->loans()->orderBy('created_at', 'desc')->first()->monthly_fees;
+		return $this->latestLoan()->monthly_fees;
+	}
+	/**
+	 * Get latest Loan that this member has gotten
+	 * @return user Object
+	 */
+	public function latestLoan() {
+		return $this->loans()->orderBy('created_at', 'desc')->first();
 	}
 	/**
 	 * Find a member by his adhersion ID

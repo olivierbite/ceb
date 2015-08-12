@@ -19,7 +19,7 @@
             @include('accounting.credit',['accountId'=>$accountId,'amount'=>$amount])
         @endforeach
         @else
-            @include('accounting.credit',['accountId'=>null,'amount'=>0])
+            @include('accounting.credit',['accountId'=>2,'amount'=>isset($loanInputs['loan_to_repay'])?$loanInputs['loan_to_repay']:0])
         @endif
 		<div class="btn btn-success add-button">
 			+
