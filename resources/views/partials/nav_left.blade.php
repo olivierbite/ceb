@@ -38,33 +38,33 @@
                 <span class="label label-primary pull-right">{!! $membersCount !!}</span>
               </a>
             </li>
-            <li>
+            <li class="{{ (Request::is('contributions*') ? 'active' : '') }} ">
               <a href="{{ route('contributions.index') }}">
                 <i class="fa fa-th"></i> <span>{{ trans('navigations.contributions_and_savings') }}</span>
               </a>
             </li>
-            <li class="treeview">
+            <li class="{{ (Request::is('loan*') ? 'active' : '') }} ">
               <a href="{{ route('loans.index') }}">
-                <i class="fa fa-object-ungroup"></i>
+                <i class="fa fa-dashboard"></i>
                 <span>{{ trans('navigations.loans') }}</span>
               </a>
             </li>
-            <li class="treeview">
+            <li class="{{ (Request::is('refund*') ? 'active' : '') }} ">
               <a href="{{ route('refunds.index') }}">
                 <i class="fa fa-undo"></i>
                 <span>{{ trans('navigations.refund') }}</span>
               </a>
             </li>
 
-            <li class="treeview">
-              <a href="#">
+            <li class="{{ (Request::is('accounting*') ? 'active' : '') }} ">
+              <a href="{{ route('accounting.index') }}">
                 <i class="fa fa-money"></i>
                 <span>{{ trans('navigations.accounting') }}</span>
                 </a>
 
             </li>
 
-            <li class="treeview">
+            <li class="{{ (Request::is('report*') ? 'active' : '') }} ">
               <a href="#">
                 <i class="fa fa-table"></i> <span>{{ trans('navigations.reports') }}</span>
 

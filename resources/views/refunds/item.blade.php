@@ -6,10 +6,9 @@
 	<td>{!! $member->institution?$member->institution->name:null !!}</td>
 	<td>{!! Form::text('monthly_fee',  $member->loanMonthlyFees() , ['class'=>'form-control','size'=>'2','disabled'])!!}</td>
 	<td>
-	{!! Form::hidden('adhersion_number', $member->adhersion_id) !!}
-		<button  class="btn btn-primary">
-			<i class="fa fa-edit"></i>
-		</button>
+	<span>
+	 	<i class="ion ion-ios-cart-outline"></i>
+	</span>
 	</td>
 </tr>
 {!! Form::close() !!}

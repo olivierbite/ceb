@@ -44,6 +44,9 @@ Route::get('/refunds/complete', ['as' => 'refunds.complete', 'uses' => 'RefundCo
 Route::get('/refunds/cancel', ['as' => 'refunds.cancel', 'uses' => 'RefundController@cancel']);
 Route::resource('refunds', 'RefundController');
 
+/** Accounting routes */
+Route::resource('accounting', 'AccountingController');
+
 /** Ajax routes */
 Route::group(['prefix' => 'ajax'], function () {
 	Route::get('/loans', 'loanController@ajaxFieldUpdate');

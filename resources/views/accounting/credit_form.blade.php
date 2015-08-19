@@ -10,7 +10,7 @@
      <div class="col-xs-2">
      </div>
 </div>
-        @if(count($creditAccounts) > 0)
+        @if(isset($creditAccounts) && count($creditAccounts) > 0)
         @foreach($creditAccounts as $accountId => $amount)
             @if($amount<1)
              {{-- Since amount is 0 then we have nothing to do here, continue to the next loop element --}}
