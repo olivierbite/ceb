@@ -81,17 +81,25 @@
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                    @if (Sentry::check() && Sentry::getUser()->hasAccess('admin'))
-                <li {{ (Request::is('users*') ? 'class="active"' : '') }}><a href="{{ action('\\Sentinel\Controllers\UserController@index') }}">Users</a></li>
-                <li {{ (Request::is('groups*') ? 'class="active"' : '') }}><a href="{{ action('\\Sentinel\Controllers\GroupController@index') }}">Groups</a></li>
+                @if (Sentry::check() && Sentry::getUser()->hasAccess('admin'))
+                <li {{ (Request::is('users*') ? 'class="active"' : '') }}>
+                <a href="{{ action('\\Sentinel\Controllers\UserController@index') }}">
+                <i class="fa fa-user"></i>{{ trans('navigations.user') }}
+                </a>
+                </li>
+                <li {{ (Request::is('groups*') ? 'class="active"' : '') }}>
+                <a href="{{ action('\\Sentinel\Controllers\GroupController@index') }}">
+                 <i class="fa fa-users"></i> {{ trans('navigations.groups') }}
+                </a>
+                </li>
               @endif
-                <li><a href="#"><i class="fa fa-circle-o"></i> {{ trans('navigations.institutions') }}</a></li>
-                <li><a href="#"><i class="fa fa-circle-o"></i> {{ trans('navigations.accounting_plan') }}</a></li>
-                <li><a href="#"><i class="fa fa-circle-o"></i> {{ trans('navigations.closing_exercise') }}</a></li>
+                <li><a href="#"><i class="fa fa-bank"></i> {{ trans('navigations.institutions') }}</a></li>
+                <li><a href="#"><i class="fa fa-book"></i> {{ trans('navigations.accounting_plan') }}</a></li>
+                <li><a href="#"><i class="fa fa-lock"></i> {{ trans('navigations.closing_exercise') }}</a></li>
               </ul>
             </li>
             <li class="header"> </li>
-            <li><a href="/assets/documentation/index.html"><i class="fa fa-book"></i>
+            <li><a href="#"><i class="fa fa-question-circle"></i>
             <span>{{ trans('navigations.help') }}</span></a>
             </li>
             <li class="header"> </li>
