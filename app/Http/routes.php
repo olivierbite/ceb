@@ -62,6 +62,5 @@ Route::post('files/add', [
 	'as' => 'files.add', 'uses' => 'FileController@add']);
 
 Route::get('/test', ['as' => 'loan.print', function () {
-	return Ceb\Models\User::find(17)->loanMonthlyFees();
-	return View('layouts.printing');
+	dd(Ceb\Models\Journal::lists('name', 'id'));
 }]);

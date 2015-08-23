@@ -3,8 +3,14 @@
 namespace Ceb\Http\Controllers;
 
 use Ceb\Http\Controllers\Controller;
+use Ceb\Http\Requests\AccountingRequest;
+use Ceb\Repositories\Accounting\AccountingRepository;
 
 class AccountingController extends Controller {
+
+	function __construct(AccountingRepository $AccountingRepository) {
+		$this->accounting = $AccountingRepository;
+	}
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -28,8 +34,10 @@ class AccountingController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function store() {
-		//
+	public function store(AccountingRequest $request) {
+		$this->accounting->complete($request->all());
+
+		return $this->reload();
 	}
 
 	/**

@@ -15,6 +15,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
 		$this->composerInstitutions();
 		$this->composerMembers();
 		$this->composerMonthYear();
+		$this->composerJournals();
 	}
 
 	/**
@@ -77,5 +78,14 @@ class ViewComposerServiceProvider extends ServiceProvider {
 
 		view()->composer($views, 'Ceb\ViewComposers\MonthYearViewComposer');
 
+	}
+
+	private function composerJournals() {
+
+		$views = [
+			'accounting.journal',
+		];
+
+		view()->composer($views, '\Ceb\ViewComposers\JournalViewComposer');
 	}
 }
