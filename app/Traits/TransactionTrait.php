@@ -42,11 +42,9 @@ trait TransactionTrait {
 	 * @param array $amounts  accounts Amount
 	 */
 	public function accountAmount(array $accounts, array $amounts) {
-
-		dd($amounts);
 		$newData = [];
 		foreach ($accounts as $key => $value) {
-			if ((empty($amounts[$key]['value']) || trim($amounts[$key]['value']) == '')) {
+				if ((empty($amounts[$key]['value']) || trim($amounts[$key]['value']) == '')) {
 				// This account doesn't have amount therefore
 				// Let's go to the next one
 				continue;
@@ -57,6 +55,25 @@ trait TransactionTrait {
 		// Make sure we remove anything with zero
 		// or Empty value before we close
 		return array_filter($newData);
+	}
+
+	/**
+	 * Make an array with Accounds IDs and amount
+	 * @param  array  $accounts containing accounts IDs
+	 * @param  array  $amounts  containing account amount
+	 * @return array that merges
+	 */
+	public function joinAccountWithAmount(array $accounts, array $amounts){
+		$AccountWithAmmount = [];
+		foreach ($accounts as $key => $value) {
+			if (empty($amounts[$key]) || trim($amounts[$key]) == '' || $amounts[$key] == 0) {
+				// This account doesn't have amount therefore
+				// Let's go to the next one
+				continue;
+			}
+			$AccountWithAmmount[$value] = $amounts[$key];
+		}
+		return $AccountWithAmmount;
 	}
 
 	/**
@@ -74,11 +91,9 @@ trait TransactionTrait {
 			flash()->error(trans('loan.debits_and_credits_amount_must_be_equal'));
 			return false;
 		}
-
 		// Let's check if the user is trying to debit and credit
 		// Same account, which is not allowed as per account laws
-
-		if (empty(count(array_diff_key($debits, $credits)))) {
+		if (count(array_intersect_key($debits, $credits)) > 0 ) {
 			flash()->error(trans('loan.it_is_not_allowed_to_credit_and_debit_same_account_please_correct_and_try_again'));
 			return false;
 		}
@@ -133,6 +148,7 @@ trait TransactionTrait {
 		foreach ($debits as $accountId => $amount) {
 			$results = $this->savePosting($accountId, $amount, $transactionId, 'Debit', $journalId);
 			if (!$results) {
+				flash()->error(trans("posting.something_went_wrong_while_trying_to_debit_accounts_please_check_input_and_try_again"));
 				return false;
 			}
 		}
@@ -142,6 +158,7 @@ trait TransactionTrait {
 		foreach ($credits as $accountId => $amount) {
 			$results = $this->savePosting($accountId, $amount, $transactionId, 'Credit', $journalId);
 			if (!$results) {
+			     flash()->error(trans("posting.something_went_wrong_while_trying_to_credit_accounts_please_check_input_and_try_again"));
 				return false;
 			}
 		}

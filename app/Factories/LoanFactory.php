@@ -233,7 +233,6 @@ class LoanFactory {
 			DB::rollBack();
 			return false;
 		}
-
 		// Lastly, Let's commit a transaction since we reached here
 		DB::commit();
 
