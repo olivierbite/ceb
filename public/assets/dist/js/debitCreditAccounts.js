@@ -5,9 +5,6 @@
  * @return 
  */
 $(document).ready(function(){
-    // make sure all account selections 
-    // are select2
-    $('.account').select2();
     /**
      * Deal with debit accounts dynamic form
      */

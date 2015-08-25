@@ -38,15 +38,14 @@ class AccountingRepository {
 
 		// now we have reached so we can continue with saving posting
 		$savePostings = $this->savePostings($transactionid, $accoutingData['journal'], $debits, $credits);
-
 		// Rollback the transaction via if one of the insert fails
-		if (!$savePostings) {
+		if ($savePostings == false) {
 			DB::rollBack();
 			return false;
 		}
 		// Lastly, Let's commit a transaction since we reached here
 		DB::commit();
-		flash()->success(trans('accounting.transaction_is_recorded_successfully_transaction_id_is').$transactionid);
+		flash()->success(trans('accounting.transaction_is_recorded_successfully_transaction_id_is').' '.$transactionid);
 		return true;
 	}
 

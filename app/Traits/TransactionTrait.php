@@ -81,7 +81,13 @@ trait TransactionTrait {
 	 * are valid before saving them in the database
 	 * @return boolean
 	 */
-	public function isValidPosting($debits = [], $credits = []) {
+	public function isValidPosting($debits = null, $credits = null) {
+		// Did we recieve arrays ?
+		if (!is_array($debits) || !is_array($credits) || count($debits) == 0 || count($credits) == 0) {
+			# We have nothing to do here, just return false
+			flash()->error(trans('loan.debits_and_credits_transaction_doesnot_look_normal_please_check_inputs_and_try_again'));
+			return false;
+		}
 
 		// First check if the sum of both credits
 		// and Debits has same sum of amount so that
@@ -134,16 +140,16 @@ trait TransactionTrait {
 	 * @param  STRING $transactionId UNIQUE TRANSACTIONID
 	 * @return bool
 	 */
-	private function savePostings($transactionId, $journalId = 1, $debits = [], $credits = []) {
+	private function savePostings($transactionId, $journalId = 1, $debits = null, $credits = null) {
 
 		// Start by validating the information we
 		// are about to svae in our database
-		if (!$this->isValidPosting()) {
+		if (!$this->isValidPosting($debits,$credits)) {
 			return false;
 		}
 
 		//Debiting....
-		$debits = (!empty($debits)) ? $debits : $this->getDebitAccounts();
+		$debits = (!is_null($debits)) ? $debits : $this->getDebitAccounts();
 
 		foreach ($debits as $accountId => $amount) {
 			$results = $this->savePosting($accountId, $amount, $transactionId, 'Debit', $journalId);
@@ -154,7 +160,7 @@ trait TransactionTrait {
 		}
 
 		//Crediting
-		$credits = (!empty($credits)) ? $credits : $this->getCreditAccounts();
+		$credits = (!is_null($credits)) ? $credits : $this->getCreditAccounts();
 		foreach ($credits as $accountId => $amount) {
 			$results = $this->savePosting($accountId, $amount, $transactionId, 'Credit', $journalId);
 			if (!$results) {
