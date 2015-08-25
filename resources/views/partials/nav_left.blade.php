@@ -65,14 +65,9 @@
             </li>
 
             <li class="{{ (Request::is('report*') ? 'active' : '') }} ">
-              <a href="#">
+              <a href="{!! route('reports.index') !!}">
                 <i class="fa fa-table"></i> <span>{{ trans('navigations.reports') }}</span>
-
               </a>
-              <ul class="treeview-menu">
-                <li><a href="#"><i class="fa fa-circle-o"></i> {{ trans('navigations.report_contrats') }}</a></li>
-                <li><a href="#"><i class="fa fa-circle-o"></i> {{ trans('navigations.report_files') }}</a></li>
-              </ul>
             </li>
             <li class="treeview">
               <a href="#">

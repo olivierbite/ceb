@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html>
   @include('partials.head')
-  <body class="skin-blue sidebar-mini">
+
+  
+  <body class="skin-blue sidebar-mini {{ (Request::is('report*') ? 'sidebar-collapse' : '') }}">
     <!-- Site wrapper -->
     <div class="wrapper">
 

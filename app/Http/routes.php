@@ -47,6 +47,15 @@ Route::resource('refunds', 'RefundController');
 /** Accounting routes */
 Route::resource('accounting', 'AccountingController');
 
+/** Reporting routes */
+Route::get('/reports', ['as' =>'reports.index','uses'=>'ReportController@index']);
+Route::get('/reports/contracts/saving', ['as' =>'reports.contracts.saving','uses'=>'ReportController@saving']);
+Route::get('/reports/contracts/loan', ['as' =>'reports.contracts.loan','uses'=>'ReportController@loan']);
+Route::get('/reports/contracts/ordinaryloan', ['as' =>'reports.contracts.ordinaryloan','uses'=>'ReportController@ordinaryloan']);
+Route::get('/reports/contracts/socialloan', ['as' =>'reports.contracts.socialloan','uses'=>'ReportController@socialloan']);
+
+
+
 /** Ajax routes */
 Route::group(['prefix' => 'ajax'], function () {
 	Route::get('/loans', 'loanController@ajaxFieldUpdate');

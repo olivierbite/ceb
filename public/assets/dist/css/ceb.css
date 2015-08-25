@@ -4796,3 +4796,33 @@ fieldset[disabled] .btn-vk.active {
   background-color: #dd4b39 !important;
   color: #fff;
   }
+  TD.sideNavSubHeader {
+    width: 150px;
+    background-color: #2b61a9;
+    color: #FFFFFF;
+    font-family: verdana, sans-serif;
+    font-size: 12px;
+    border: 1px solid #FFFFFF;
+    border-top-width: 0px;
+    border-right-width: 0px;
+    border-left-width: 0px;
+    font-weight: bold;
+    padding: 1px;
+    padding-left: 10px;
+    vertical-align: middle;
+    text-align: left;
+}
+TD.sideNav {
+    width: 150px;
+    background-color: #d0dafd;
+    color: #333333;
+    font-size: 14px;
+    border: 1px solid #FFFFFF;
+    border-top-width: 0px;
+    border-right-width: 0px;
+    border-left-width: 0px;
+    padding: 1px;
+    padding-left: 10px;
+    vertical-align: middle;
+    text-align: left;
+}
