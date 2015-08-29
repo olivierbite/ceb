@@ -10,7 +10,7 @@
 				'files' => true 
 				])
  !!}
-	@include('members.form',['button'=>trans('member.edit')])
+	@include('members.layouts',['button'=>trans('member.edit')])
 {!! Form::close() !!}
 @stop
 

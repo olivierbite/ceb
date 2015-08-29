@@ -49,7 +49,7 @@ Route::resource('accounting', 'AccountingController');
 
 /** Reporting routes */
 Route::get('/reports', ['as' =>'reports.index','uses'=>'ReportController@index']);
-Route::get('/reports/contracts/saving', ['as' =>'reports.contracts.saving','uses'=>'ReportController@saving']);
+Route::get('/reports/contracts/saving/{memberId}', ['as' =>'reports.contracts.saving','uses'=>'ReportController@contractSaving']);
 Route::get('/reports/contracts/loan', ['as' =>'reports.contracts.loan','uses'=>'ReportController@loan']);
 Route::get('/reports/contracts/ordinaryloan', ['as' =>'reports.contracts.ordinaryloan','uses'=>'ReportController@ordinaryloan']);
 Route::get('/reports/contracts/socialloan', ['as' =>'reports.contracts.socialloan','uses'=>'ReportController@socialloan']);

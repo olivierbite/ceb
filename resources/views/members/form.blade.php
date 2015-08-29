@@ -1,4 +1,3 @@
-     <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8" >
           <div class="panel panel-info">
 
             <div class="panel-body">
@@ -166,28 +165,3 @@
               </div>
             </div>
     </div>
-    </div>
-     <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3" >
-     <div class="box-header with-border">
-              <h3 class="box-title">
-              {{ trans('member.member_attornes') }}
-</h3>
-              <div class="box-tools pull-right">
- </div>
-            </div>
-     <!-- Button trigger modal -->
-<a data-toggle="modal" class="btn btn-primary" href="{{ route('home') }}" data-target="#myModal"> <i class="fa fa-plus"></i> {{ trans('member.add_new_attorney') }}
-</a>
-
-<!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-        </div> <!-- /.modal-content -->
-    </div> <!-- /.modal-dialog -->
-</div> <!-- /.modal -->
-</div>
-
-
-    <script src="{{Url()}}/assets/dist/js/datepickr.js" type="text/javascript"></script>
-    <script src="{{Url()}}/assets/dist/js/date.js" type="text/javascript"></script>
