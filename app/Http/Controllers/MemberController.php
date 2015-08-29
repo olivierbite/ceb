@@ -89,7 +89,6 @@ class MemberController extends Controller {
 		$member = $this->member->findOrfail($id);
 
 		return view('members.edit', compact('member'));
-
 	}
 
 	/**
