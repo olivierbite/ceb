@@ -478,10 +478,17 @@ class LoanFactory {
 		return true;
 	}
 	/**
+	 * Remove member from the session
+	 * @return [type]
+	 */
+	public function clearMember() {
+		Session::forget('loan_member');
+	}
+	/**
 	 * Clear all things in the session that are related to the loan
 	 */
 	private function clearAll() {
-		Session::forget('loan_member');
+		// Session::forget('loan_member');
 		Session::forget('loanInputs');
 		Session::forget('cautionneurs');
 		Session::forget('creditaccounts');

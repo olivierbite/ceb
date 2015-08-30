@@ -13,7 +13,7 @@
 	  var win = window.open(url, '_blank');
 	  win.focus();
 	}
-	print('{{ route('loan.print') }}');
+	print('{!! route('reports.contracts.loan',['memberId' => $member->id]) !!}');
 	</script>
 	@endif
 	{{-- @include('loansandrepayments.index_buttons') --}}

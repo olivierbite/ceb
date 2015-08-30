@@ -6,8 +6,11 @@ use Ceb\Http\Controllers\Controller;
 use Ceb\Models\User;
 
 class ReportController extends Controller {
+	public $report;
 	function __construct(User $member) {
+		$this->report = trans('report.nothing_to_show');
 		$this->member = $member;
+		parent::__construct();
 	}
 
 	public function index() {
@@ -21,7 +24,12 @@ class ReportController extends Controller {
 	 */
 	public function contractSaving($memberId) {
 		$member = $this->getMember($memberId);
-		$report = view('reports.contracts_saving', compact($member))->render();
+		$report = $this->report;
+
+		if ($member != false) {
+			$report = view('reports.contracts_saving', compact('member'))->render();
+		}
+
 		return view('layouts.printing', compact('report'));
 	}
 	/**
@@ -31,7 +39,10 @@ class ReportController extends Controller {
 	 */
 	public function contractLoan($memberId) {
 		$member = $this->getMember($memberId);
-		$report = view('reports.contracts_loan', compact($member))->render();
+		$report = $this->report;
+		if ($report != false) {
+			$report = view('reports.contracts_loan_ordinary', compact('member'))->render();
+		}
 		return view('layouts.printing', compact('report'));
 	}
 
