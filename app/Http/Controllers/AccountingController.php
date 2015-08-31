@@ -10,6 +10,7 @@ class AccountingController extends Controller {
 
 	function __construct(AccountingRepository $AccountingRepository) {
 		$this->accounting = $AccountingRepository;
+		parent::__construct();
 	}
 	/**
 	 * Display a listing of the resource.

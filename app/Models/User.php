@@ -12,7 +12,12 @@ class User extends Model {
 	 * @var string
 	 */
 	protected $table = 'users';
-
+	/**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+	protected $dates = ['created_at', 'updated_at', 'date_of_birth'];
 	/**
 	 * The attributes that are mass assignable.
 	 *
@@ -145,4 +150,25 @@ class User extends Model {
 	public function findByAdhersion($adhersionId) {
 		return $this->where('adhersion_id', $adhersionId)->first();
 	}
+
+	/**
+     * Set the user's first name.
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public function setFirstNameAttribute($value)
+    {
+        $this->attributes['first_name'] = ucfirst($value);
+    }
+    /**
+     * Set the user's last name.
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public function setLastNameAttribute($value)
+    {
+        $this->attributes['last_name'] = ucfirst($value);
+    }
 }

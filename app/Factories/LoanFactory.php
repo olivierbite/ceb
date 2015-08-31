@@ -8,14 +8,21 @@ use Datetime;
 use DB;
 use Illuminate\Support\Facades\Session;
 use Sentry;
-use Validate;
+use Validator;
 
 /**
  * This factory helps Contribution
  */
 class LoanFactory {
-
 	use TransactionTrait;
+
+	/**
+	 * Loan validadtion rules
+	 * @var array
+	 */
+	protected $loanRules =  [
+        'loan_to_repay' => 'required'
+    ];
 
 	function __construct(Session $session, User $member, Loan $loan, Posting $posting) {
 		$this->session = $session;
@@ -24,17 +31,15 @@ class LoanFactory {
 		$this->posting = $posting;
 	}
 
-	public function validate($data) {
-		$validator = Validator::make($request->all(), [
-			'title' => 'required|unique:posts|max:255',
-			'body' => 'required',
-		]);
-		if ($validator->fails()) {
-			return redirect('post/create')
-				->withErrors($validator)
-				->withInput();
-		}
+	/**
+	 * Are the data we are trying to validator okay?
+	 * @param  array $data
+	 * @return bool this returns true if the data is valid
+	 */
+	public function isValidLoanData($data) {
 
+		$validator = VAlidator::make($data,$this->loanRules);
+		return $validator->passes();
 	}
 	/**
 	 * Add member to is going to receive loan
@@ -368,12 +373,12 @@ class LoanFactory {
 	 */
 	public function calculateLoanDetails($validation = false) {
 		$loanDetails = $this->getLoanInputs();
-		if ($validation && $this->isValidLoanData($loanDetails) == false) {
+		if ($validation && ($this->isValidLoanData($loanDetails) == false)) {
 			// We have nothing to calculate therefore
 			// let's just return false
 			return false;
 		}
-
+    
 		$loanToRepay = $loanDetails['loan_to_repay'];
 		$interestRate = $this->getInterestRate();
 		$numberOfInstallment = $this->getTranschesNumber();
@@ -439,16 +444,6 @@ class LoanFactory {
 	}
 
 	/**
-	 * Are the data we are trying to validate okay?
-	 * @param  array $data
-	 * @return bool this returns true if the data is valid
-	 */
-	private function isValidLoanData(array $data) {
-		// Start by checking if the user has provided the mandatory fields
-		return isset($data['loan_to_repay']);
-	}
-
-	/**
 	 * Validate if the accounts and amount per accounts
 	 * are valid before saving them in the database
 	 * @return boolean
@@ -488,7 +483,7 @@ class LoanFactory {
 	 * Clear all things in the session that are related to the loan
 	 */
 	private function clearAll() {
-		// Session::forget('loan_member');
+		$this->clearMember();
 		Session::forget('loanInputs');
 		Session::forget('cautionneurs');
 		Session::forget('creditaccounts');

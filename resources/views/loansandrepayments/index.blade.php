@@ -6,14 +6,14 @@
 
 @section('content')
 
-	@if ($completed == true)
+	@if ($currentMemberId !=null)
 		{{-- We have completed the transaction let's print the invoice --}}
 	<script type="text/javascript">
 	function print(url) {
 	  var win = window.open(url, '_blank');
 	  win.focus();
 	}
-	print('{!! route('reports.contracts.loan',['memberId' => $member->id]) !!}');
+	print('{!! route('reports.contracts.loan',['memberId' => $currentMemberId]) !!}');
 	</script>
 	@endif
 	{{-- @include('loansandrepayments.index_buttons') --}}

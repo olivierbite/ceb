@@ -5,13 +5,18 @@ use Ceb\Factories\LoanFactory;
 use Ceb\Http\Controllers\Controller;
 use Input;
 use Redirect;
+use Ceb\Models\User as Member;
 use Session;
 
 class LoanController extends Controller {
 	protected $completionStatus = false;
+	protected $currentMember = null;
 	protected $loanFactory;
-	function __construct(LoanFactory $loanFactory) {
+	protected $member;
+	function __construct(LoanFactory $loanFactory,Member $member) {
+		$this->member = $member;
 		$this->loanFactory = $loanFactory;
+		parent::__construct();
 	}
 	/**
 	 * Display a listing of the resource.
@@ -40,12 +45,12 @@ class LoanController extends Controller {
 	 * @return mixed
 	 */
 	public function complete() {
-		// Did we all things well?
+		$memberId = $this->loanFactory->getMember()->id;
 		if ($this->loanFactory->complete()) {
 			$message = trans('loan.loan_completed');
 			$this->completionStatus = true;
-
 			flash()->success($message);
+			$this->currentMember = $memberId;
 		}
 		return $this->reload($this->completionStatus);
 	}
@@ -87,14 +92,12 @@ class LoanController extends Controller {
 		$member = $this->loanFactory->getMember();
 		$loanInputs = $this->loanFactory->getLoanInputs();
 		$creditAccounts = $this->loanFactory->getCreditAccounts();
-		// dd($creditAccounts);
 		$debitAccounts = $this->loanFactory->getDebitAccounts();
-
 		$cautionneurs = $this->loanFactory->getCautionneurs();
 
-		$completed = $completionStatus;
+		$currentMemberId = $this->currentMember;
 
-		return view('loansandrepayments.index', compact('member', 'loanInputs', 'cautionneurs', 'debitAccounts', 'creditAccounts', 'completed'));
+		return view('loansandrepayments.index', compact('member', 'loanInputs', 'cautionneurs', 'debitAccounts', 'creditAccounts', 'currentMemberId'));
 	}
 
 	/**
