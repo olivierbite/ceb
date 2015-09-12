@@ -18,6 +18,7 @@ Route::get('/', ['as' => 'home', 'middleware' => 'sentry.auth', function () {
 /** Members routes */
 Route::get('members/search', 'MemberController@search');
 Route::resource('members', 'MemberController');
+Route::resource('attornies','AttorneyController');
 
 /** Contribution routes */
 Route::get('contributions/complete', [
@@ -26,7 +27,9 @@ Route::get('contributions/complete', [
 Route::get('contributions/cancel', [
 	'as' => 'contributions.cancel', 'uses' => 'ContributionAndSavingsController@cancel',
 ]);
+
 Route::resource('contributions', 'ContributionAndSavingsController');
+
 
 //Loan Routets
 Route::get('/loans/{id}', 'LoanController@selectMember')->where('id', '[0-9]+');

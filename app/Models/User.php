@@ -62,6 +62,15 @@ class User extends Model {
 	public function institution() {
 		return $this->belongsTo('Ceb\Models\Institution');
 	}
+
+	/**
+	 * Attornies for this memebr
+	 * @return object attorney
+	 */
+	public function attornies()
+	{
+		return $this->hasMany('Ceb\Models\Attorney');
+	}
 	/**
 	 * Get the contributions for the Member.
 	 */
