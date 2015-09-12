@@ -22,7 +22,22 @@ class AddNewMemberRequest extends Request {
 	 */
 	public function rules() {
 		return [
-			//
-		];
+		'names'   => 'required',
+        'district'=>'required',
+        'province'=>'required',
+        'institution_id'=>'required|numeric',
+        'service'=>'required',
+        'termination_date'=>'required',
+        'password'=>'required',
+        'date_of_birth'=>'required',
+        'sex'=>'required',
+        'member_nid'=>'required|numeric',
+        'nationality'=>'required',
+        'email'=>'required|email',
+        'telephone'=>'required',
+        'monthly_fee'=>'required',
+        'photo'=>'required|image',
+        'signature'=>'required|image'
+        ];
 	}
 }

@@ -5,6 +5,7 @@
                 <div class="col-md-5 col-lg-5 ">
 
                   <div class="img-circle" alt="member Image" align="center">
+                  {!! $errors->first('photo','<label class="has-error">:message</label>') !!} 
                   <div class="track-info-art">
                       <div class="button-normal upload-btn" id="upload-photo-btn">
                       <div>
@@ -81,6 +82,7 @@
 
                 <div class=" col-md-7 col-lg-7 ">
                  <div class="img-circle" alt="member Image" align="center" style="margin-bottom:210px;">
+                 {!! $errors->first('signature','<label class="has-error">:message</label>') !!} 
                   <div class="track-info-art" >
                       <div class="button-normal upload-btn" id="upload-signature-btn">
                        <div>
