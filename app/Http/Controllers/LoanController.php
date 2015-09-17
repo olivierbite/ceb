@@ -6,16 +6,19 @@ use Ceb\Http\Controllers\Controller;
 use Input;
 use Redirect;
 use Ceb\Models\User as Member;
+use Ceb\Models\Loan;
 use Session;
 
 class LoanController extends Controller {
 	protected $completionStatus = false;
 	protected $currentMember = null;
 	protected $loanFactory;
+	protected $loan;
 	protected $member;
-	function __construct(LoanFactory $loanFactory,Member $member) {
+	function __construct(LoanFactory $loanFactory,Member $member,Loan $loan) {
 		$this->member = $member;
 		$this->loanFactory = $loanFactory;
+		$this->loan = $loan;
 		parent::__construct();
 	}
 	/**
@@ -24,6 +27,9 @@ class LoanController extends Controller {
 	 * @return Response
 	 */
 	public function index() {
+		if (Input::has('operation_type')) {
+			$this->loanFactory->addLoanInput(['operation_type' =>Input::get('operation_type')]);
+		}
 		return $this->reload();
 	}
 
@@ -45,7 +51,15 @@ class LoanController extends Controller {
 	 * @return mixed
 	 */
 	public function complete() {
+
 		$memberId = $this->loanFactory->getMember()->id;
+
+		// Make sure we update with latest form inputs
+		$this->loanFactory->addLoanInput(Input::all());
+        // Update accounting fields too
+        $this->ajaxAccountingFeilds();
+
+        // Complete transaction
 		if ($this->loanFactory->complete()) {
 			$message = trans('loan.loan_completed');
 			$this->completionStatus = true;
@@ -89,15 +103,31 @@ class LoanController extends Controller {
 	 * @return mixed
 	 */
 	private function reload($completionStatus = false) {
+
 		$member = $this->loanFactory->getMember();
 		$loanInputs = $this->loanFactory->getLoanInputs();
+		$loanInputs['operation_type'] = isset($loanInputs['operation_type']) ? $loanInputs['operation_type'] : 'ordinary_loan';
+
 		$creditAccounts = $this->loanFactory->getCreditAccounts();
 		$debitAccounts = $this->loanFactory->getDebitAccounts();
 		$cautionneurs = $this->loanFactory->getCautionneurs();
-
+		$operationType = $this->loanFactory->getOperationType();
 		$currentMemberId = $this->currentMember;
+		$activeLoan = $this->loan;
+		$rightToLoan = 0;
 
-		return view('loansandrepayments.index', compact('member', 'loanInputs', 'cautionneurs', 'debitAccounts', 'creditAccounts', 'currentMemberId'));
+		if ($member->exists) {
+			$rightToLoan = $member->rightToLoan();
+		}
+
+		if ($member->hasActiveLoan()) {// Member has active loan
+			 if ($loanInputs['operation_type'] == 'special_loan') {
+			    $rightToLoan = 100000;
+			 }		 
+		 $activeLoan = $member->latestLoan();
+		}
+
+		return view('loansandrepayments.index', compact('member','rightToLoan','activeLoan', 'loanInputs','operationType', 'cautionneurs', 'debitAccounts', 'creditAccounts', 'currentMemberId'));
 	}
 
 	/**
@@ -118,7 +148,7 @@ class LoanController extends Controller {
 	 * Stores in the session the debit accounts ids and credit accounts IDs
 	 * @return void
 	 */
-	public function ajaxAccountingFeieds() {
+	public function ajaxAccountingFeilds() {
 		// Let's try to store what is submitted
 		// in the session
 		// If we have debit accounts in the submission

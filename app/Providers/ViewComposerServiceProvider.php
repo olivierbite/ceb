@@ -16,6 +16,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
 		$this->composerMembers();
 		$this->composerMonthYear();
 		$this->composerJournals();
+		$this->composerLoanTypes();
 	}
 
 	/**
@@ -62,6 +63,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
 	private function composerMembers() {
 		$views = [
 			'partials.nav_left',
+			'partials.dashboard',
 		];
 
 		view()->composer($views, 'Ceb\ViewComposers\MembersViewComposer');
@@ -79,7 +81,10 @@ class ViewComposerServiceProvider extends ServiceProvider {
 		view()->composer($views, 'Ceb\ViewComposers\MonthYearViewComposer');
 
 	}
-
+	/**
+	 * Journals view composer
+	 * @return void
+	 */
 	private function composerJournals() {
 
 		$views = [
@@ -87,5 +92,20 @@ class ViewComposerServiceProvider extends ServiceProvider {
 		];
 
 		view()->composer($views, '\Ceb\ViewComposers\JournalViewComposer');
+	}
+
+	/**
+	 * LoanTypes view composer
+	 * @return void 
+	 */
+	private function composerLoanTypes()
+	{
+		$views = [
+			'loansandrepayments.ordinary_loan_form',
+			'loansandrepayments.special_loan_form'
+
+		
+		];
+		view()->composer($views, '\Ceb\ViewComposers\LoanTypeViewComposer');
 	}
 }

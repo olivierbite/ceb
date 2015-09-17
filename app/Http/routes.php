@@ -12,7 +12,7 @@
  */
 
 Route::get('/', ['as' => 'home', 'middleware' => 'sentry.auth', function () {
-	return view('layouts.default');
+	return view('partials.dashboard');
 }]);
 
 /** Members routes */
@@ -35,6 +35,7 @@ Route::resource('contributions', 'ContributionAndSavingsController');
 Route::get('/loans/{id}', 'LoanController@selectMember')->where('id', '[0-9]+');
 Route::get('/loans/cancel', ['as' => 'loan.cancel', 'uses' => 'LoanController@cancel']);
 Route::get('/loans/complete', ['as' => 'loan.complete', 'uses' => 'loanController@complete']);
+Route::post('/loans/complete', ['as' => 'loan.complete', 'uses' => 'loanController@complete']);
 Route::get('/loans/remove/cautionneur/{cautionneur}',
 	['as' => 'loan.remove.cautionneur',
 		'uses' => 'loanController@removeCautionneur']
@@ -61,7 +62,7 @@ Route::get('/reports/contracts/socialloan', ['as' => 'reports.contracts.sociallo
 Route::group(['prefix' => 'ajax'], function () {
 	Route::get('/loans', 'loanController@ajaxFieldUpdate');
 
-	Route::post('/loans/accounting', ['as' => 'ajax.accounting', 'uses' => 'loanController@ajaxAccountingFeieds']);
+	Route::post('/loans/accounting', ['as' => 'ajax.accounting', 'uses' => 'loanController@ajaxAccountingFeilds']);
 });
 
 /** Files routes */

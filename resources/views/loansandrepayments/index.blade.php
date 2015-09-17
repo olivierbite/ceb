@@ -17,20 +17,33 @@
 	</script>
 	@endif
 	{{-- @include('loansandrepayments.index_buttons') --}}
-   {!! Form::open(['method'=>'POST','url'=>route('loans.store')]) !!}
+   {!! Form::open(['method'=>'POST','url'=>route('loan.complete')]) !!}
 	@include('loansandrepayments.client_information_form')
 
-	@include('loansandrepayments.ordinary_loan_form')
+	@if (strpos($loanInputs['operation_type'], 'ordinary_loan') !== FALSE)
+
+		@include('loansandrepayments.ordinary_loan_form')  {{-- This is ordinary loan type --}}
+
+	@elseif (strpos($loanInputs['operation_type'], 'special_loan') !== FALSE)
+
+		@include('loansandrepayments.special_loan_form') {{-- This is special loan --}}
+
+	@elseif (strpos($loanInputs['operation_type'], 'social_loan') !== FALSE)
+
+		@include('loansandrepayments.ordinary_loan_form') {{-- This is special loan --}}
+
+	@endif
 
 	@include('loansandrepayments.caution_form')
 
 	@include('accounting.form')
 
-   {!! Form::close() !!}
+   
 @stop
 
 @section('content_footer')
     @include('partials.buttons',['completeRoute'=>'loan.complete','cancelRoute'=>'loan.cancel'])
+    {!! Form::close() !!}
 @stop
 
 

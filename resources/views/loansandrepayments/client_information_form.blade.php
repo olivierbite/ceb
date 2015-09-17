@@ -39,7 +39,7 @@
   <div class="col-md-2">
   <div class="form-group">
    <label>{{ trans('member.right_to_loan') }}</label>
-	{!! Form::input('text', 'member[right_to_loan]',isset($member)?number_format($member->rightToLoan()):0,
+	{!! Form::input('text', 'member[right_to_loan]',$rightToLoan,
              ['class'=>'form-control blue-input','id'=>'rightToLoan']) !!}
   </div>
   </div>

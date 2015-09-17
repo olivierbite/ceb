@@ -202,19 +202,16 @@ class LoanFactory {
 		Session::forget('debitaccounts');
 	}
 
+	public function setOperationType($operation_type)
+	{
+		return Session::set('operation_type', $operation_type);
+	}
 	/**
 	 * Get the operation type of this loan
 	 * @return string the operation type of this loan
 	 */
 	public function getOperationType() {
-		// Refresh data first
-		$date = date('d', strtotime($this->getLetterDate()));
-		if ($date > 15) {
-			return 'urgent_ordinary_loan';
-		}
-
-		return 'ordinary_loan';
-
+		return $this->getLoanInputs()['operation_type'];
 	}
 
 	/**
@@ -222,9 +219,11 @@ class LoanFactory {
 	 * @return bool
 	 */
 	public function complete() {
+
 		// 1. First record the loan
 		$transactionId = $this->getTransactionId();
 		$this->calculateLoanDetails();
+
 		// Start saving if something fails cancel everything
 		Db::beginTransaction();
 
@@ -254,7 +253,6 @@ class LoanFactory {
 	 * @return bool
 	 */
 	public function saveLoan($transactionid) {
-
 		// First refresh the data and validate them
 		// if the data are not validated we will recieve false
 		if (!$this->calculateLoanDetails(true)) {
@@ -372,14 +370,15 @@ class LoanFactory {
 	 * @return mixed
 	 */
 	public function calculateLoanDetails($validation = false) {
+
 		$loanDetails = $this->getLoanInputs();
 		if ($validation && ($this->isValidLoanData($loanDetails) == false)) {
 			// We have nothing to calculate therefore
 			// let's just return false
 			return false;
 		}
-    
-		$loanToRepay = $loanDetails['loan_to_repay'];
+      
+		$loanToRepay = isset($loanDetails['loan_to_repay'])?$loanDetails['loan_to_repay']:0;
 		$interestRate = $this->getInterestRate();
 		$numberOfInstallment = $this->getTranschesNumber();
 		// Interest formular
@@ -410,7 +409,7 @@ class LoanFactory {
 		foreach ($this->getCautionneurs() as $key => $value) {
 			$this->addLoanInput([$key => $value->id]);
 		}
-
+        
 		return true;
 		// If loan to pay is less or equal to the
 		// Contributions then hide the caution section

@@ -15,6 +15,12 @@ jQuery(document).ready(function($) {
   	new datepickr('today',{
   		'dateFormat':'Y-m-d'
   	});
+
+  	/** Set the new operation type */
+  	$("#operation_type").change(function(event) {
+  		var loanType = $(this);
+  		window.location.href = window.location.protocol+'//'+window.location.host+'/loans'+'?operation_type='+loanType.val();
+  	});
 	// Make sure that only number are entered in the box
 	$("input.loan-input").numeric();
 	$(".search-cautionneur").parent().find('input').numeric();
@@ -213,8 +219,7 @@ jQuery(document).ready(function($) {
     	
     	// Check if this input has at least some data
     	if(cautionneur.val() !== ""){
-			window.location.href = window.location.protocol+'//'+window.location.host+'/loans/setcautionneur'+'?'+cautionneur.attr('name')+'='+cautionneur.val();
-    		
+			window.location.href = window.location.protocol+'//'+window.location.host+'/loans/setcautionneur'+'?'+cautionneur.attr('name')+'='+cautionneur.val();		
     		return true;
     	}
 
