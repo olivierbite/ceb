@@ -9,12 +9,12 @@
   <div class="col-md-3">
   <div class="form-group">
    <label>{{ trans('loan.previous_loan_contract_number') }}</label>
-  {!! Form::input('text', 'current_loan_contract',$activeLoan->loan_contract,
+    {!! Form::input('text', 'current_loan_contract',$activeLoan->loan_contract,
                   ['class'=>'form-control'])
     !!}
   </div>
   </div>
-  <div class="col-md-3">
+  <div class="col-md-2">
   <div class="form-group">
    <label>{{ trans('loan.previous_number_of_installments') }}</label>
     {!! Form::input('text', 'current_number_of_installments',$activeLoan->tranches_number,
@@ -30,10 +30,18 @@
     !!}
   </div>
   </div>
-  <div class="col-md-3">
+  <div class="col-md-2">
   <div class="form-group">
    <label>{{ trans('loan.current_monthly_fees') }}</label>
        {!! Form::input('text', 'current_monthly_fees',$activeLoan->monthly_fees,
+                  ['class'=>'form-control'])
+    !!}
+   </div>
+  </div>
+    <div class="col-md-2">
+  <div class="form-group">
+   <label>{{ trans('loan.previous_loan_balance') }}</label>
+       {!! Form::input('text', 'current_monthly_fees',($member->exists) ?$member->loanBalance() : 0,
                   ['class'=>'form-control'])
     !!}
    </div>

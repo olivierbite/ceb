@@ -211,7 +211,7 @@ class LoanFactory {
 	 * @return string the operation type of this loan
 	 */
 	public function getOperationType() {
-		return $this->getLoanInputs()['operation_type'];
+		return isset($this->getLoanInputs()['operation_type'])?$this->getLoanInputs()['operation_type']:'ordinary_loan';
 	}
 
 	/**
