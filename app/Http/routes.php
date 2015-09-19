@@ -54,7 +54,7 @@ Route::resource('accounting', 'AccountingController');
 /** Reporting routes */
 Route::get('/reports', ['as' => 'reports.index', 'uses' => 'ReportController@index']);
 Route::get('/reports/contracts/saving/{memberId}', ['as' => 'reports.contracts.saving', 'uses' => 'ReportController@contractSaving']);
-Route::get('/reports/contracts/loan/{memberId}', ['as' => 'reports.contracts.loan', 'uses' => 'ReportController@contractLoan']);
+Route::get('/reports/contracts/loan/{loanId}', ['as' => 'reports.contracts.loan', 'uses' => 'ReportController@contractLoan']);
 Route::get('/reports/contracts/ordinaryloan', ['as' => 'reports.contracts.ordinaryloan', 'uses' => 'ReportController@ordinaryloan']);
 Route::get('/reports/contracts/socialloan', ['as' => 'reports.contracts.socialloan', 'uses' => 'ReportController@socialloan']);
 
@@ -73,5 +73,5 @@ Route::post('files/add', [
 	'as' => 'files.add', 'uses' => 'FileController@add']);
 
 Route::get('/test', ['as' => 'loan.print', function () {
-	dd(Ceb\Models\Journal::lists('name', 'id'));
+	dd(Ceb\Models\Loan::find(24)->getCautionneur1);
 }]);

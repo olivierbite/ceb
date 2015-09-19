@@ -28,8 +28,15 @@ class ContributionFactory {
 		}
 		// Get the institution by its id
 		$members = $this->institution->find($institutionId)->members;
-
+	
 		$this->setContributions($members->toArray());
+	}
+		/**
+	 * Set members who are about to contribute
+	 * @param array $members
+	 */
+	public function setContributionMembers(array $members) {
+		Session::put('contributionMembers', $members);
 	}
 
 	/**
@@ -45,6 +52,8 @@ class ContributionFactory {
 		}
 		return Session::put('contributions', $finalData);
 	}
+
+
 
 	/**
 	 * Get all contributions as per the current session
@@ -62,7 +71,7 @@ class ContributionFactory {
 	 */
 	public function updateMonthlyFee($adhersion_number, $newMontlyFee) {
 		// First get what is in the session now
-		$data = $this->getRefundMembers();
+		$data = $this->getConstributions();
 		// in (PHP 5 >= 5.5.0) you don't have to write your own function to search through a multi dimensional array
 		$key = $this->searchAdhersionKey($adhersion_number, $data);
 

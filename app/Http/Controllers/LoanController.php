@@ -1,6 +1,6 @@
 <?php
-
 namespace Ceb\Http\Controllers;
+
 use Ceb\Factories\LoanFactory;
 use Ceb\Http\Controllers\Controller;
 use Input;
@@ -10,7 +10,7 @@ use Ceb\Models\Loan;
 use Session;
 
 class LoanController extends Controller {
-	protected $completionStatus = false;
+	protected $loanId = 0;
 	protected $currentMember = null;
 	protected $loanFactory;
 	protected $loan;
@@ -56,17 +56,18 @@ class LoanController extends Controller {
 
 		// Make sure we update with latest form inputs
 		$this->loanFactory->addLoanInput(Input::all());
+
         // Update accounting fields too
         $this->ajaxAccountingFeilds();
 
         // Complete transaction
-		if ($this->loanFactory->complete()) {
+		if ($loanId = $this->loanFactory->complete()) {
 			$message = trans('loan.loan_completed');
-			$this->completionStatus = true;
+			$this->loanId = $loanId;
 			flash()->success($message);
 			$this->currentMember = $memberId;
 		}
-		return $this->reload($this->completionStatus);
+		return $this->reload($this->loanId);
 	}
 	/**
 	 * Cancel ongoing loan transaction
@@ -102,7 +103,7 @@ class LoanController extends Controller {
 	 * Reload loan page
 	 * @return mixed
 	 */
-	private function reload($completionStatus = false) {
+	private function reload($loanId = 0) {
 
 		$member = $this->loanFactory->getMember();
 		$loanInputs = $this->loanFactory->getLoanInputs();
@@ -127,7 +128,7 @@ class LoanController extends Controller {
 		 $activeLoan = $member->latestLoan();
 		}
 
-		return view('loansandrepayments.index', compact('member','rightToLoan','activeLoan', 'loanInputs','operationType', 'cautionneurs', 'debitAccounts', 'creditAccounts', 'currentMemberId'));
+		return view('loansandrepayments.index', compact('member','loanId','rightToLoan','activeLoan', 'loanInputs','operationType', 'cautionneurs', 'debitAccounts', 'creditAccounts', 'currentMemberId'));
 	}
 
 	/**

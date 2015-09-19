@@ -41,4 +41,20 @@ class Loan extends Model {
 		'special_loan_amount_to_receive',
 		'user_id',
 	];
+
+	/**
+	 * Cautionneur 1
+	 * @return Objects cautionneur 1
+	 */
+	public function getCautionneur1() {
+		return $this->hasOne('Ceb\Models\User','id', 'cautionneur1');
+	}
+
+	/**
+	 * Cautionneur 2
+	 * @return Objects cautionneur 2
+	 */
+	public function getCautionneur2() {
+		return $this->hasOne('Ceb\Models\User','id', 'cautionneur2');
+	}
 }

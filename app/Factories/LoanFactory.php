@@ -21,7 +21,8 @@ class LoanFactory {
 	 * @var array
 	 */
 	protected $loanRules =  [
-        'loan_to_repay' => 'required'
+        'loan_to_repay' => 'required',
+        'cheque_number' => 'required'
     ];
 
 	function __construct(Session $session, User $member, Loan $loan, Posting $posting) {
@@ -83,6 +84,25 @@ class LoanFactory {
 
 		Session::put('loanInputs', $loanInputsData);
 	}
+
+	/**
+	 * Remove one item in the loan input
+	 */
+	public function removeLoanInput($arrayKey)
+	{
+		// First get the existing loan inputs
+		$loanInputsData = $this->getLoanInputs();
+
+		// Add the submitted one before saving
+		foreach ($loanInputsData as $key => $value) {
+			if ($key == $arrayKey) {
+				unset($loanInputsData[$key]);
+				break;
+			}
+		}
+		Session::put('loanInputs', $loanInputsData);
+	}
+
 	/**
 	 * Get current loan input fields
 	 * @return array
@@ -112,6 +132,9 @@ class LoanFactory {
 			flash()->error(trans('loan.cautionneur_should_not_be_the_same_as_the_member_requesting_loan'));
 			return false;
 		}
+		// Add this to loan input
+		$this->addLoanInput([$arrayKey=>$cautionneurs[$arrayKey]->id]);
+
 		flash()->success(trans('loan.cautionneur_has_been_added_successfully'));
 		Session::put('cautionneurs', $cautionneurs);
 	}
@@ -125,6 +148,7 @@ class LoanFactory {
 		$cautionneurs = $this->getCautionneurs();
 		// Remove the cautionneur
 		unset($cautionneurs[$cautionneur]);
+        $this->removeLoanInput($cautionneur);
 		flash()->success(trans('loan.cautionneur_removed_successfully'));
 		Session::put('cautionneurs', $cautionneurs);
 	}
@@ -239,12 +263,49 @@ class LoanFactory {
 		}
 		// Lastly, Let's commit a transaction since we reached here
 		DB::commit();
-
+        
+        $contractId = $this->makeContract($saveLoan);
 		// Since we are done let's make sure everything is cleaned fo
 		// the next transaction
 		$this->clearAll();
-		return true;
+		return $contractId;
 
+	}
+
+	/**
+	 * Generate contract 
+	 * @param  loanId $value 
+	 * @return view   
+	 */
+	public function makeContract($loan)
+	{
+		// Refresh the member information
+		$member = $this->member->find($this->getMember()->id);
+	    $loan = $this->loan->find($loan->id);	
+		$operation_type = $this->getOperationType();
+
+		switch ($operation_type) {
+			case (strpos($operation_type,'ordinary_loan') !== FALSE):
+			     // Ordinary loan
+				 $contract = view('reports.contracts_loan_ordinary', compact('member'))->render();
+				break;
+			case 'special_loan':
+				// Special loan	
+			    $contract = view('reports.contracts_loan_special', compact('member'))->render();
+				break;
+			case 'social_loan':
+				// Social loan.			
+			    $contract = view('reports.contracts_loan_social', compact('member'))->render();
+				break;
+			default:
+				// Could not detect the contract
+				$contracts = 'Unable to determine the contract type';
+				break;
+		}
+
+		$loan->contract = $contract;
+		$loan->save();		
+		return $loan->id;
 	}
 
 	/**
@@ -287,8 +348,8 @@ class LoanFactory {
 		$data['cheque_number'] = $inputs['cheque_number'];
 		$data['bank_id'] = isset($inputs['bank_id']) ? $inputs['bank_id'] : 'BK';
 		$data['security_type'] = 0;
-		$data['cautionneur1'] = 0;
-		$data['cautionneur2'] = 0;
+		$data['cautionneur1'] = isset($inputs['cautionneur1']) ? $inputs['cautionneur1'] : null;
+		$data['cautionneur2'] = isset($inputs['cautionneur2']) ? $inputs['cautionneur2'] : null;
 		$data['average_refund'] = 0;
 		$data['amount_refounded'] = 0;
 		$data['comment'] = 'No comment so far';

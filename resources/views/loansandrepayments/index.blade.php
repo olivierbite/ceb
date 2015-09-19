@@ -6,19 +6,22 @@
 
 @section('content')
 
-	@if ($currentMemberId !=null)
+	@if ($loanId != 0 )
 		{{-- We have completed the transaction let's print the invoice --}}
 	<script type="text/javascript">
 	function print(url) {
 	  var win = window.open(url, '_blank');
 	  win.focus();
 	}
-	print('{!! route('reports.contracts.loan',['memberId' => $currentMemberId]) !!}');
+	print('{!! route('reports.contracts.loan',['loanId' => $loanId]) !!}');
 	</script>
 	@endif
+
 	{{-- @include('loansandrepayments.index_buttons') --}}
    {!! Form::open(['method'=>'POST','url'=>route('loan.complete')]) !!}
 	@include('loansandrepayments.client_information_form')
+    
+    {{-- {!! dd($loanInputs['operation_type']) !!} --}}
 
 	@if (strpos($loanInputs['operation_type'], 'ordinary_loan') !== FALSE)
 

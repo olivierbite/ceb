@@ -42,6 +42,8 @@
 <p dir="ltr" style="line-height:1.2;margin-top:0pt;margin-bottom:0pt;"><span id="docs-internal-guid-cd799d0a-7906-7776-48e1-dc64291f0427"><span style="font-size: 14.6666666666667px; font-family: Garamond; color: rgb(0, 0, 0); text-decoration: underline; vertical-align: baseline; white-space: pre-wrap; background-color: transparent;">Art 7</span><span style="font-size: 14.6666666666667px; font-family: Garamond; color: rgb(0, 0, 0); vertical-align: baseline; white-space: pre-wrap; background-color: transparent;"> : Cet emprunt est cautionn&eacute; par l&#39; </span><span style="font-size: 14.6666666666667px; font-family: Garamond; color: rgb(0, 0, 0); font-weight: 700; vertical-align: baseline; white-space: pre-wrap; background-color: transparent;">{!! trans('loan.'.$member->latestLoan()->operation_type) !!}</span><span style="font-size: 14.6666666666667px; font-family: Garamond; color: rgb(0, 0, 0); vertical-align: baseline; white-space: pre-wrap; background-color: transparent;">:</span></span></p>
 &nbsp;
 
+@if(!is_null($member->latestLoan()->getCautionneur1) || !is_null($member->latestLoan()->getCautionneur2))
+
 <div dir="ltr" style="margin-left:-5.75pt;">
 <table style="border:none;border-collapse:collapse">
 	<colgroup>
@@ -69,27 +71,53 @@
 			<p dir="ltr" style="line-height:1.2;margin-top:0pt;margin-bottom:0pt;"><span id="docs-internal-guid-cd799d0a-7906-7776-48e1-dc64291f0427"><span style="font-size: 14.6666666666667px; font-family: Garamond; color: rgb(0, 0, 0); font-weight: 700; vertical-align: baseline; white-space: pre-wrap; background-color: transparent;">Signature</span></span></p>
 			</td>
 		</tr>
+		@if (!is_null($member->latestLoan()->getCautionneur1) && $member->latestLoan()->getCautionneur1->exists)
+	
 		<tr style="height:0px">
 			<td style="border-left:solid #000000 1px;border-right:solid #000000 1px;border-bottom:solid #000000 1px;border-top:solid #000000 1px;vertical-align:top;padding:0px 8px 0px 8px">
 			<p dir="ltr" style="line-height:1.2;margin-top:0pt;margin-bottom:0pt;"><span id="docs-internal-guid-cd799d0a-7906-7776-48e1-dc64291f0427"><span style="font-size: 14.6666666666667px; font-family: Garamond; color: rgb(0, 0, 0); font-weight: 700; vertical-align: baseline; white-space: pre-wrap; background-color: transparent;">Cautionneur 1</span></span></p>
 			</td>
-			<td style="border-left:solid #000000 1px;border-right:solid #000000 1px;border-bottom:solid #000000 1px;border-top:solid #000000 1px;vertical-align:top;padding:0px 8px 0px 8px">&nbsp;</td>
-			<td style="border-left:solid #000000 1px;border-right:solid #000000 1px;border-bottom:solid #000000 1px;border-top:solid #000000 1px;vertical-align:top;padding:0px 8px 0px 8px">&nbsp;</td>
-			<td style="border-left:solid #000000 1px;border-right:solid #000000 1px;border-bottom:solid #000000 1px;border-top:solid #000000 1px;vertical-align:top;padding:0px 8px 0px 8px">&nbsp;</td>
-			<td style="border-left:solid #000000 1px;border-right:solid #000000 1px;border-bottom:solid #000000 1px;border-top:solid #000000 1px;vertical-align:top;padding:0px 8px 0px 8px">&nbsp;</td>
+			<td style="border-left:solid #000000 1px;border-right:solid #000000 1px;border-bottom:solid #000000 1px;border-top:solid #000000 1px;vertical-align:top;padding:0px 8px 0px 8px">
+			{!! $member->latestLoan()->getCautionneur1->first_name !!} {!! $member->latestLoan()->getCautionneur1->last_name !!}
+			</td>
+			<td style="border-left:solid #000000 1px;border-right:solid #000000 1px;border-bottom:solid #000000 1px;border-top:solid #000000 1px;vertical-align:top;padding:0px 8px 0px 8px">
+			{!! $member->latestLoan()->getCautionneur1->member_nid !!}
+			</td>
+			<td style="border-left:solid #000000 1px;border-right:solid #000000 1px;border-bottom:solid #000000 1px;border-top:solid #000000 1px;vertical-align:top;padding:0px 8px 0px 8px">
+			{!! $member->latestLoan()->getCautionneur1->district !!}
+			</td>
+			<td style="border-left:solid #000000 1px;border-right:solid #000000 1px;border-bottom:solid #000000 1px;border-top:solid #000000 1px;vertical-align:top;padding:0px 8px 0px 8px">
+			 @include('files.show',['filename'=>$member->latestLoan()->getCautionneur1->signature])
+			</td>
 		</tr>
+				{{-- expr --}}
+		@endif
+	  @if (!is_null($member->latestLoan()->getCautionneur2) && $member->latestLoan()->getCautionneur2->exists)
+	
 		<tr style="height:0px">
 			<td style="border-left:solid #000000 1px;border-right:solid #000000 1px;border-bottom:solid #000000 1px;border-top:solid #000000 1px;vertical-align:top;padding:0px 8px 0px 8px">
 			<p dir="ltr" style="line-height:1.2;margin-top:0pt;margin-bottom:0pt;"><span id="docs-internal-guid-cd799d0a-7906-7776-48e1-dc64291f0427"><span style="font-size: 14.6666666666667px; font-family: Garamond; color: rgb(0, 0, 0); font-weight: 700; vertical-align: baseline; white-space: pre-wrap; background-color: transparent;">Cautionneur 2</span></span></p>
 			</td>
-			<td style="border-left:solid #000000 1px;border-right:solid #000000 1px;border-bottom:solid #000000 1px;border-top:solid #000000 1px;vertical-align:top;padding:0px 8px 0px 8px">&nbsp;</td>
-			<td style="border-left:solid #000000 1px;border-right:solid #000000 1px;border-bottom:solid #000000 1px;border-top:solid #000000 1px;vertical-align:top;padding:0px 8px 0px 8px">&nbsp;</td>
-			<td style="border-left:solid #000000 1px;border-right:solid #000000 1px;border-bottom:solid #000000 1px;border-top:solid #000000 1px;vertical-align:top;padding:0px 8px 0px 8px">&nbsp;</td>
-			<td style="border-left:solid #000000 1px;border-right:solid #000000 1px;border-bottom:solid #000000 1px;border-top:solid #000000 1px;vertical-align:top;padding:0px 8px 0px 8px">&nbsp;</td>
+			<td style="border-left:solid #000000 1px;border-right:solid #000000 1px;border-bottom:solid #000000 1px;border-top:solid #000000 1px;vertical-align:top;padding:0px 8px 0px 8px">
+			{!! $member->latestLoan()->getCautionneur2->first_name !!} {!! $member->latestLoan()->getCautionneur2->last_name !!}
+			</td>
+			<td style="border-left:solid #000000 1px;border-right:solid #000000 1px;border-bottom:solid #000000 1px;border-top:solid #000000 1px;vertical-align:top;padding:0px 8px 0px 8px">
+			{!! $member->latestLoan()->getCautionneur2->member_nid !!}
+			</td>
+			<td style="border-left:solid #000000 1px;border-right:solid #000000 1px;border-bottom:solid #000000 1px;border-top:solid #000000 1px;vertical-align:top;padding:0px 8px 0px 8px">
+			{!! $member->latestLoan()->getCautionneur2->district !!}
+			</td>
+			<td style="border-left:solid #000000 1px;border-right:solid #000000 1px;border-bottom:solid #000000 1px;border-top:solid #000000 1px;vertical-align:top;padding:0px 8px 0px 8px">
+			 @include('files.show',['filename'=>$member->latestLoan()->getCautionneur2->signature])
+			</td>
 		</tr>
+				{{-- expr --}}
+		@endif
 	</tbody>
 </table>
 </div>
+	{{-- expr --}}
+@endif
 <br />
 <br />
 &nbsp;

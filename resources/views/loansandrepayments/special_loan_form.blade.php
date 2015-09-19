@@ -68,6 +68,7 @@
   </div>
   <div class="col-md-4">
   <div class="form-group">
+
    <label>{{ trans('loan.special_operation_type') }}</label>
    {!! Form::select('operation_type',
                    $loanTypes,
@@ -116,7 +117,8 @@
   </div>
   <div class="col-md-4">
   <div class="form-group">
-   <label>{{ trans('loan.special_number_of_cheque') }}</label>
+   <label>{{ trans('loan.special_number_of_cheque') }}</label>   
+  {!! $errors->first('cheque_number','<label class="has-error">:message</label>') !!} 
   {!! Form::input('text', 'cheque_number',isset($loanInputs['cheque_number'])?$loanInputs['cheque_number']:null,
                   ['class'=>'form-control loan-input','id'=>'cheque_number'])
     !!}
