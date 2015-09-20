@@ -40,6 +40,12 @@
                 <span>{{ trans('navigations.loans') }}</span>
               </a>
             </li>
+           <li class="{{ (Request::is('regularisation*') ? 'active' : '') }} ">
+              <a href="{{ route('regularisation.index') }}">
+                <i class="fa fa-dashboard"></i>
+                <span>{{ trans('navigations.regularisation') }}</span>
+              </a>
+            </li>
             <li class="{{ (Request::is('refund*') ? 'active' : '') }} ">
               <a href="{{ route('refunds.index') }}">
                 <i class="fa fa-undo"></i>
