@@ -9,7 +9,7 @@
   <i class="fa fa-plus"></i>
   {{ trans('member.add') }}
   </a>
-
+  {!! $members->render() !!}
   <table class="ui table">
   	 <thead>
   	 	<tr>

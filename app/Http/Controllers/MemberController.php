@@ -32,7 +32,7 @@ class MemberController extends Controller {
 
 			return redirect()->back();
 		}
-		$members = $this->member->all();
+		$members = $this->member->paginate(20);
 
 		return view('members.list', compact('members'));
 	}
