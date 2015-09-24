@@ -42,6 +42,15 @@ class Loan extends Model {
 		'user_id',
 	];
 
+/**
+ * Get the member who were given this loan
+ * @return User Object
+ */
+   public function member()
+   {
+   	return $this->belongsTo('\Ceb\Models\User','adhersion_id','adhersion_id');
+   }
+
 	/**
 	 * Cautionneur 1
 	 * @return Objects cautionneur 1

@@ -22,31 +22,9 @@ class RegularisationController extends Controller
      */
     public function index()
     {
-       $loans = $this->loan->paginate(20);
-
-       return view('regularisation.index',compact('loans'));
+        return $this->show(null);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  Request  $request
-     * @return Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
 
     /**
      * Display the specified resource.
@@ -54,9 +32,22 @@ class RegularisationController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function show($id)
+    public function show($id = null)
     {
-        //
+        $member =  $this->member;
+        $loan  = $member->latestLoan(); 
+
+        // If passed id is not null try to get the member
+       if (!is_null($id)) {  
+        $member =  $this->member->findOrFail($id);
+        $loan  = $member->latestLoan();
+        if ($loan == null) {
+            flash()->warning(trans('regularisation.this_member_doesnot_have_loan_to_regulate'));
+        }
+       }
+
+
+       return view('regularisation.index',compact('loan','member'));
     }
 
     /**

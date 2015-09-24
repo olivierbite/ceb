@@ -3,6 +3,7 @@
 namespace Ceb\Exceptions;
 
 use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
@@ -38,6 +39,10 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {
+          if ($e instanceof ModelNotFoundException ) {
+            flash()->error(trans('general.we_could_not_find_what_you_are_looking_for'))
+        return redirect()->back();
+    }
         return parent::render($request, $e);
     }
 }

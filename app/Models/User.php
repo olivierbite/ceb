@@ -124,8 +124,13 @@ class User extends Model {
 	/**
 	 * Get Right to loan
 	 */
-	public function rightToLoan() {
+	public function generalRightToLoan() {
 		return $this->totalContributions() * 2.5;
+	}
+
+	public function rightToLoan($value='')
+	{
+		return $this->generalRightToLoan() - $this->loanBalance();
 	}
 
 	/**

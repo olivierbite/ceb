@@ -101,6 +101,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
 	private function composerLoanTypes()
 	{
 		$views = [
+			'regularisation.form',
 			'loansandrepayments.ordinary_loan_form',
 			'loansandrepayments.special_loan_form'
 

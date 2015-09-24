@@ -15,7 +15,7 @@ use Validator;
  */
 class LoanFactory {
 	use TransactionTrait;
-
+	protected $errors;
 	/**
 	 * Loan validadtion rules
 	 * @var array
@@ -39,8 +39,13 @@ class LoanFactory {
 	 */
 	public function isValidLoanData($data) {
 
-		$validator = VAlidator::make($data,$this->loanRules);
-		return $validator->passes();
+		$validator = Validator::make($data,$this->loanRules);
+		if($validator->fails()){
+			$this->errors = implode($validator->errors()->all());
+			return false;
+		}
+		// For us to reach here it's because the validation passed
+		return true;
 	}
 	/**
 	 * Add member to is going to receive loan
@@ -319,7 +324,8 @@ class LoanFactory {
 		if (!$this->calculateLoanDetails(true)) {
 			// We have nothing to do here, First return false with
 			// Error that says information provided is not correct
-			flash()->error('loan.loan_information_seem_not_to_be_correct');
+			 flash()->error(trans('loan.loan_information_seem_not_to_be_correct').' because '.$this->errors);
+			// dd($errors);
 
 			return false;
 		}
@@ -425,6 +431,8 @@ class LoanFactory {
 		if ($numberOfInstallment > 12 && $numberOfInstallment <= 24) {return 3.6;}
 		if ($numberOfInstallment > 24 && $numberOfInstallment <= 36) {return 4.1;}
 		if ($numberOfInstallment > 36 && $numberOfInstallment <= 48) {return 4.3;}
+		if ($numberOfInstallment>48 && $numberOfInstallment<=60 ) {return 4.8;}		
+		if ($numberOfInstallment>60 && $numberOfInstallment<=72 ) {return 5;}
 	}
 	/**
 	 * Calculate loan details

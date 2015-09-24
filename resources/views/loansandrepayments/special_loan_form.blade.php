@@ -52,7 +52,7 @@
   <div class="col-md-4">
   <div class="form-group">
    <label>{{ trans('loan.special_number_of_installments') }}</label>
-	{!! Form::selectRange('tranches_number', 1, 48,
+	{!! Form::selectRange('tranches_number', 1, env('LOAN_MAXIMUM_INSTALLMENT',72),
                           isset($loanInputs['tranches_number'])?$loanInputs['tranches_number']:null,
                          ['class'=>'form-control loan-select','id'=>'numberOfInstallment'])
     !!}

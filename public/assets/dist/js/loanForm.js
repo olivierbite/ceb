@@ -186,7 +186,9 @@ jQuery(document).ready(function($) {
 		if (numberOfInstallment>0 && numberOfInstallment<=12) {return 3.4;};
 		if (numberOfInstallment>12 && numberOfInstallment<=24) {return 3.6;};
 		if (numberOfInstallment>24 && numberOfInstallment<=36) {return 4.1;};
-		if (numberOfInstallment>36 && numberOfInstallment<=48) {return 4.3;};
+		if (numberOfInstallment>36 && numberOfInstallment<=48 ) {return 4.3;};
+		if (numberOfInstallment>48 && numberOfInstallment<=60 ) {return 4.8;};		
+		if (numberOfInstallment>60 && numberOfInstallment<=72 ) {return 5;};
 	}
 	/**
 	 * If the wished amount is higher than the

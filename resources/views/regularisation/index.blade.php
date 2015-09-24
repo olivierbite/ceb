@@ -4,21 +4,35 @@
   {{ trans('navigations.regularisation') }}
 @stop
 
+@if ($member->exists)
 @section('content')
 
   {{-- @include('loansandrepayments.index_buttons') --}}
    {!! Form::open(['method'=>'POST','url'=>route('loan.complete')]) !!}
-    @include('loansandrepayments.client_information_form')
+    @include('regularisation.client_information_form')
     
-    @include('regularisation.form') {{-- This is special loan --}}
+    @if ($loan != null )
+	    @include('regularisation.form') 
+	    @include('regularisation.caution_form')
+    @endif
 
-    @include('loansandrepayments.caution_form')
 @stop
 
+ @if ($loan != null )
 @section('content_footer')
     @include('partials.buttons',['completeRoute'=>'loan.complete','cancelRoute'=>'loan.cancel'])
     {!! Form::close() !!}
+
 @stop
+@endif
+
+@else
+
+@section('content')
+{{ trans('regularisation.please_search_for_a_member_in_the_above_search_box_before_you_continue') }}
+@stop
+
+@endif
 
 
 @section('scripts')

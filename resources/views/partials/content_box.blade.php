@@ -2,7 +2,7 @@
             <div class="box-header with-border">
               <h3 class="box-title">@yield('content_title')</h3>
               <div class="box-tools">
-              @if (Request::is('members*') || Request::is('loans*'))
+              @if (Request::is('members*') || Request::is('loans*') || Request::is('regularisation*'))
                @include('members.search')
              @endif
             </div>

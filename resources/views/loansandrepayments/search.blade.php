@@ -7,16 +7,16 @@
       </div>
     @else
 <div class="autocomplete-wrapper">
-<p class="item-content" >
+<p class="container item-content" >
     <img src="{{route('files.get', $cautionneur->photo)}}" align="left">
         <span class="adhersion_number">
-        			{{ $cautionneur->adhersion_id}}
-        <a href="{{ route('loan.remove.cautionneur',$fieldname) }}" class="btn btn-danger">
+    			{{ $cautionneur->adhersion_id}}
+       &nbsp; <a href="{{ route('loan.remove.cautionneur',$fieldname) }}" class="btn btn-warning">
         	<i class="fa fa-remove"></i>
         </a>
         </span>
         <span class="names">
-        	{{ $cautionneur->first_name}} {{ $cautionneur->last_name}}
+        	{{ ucfirst(strtolower($cautionneur->first_name)) }} {{ ucfirst(strtolower($cautionneur->last_name))}}
         	<br/>
         	{{ trans('member.nid') }} : {{ $cautionneur->member_nid }}
         </span>
