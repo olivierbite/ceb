@@ -19,6 +19,8 @@ Route::get('/', ['as' => 'home', 'middleware' => 'sentry.auth', function () {
 Route::get('members/search', 'MemberController@search');
 Route::resource('members', 'MemberController');
 Route::resource('attornies','AttorneyController');
+Route::get('/members/{memberId}/refund',['as' => 'members.refund' , 'uses'=> 'MemberController@refund']);
+Route::get('/members/{memberId}/contribute',['as' => 'members.contribute' , 'uses'=> 'MemberController@contribute']);
 
 /** Contribution routes */
 Route::get('contributions/complete', [
@@ -47,7 +49,8 @@ Route::resource('loans', 'LoanController');
 Route::resource('regularisation', 'RegularisationController');
 
 /** Refunds routes */
-Route::get('/refunds/complete', ['as' => 'refunds.complete', 'uses' => 'RefundController@complete']);
+// Route::get('/refunds/complete', ['as' => 'refunds.complete', 'uses' => 'RefundController@complete']);
+Route::post('/refunds/complete', ['as' => 'refunds.complete', 'uses' => 'RefundController@complete']);
 Route::get('/refunds/cancel', ['as' => 'refunds.cancel', 'uses' => 'RefundController@cancel']);
 Route::resource('refunds', 'RefundController');
 

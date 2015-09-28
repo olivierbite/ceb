@@ -52,6 +52,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
 		$views = [
 			'members.form',
 			'refunds.form',
+			'contributionsandsavings.list',
 		];
 		view()->composer($views, 'Ceb\ViewComposers\InstitutionsViewComposer');
 	}

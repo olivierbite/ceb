@@ -2,6 +2,7 @@
 namespace Ceb\Factories;
 use Ceb\Models\Institution;
 use Ceb\Traits\TransactionTrait;
+use Ceb\Models\User;
 use Illuminate\Support\Facades\Session;
 
 /**
@@ -9,8 +10,9 @@ use Illuminate\Support\Facades\Session;
  */
 class ContributionFactory {
 	use TransactionTrait;
-	function __construct(Session $session, Institution $institution) {
+	function __construct(Session $session, Institution $institution,User $member) {
 		$this->session = $session;
+		$this->member = $member;
 		$this->institution = $institution;
 	}
 
@@ -31,7 +33,21 @@ class ContributionFactory {
 	
 		$this->setContributions($members->toArray());
 	}
-		/**
+    
+    /**
+	 * Set members
+	 * @param integer $memberId
+	 *
+	 * @return bool
+	 */
+	public function setMember($memberId)
+	{	
+		$member = $this->member->findOrFail($memberId);
+		$members[] = $member->toArray();
+		$this->setContributions($members);
+		return true;
+	}
+    /**
 	 * Set members who are about to contribute
 	 * @param array $members
 	 */
@@ -44,6 +60,7 @@ class ContributionFactory {
 	 * @param array $data
 	 */
 	public function setContributions(array $data) {
+
 		$finalData = [];
 		foreach ($data as $item) {
 			$item['institution'] = $this->institution->find($item['institution_id'])->name;

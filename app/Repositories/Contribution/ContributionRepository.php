@@ -113,6 +113,11 @@ class ContributionRepository {
 		$month = $this->contributionFactory->getMonth();
 		$fullTransactions = true;
 
+		if (count($contributions) < 1 ) {
+			// nothing to do here
+			return false;
+		}
+
 		foreach ($contributions as $contribution) {
 			$contribution['transactionid'] = $transactionId;
 			$contribution['month'] = $month;

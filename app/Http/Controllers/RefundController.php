@@ -43,6 +43,7 @@ class RefundController extends Controller {
 	public function complete() {
 		// codes to complete transactions
 		$this->refundFactory->complete();
+		
 		return Redirect::route('refunds.index');
 	}
 
@@ -67,12 +68,14 @@ class RefundController extends Controller {
 
 		$month = $this->refundFactory->getMonth();
 		$institution = $this->refundFactory->getInstitution();
+
+
 		$debitAccount = $this->refundFactory->getDebitAccount();
 		$creditAccount = $this->refundFactory->getCreditAccount();
 		$members = $this->refundFactory->getRefundMembers();
 		$totalRefunds = $this->refundFactory->getTotalRefunds();
 
-		return view('refunds.list', compact('members', 'month', 'totalRefunds', 'creditAccount', 'debitAccount'));
+		return view('refunds.list', compact('members','institution', 'month', 'totalRefunds', 'creditAccount', 'debitAccount'));
 	}
 
 	/**
@@ -90,6 +93,7 @@ class RefundController extends Controller {
 	private function setInstitution() {
 		// If the user has changed new institution
 		if (Input::has('institution')) {
+			$this->refundFactory->setInstitution(Input::get('institution'));
 			$this->refundFactory->setByInsitution(Input::get('institution'));
 			$this->refundFactory->setByInsitution(Input::get('institution'));
 		}

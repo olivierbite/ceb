@@ -1,4 +1,4 @@
-{!! Form::open(array('route' => array('refunds.update', $member['id']), 'method' => 'PUT')) !!}
+{{-- {!! Form::open(array('route' => array('refunds.update', $member['id']), 'method' => 'PUT')) !!} --}}
 <tr>
 	<td>{!! Form::checkbox('memberIds[]', $member->id, true) !!}</td>
 	<td>{!! $member->adhersion_id !!}</td>
@@ -11,4 +11,4 @@
 	</span>
 	</td>
 </tr>
-{!! Form::close() !!}
+{{-- {!! Form::close() !!} --}}

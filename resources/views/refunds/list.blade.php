@@ -12,6 +12,8 @@ function toggle(source) {
 </script>
 @stop
 @section('content')
+
+{!! Form::open(['route'=>'refunds.complete']) !!}
   @include('refunds.form',['institutionId'=>'institutionId'])
   <table class="ui table">
   	 <thead>
@@ -27,8 +29,9 @@ function toggle(source) {
  <tbody>
    @each ('refunds.item', $members, 'member', 'refunds.no-items')
  </tbody>
-  </table>
-@stop
-@section('content_footer')
-    @include('partials.buttons',['completeRoute'=>'refunds.complete','cancelRoute'=>'refunds.cancel'])
+</table>
+
+ @include('partials.buttons',['completeRoute'=>'refunds.complete','cancelRoute'=>'refunds.cancel'])
+
+ {!! Form::close() !!}
 @stop

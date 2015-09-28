@@ -6,6 +6,7 @@ use Ceb\Traits\TransactionTrait;
 use DB;
 use Illuminate\Support\Facades\Session;
 use Sentry;
+use Ceb\Models\User;
 
 /**
  * Refund Factory
@@ -16,10 +17,11 @@ class RefundFactory {
 	/** Variable to  hold the object that are going to be injected */
 	private $institution;
 
-	function __construct(Institution $institution, Refund $refund, Posting $posting) {
+	function __construct(Institution $institution, Refund $refund, Posting $posting,User $member) {
 		$this->institution = $institution;
 		$this->refund = $refund;
 		$this->posting = $posting;
+		$this->member = $member;
 	}
 
 	/**
@@ -38,8 +40,30 @@ class RefundFactory {
 		if (!is_array($members)) {
 			$members = [];
 		}
+
 		$this->setRefundMembers($members);
 	}
+
+	/**
+	 * Set members
+	 * @param integer $memberId
+	 *
+	 * @return bool
+	 */
+	public function setMember($memberId)
+	{
+		$member = $this->member->findOrFail($memberId);
+
+		if (!$member->hasActiveLoan()) {
+			flash()->error(trans('member.this_member_doesnot_have_active_loan'));
+			return false;
+		}
+
+		$members[] = $member;
+		$this->setRefundMembers($members);
+		return true;
+	}
+
 	/**
 	 * Update a single monthly contribution for a given uses
 	 * @param  [type] $adhersion_number [description]
@@ -188,6 +212,7 @@ class RefundFactory {
 	public function getRefundMembers() {
 		return Session::get('refundMembers', []);
 	}
+
 	/**
 	 * Remove members who are refunding from the session
 	 * @return void
@@ -264,14 +289,14 @@ class RefundFactory {
 	 * @param mixed $institutionId
 	 */
 	public function setInstitution($institutionId) {
-		return Session::put('refundInstitution', $institutionId);
+		 Session::put('refundInstitution', $institutionId);
 	}
 	/**
 	 * get the current Refund institutions
 	 * @return ID
 	 */
 	public function getInstitution() {
-		return Session::get('refundInstitution', 1); // We assume institution 1 is dhe default one
+		return Session::get('refundInstitution'); // We assume institution 1 is dhe default one
 	}
 	/**
 	 * Remove institution from the session

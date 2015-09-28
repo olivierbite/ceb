@@ -10,6 +10,8 @@ use Ceb\Models\User;
 use Ceb\Repositories\Member\MemberRepositoryInterface;
 use Illuminate\Http\Request;
 use Redirect;
+use Ceb\Factories\RefundFactory;
+use Ceb\Factories\ContributionFactory;
 use Response;
 
 class MemberController extends Controller {
@@ -136,6 +138,36 @@ class MemberController extends Controller {
 		flash()->success($message);
 
 		return Redirect::route('members.edit', ['members' => $id]);
+	}
+
+	/**
+	 * refund this member
+	 * @param  int        $memberId unique ID of this member
+	 * @param  RefundFactory $refund   
+	 * @return redirect
+	 */
+	public function contribute($memberId,ContributionFactory $contribution)
+	{
+		if (!$contribution->setMember($memberId)) {
+			return redirect()->back();
+		}
+
+	   return redirect()->route('contributions.index');
+	}
+
+	/**
+	 * refund this member
+	 * @param  int        $memberId unique ID of this member
+	 * @param  RefundFactory $refund   
+	 * @return redirect
+	 */
+	public function refund($memberId,RefundFactory $refund)
+	{
+		if (!$refund->setMember($memberId)) {
+			return redirect()->back();
+		}
+
+	   return redirect()->route('refunds.index');
 	}
 
 	/**

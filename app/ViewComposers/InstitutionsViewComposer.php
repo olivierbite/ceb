@@ -13,6 +13,9 @@ class InstitutionsViewComposer {
 		$this->institution = $institution;
 	}
 	public function compose(View $view) {
-		$view->with('institutions', $this->institution->lists('name', 'id'));
+
+		$institutions =  ['' => trans('institutions.select_institution')] + $this->institution->lists('name', 'id')->toArray();
+		
+		$view->with('institutions',$institutions);
 	}
 }

@@ -10,9 +10,9 @@
         "rydurham/sentinel": "dev-master",
         "illuminate/html": "^5.0@dev",
         "laracasts/flash": "dev-master",
-        "spatie/activitylog": "dev-master",
         "barryvdh/laravel-translation-manager": "^0.2.0@dev",
-        "anlutro/l4-settings": "dev-master"
+        "anlutro/l4-settings": "dev-master",
+        "spatie/activitylog": "dev-master"
         },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
