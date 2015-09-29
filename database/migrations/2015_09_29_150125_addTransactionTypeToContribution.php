@@ -14,6 +14,7 @@ class AddTransactionTypeToContribution extends Migration
     {
         Schema::table('contributions', function (Blueprint $table) {
             $table->string("transaction_type")->default("credit")->nullable();
+            $table->string("transaction_reason")->default("contribution")->nullable();
         });
     }
 
@@ -26,6 +27,7 @@ class AddTransactionTypeToContribution extends Migration
     {
         Schema::table('contributions', function (Blueprint $table) {
             $table->dropColumn("transaction_type");
+            $table->dropColumn("transaction_reason");
         });
     }
 }
