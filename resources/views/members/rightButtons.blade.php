@@ -1,4 +1,4 @@
-<a class="popdown col-xs-5 col-md-5 btn btn-success btn-box" href="#">
+<a class="popdown col-xs-5 col-md-5 btn btn-success btn-box" href="{!!route('members.attornies',['memberId' => $member->id]) !!}">
 <i class="fa fa-list-ol"></i>
   {{ trans('member.member_attornes') }}
 </a>

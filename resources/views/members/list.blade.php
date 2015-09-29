@@ -5,11 +5,16 @@
 @stop
 
 @section('content')
- <a class="btn btn-primary" href="{{ route('members.create')}}">
+<div class="row">
+<div class="col-xs-2 col-md-2 member-add-button">
+   <a class="btn btn-primary" href="{{ route('members.create')}}">
   <i class="fa fa-plus"></i>
   {{ trans('member.add') }}
   </a>
-  {!! $members->render() !!}
+  </div>
+  <div class="col-xs-8 col-md-8">{!! $members->render() !!}</div>
+</div>
+  
   <table class="ui table">
   	 <thead>
   	 	<tr>
@@ -21,7 +26,7 @@
         <th>{{ trans('member.district') }}</th>
         <th>{{ trans('member.adhersion_date') }}</th>
 
-  	 		<th><i class="fa fa-gear"></i></th>
+  	 		<th style="width: 170px;"><i class="fa fa-gear"></i>{{ trans('general.action') }}</th>
   	 	</tr>
    	 </thead>
  <tbody>

@@ -7,8 +7,7 @@
         <div class="btn-group" role="group">
             @include('files.show',['filename'=>$attorney->signature])
         </div>
-    </div>
-    
-    </div>
+    </div>   
+</div>
             
     

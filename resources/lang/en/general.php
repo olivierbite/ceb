@@ -1,7 +1,7 @@
 <?php
 
 return array (
-  'sorry_there_is_no_item_here' => 'Sorry, there is no item here',
+  'sorry_there_is_no_item_here' => 'Sorry, there is nothing to show here',
   'upload_photo' => 'Upload photo',
   'photo_selected' => 'Photo selected',
   'upload_signature' => 'Upload signature',

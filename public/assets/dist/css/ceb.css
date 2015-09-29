@@ -4842,3 +4842,9 @@ TD.sideNav {
       font-size: 30px;
     display: block;
 }
+.member-add-button {
+    display: inline-block;
+
+    margin: 20px 0;
+    border-radius: 4px;
+}

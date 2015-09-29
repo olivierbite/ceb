@@ -190,7 +190,16 @@ class MemberController extends Controller {
 	  // Perform transacction activities
 	  
 	}
-
+    
+    /**
+	 * This method shows transaction form
+	 * @return view 
+	 */
+	public function attornies($memberId)
+	{
+		$member = $this->member->findOrfail($memberId);
+		return view('members.attornies',compact('member'));
+	}
 	
 	/**
 	 * Remove the specified resource from storage.
