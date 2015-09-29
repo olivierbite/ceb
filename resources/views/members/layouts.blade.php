@@ -3,10 +3,7 @@
 </div>
 <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4" >
 <div class="row">
-	@include('members.attornies',['member'=>$member])
-</div>
-<div class="row">
- @include('members.contracts')
+ @include('members.rightButtons')
 </div>
 </div>
 

@@ -4828,5 +4828,17 @@ TD.sideNav {
 }
 
 .btn {
+    margin: 2px;
     border-radius: 0px;
+}
+
+.btn-box{
+      height: 60px;
+      font-size: 12px;
+      vertical-align: middle;
+}
+
+.btn-box > i {
+      font-size: 30px;
+    display: block;
 }
