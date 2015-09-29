@@ -4826,3 +4826,7 @@ TD.sideNav {
     vertical-align: middle;
     text-align: left;
 }
+
+.btn {
+    border-radius: 0px;
+}

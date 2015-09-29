@@ -170,6 +170,28 @@ class MemberController extends Controller {
 	   return redirect()->route('refunds.index');
 	}
 
+
+	/**
+	 * This method shows transaction form
+	 * @return view 
+	 */
+	public function transacts($memberId)
+	{
+		$member = $this->member->findOrfail($memberId);
+		return view('members.transactions',compact('member'));
+	}
+
+	/**
+	 * This method complete transaction
+	 * @return redirect
+	 */
+	public function completeTransaction()
+	{
+	  // Perform transacction activities
+	  
+	}
+
+	
 	/**
 	 * Remove the specified resource from storage.
 	 *

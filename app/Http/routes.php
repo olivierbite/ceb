@@ -21,6 +21,7 @@ Route::resource('members', 'MemberController');
 Route::resource('attornies','AttorneyController');
 Route::get('/members/{memberId}/refund',['as' => 'members.refund' , 'uses'=> 'MemberController@refund']);
 Route::get('/members/{memberId}/contribute',['as' => 'members.contribute' , 'uses'=> 'MemberController@contribute']);
+Route::get('/members/{memberId}/transacts',['as'=>'members.transacts','uses'=>'MemberController@transacts']);
 
 /** Contribution routes */
 Route::get('contributions/complete', [
@@ -79,5 +80,5 @@ Route::post('files/add', [
 	'as' => 'files.add', 'uses' => 'FileController@add']);
 
 Route::get('/test', ['as' => 'loan.print', function () {
-	dd(Ceb\Models\Loan::find(24)->getCautionneur1);
+	return view('members.transactions');
 }]);

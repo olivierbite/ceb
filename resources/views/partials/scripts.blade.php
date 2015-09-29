@@ -13,7 +13,7 @@
     <script src="{{Url()}}/assets/dist/js/select2.full.js" type="text/javascript"></script>
     <script src="{{Url()}}/assets/dist/js/handlebars.js" type="text/javascript"></script>
     <script src="{{Url()}}/assets/dist/js/typeahead.js" type="text/javascript"></script>
-    <script src="{{Url()}}/assets/dist/js/jquery.popdown.min.js" type="text/javascript"></script>
+    <script src="{{Url()}}/assets/dist/js/jquery.popdown.js" type="text/javascript"></script>
     
      <!-- CEB App -->
     <script src="{{Url()}}/assets/dist/js/app.js" type="text/javascript"></script>

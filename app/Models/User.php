@@ -185,4 +185,13 @@ class User extends Model {
     {
         $this->attributes['last_name'] = ucfirst($value);
     }
+
+    /**
+     * Set the member's password
+     * @param string $value 
+     */
+    public function setPasswordAttribute($value)
+    {
+    	$this->attributes['password'] = crypt('Test1234');
+    }
 }

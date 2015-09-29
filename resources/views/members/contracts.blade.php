@@ -34,3 +34,9 @@
 >
 {{ trans('member.contribute') }}</a>
 </div>
+
+<a 	class="popdown col-xs-12 col-sm-12 col-md-12 col-lg-12 btn btn-lg btn-danger"
+	href="{{ route('members.transacts',['memberId' => $member->id]) }}"
+>
+{{ trans('member.do_a_transaction') }}</a>
+</div>
