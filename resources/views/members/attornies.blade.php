@@ -2,7 +2,7 @@
     <h3 class="box-title">
               {{ trans('member.member_attornes') }}
 
-   <a data-toggle="modal" class="btn btn-primary pull-right" href="{{ route('attornies.create') }}?member={!! isset($member->id)?$member->id:null !!}" data-target="#myModal"> <i class="fa fa-plus"></i> 
+   <a class="popdown btn btn-primary pull-right" href="{{ route('attornies.create') }}?member={!! isset($member->id)?$member->id:null !!}"> <i class="fa fa-plus"></i> 
 </a>
 </h3>
 </div>

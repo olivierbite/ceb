@@ -7,8 +7,10 @@
     <link href="{{Url()}}/assets/ionicons/ionicons.min.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="{!! Url() !!}/assets/dist/css/select2.min.css" />
     <!-- Theme style -->
+   
     <link href="{{Url()}}/assets/dist/css/ceb.css" rel="stylesheet" type="text/css" />
-    <!-- AdminLTE Skins. Choose a skin from the css/skins
+     <link href="{{Url()}}/assets/dist/css/jquery.popdown.css" rel="stylesheet" type="text/css" />
+    <!-- CEB Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
     <link href="{{Url()}}/assets/dist/css/skins/_all-skins.min.css" rel="stylesheet" type="text/css" />
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->

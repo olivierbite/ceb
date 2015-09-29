@@ -813,3 +813,9 @@ $(document).on('change', '#upload-photo:file', function() {
     });
   });
 
+  /**
+   * Make sure the popdown library is initated here
+   */
+  $(document).ready(function(){
+    $('.popdown').popdown();
+  });
