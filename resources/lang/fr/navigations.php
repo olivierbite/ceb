@@ -1,27 +1,24 @@
 <?php
 
-return [
-
-	/*
-	|--------------------------------------------------------------------------
-	| Navigation Language Lines
-	|--------------------------------------------------------------------------
-	|
-	| The following language lines are used by the navigation to build
-	| the simple navigation links. You are free to change them to anything
-	| you want to customize your views to better match your application
-	|
-	 */
-
-	'dashboard' => 'Dashboard',
-	'members' => 'Members',
-	'contributions_and_savings' => 'Contributions & savings',
-	'loans_and_repayments' => 'Loans & repayments',
-	'accounting' => 'Accounting',
-	'reports' => 'Reports',
-	'settings' => 'Settings',
-	'institutions' => 'institutions',
-	'accounting_plan' => 'Accounting plan',
-	'closing_exercise' => 'Closing Exercise',
-	'contributions' => 'Contributions',
-];
+return array (
+  'dashboard' => 'Tableaux  De Bord ',
+  'members' => 'Members',
+  'contributions_and_savings' => 'Cotisation & Epargne',
+  'loans_and_repayments' => 'Loans & repayments',
+  'accounting' => 'Comptabilite',
+  'reports' => 'Reports',
+  'settings' => 'Settings',
+  'institutions' => 'institutions',
+  'accounting_plan' => 'Plan  Comptable',
+  'closing_exercise' => 'Ferme  l\' exercice ',
+  'contributions' => 'Cotisation',
+  'groups' => 'Groupes',
+  'help' => 'Help',
+  'loans' => 'Loans',
+  'refund' => 'Refund',
+  'refunds' => 'Refunds',
+  'report_contrats' => 'Report Contracts',
+  'report_files' => 'Report Files',
+  'user' => 'User',
+  'main_navigation' => 'Menu',
+);
