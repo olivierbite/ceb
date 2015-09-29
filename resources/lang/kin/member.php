@@ -9,4 +9,6 @@ return array (
   'district' => 'District',
   'adhersion_date' => 'Adhersion date',
   'monthly_fee' => 'Monthly fees',
+  'add' => 'Ongera',
+  'count_of_members' => 'Umubare w\' abanyamuryango',
 );

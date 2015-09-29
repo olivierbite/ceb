@@ -1,14 +1,17 @@
 <?php
 
-return [
-	'institutions' => 'Institutions',
-	'month' => 'Month',
-	'date' => 'Date',
-	'totalAmount' => 'Total amount',
-	'debit_account' => 'Debit account',
-	'credit_account' => 'Credit account',
-
-	// BUTTONS
-	'complete_transaction' => 'Complete transaction',
-	'cancel_transaction' => 'Cancel transaction',
-];
+return array (
+  'institutions' => 'Institutions',
+  'month' => 'Mois',
+  'date' => 'Date',
+  'totalAmount' => 'Montant Total',
+  'debit_account' => 'Compte Debit',
+  'credit_account' => 'Compte Credit',
+  'complete_transaction' => 'Complete transaction',
+  'cancel_transaction' => 'Cancel transaction',
+  'add_new' => 'Ajouter Nouveau',
+  'add_new_contribution' => 'Ajoute Nouveau Cotisation',
+  'contribution_cancelled' => 'Annuler Cotisation',
+  'contribution_well_saved' => 'Cotisation  a été bien enregistre ',
+  'something_went_wrong_while_saving_contribution' => 'Erreur lors d\'Enrgistrement',
+);

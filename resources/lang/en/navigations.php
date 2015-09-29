@@ -1,29 +1,24 @@
 <?php
 
-return [
-
-	/*
-	|--------------------------------------------------------------------------
-	| Navigation Language Lines
-	|--------------------------------------------------------------------------
-	|
-	| The following language lines are used by the navigation to build
-	| the simple navigation links. You are free to change them to anything
-	| you want to customize your views to better match your application
-	|
-	 */
-
-	'dashboard' => 'Dashboard',
-	'members' => 'Members',
-	'contributions_and_savings' => 'Contributions & savings',
-	'loans_and_repayments' => 'Loans & repayments',
-	'accounting' => 'Accounting',
-	'reports' => 'Reports',
-	'settings' => 'Settings',
-	'institutions' => 'institutions',
-	'accounting_plan' => 'Accounting plan',
-	'closing_exercise' => 'Closing Exercise',
-	'contributions' => 'Contributions',
-	'refund' => 'Refunds',
-	'loans' => 'Loans',
-];
+return array (
+  'dashboard' => 'Dashboard',
+  'members' => 'Members',
+  'contributions_and_savings' => 'Contributions & savings',
+  'loans_and_repayments' => 'Loans & repayments',
+  'accounting' => 'Accounting',
+  'reports' => 'Rapports',
+  'settings' => 'Configurations',
+  'institutions' => 'institutions',
+  'accounting_plan' => 'Accounting plan',
+  'closing_exercise' => 'Closing Exercise',
+  'contributions' => 'Contributions',
+  'main_navigation' => 'Menue',
+  'report_contrats' => 'Rapport Contrats',
+  'report_files' => 'Fichiers Rapport',
+  'help' => 'Aide',
+  'refund' => 'Remboursement',
+  'loans' => 'Loans',
+  'user' => 'Utilisateur',
+  'groups' => 'Groups',
+  'refunds' => 'Remboursements',
+);
