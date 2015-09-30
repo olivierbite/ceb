@@ -4827,6 +4827,9 @@ TD.sideNav {
     text-align: left;
 }
 
+/**
+ * CUSTOMER BUTTONS
+ */
 .btn {
     margin: 2px;
     border-radius: 0px;
@@ -4847,4 +4850,35 @@ TD.sideNav {
 
     margin: 20px 0;
     border-radius: 4px;
+}
+.green{
+ background-color: #5bb75b; 
+}
+.apple{
+  background-color:  #95a5a6;
+}
+.windows{
+  border-right: 1px solid lighten(#1a1a1a, 10%);
+  background-color:  #3498db;
+}
+.gray-dark
+{
+  background-color: #555555;
+}
+.gray-darkest{
+  background-color: #1a1a1a;
+}
+.gray{
+  background-color: #445561;
+}
+.orange{
+  background-color:  #f26b43;
+}
+.btn-inverse {
+  background-color: #262626;
+  color: #f1f1f1; 
+}
+.btn-inverse:hover{
+  background-color: #454545;
+  color: #ffffff;
 }

@@ -169,7 +169,27 @@ class MemberController extends Controller {
 
 	   return redirect()->route('refunds.index');
 	}
-
+  	
+  	/**
+  	 * Show member loan records
+  	 * @param  numeric $memberId the ID of the member
+  	 * @return view    
+  	 */
+    public function loanRecords($memberId)
+    {
+    	$member = $this->member->findOrfail($memberId);
+    	return view('reports.member.loan_records',compact('member'));
+    }
+    /**
+     * Show this member contribution
+     * @param  numeric $memberId [description]
+     * @return view       
+     */
+    public function contributions($memberId)
+    {
+    	$member = $this->member->findOrfail($memberId);
+    	return view('reports.member.loan_records',compact('member'));
+    }
 
 	/**
 	 * This method shows transaction form

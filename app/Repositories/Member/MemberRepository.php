@@ -226,6 +226,7 @@ class MemberRepository implements MemberRepositoryInterface {
 	public function getByAdhersion($adhersionId) {
 		return $This->user->getByAdhersion($adhersionId);
 	}
+	
 	/**
 	 * Retrieve a user by their unique identifier.
 	 *
