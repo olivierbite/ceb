@@ -11,12 +11,14 @@ class ViewComposerServiceProvider extends ServiceProvider {
 	 * @return void
 	 */
 	public function boot() {
+
 		$this->composerAccounting();
 		$this->composerInstitutions();
 		$this->composerMembers();
 		$this->composerMonthYear();
 		$this->composerJournals();
 		$this->composerLoanTypes();
+		$this->composerMemberTransactions();
 	}
 
 	/**
@@ -109,5 +111,14 @@ class ViewComposerServiceProvider extends ServiceProvider {
 		
 		];
 		view()->composer($views, '\Ceb\ViewComposers\LoanTypeViewComposer');
+	}
+
+	private function composerMemberTransactions()
+	{
+		$views = [
+			'members.transactions',	
+		];
+
+		view()->composer($views,'\Ceb\ViewComposers\MemberTransactionsViewComposer');
 	}
 }

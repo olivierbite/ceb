@@ -1,3 +1,5 @@
+
+
 <link href="{{Url()}}/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 <link href="{{Url()}}/assets/dist/css/modalPopup.css" rel="stylesheet" type="text/css" />
 
@@ -52,7 +54,7 @@
                                     <label for="movement_type">
 	                                	 {{ trans('member.movement_type') }}
                                      </label>
-                                   	 {!! Form::select('movement_type', [], null, ['class'=>'form-control']) !!}
+                                   	 {!! Form::select('movement_type', array_keys($memberTransactions), null, ['class'=>'form-control movement_type']) !!}
                                 </div>
                             </div>
                            <div class="col-xs-4 col-md-4">
@@ -60,7 +62,7 @@
                                     <label for="operation_type">
 	                                	 {{ trans('member.operation_type') }}
                                      </label>
-                                   	 {!! Form::select('operation_type', [], null, ['class'=>'form-control']) !!}
+                                   	 {!! Form::select('operation_type', [trans('member.select_movement_type_first')], null, ['class'=>'form-control operation_type']) !!}
                                 </div>
                             </div>
                            <div class="col-xs-4 col-md-4">
@@ -112,10 +114,37 @@
                 </div>
             </div>            
             <!-- CREDIT CARD FORM ENDS HERE -->
-            
-            
-        </div>            
-        
-        
+        </div>                    
     </div>
 </div>
+<script type="text/javascript">
+  var savingsType = {!! json_encode($memberTransactions['saving']) !!} ;
+  var withdrawalType = {!! json_encode($memberTransactions['withdrawal']) !!} ;
+
+    $(document).ready(function(){
+    $('.movement_type').on('change',function(event) {
+      /* Act on the event */
+      if($(this).val() == 1)
+      {
+        var options = '';
+        $.each(savingsType, function(index, val) {
+           options += '<option value="' +  val + '">' + val + '</option>';
+        });
+        $(".operation_type").html(options);
+        return ;
+      }
+
+      if($(this).val() == 2)
+      {
+         var options = '';
+        $.each(withdrawalType, function(index, val) {
+           options += '<option value="' +  val + '">' + val + '</option>';
+        });
+        $(".operation_type").html(options);
+        return;
+      }
+
+      $(".operation_type").html('<option value="0">Select movement type first</option>');
+    });
+  });
+</script>
