@@ -42,6 +42,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
 			'accounting.credit_form',
 			'contributionsandsavings.form',
 			'refunds.form',
+			'members.transactions'
 		];
 
 		view()->composer($views, 'Ceb\ViewComposers\AccountViewComposer');

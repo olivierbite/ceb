@@ -102,9 +102,7 @@
                             </div>
                         </div>
                         <div class="row">
-                           <div class="col-xs-12">
-                             <div id="container"></div>
-                           </div>
+                          @include('members.transaction_debit_credit')
                         </div>
                         <div class="row">
                             <div class="col-xs-12">
@@ -210,21 +208,49 @@
 })(jQuery, window, document);
 </script>
 
-
 <script type="text/javascript">
 
     (function($){
         $countForms = 1;
-        $.fn.addForms = function(){
-          var myform = "<table>"+
-           "  <tr>"+
-           "     <td>Field A ("+$countForms+"):</td>"+
-           "     <td><input type='text' name='fielda["+$countForms+"]'></td>"+
-           "     <td>Field B ("+$countForms+"):</td>"+
-           "     <td><textarea name='fieldb["+$countForms+"]'></textarea></td>"+
-           "     <td><button>remove</button></td>"+
-           "  </tr>"+
-           "</table>";
+        var accounts = {!! json_encode($accounts) !!};
+
+        $accountsOptions = '';
+         $.each(accounts, function(index, val) {
+           $accountsOptions += '<option value="' +  index + '">' + val + '</option>';
+        });
+
+        $.fn.addCreditForms = function(){
+          var myform = "<div class='form-group account-row' >"+
+                       "     <div class='col-xs-6'>"+
+                       "      <select class='form-control account' name='credit_accounts["+$countForms+"]'>"+$accountsOptions+"</select></td>"+
+                       "     </div>"+
+                       "     <div class='col-xs-4'>"+
+                       "        <input class='form-control accountAmount' name='credit_amounts["+$countForms+"]' type='numeric' value='0'>"+
+                       "     </div>"+         
+                       "     <div class='col-xs-2'>"+
+                       "        <button class='btn btn-danger'><i class='fa fa-times'></i></button> " +
+                       "     </div>"+ 
+                       "</div>";
+
+           myform = $("<div>"+myform+"</div>");
+           $("button", $(myform)).click(function(){ $(this).parent().parent().remove(); });
+
+           $(this).append(myform);
+           $countForms++;
+        };
+
+         $.fn.addDebitForms = function(){
+          var myform = "<div class='form-group account-row' >"+
+                       "     <div class='col-xs-6'>"+
+                       "      <select class='form-control account' name='debit_accounts["+$countForms+"]'>"+$accountsOptions+"</select></td>"+
+                       "     </div>"+
+                       "     <div class='col-xs-4'>"+
+                       "        <input class='form-control accountAmount' name='debit_amounts["+$countForms+"]' type='numeric' value='0'>"+
+                       "     </div>"+         
+                       "     <div class='col-xs-2'>"+
+                       "        <button class='btn btn-danger'><i class='fa fa-times'></i></button> " +
+                       "     </div>"+ 
+                       "</div>";
 
            myform = $("<div>"+myform+"</div>");
            $("button", $(myform)).click(function(){ $(this).parent().parent().remove(); });
@@ -234,13 +260,18 @@
         };
     })(jQuery);   
 
-    $(function(){
-      $("#mybutton").bind("click", function(){
-        $("#container").addForms();
-      });
-    });
+     $(function(){
 
+      $("#add-credit-account").bind("click", function(){
+        $("#credit-accounts-container").addCreditForms();
+      });
+
+      $("#add-debit-account").bind("click", function(){
+        $("#debit-accounts-container").addDebitForms();
+      });
+
+    });
 </script>
 </head>
 <body>
-<button id="mybutton">add form</button>
+

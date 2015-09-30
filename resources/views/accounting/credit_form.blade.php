@@ -2,7 +2,7 @@
 <label>{{ trans('loan.credit_account') }}</label>
 <div class="form-group" >
     <div class="col-xs-6">
-    <label>{{ trans('accounting.debit_account') }}</label>
+    <label>{{ trans('accounting.creditt_account') }}</label>
     </div>
     <div class="col-xs-4">
     <label>{{ trans('accounting.amount') }}</label>
