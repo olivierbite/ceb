@@ -102,6 +102,11 @@
                             </div>
                         </div>
                         <div class="row">
+                           <div class="col-xs-12">
+                             <div id="container"></div>
+                           </div>
+                        </div>
+                        <div class="row">
                             <div class="col-xs-12">
                                 <button class="btn btn-success btn-lg btn-block" type="submit">{{ trans('general.save') }}</button>
                             </div>
@@ -204,3 +209,38 @@
 
 })(jQuery, window, document);
 </script>
+
+
+<script type="text/javascript">
+
+    (function($){
+        $countForms = 1;
+        $.fn.addForms = function(){
+          var myform = "<table>"+
+           "  <tr>"+
+           "     <td>Field A ("+$countForms+"):</td>"+
+           "     <td><input type='text' name='fielda["+$countForms+"]'></td>"+
+           "     <td>Field B ("+$countForms+"):</td>"+
+           "     <td><textarea name='fieldb["+$countForms+"]'></textarea></td>"+
+           "     <td><button>remove</button></td>"+
+           "  </tr>"+
+           "</table>";
+
+           myform = $("<div>"+myform+"</div>");
+           $("button", $(myform)).click(function(){ $(this).parent().parent().remove(); });
+
+           $(this).append(myform);
+           $countForms++;
+        };
+    })(jQuery);   
+
+    $(function(){
+      $("#mybutton").bind("click", function(){
+        $("#container").addForms();
+      });
+    });
+
+</script>
+</head>
+<body>
+<button id="mybutton">add form</button>
