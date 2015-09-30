@@ -4826,7 +4826,14 @@ TD.sideNav {
     vertical-align: middle;
     text-align: left;
 }
-
+label.error {
+    color: #FB3A3A;
+    display: inline-block;
+    padding: 0;
+    text-align: left;
+    font-size: 12px;
+    width: 220px;
+}
 /**
  * CUSTOMER BUTTONS
  */
@@ -4882,3 +4889,5 @@ TD.sideNav {
   background-color: #454545;
   color: #ffffff;
 }
+
+

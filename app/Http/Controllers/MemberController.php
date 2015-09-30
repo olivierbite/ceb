@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Redirect;
 use Ceb\Factories\RefundFactory;
 use Ceb\Factories\ContributionFactory;
+use Ceb\Http\Requests\CompleteMemberTransactionRequest;
 use Response;
 
 class MemberController extends Controller {
@@ -206,9 +207,9 @@ class MemberController extends Controller {
 	 * This method complete transaction
 	 * @return redirect
 	 */
-	public function completeTransaction()
+	public function completeTransaction(CompleteMemberTransactionRequest $request)
 	{
-	  // Perform transacction activities
+	  dd($request->all());
 	  
 	}
     

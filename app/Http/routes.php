@@ -22,6 +22,7 @@ Route::resource('attornies','AttorneyController');
 Route::get('/members/{memberId}/refund',['as' => 'members.refund' , 'uses'=> 'MemberController@refund']);
 Route::get('/members/{memberId}/contribute',['as' => 'members.contribute' , 'uses'=> 'MemberController@contribute']);
 Route::get('/members/{memberId}/transacts',['as'=>'members.transacts','uses'=>'MemberController@transacts']);
+Route::get('/members/{memberId}/completetransaction',['as'=>'members.completetransaction','uses'=>'MemberController@completeTransaction']);
 Route::get('/members/{memberId}/attornies',['as'=>'members.attornies','uses'=>'MemberController@attornies']);
 Route::get('/members/{memberId}/loanrecords',['as'=>'members.loanrecords','uses'=>'MemberController@loanRecords']);
 Route::get('/members/{memberId}/contributions',['as'=>'members.contributions','uses'=>'MemberController@contributions']);

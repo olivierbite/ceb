@@ -1,5 +1,3 @@
-
-
 <link href="{{Url()}}/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 <link href="{{Url()}}/assets/dist/css/modalPopup.css" rel="stylesheet" type="text/css" />
 
@@ -12,10 +10,10 @@
         
             <!-- CREDIT CARD FORM STARTS HERE -->
             <div class="panel panel-default credit-card-box">
-            <a href="#" class="close-popdown">close</a>
+            
                 <div class="panel-heading display-table" >
-                    <div class="row display-tr" style="text-align: center;font-weight: 700;" >
-                        <h3 class="panel-title display-td" >{{ trans('member.transactions_and_other_withdrawals_on_savings') }}</h3>
+                    <div class="row display-tr" style="text-align: center;" >
+                        <h3 style="font-weight: 400;text-decoration: underline;margin: 0px;margin-bottom: 5%;">{{ trans('member.transactions_and_other_withdrawals_on_savings') }}</h3>
                                 <div class="col-md-1">
                                   <div style="width:70px;border:2px solid rgba(0,0,0,0.8);">
                                     @include('files.show',['filename'=>$member->photo])
@@ -42,11 +40,14 @@
                                     {!! isset($member->institution()->name) ? $member->institution()->name : null !!}
                                   </div>
                                   </div>
+                                  <div class="col-md-2">
+                                    <a href="#" class="btn btn-danger close-popdown"><i class="fa fa-times"></i></a>
+                                  </div>
                             </div>
                         </div>        
                 </div>
                 <div class="panel-body">
-                    <form role="form" id="payment-form">
+                    <form role="form" id="member-transaction-form" action="{!! route('members.completetransaction',['memberId'=>$member->id]) !!}">
 
                         <div class="row">
                             <div class="col-xs-4 col-md-4">
@@ -96,7 +97,7 @@
                                     <label for="bank">
 	                                	 {{ trans('member.bank') }}
                                      </label>
-                                   	 {!! Form::select('bank', [], null, ['class'=>'form-control']) !!}
+                                   	 {!! Form::select('bank', [0], null, ['class'=>'form-control']) !!}
                                 </div>
                             </div>
                         </div>
@@ -147,4 +148,59 @@
       $(".operation_type").html('<option value="0">Select movement type first</option>');
     });
   });
+
+
+  /**
+   * Implement validation
+   */
+  (function($,W,D)
+{
+    var JQUERY4U = {};
+
+    JQUERY4U.UTIL =
+    {
+        setupFormValidation: function()
+        {
+            //form validation rules
+            $("#member-transaction-form").validate({
+                rules: {
+                    movement_type: "required",
+                    operation_type:  "required",
+                wording: {
+                        required: true,
+                        minlength: 10
+                    },
+                cheque_number: {
+                        required: true,
+                        minlength: 5
+                    },
+                amount: {
+                        required: true,
+                        minlength: 4
+                    }
+                },
+                messages: {
+                    movement_type: "Please select movement type",
+                    operation_type: "Please select operation type",
+                    bank: {
+                        required: "Please provide a bank",
+                        minlength: "Your bank must be at least 2 characters long"
+                    },
+                    wording: "Please enter a valid wording",
+                    cheque_number: "Please enter a valid cheque_number",
+                    amount: "Please enter a valid amount"
+                },
+                submitHandler: function(form) {
+                    form.submit();
+                }
+            });
+        }
+    }
+
+    //when the dom has loaded setup form validation rules
+    $(D).ready(function($) {
+        JQUERY4U.UTIL.setupFormValidation();
+    });
+
+})(jQuery, window, document);
 </script>
