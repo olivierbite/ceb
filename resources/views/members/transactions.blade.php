@@ -66,7 +66,7 @@
                                    	 {!! Form::select('operation_type', [trans('member.select_movement_type_first')], null, ['class'=>'form-control operation_type']) !!}
                                 </div>
                             </div>
-                           <div class="col-xs-4 col-md-4">
+                           <div class="col-xs-2 col-md-2">
                                 <div class="form-group">
                                     <label for="amount">
 	                                	 {{ trans('member.amount') }}
@@ -74,6 +74,37 @@
                                    	 {!! Form::input('tel', 'amount', 0, ['class'=>'form-control']) !!}
                                 </div>
                             </div>
+                              <div class="col-xs-1 col-md-1">
+                                <div class="form-group">
+                                <label></label>
+                                   {!! Form::checkbox('charge', 20, false,['style'=>'    position: absolute;
+                                                                  display: block;
+                                                                  width: 30%;
+                                                                  height: 30%;
+                                                                  margin: 0px;
+                                                                  padding: 0px;
+                                                                  border: 0px;'])
+                                    !!}
+                                    
+                                </div>
+                                2 %
+                             </div>
+                               <div class="col-xs-1 col-md-1">
+                               <label></label>
+                                <div class="form-group" >
+                                   {!! Form::checkbox('charge', 20, false,['style'=>'    position: absolute;
+                                                                  display: block;
+                                                                  width: 30%;
+                                                                  height: 30%;
+                                                                  margin: 0px;
+                                                                  padding: 0px;
+                                                                  border: 0px;'])
+                                    !!}
+                                    
+                                </div>
+                                10 %
+                             </div>
+                          
                         </div>
                         <div class="row">
                             <div class="col-xs-4 col-md-4">
