@@ -42,8 +42,15 @@ trait TransactionTrait {
 	 * @param array $amounts  accounts Amount
 	 */
 	public function accountAmount(array $accounts, array $amounts) {
+		
 		$newData = [];
 		foreach ($accounts as $key => $value) {
+		
+			    if (!isset($amounts[$key]['value']) && !empty($amounts[$key])) {
+			    	$newData[$value] = $amounts[$key];
+			    	continue;
+			    }
+
 				if ((empty($amounts[$key]['value']) || trim($amounts[$key]['value']) == '')) {
 				// This account doesn't have amount therefore
 				// Let's go to the next one
@@ -82,6 +89,7 @@ trait TransactionTrait {
 	 * @return boolean
 	 */
 	public function isValidPosting($debits = null, $credits = null) {
+		
 		// Did we recieve arrays ?
 		if (!is_array($debits) || !is_array($credits) || count($debits) == 0 || count($credits) == 0) {
 			# We have nothing to do here, just return false

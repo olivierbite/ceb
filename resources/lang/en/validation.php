@@ -98,6 +98,9 @@ return [
         'movement_type'=> [
             'min' => 'Please select movement type.',
         ],
+        'operation_type' =>[
+            'min' => 'Please select operation_type',
+        ]
     ],
 
 

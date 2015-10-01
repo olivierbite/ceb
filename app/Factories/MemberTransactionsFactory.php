@@ -1,8 +1,11 @@
-<?php namespace Ceb\Factories;
+<?php 
+namespace Ceb\Factories;
+
 use Ceb\Models\Institution;
 use Ceb\Models\Posting;
 use Ceb\Models\Refund;
 use Ceb\Traits\TransactionTrait;
+use Ceb\Models\Contribution;
 use DB;
 use Illuminate\Support\Facades\Session;
 use Sentry;
@@ -25,129 +28,66 @@ class MemberTransactionsFactory {
 	}
 
 	/**
-	 * Set members by institutions
-	 * @param integer $institutionId
-	 */
-	public function setByInsitution($institutionId = 1) {
-		// Do we have some savings ongoing ?
-		if (Session::has('refundMembers')) {
-			// We have things in the session
-			// Clear the session befor continuing
-			$this->clearAll();
-		}
-		// Get the institution by its id
-		$members = $this->institution->find((int) $institutionId)->membersWithLoan();
-		if (!is_array($members)) {
-			$members = [];
-		}
-
-		$this->setRefundMembers($members);
-	}
-
-	/**
-	 * Set members
-	 * @param integer $memberId
-	 *
-	 * @return bool
-	 */
-	public function setMember($memberId)
-	{
-		$member = $this->member->findOrFail($memberId);
-
-		if (!$member->hasActiveLoan()) {
-			flash()->error(trans('member.this_member_doesnot_have_active_loan'));
-			return false;
-		}
-
-		$members[] = $member;
-		$this->setRefundMembers($members);
-		return true;
-	}
-
-	/**
-	 * Update a single monthly contribution for a given uses
-	 * @param  [type] $adhersion_number [description]
-	 * @param  [type] $newValue         [description]
-	 * @return [type]                   [description]
-	 */
-	public function updateMonthlyFee($adhersion_number, $newMontlyFee) {
-		// First get what is in the session now
-		$data = $this->getRefundMembers();
-		// in (PHP 5 >= 5.5.0) you don't have to write your own function to search through a multi dimensional array
-		$key = $this->searchAdhersionKey($adhersion_number, $data);
-
-		// An array can have index 0 that's why we check if it's not strictly false
-		if ($key !== false) {
-			$data[$key]['monthly_fee'] = $newMontlyFee;
-		}
-		// Now we are ready to go
-		return $this->setRefundMembers($data);
-	}
-
-	/**
-	 * Complete current transactions in refund
+	 * Complete current transactions in contribution
 	 *
 	 * @return  bool
 	 */
-	public function complete() {
+	public function complete(array $data) {
 
-		$transactionId = $this->getTransactionId(); // Generating unique transactionid
-
+		$transactionId = $this->getTransactionId();
+		
 		// Start saving if something fails cancel everything
-		DB::beginTransaction();
+		Db::beginTransaction();
+		$saveContibution = $this->saveContibutions($transactionId,$data);
+		$savePosting = $this->savePostings($transactionId,$data);
+         
 
-		$saveRefund = $this->saveRefund($transactionId);
-
-		$savePosting = $this->savePostings($transactionId);
 		// Rollback the transaction via if one of the insert fails
-		if (!$saveRefund || !$savePosting) {
+		if (!$saveContibution || !$savePosting) {
 			DB::rollBack();
-
-			flash()->error(trans('refund.error_occured_during_the_processes_of_registering_refund_please_try_again'));
 			return false;
 		}
 
 		// Lastly, Let's commit a transaction since we reached here
 		DB::commit();
-		// Remove everything from the session
-		$this->clearAll();
-		flash()->success(trans('refund.refun_transaction_sucessfully_registered'));
 		return true;
 
 	}
 
 	/**
-	 * Saving refunds in the database
-	 * @param  [type] $transactionId [description]
-	 * @return [type]                [description]
+	 * Saving contribution as per contribution factory
+	 *
+	 * @return bool
 	 */
-	private function saveRefund($transactionId) {
-		# Get data in the factory
-		$refundMembers = $this->getRefundMembers();
-		$month = $this->getMonth();
-		$contractNumber = $this->getContributionContractNumber();
-		$month = $this->getMonth();
+	private function saveContibutions($transactionId,$data = array()) {
 
-		foreach ($refundMembers as $refundMember) {
-			// dd($refundMember->latestLoan());
-			$refund['adhersion_id'] = $refundMember->adhersion_id;
-			$refund['contract_number'] = $refundMember->latestLoan()->loan_contract;
-			$refund['month'] = $this->getMonth();
-			$refund['amount'] = $refundMember->loanMonthlyFees();
-			$refund['tranche_number'] = $refundMember->latestLoan()->tranches_number;
-			$refund['transaction_id'] = $transactionId;
-			$refund['member_id'] = $refundMember->id;
-			$refund['user_id'] = Sentry::getUser()->id;
-
-			// dd($refund);
-			# try to save if it doesn't work then
-			# exist the loop
-			$newRefund = $this->refund->create($refund);
-			if (!$newRefund) {
+			if (count($data) == 0 ) { // Provided data is empty we have nothing to do here
+				flash()->error(trans('member.member_transaction_data_not_provided'));
 				return false;
 			}
-		}
+ 		
+     
+			$contribution['transactionid'] = $transactionId;
+			$contribution['month'] = date('Ym');
+			$contribution['institution_id'] = $data['member']->institution_id;
+			$contribution['amount'] = $data['amount'];
+			$contribution['state'] = 'Ancien';
+			$contribution['year'] = date('Y');
+			$contribution['contract_number'] = $this->getContributionContractNumber();
+			$contribution['transaction_type'] = $this->getTransactionType($data['movement_type']);
+			$contribution['transaction_reason'] = $data['operation_type'];
+			$contribution['adhersion_id']       = $data['member']->adhersion_id;
 
+
+			//Remove unwanted column
+			unset($contribution['id']);
+
+			# try to save if it doesn't work then
+			# exist the loop
+			$newContribution = Contribution::create($contribution);
+			if (!$newContribution) {
+				return false;
+			}
 		return true;
 	}
 
@@ -156,174 +96,69 @@ class MemberTransactionsFactory {
 	 * @param  STRING $transactionId UNIQUE TRANSACTIONID
 	 * @return bool
 	 */
-	private function savePostings($transactionId) {
+	private function savePostings($transactionId,$data = array()) {
 
-		// First prepare data to use for the debit account
-		// Once are have debited(deducted data) then we can
-		// Credit the account to be credited
-		$posting['transactionid'] = $transactionId;
-		$posting['account_id'] = $this->getDebitAccount();
-		$posting['journal_id'] = 1; // We assume per default we are using journal 1
-		$posting['asset_type'] = null;
-		$posting['amount'] = $this->getTotalRefunds();
-		$posting['user_id'] = Sentry::getUser()->id;
-		$posting['account_period'] = date('Y');
-		$posting['transaction_type'] = 'Debit';
-
-		// Try to post the debit before crediting another account
-		$debiting = $this->posting->create($posting);
-
-		// Change few data for crediting
-		// Then try to credit the account too
-		$posting['transaction_type'] = 'Credit';
-		$posting['account_id'] = $this->getCreditAccount();
-
-		$crediting = $this->posting->create($posting);
-
-		if (!$debiting || !$crediting) {
+		if (count($data) == 0) { // Provided data is empty we have nothing to do here
+			flash()->error(trans('member.member_transaction_data_not_provided'));
 			return false;
 		}
-		// Ouf time to go to bed now
+ 		  
+		//Debiting....
+		$debits = $this->accountAmount($data['debit_accounts'], $data['debit_amounts']);
+
+		//Crediting
+		$credits = $this->accountAmount($data['credit_accounts'], $data['credit_amounts']);
+
+		// Let's again, make sure that accounting records are valid
+		if (!$this->isValidPosting($debits,$credits)) {
+			return false;
+		}
+        
+        // We are good to go, attempt to save
+        // debiting accounts and amount
+        
+		foreach ($debits as $accountId => $amount) {
+			$results = $this->savePosting($accountId, $amount, $transactionId, 'Debit', $journalId = 1);
+			if (!$results) {
+
+				return false;
+			}
+		}
+
+		// Debiting amount has been well saved,
+		// Let's attempt to save credit account
+		
+		foreach ($credits as $accountId => $amount) {
+			$results = $this->savePosting($accountId, $amount, $transactionId, 'Credit', $journalId = 1);
+			if (!$results) {
+				return false;
+			}
+		}
+
+		// We are safe here
 		return true;
 	}
-	/**
-	 * Get Total Refunds fees
-	 * @return decimal montly fees
-	 */
-	public function getTotalRefunds() {
-		$sum = 0;
-		$members = $this->getRefundMembers();
-		foreach ($members as $member) {
-			$sum += $member->loanMonthlyFees();
+
+    
+    /**
+     * Get transaction type
+     * @param  numeric $movement_type_id
+     * @return string                  
+     */
+	public function getTransactionType($movement_type_id)
+	{
+		switch ($movement_type_id) {
+			case 1:
+				$transactionType = 'credit';
+				break;
+			case 2:
+				$transactionType = 'debit';
+				break;
+			default:
+				$transactionType = 'Unknow';
+				break;
 		}
-		return $sum;
-	}
-	/**
-	 * Set members who are about to refund
-	 * @param array $members
-	 */
-	public function setRefundMembers(array $members) {
-		Session::put('refundMembers', $members);
-	}
-	/**
-	 * Get members who are refunding
-	 * @return array
-	 */
-	public function getRefundMembers() {
-		return Session::get('refundMembers', []);
-	}
-
-	/**
-	 * Remove members who are refunding from the session
-	 * @return void
-	 */
-	public function removeRefundMembers() {
-		Session::forget('refundMembers');
-	}
-	/**
-	 * Set Month of transactions
-	 * @param string composed by  $month and Year
-	 */
-	public function setMonth($month) {
-		Session::put('refundMonth', $month);
-	}
-	/**
-	 * Get the stoed month in the session
-	 * @return [type] [description]
-	 */
-	public function getMonth() {
-		return Session::get('refundMonth', date('mY'));
-	}
-
-	/**
-	 * Remove refund month from the session
-	 * @return void
-	 */
-	public function removeMonth() {
-		Session::forget('refundMonth');
-	}
-	/**
-	 * Set debit account ID
-	 * @param integer $accountid
-	 */
-	public function setDebitAccount($accountid) {
-		Session::put('refundDebitAccount', $accountid);
-	}
-	/**
-	 * Set Credit account
-	 * @param  $accountid
-	 */
-	public function setCreditAccount($accountid) {
-		Session::put('refundCreditAccount', $accountid);
-	}
-	/**
-	 * get Debit account
-	 * @return numeric account ID
-	 */
-	public function getDebitAccount() {
-		return Session::get('refundDebitAccount', 1);
-	}
-	/**
-	 * Get Credit Account
-	 * @return numeric unique
-	 */
-	public function getCreditAccount() {
-		return Session::get('refundCreditAccount', 2);
-	}
-	/**
-	 * Remove debit account
-	 * @return void
-	 */
-	public function removeDebitAccount() {
-		Session::forget('refundDebitAccount');
-	}
-	/**
-	 * Remove credit account from the session
-	 * @return void
-	 */
-	public function removeCreditAccount() {
-		Session::forget('refundCreditAccount');
-	}
-	/**
-	 * Set the institution
-	 * @param mixed $institutionId
-	 */
-	public function setInstitution($institutionId) {
-		 Session::put('refundInstitution', $institutionId);
-	}
-	/**
-	 * get the current Refund institutions
-	 * @return ID
-	 */
-	public function getInstitution() {
-		return Session::get('refundInstitution'); // We assume institution 1 is dhe default one
-	}
-	/**
-	 * Remove institution from the session
-	 * @return void
-	 */
-	public function removeInstitution() {
-		Session::forget('refundInstitution');
-	}
-
-	/**
-	 * Cancel transaction that is ongoin
-	 * @return  void
-	 */
-	public function cancel() {
-		$this->clearAll();
-	}
-
-	/**
-	 * Remove all things from the session;
-	 * @return [type] [description]
-	 */
-	private function clearAll() {
-		$this->removeRefundMembers();
-		$this->removeMonth();
-		$this->removeInstitution();
-		$this->removeDebitAccount();
-		$this->removeCreditAccount();
+		return $transactionType;
 	}
 
 }

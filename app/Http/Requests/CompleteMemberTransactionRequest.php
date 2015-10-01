@@ -24,11 +24,10 @@ class CompleteMemberTransactionRequest extends Request
     public function rules()
     {
      
-
       //Continue with Rule validation
         return [
           'movement_type'    =>  'required|numeric|min:1',
-          'operation_type'   =>  'required',
+          'operation_type'   =>  'required|min:3',
           'amount'           =>  'required|numeric|min:5000',
           'wording'          =>  'required|min:6',
           'cheque_number'    =>  'required|alpha_dash|min:5',

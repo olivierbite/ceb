@@ -2,17 +2,19 @@
 
 namespace Ceb\Http\Controllers;
 
+use Ceb\Factories\ContributionFactory;
+use Ceb\Factories\MemberTransactionsFactory;
+use Ceb\Factories\RefundFactory;
 use Ceb\Http\Controllers\Controller;
 use Ceb\Http\Requests\AddNewMemberRequest;
+use Ceb\Http\Requests\CompleteMemberTransactionRequest;
 use Ceb\Http\Requests\EditMemberRequest;
 use Ceb\Models\Institution;
 use Ceb\Models\User;
 use Ceb\Repositories\Member\MemberRepositoryInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use Redirect;
-use Ceb\Factories\RefundFactory;
-use Ceb\Factories\ContributionFactory;
-use Ceb\Http\Requests\CompleteMemberTransactionRequest;
 use Response;
 
 class MemberController extends Controller {
@@ -35,6 +37,7 @@ class MemberController extends Controller {
 
 			return redirect()->back();
 		}
+
 		$members = $this->member->paginate(20);
 
 		return view('members.list', compact('members'));
@@ -207,11 +210,23 @@ class MemberController extends Controller {
 	 * This method complete transaction
 	 * @return redirect
 	 */
-	public function completeTransaction(CompleteMemberTransactionRequest $request)
+	public function completeTransaction($memberId,CompleteMemberTransactionRequest $request,MemberTransactionsFactory $factory)
 	{
-		return 'transaction was done very well..';
-	 
-	  
+		 $data = $request->all();
+
+		 $data['member'] = $this->member->findOrfail($memberId);
+
+		 if ($factory->complete($data)) {
+		 	return response(trans('member.transaction_well_recorded'),200);
+		 }
+
+		 $errors  = array('errors' => json_encode(Session::get('flash_notification.message')) );
+
+		 Session::forget('flash_notification.message'); // remove any error in the dd
+
+		 $errors  = json_encode($errors);
+		 // Error happened here
+		 return response($errors,422);
 	}
     
     /**

@@ -41,6 +41,7 @@
                                     {!! isset($member->institution()->name) ? $member->institution()->name : null !!}
                                   </div>
                                   </div>
+
                                   <div class="col-md-2">
                                     <a href="#" class="btn btn-danger close-popdown"><i class="fa fa-times"></i></a>
                                   </div>
@@ -226,6 +227,7 @@
                     amount: "Please enter a valid amount"
                 },
                 submitHandler: function(form) {
+
                     $('.submit-member-transaction-button').html('<img src="/assets/dist/img/loading.gif" />')
                     //Submit form with Ajax
                     $.ajax({

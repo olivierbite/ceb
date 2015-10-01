@@ -10,7 +10,7 @@ class MonthYearViewComposer {
 	 * Get months Year
 	 * @return array contains months between -6 and +6
 	 */
-	protected function getMonthYear() {
+	public function getMonthYear() {
 		$monthYear = [];
 
 		for ($i = -6; $i < 6; $i++) {
@@ -18,6 +18,7 @@ class MonthYearViewComposer {
 		}
 		return $monthYear;
 	}
+
 	public function compose(View $view) {
 		$view->with('monthYear', $this->getMonthYear());
 	}

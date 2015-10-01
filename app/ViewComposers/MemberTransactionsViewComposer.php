@@ -40,6 +40,7 @@ class MemberTransactionsViewComposer {
 
 	public function compose(View $view) {
 		$this->transactions =  ['select_movement_type' => []] + $this->transactions;
+		// dd(array_keys($this->transactions));
 		$view->with('memberTransactions', $this->transactions);
 	}
 }

@@ -13,5 +13,7 @@ class Contribution extends Model {
 		'transactionid',
 		'year',
 		'contract_number',
+		'transaction_type',
+		'transaction_reason',
 	];
 }
