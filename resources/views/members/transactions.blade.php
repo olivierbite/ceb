@@ -138,7 +138,7 @@
                         </div>
                         <div class="row">
                             <div class="col-xs-12">
-                                <button class="btn btn-success btn-lg btn-block" type="submit">{{ trans('general.save') }}</button>
+                                <button class="btn btn-success btn-lg btn-block submit-member-transaction-button" type="submit">{{ trans('general.save') }}</button>
                             </div>
                         </div>
                         <div class="row" style="display:none;">
@@ -226,7 +226,8 @@
                     amount: "Please enter a valid amount"
                 },
                 submitHandler: function(form) {
-                   //Submit form with Ajax
+                    $('.submit-member-transaction-button').html('<img src="/assets/dist/img/loading.gif" />')
+                    //Submit form with Ajax
                     $.ajax({
                      type: "POST",
                      url:  $("#member-transaction-form").attr('action'),
@@ -243,6 +244,8 @@
                         type :"success",
                         html :true
                       });
+
+                      $('.submit-member-transaction-button').html("{{ trans('general.save') }}");
                      },
                     error: function (error) {
                       var errorMessages = JSON.parse(error.responseText);
@@ -252,7 +255,6 @@
                          errorNotifications +='<p style="color:#fff;">'+val+'</p>';
                       });
                      errorNotifications = '<div data-alert class="alert alert-error radius">'+errorNotifications+'</div>';
-
                       swal.setDefaults({ confirmButtonColor: '#d9534f' });
                       swal({
                         title:"Validation error",
@@ -260,6 +262,8 @@
                         type :"error",
                         html :true
                       });
+
+                      $('.submit-member-transaction-button').html("{{ trans('general.save') }}");
                     }
                    });
                 }
