@@ -86,5 +86,13 @@ Route::post('files/add', [
 
 Route::get('/test', ['as' => 'loan.print', function () {
 	
-	dd(Ceb\Models\Refund::findOrfail(15)->loan);
+	$member = Ceb\Models\User::findOrfail(3500);
+	foreach ($member->loans as $loan) {
+		
+		echo "<br /> Loan transaction id".$loan->transactionid." and amount " . $loan->loan_to_repay;
+		foreach ($loan->refunds as $refund) {
+			
+		        echo "<br /> Refund transaction id ".$refund->transaction_id." and amount " . $refund->amount;
+		}
+	}
 }]);
