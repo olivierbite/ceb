@@ -33,9 +33,5 @@ return array (
   'add' => 'Add',
   'profile' => 'Profile',
   'logout' => 'Logout',
-  'member' => 
-  array (
-    'count_of_members' => 'All Members',
-  ),
   'count_of_members' => '# of Mambers',
 );

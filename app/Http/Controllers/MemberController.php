@@ -209,7 +209,8 @@ class MemberController extends Controller {
 	 */
 	public function completeTransaction(CompleteMemberTransactionRequest $request)
 	{
-	  dd($request->all());
+		return 'transaction was done very well..';
+	 
 	  
 	}
     

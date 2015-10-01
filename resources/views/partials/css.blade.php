@@ -3,6 +3,10 @@
 
     <!-- Font Awesome Icons -->
     <link href="{{Url()}}/assets/fontawesome/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <!-- sweet alert -->
+    <link href="{{Url()}}/assets/dist/css/sweetalert.css" rel="stylesheet" type="text/css" />
+
+
     <!-- Ionicons -->
     <link href="{{Url()}}/assets/ionicons/ionicons.min.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="{!! Url() !!}/assets/dist/css/select2.min.css" />

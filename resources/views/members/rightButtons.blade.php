@@ -41,27 +41,7 @@
 {{ trans('member.contributions') }}
 </a>
 
-
-@if($member->hasActiveLoan())
-<a 	class="col-xs-5 col-md-5 btn btn-warning btn-box"
-	href="{{ route('members.refund',['memberId' => $member->id]) }}"
-	target="_blank"
->
-<i class="fa fa-refresh"></i>
-	{{ trans('member.refund_loan') }}
-</a>
-
-@endif
-
-<a 	class="col-xs-5 col-md-5 btn btn-info btn-box"
-	href="{{ route('members.contribute',['memberId' => $member->id]) }}"
-		target="_blank"
->
-<i class="fa fa-save"></i>
-{{ trans('member.contribute') }}
-</a>
-
-<a 	class="popdown col-xs-5 col-md-5 btn btn-danger btn-box"
+<a 	class="popdown col-xs-5 col-md-5 btn btn-warning  btn-box orange"
 	href="{{ route('members.transacts',['memberId' => $member->id]) }}"
 >
 <i class="fa fa-money"></i>

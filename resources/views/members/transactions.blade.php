@@ -1,3 +1,4 @@
+
 <link href="{{Url()}}/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 <link href="{{Url()}}/assets/dist/css/modalPopup.css" rel="stylesheet" type="text/css" />
 
@@ -47,8 +48,8 @@
                         </div>        
                 </div>
                 <div class="panel-body">
-                    <form role="form" id="member-transaction-form" action="{!! route('members.completetransaction',['memberId'=>$member->id]) !!}">
-
+                   <div class="notifications"></div>
+                   {!! Form::open(['url'=>  route('members.completetransaction',['memberId'=>$member->id]),'id'=>'member-transaction-form']) !!}
                         <div class="row">
                             <div class="col-xs-4 col-md-4">
                                 <div class="form-group">
@@ -225,7 +226,41 @@
                     amount: "Please enter a valid amount"
                 },
                 submitHandler: function(form) {
-                    form.submit();
+                   //Submit form with Ajax
+                    $.ajax({
+                     type: "POST",
+                     url:  $("#member-transaction-form").attr('action'),
+                     data:  $("#member-transaction-form").serialize(), // serializes the form's elements.
+                     success: function(data)
+                     {
+                      
+                      $('.popdown').close_popdown();
+
+                      swal.setDefaults({ confirmButtonColor: '#5bb75b' });
+                      swal({
+                        title:"Transaction went well.",
+                        text : data.responseText,
+                        type :"success",
+                        html :true
+                      });
+                     },
+                    error: function (error) {
+                      var errorMessages = JSON.parse(error.responseText);
+                      var errorNotifications = '';
+                      $.each(errorMessages, function(index, val) {
+                         /* build notification */
+                         errorNotifications +='<p>'+val+'</p>';
+                      });
+
+                      swal.setDefaults({ confirmButtonColor: '#d9534f' });
+                      swal({
+                        title:"Validation error",
+                        text : errorNotifications,
+                        type :"error",
+                        html :true
+                      });
+                    }
+                   });
                 }
             });
         }

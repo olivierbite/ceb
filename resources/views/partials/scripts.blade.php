@@ -15,6 +15,7 @@
     <script src="{{Url()}}/assets/dist/js/typeahead.js" type="text/javascript"></script>
     <script src="{{Url()}}/assets/dist/js/jquery.popdown.js" type="text/javascript"></script>
     <script src="{{Url()}}/assets/dist/js/jquery.validate.min.js" type="text/javascript"></script>
+    <script src="{{Url()}}/assets/dist/js/sweetalert.min.js" type="text/javascript"></script>
     
      <!-- CEB App -->
     <script src="{{Url()}}/assets/dist/js/app.js" type="text/javascript"></script>
