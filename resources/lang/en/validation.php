@@ -95,6 +95,9 @@ return [
         'transactionamount'=> [
             'confirmed' => 'Amount must equal to debit / credit amount.',
         ],
+        'movement_type'=> [
+            'min' => 'Please select movement type.',
+        ],
     ],
 
 

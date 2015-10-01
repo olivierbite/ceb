@@ -27,13 +27,13 @@ class CompleteMemberTransactionRequest extends Request
 
       //Continue with Rule validation
         return [
-          'movement_type'    =>  'required|min:1',
+          'movement_type'    =>  'required|numeric|min:1',
           'operation_type'   =>  'required',
           'amount'           =>  'required|numeric|min:5000',
           'wording'          =>  'required|min:6',
           'cheque_number'    =>  'required|alpha_dash|min:5',
           'bank'             =>  'required|min:1',
-          'accounting_amount' => 'required|confirmed|numeric|min:1',
+          'accounting_amount' => 'required|confirmed|numeric|min:'.parent::get('amount'),
           'transactionamount' => 'required|confirmed|numeric',
         ];
     }
@@ -46,18 +46,22 @@ class CompleteMemberTransactionRequest extends Request
     {
         // Grab all inputs from the user
         $attributes = parent::all();
-
+       
         // Modify or Add new array key/values
+        // ==================================
+        
+        // Make sure these fields are numeric
+         $attributes['movement_type'] = intval($attributes['movement_type']);
+         $attributes['amount']  = intval($attributes['amount']) ;
+
         // Validating account amount
         $attributes['accounting_amount'] = array_sum($attributes['debit_amounts']);
         $attributes['accounting_amount_confirmation'] = array_sum($attributes['credit_amounts']);
         
-        // Validate total amount vs Account amount
-        $attributes['amount']  = intval($attributes['amount']) ;
+        // Validate total amount vs Account amount   
         $attributes['transactionamount'] = $attributes['amount'];
         $attributes['transactionamount_confirmation'] = $attributes['accounting_amount_confirmation'];
 
-        dd($attributes);
         // Format/sanitize data here
         return $attributes;
     }
