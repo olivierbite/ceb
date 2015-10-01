@@ -340,7 +340,7 @@ class LoanFactory {
 		$data['transactionid'] = $transactionid;
 		$data['loan_contract'] = $this->getContributionContractNumber();
 		$data['adhersion_id'] = $member->adhersion_id;
-		$data['movement_nature'] = 'Test movement_nature';
+		$data['movement_nature'] = 'Giving out loan';
 		$data['operation_type'] = $this->getOperationType();
 		$data['letter_date'] = $this->getLetterDate();
 		$data['right_to_loan'] = $inputs['right_to_loan'];

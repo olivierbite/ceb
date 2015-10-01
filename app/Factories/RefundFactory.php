@@ -138,6 +138,7 @@ class RefundFactory {
 			$refund['transaction_id'] = $transactionId;
 			$refund['member_id'] = $refundMember->id;
 			$refund['user_id'] = Sentry::getUser()->id;
+			$refund['loan_id'] = $refundMember->latestLoan()->id;
 
 			// dd($refund);
 			# try to save if it doesn't work then

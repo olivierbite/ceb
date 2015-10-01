@@ -85,5 +85,6 @@ Route::post('files/add', [
 	'as' => 'files.add', 'uses' => 'FileController@add']);
 
 Route::get('/test', ['as' => 'loan.print', function () {
-	return view('members.transactions');
+	
+	dd(Ceb\Models\Refund::findOrfail(15)->loan);
 }]);

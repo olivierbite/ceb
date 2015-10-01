@@ -11,5 +11,17 @@ class Refund extends Model {
 		'tranches_number',
 		'transaction_id',
 		'member_id',
-		'user_id'];
+		'user_id',
+		'loan_id',
+		];
+
+
+	/**
+	 * Get loan by which this Refund belongs to
+	 * @return object
+	 */
+	public function loan()
+	{
+		return $this->belongsTo('Ceb\Models\Loan','loan_id','id');
+	}
 }

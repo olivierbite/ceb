@@ -42,10 +42,10 @@ class Loan extends Model {
 		'user_id',
 	];
 
-/**
- * Get the member who were given this loan
- * @return User Object
- */
+	/**
+	 * Get the member who were given this loan
+	 * @return User Object
+	 */
    public function member()
    {
    	return $this->belongsTo('\Ceb\Models\User','adhersion_id','adhersion_id');
@@ -66,4 +66,14 @@ class Loan extends Model {
 	public function getCautionneur2() {
 		return $this->hasOne('Ceb\Models\User','id', 'cautionneur2');
 	}
+
+	/**
+	 * Refunds done to this loan
+	 * @return object 
+	 */
+	public function refunds()
+	{
+		return $this->hasMany('Ceb\Models\Refund','loan_id','id');
+	}
+
 }

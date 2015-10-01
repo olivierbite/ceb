@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddLoanTypeColumn extends Migration
+class AddLoanIdToRefundsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,8 +12,8 @@ class AddLoanTypeColumn extends Migration
      */
     public function up()
     {
-    Schema::table('refunds', function (Blueprint $table) {
-            $table->string("loan_id");
+       Schema::table('refunds', function (Blueprint $table) {
+            $table->integer("loan_id");
         });
     }
 
@@ -24,7 +24,7 @@ class AddLoanTypeColumn extends Migration
      */
     public function down()
     {
-         Schema::table('refunds', function (Blueprint $table) {
+       Schema::table('refunds', function (Blueprint $table) {
             $table->dropColumn("loan_id");
         });
     }
