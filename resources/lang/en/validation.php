@@ -92,8 +92,8 @@ return [
         'accounting_amount' => [
             'confirmed' => 'Debit and Credit account must be equal',
         ],
-        'total_amount_credit_amount'=> [
-            'confirmed' => 'Transaction amount must equal to sum of debit and credit amount.',
+        'transactionamount'=> [
+            'confirmed' => 'Amount must equal to debit / credit amount.',
         ],
     ],
 

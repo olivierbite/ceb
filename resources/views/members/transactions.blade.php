@@ -249,8 +249,9 @@
                       var errorNotifications = '';
                       $.each(errorMessages, function(index, val) {
                          /* build notification */
-                         errorNotifications +='<p>'+val+'</p>';
+                         errorNotifications +='<p style="color:#fff;">'+val+'</p>';
                       });
+                     errorNotifications = '<div data-alert class="alert alert-error radius">'+errorNotifications+'</div>';
 
                       swal.setDefaults({ confirmButtonColor: '#d9534f' });
                       swal({

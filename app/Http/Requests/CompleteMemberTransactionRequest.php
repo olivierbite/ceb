@@ -34,7 +34,7 @@ class CompleteMemberTransactionRequest extends Request
           'cheque_number'    =>  'required|alpha_dash|min:5',
           'bank'             =>  'required|min:1',
           'accounting_amount' => 'required|confirmed|numeric|min:1',
-          'total_amount_credit_amount' => 'confirmed',
+          'transactionamount' => 'required|confirmed|numeric',
         ];
     }
 
@@ -53,10 +53,12 @@ class CompleteMemberTransactionRequest extends Request
         $attributes['accounting_amount_confirmation'] = array_sum($attributes['credit_amounts']);
         
         // Validate total amount vs Account amount
-        $attributes['total_amount_credit_amount'] = $attributes['amount'];
-        $attributes['total_amount_credit_amount_confirmation'] = $attributes['total_amount_credit_amount'];
-        // Format/sanitize data here
+        $attributes['amount']  = intval($attributes['amount']) ;
+        $attributes['transactionamount'] = $attributes['amount'];
+        $attributes['transactionamount_confirmation'] = $attributes['accounting_amount_confirmation'];
 
+        dd($attributes);
+        // Format/sanitize data here
         return $attributes;
     }
 }
