@@ -4891,4 +4891,9 @@ label.error {
   color: #ffffff;
 }
 
-
+/** PRINTING SECTION */
+@media print {
+      body, html, .wrapper {
+          width: 100%;
+      }
+}

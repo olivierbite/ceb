@@ -1,9 +1,8 @@
-@extends('reports.member.layouts.default')
-
-@section('content')
-  <table class="ui table">
+@include('partials.landscapecss')
+<table class="ui table">
   	 <thead>
   	 	<tr>
+	  	 	<th>{{ trans('general.date') }}</th>
 	     	<th>{{ trans('loan.nature') }}</th>
 			<th>{{ trans('loan.operation_type') }}</th>
 			<th>{{ trans('loan.wording') }}</th>
@@ -14,8 +13,6 @@
 	  	</tr>
    	 </thead>
  <tbody>
-   @each ('reports.member.item_loan_record', $member, 'member', 'members.no-items')
+   @each ('reports.member.item_loan_record', $member->loans, 'loan', 'members.no-items')
  </tbody>
   </table>
-
-@stop

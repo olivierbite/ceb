@@ -34,6 +34,15 @@
 {{ trans('member.loan_records') }}
 </a>
 @endif
+@if($member->hasActiveLoan())
+<a 	class="col-xs-5 col-md-5 btn btn-warning btn-box warning"
+	href="{{ route('members.refund',['memberId' => $member->id]) }}"
+>
+<i class="fa fa-refresh"></i>
+	{{ trans('member.refund_loan') }}
+</a>
+
+@endif
 <a 	class="col-xs-5 col-md-5 btn btn-inverse btn-box dark"
 	href="{{ route('members.contributions',['memberId' => $member->id]) }}"
 	target="_blank"
