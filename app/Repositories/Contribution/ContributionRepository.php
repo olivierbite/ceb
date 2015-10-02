@@ -126,6 +126,9 @@ class ContributionRepository {
 			$contribution['state'] = 'Ancien';
 			$contribution['year'] = date('Y');
 			$contribution['contract_number'] = $this->getContributionContractNumber();
+			$contribution['transaction_type'] = 'saving';
+			$contribution['transaction_reason'] = 'Montly contribution for the month of '.$month.' of the year '.$contribution['year'];
+			$contribution['wording']       = isset($data['wording']) ? $data['wording'] :$contribution['transaction_reason'];
 			//Remove unwanted column
 			unset($contribution['id']);
 

@@ -15,5 +15,6 @@ class Contribution extends Model {
 		'contract_number',
 		'transaction_type',
 		'transaction_reason',
+		'wording',
 	];
 }

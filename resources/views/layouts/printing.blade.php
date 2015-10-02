@@ -23,7 +23,7 @@
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
   </head>
-  <body onload="window.print();">
+  <body>
     <div class="wrapper">
       <!-- Main content -->
       <section class="invoice">
@@ -31,7 +31,7 @@
         <div class="row">
           <div class="col-xs-12">
             <h2 class="page-header">
-              <i class="fa fa-globe"></i> CEB
+              <i class="fa fa-globe"></i>CEB 
               <small class="pull-right">Date: {!! date('d/m/Y') !!}</small>
             </h2>
           </div><!-- /.col -->

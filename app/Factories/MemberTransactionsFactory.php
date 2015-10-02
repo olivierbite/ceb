@@ -65,8 +65,6 @@ class MemberTransactionsFactory {
 				flash()->error(trans('member.member_transaction_data_not_provided'));
 				return false;
 			}
- 		
-     
 			$contribution['transactionid'] = $transactionId;
 			$contribution['month'] = date('Ym');
 			$contribution['institution_id'] = $data['member']->institution_id;
@@ -76,7 +74,9 @@ class MemberTransactionsFactory {
 			$contribution['contract_number'] = $this->getContributionContractNumber();
 			$contribution['transaction_type'] = $this->getTransactionType($data['movement_type']);
 			$contribution['transaction_reason'] = $data['operation_type'];
+			$contribution['wording']       = $data['wording'];
 			$contribution['adhersion_id']       = $data['member']->adhersion_id;
+
 
 
 			//Remove unwanted column
@@ -149,10 +149,10 @@ class MemberTransactionsFactory {
 	{
 		switch ($movement_type_id) {
 			case 1:
-				$transactionType = 'credit';
+				$transactionType = 'saving';
 				break;
 			case 2:
-				$transactionType = 'debit';
+				$transactionType = 'withdrawal';
 				break;
 			default:
 				$transactionType = 'Unknow';
