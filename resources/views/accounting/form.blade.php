@@ -26,6 +26,9 @@
 </div>
 
 @section('scripts')
+
+<script src="{{Url()}}/assets/dist/js/datepickr.js" type="text/javascript"></script>
+<script src="{{ Url()}}/assets/dist/js/loanForm.js"></script>
 <script type="text/javascript">
 
     (function($){
