@@ -12,7 +12,8 @@
         "laracasts/flash": "dev-master",
         "barryvdh/laravel-translation-manager": "^0.2.0@dev",
         "anlutro/l4-settings": "dev-master",
-        "spatie/activitylog": "dev-master"
+        "spatie/activitylog": "dev-master",
+        "maatwebsite/excel": "dev-master"
         },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

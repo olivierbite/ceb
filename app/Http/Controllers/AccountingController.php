@@ -36,9 +36,12 @@ class AccountingController extends Controller {
 	 * @return Response
 	 */
 	public function store(AccountingRequest $request) {
-		$this->accounting->complete($request->all());
 
-		return $this->reload();
+		if ($transactionid = $this->accounting->complete($request->all()) != false) {			
+		  return trans('accounting.transaction_is_recorded_successfully_transaction_id_is').' '.$transactionid;
+		}
+
+		return trans('general.something_unexpected_happned');
 	}
 
 	/**

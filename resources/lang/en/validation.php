@@ -100,7 +100,10 @@ return [
         ],
         'operation_type' =>[
             'min' => 'Please select operation_type',
-        ]
+        ],
+        'inputaccounts' =>[
+            'max' => 'It is not allowed to credit and debit same account, Please correct input and try again.',
+        ],    
     ],
 
 

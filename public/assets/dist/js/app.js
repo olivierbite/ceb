@@ -819,5 +819,54 @@ $(document).on('change', '#upload-photo:file', function() {
   $(document).ready(function(){
     $('.popdown').popdown();
   });
+  
 
+
+  /** WHAT HAPPENS WHEN SOMEONE TRY TO SUBMIT ACCOUNTING FORM */
+     $(document).on('submit','form.accounting-form',function(event) {
+        /* prevent normal submit*/
+
+        event.preventDefault();
+
+                   $.ajax({
+                     type: "POST",
+                     url:  $("form.accounting-form").attr('action'),
+                     data:  $("form.accounting-form").serialize(), // serializes the form's elements.
+                     success: function(data)
+                     {
+                      
+                      $('.popdown').close_popdown();
+
+                      swal.setDefaults({ confirmButtonColor: '#5bb75b' });
+                      swal({
+                        title:"Transaction went well.",
+                        text : data,
+                        type :"success",
+                        html :true
+                      });
+                      
+                      // Reload the page
+                      // window.location.href = window.location.pathname;
+
+                     },
+                    error: function (error) {
+                      var errorMessages = JSON.parse(error.responseText);
+                      var errorNotifications = '';
+                      $.each(errorMessages, function(index, val) {
+                         /* build notification */
+                         errorNotifications +='<p style="color:#fff;">'+val+'</p>';
+                      });
+                     errorNotifications = '<div data-alert class="alert alert-error radius">'+errorNotifications+'</div>';
+                      swal.setDefaults({ confirmButtonColor: '#d9534f' });
+                      swal({
+                        title:"Validation error",
+                        text : errorNotifications,
+                        type :"error",
+                        html :true
+                      });
+
+                      $('.submit-member-transaction-button').html("{{ trans('general.save') }}");
+                    }
+                   });
+    });
 

@@ -106,7 +106,7 @@ trait TransactionTrait {
 			return false;
 		}
 		// Let's check if the user is trying to debit and credit
-		// Same account, which is not allowed as per account laws
+		// Same account, which is not allowed as per accounting laws
 		if (count(array_intersect_key($debits, $credits)) > 0 ) {
 			flash()->error(trans('loan.it_is_not_allowed_to_credit_and_debit_same_account_please_correct_and_try_again'));
 			return false;

@@ -23,12 +23,14 @@ class AccountingRepository {
 	 * @param array $accouting contrains the data to use during accounting
 	 */
 	public function complete(array $accoutingData) {
+
 		// Start by validating provided information
 		if (!$this->isValidInput($accoutingData)) {
 			return false;
 		}
 		// Start saving if something fails cancel everything
 		DB::beginTransaction();
+
 
 		// Since we are done let's make sure everything is cleaned fo
 		// the next transaction
@@ -45,8 +47,7 @@ class AccountingRepository {
 		}
 		// Lastly, Let's commit a transaction since we reached here
 		DB::commit();
-		flash()->success(trans('accounting.transaction_is_recorded_successfully_transaction_id_is').' '.$transactionid);
-		return true;
+		return $transactionid;
 	}
 
 	/**
@@ -55,6 +56,7 @@ class AccountingRepository {
 	 * @return bool true / false
 	 */
 	private function isValidInput(array $accoutingData) {
+		
 		// Check if all input has information
 		$debits = $this->joinAccountWithAmount($accoutingData['debit_accounts'], $accoutingData['debit_amounts']);
 

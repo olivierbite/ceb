@@ -15,10 +15,12 @@
           <div id="debit-accounts-container">
             <div class="form-group account-row" >
               <div class="col-xs-6">
+
                 {!! Form::select('debit_accounts[]', $accounts,isset($accountId)?$accountId :null, ['class'=>'form-control account'])!!}
+              
               </div>
               <div class="col-xs-4">
-                {!! Form::input('numeric', 'debit_amounts[]', isset($amount)?$amount : 0 , ['class'=>'form-control accountAmount']) !!}
+                <input class="form-control accountAmount" name="debit_amounts[]" type="numeric" value="{{isset($amount)?$amount:0}}">
               </div>
               <div class="col-xs-2">
                 <div class='btn btn-danger'><i class='fa fa-times'></i></div> 

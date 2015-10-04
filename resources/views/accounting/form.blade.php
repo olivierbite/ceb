@@ -27,8 +27,11 @@
 
 @section('scripts')
 
-<script src="{{Url()}}/assets/dist/js/datepickr.js" type="text/javascript"></script>
-<script src="{{ Url()}}/assets/dist/js/loanForm.js"></script>
+@@if (Request::is('loan*'))
+  {{-- Loan below javascripts only when requests are for loan --}}
+  <script src="{{Url()}}/assets/dist/js/datepickr.js" type="text/javascript"></script>
+  <script src="{{ Url()}}/assets/dist/js/loanForm.js"></script>
+@endif
 <script type="text/javascript">
 
     (function($){
