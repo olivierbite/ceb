@@ -125,18 +125,21 @@ trait TransactionTrait {
 	 * @param  integer  $journalId
 	 * @return     bool
 	 */
-	public function savePosting($accountId, $amount, $transactionId, $transactionType, $journalId = 1) {
+	public function savePosting($accountId, $amount, $transactionId, $transactionType, $journalId = 1,$wording=null,$cheque_number=null,$bank=null) {
 		// First prepare data to use for the debit account
 		// Once are have debited(deducted data) then we can
 		// Credit the account to be credited
-		$posting['transactionid'] = $transactionId;
-		$posting['account_id'] = $accountId;
-		$posting['journal_id'] = $journalId; // We assume per default we are using journal 1
-		$posting['asset_type'] = null;
-		$posting['amount'] = $amount;
-		$posting['user_id'] = Sentry::getUser()->id;
-		$posting['account_period'] = date('Y');
-		$posting['transaction_type'] = $transactionType;
+		$posting['transactionid'] 		= $transactionId;
+		$posting['account_id'] 			= $accountId;
+		$posting['journal_id'] 			= $journalId; // We assume per default we are using journal 1
+		$posting['asset_type'] 			= null;
+		$posting['amount'] 				= $amount;
+		$posting['user_id'] 			= Sentry::getUser()->id;
+		$posting['account_period'] 		= date('Y');
+		$posting['transaction_type'] 	= $transactionType;
+		$posting['wording']				= $wording;
+		$posting['cheque_number']		= $cheque_number;
+		$posting['bank']				= $bank;
 
 		// Try to post the debit before crediting another account
 		return $this->posting->create($posting);
@@ -148,7 +151,7 @@ trait TransactionTrait {
 	 * @param  STRING $transactionId UNIQUE TRANSACTIONID
 	 * @return bool
 	 */
-	private function savePostings($transactionId, $journalId = 1, $debits = null, $credits = null) {
+	private function savePostings($transactionId, $journalId = 1, $debits = null, $credits = null,$wording=null,$cheque_number=null,$bank=null) {
 
 		// Start by validating the information we
 		// are about to svae in our database
@@ -160,7 +163,7 @@ trait TransactionTrait {
 		$debits = (!is_null($debits)) ? $debits : $this->getDebitAccounts();
 
 		foreach ($debits as $accountId => $amount) {
-			$results = $this->savePosting($accountId, $amount, $transactionId, 'Debit', $journalId);
+			$results = $this->savePosting($accountId, $amount, $transactionId, 'Debit', $journalId,$wording,$cheque_number,$bank);
 			if (!$results) {
 				flash()->error(trans("posting.something_went_wrong_while_trying_to_debit_accounts_please_check_input_and_try_again"));
 				return false;
@@ -170,7 +173,7 @@ trait TransactionTrait {
 		//Crediting
 		$credits = (!is_null($credits)) ? $credits : $this->getCreditAccounts();
 		foreach ($credits as $accountId => $amount) {
-			$results = $this->savePosting($accountId, $amount, $transactionId, 'Credit', $journalId);
+			$results = $this->savePosting($accountId, $amount, $transactionId, 'Credit', $journalId,$wording,$cheque_number,$bank);
 			if (!$results) {
 			     flash()->error(trans("posting.something_went_wrong_while_trying_to_credit_accounts_please_check_input_and_try_again"));
 				return false;

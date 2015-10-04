@@ -25,13 +25,16 @@ class AccountingRequest extends Request {
      
       //Continue with Rule validation
         return [
-          'journal'   		 		 =>  'required|numeric|min:1',
-          'debit_amounts'   		 =>  'required|min:1',
+          'journal'   		 		       =>  'required|numeric|min:1',
+          'wording'                  =>  'required|min:5',
+          'cheque_number'            =>  'required|min:10',
+          'bank'                     =>  'required|min:2',
+          'debit_amounts'   		     =>  'required|min:1',
           'credit_amounts'           =>  'required|min:1',
-          'credit_accounts'           => 'required',
+          'credit_accounts'          =>  'required',
           'debit_accounts'           =>  'required',
-          'accounting_amount' 		 =>  'required|confirmed|numeric:0',         
-          'inputaccounts' 		 	 =>  'required|numeric|max:0',
+          'accounting_amount' 		   =>  'required|confirmed|numeric:0',         
+          'inputaccounts' 		 	     =>  'required|numeric|max:0',
         ];
     }
 
@@ -43,7 +46,7 @@ class AccountingRequest extends Request {
     {
         // Grab all inputs from the user
         $attributes = parent::all();
-       
+
         // Modify or Add new array key/values
         // ==================================
         
@@ -52,8 +55,8 @@ class AccountingRequest extends Request {
         $attributes['accounting_amount_confirmation'] = array_sum($attributes['credit_amounts']);
 
         // Let's check if the user is trying to debit and credit
-		// Same account, which is not allowed as per accounting laws
-	    $attributes['inputaccounts'] = count(array_intersect($attributes['debit_accounts'], $attributes['credit_accounts']));
+    		// Same account, which is not allowed as per accounting laws
+    	  $attributes['inputaccounts'] = count(array_intersect($attributes['debit_accounts'], $attributes['credit_accounts']));
 
         // Format/sanitize data here
         return $attributes;

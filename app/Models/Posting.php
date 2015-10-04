@@ -13,5 +13,8 @@ class Posting extends Model {
 		'user_id',
 		'account_period',
 		'transaction_type',
+		'wording',
+		'cheque_number',
+		'bank',
 	];
 }

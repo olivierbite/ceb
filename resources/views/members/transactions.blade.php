@@ -130,7 +130,7 @@
                                     <label for="bank">
 	                                	 {{ trans('member.bank') }}
                                      </label>
-                                   	 {!! Form::select('bank', [0], null, ['class'=>'form-control']) !!}
+                                   	 {!! Form::select('bank', $banks, null, ['class'=>'form-control']) !!}
                                 </div>
                             </div>
                         </div>

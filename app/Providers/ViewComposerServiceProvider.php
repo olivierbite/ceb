@@ -19,6 +19,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
 		$this->composerJournals();
 		$this->composerLoanTypes();
 		$this->composerMemberTransactions();
+		$this->composerBanks();
 	}
 
 	/**
@@ -120,5 +121,19 @@ class ViewComposerServiceProvider extends ServiceProvider {
 		];
 
 		view()->composer($views,'\Ceb\ViewComposers\MemberTransactionsViewComposer');
+	}
+
+	private function composerBanks()
+	{
+		
+
+		$views = [
+			'accounting.journal',
+			'members.transactions',
+			'loansandrepayments.ordinary_loan_form',
+			'loansandrepayments.special_loan_form',
+		];
+
+		view()->composer($views,'\Ceb\ViewComposers\BanksViewComposer');
 	}
 }

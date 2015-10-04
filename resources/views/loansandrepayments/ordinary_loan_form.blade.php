@@ -116,9 +116,7 @@
   <div class="col-md-4">
   <div class="form-group">
    <label>{{ trans('loan.bank') }}</label>
-    {!! Form::select('bank_id',
-                   ['BK'=>'Bank of Kigali',
-                   'BCR'=>'Bank Commercial du Rwanda'],
+    {!! Form::select('bank_id',$banks,
                    isset($loanInputs['bank'])?$loanInputs['bank']:null,
                   ['class'=>'form-control loan-select','id'=>'bank']
       )

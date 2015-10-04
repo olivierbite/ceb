@@ -1,4 +1,4 @@
-      <div class="row debit-accounts">
+  <div class="row debit-accounts">
       <label>{{ trans('loan.debit_account') }}</label>
       <div class="btn btn-success pull-right" style="margin-right: 5%;" id="add-debit-account">+</div>
       <div class="form-group" >
@@ -20,7 +20,7 @@
               
               </div>
               <div class="col-xs-4">
-                <input class="form-control accountAmount" name="debit_amounts[]" type="numeric" value="{{isset($amount)?$amount:0}}">
+                <input class="form-control debit-amount" name="debit_amounts[0]" type="numeric" value="{{isset($amount)?$amount:0}}">
               </div>
               <div class="col-xs-2">
                 <div class='btn btn-danger'><i class='fa fa-times'></i></div> 

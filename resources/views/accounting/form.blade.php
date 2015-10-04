@@ -1,19 +1,9 @@
-{{-- <div class="box-body">
-<div class="box-header with-border">
+@if (!Request::is('accounting*'))
+  <div class="box-header with-border">
   <h3 class="box-title">{{ trans('accounting.accounting') }}</h3>
- </div>
-<div class="row">
-    <div class="col-md-6">
-    	@include('accounting.debit_form')
-    </div>
-    <div class="col-md-6">
-    	@include('accounting.credit_form')
-    </div>
 </div>
-</div> --}}
-<div class="box-header with-border">
-  <h3 class="box-title">{{ trans('accounting.accounting') }}</h3>
- </div>
+@endif
+
 <div class="row">
     <div class="col-md-6">
      @include('accounting.debit')
@@ -24,18 +14,34 @@
     </div>
      <!-- END OF CREDIT ACCOUNT -->
 </div>
+<div class="row">
+    <div class="col-md-6 total-debit">
+      
+  </div>
+    <!-- START OF CREDIT ACCOUNT -->
+    <div class="col-md-6 total-credit">
+    </div>
+     <!-- END OF CREDIT ACCOUNT -->
+</div>
+
 
 @section('scripts')
 
-@@if (Request::is('loan*'))
+@if (Request::is('loan*'))
   {{-- Loan below javascripts only when requests are for loan --}}
   <script src="{{Url()}}/assets/dist/js/datepickr.js" type="text/javascript"></script>
   <script src="{{ Url()}}/assets/dist/js/loanForm.js"></script>
 @endif
 <script type="text/javascript">
 
-    (function($){
-        $countForms = 1;
+    (function($){    
+
+        $countFormsDebits = 1;
+        $countFormsCredits = 1;
+
+        $debitAmountSum = 0;
+        $creditAmountSum = 0;
+
         var accounts = {!! json_encode($accounts) !!};
 
         $accountsOptions = '';
@@ -43,33 +49,14 @@
            $accountsOptions += '<option value="' +  index + '">' + val + '</option>';
         });
 
-        $.fn.addCreditForms = function(){
-          var myform = "<div class='form-group account-row' >"+
-                       "     <div class='col-xs-6'>"+
-                       "      <select class='form-control account' name='credit_accounts["+$countForms+"]'>"+$accountsOptions+"</select></td>"+
-                       "     </div>"+
-                       "     <div class='col-xs-4'>"+
-                       "        <input class='form-control accountAmount' name='credit_amounts["+$countForms+"]' type='numeric' value='0'>"+
-                       "     </div>"+         
-                       "     <div class='col-xs-2'>"+
-                       "        <button class='btn btn-danger'><i class='fa fa-times'></i></button> " +
-                       "     </div>"+ 
-                       "</div>";
-
-           myform = $("<div>"+myform+"</div>");
-           $("button", $(myform)).click(function(){ $(this).parent().parent().remove(); });
-
-           $(this).append(myform);
-           $countForms++;
-        };
-
+        /** GENERATING DEBIT ACCOUNTS FORM */
          $.fn.addDebitForms = function(){
           var myform = "<div class='form-group account-row' >"+
                        "     <div class='col-xs-6'>"+
-                       "      <select class='form-control account' name='debit_accounts["+$countForms+"]'>"+$accountsOptions+"</select></td>"+
+                       "      <select class='form-control account' name='debit_accounts["+$countFormsDebits+"]'>"+$accountsOptions+"</select></td>"+
                        "     </div>"+
                        "     <div class='col-xs-4'>"+
-                       "        <input class='form-control accountAmount' name='debit_amounts["+$countForms+"]' type='numeric' value='0'>"+
+                       "        <input class='form-control accountAmount debit-amount' name='debit_amounts["+$countFormsDebits+"]' type='numeric' value='0'>"+
                        "     </div>"+         
                        "     <div class='col-xs-2'>"+
                        "        <button class='btn btn-danger'><i class='fa fa-times'></i></button> " +
@@ -80,21 +67,61 @@
            $("button", $(myform)).click(function(){ $(this).parent().parent().remove(); });
 
            $(this).append(myform);
-           $countForms++;
+           $countFormsDebits++;
         };
+
+        /** GENERATING CREDIT ACCOUNT FORM */
+        $.fn.addCreditForms = function(){
+          var myform = "<div class='form-group account-row' >"+
+                       "     <div class='col-xs-6'>"+
+                       "      <select class='form-control account' name='credit_accounts["+$countFormsCredits+"]'>"+$accountsOptions+"</select></td>"+
+                       "     </div>"+
+                       "     <div class='col-xs-4'>"+
+                       "        <input class='form-control credit-amount' name='credit_amounts["+$countFormsCredits+"]' type='numeric' value='0'>"+
+                       "     </div>"+         
+                       "     <div class='col-xs-2'>"+
+                       "        <button class='btn btn-danger'><i class='fa fa-times'></i></button> " +
+                       "     </div>"+ 
+                       "</div>";
+
+           myform = $("<div>"+myform+"</div>");
+           $("button", $(myform)).click(function(){ $(this).parent().parent().remove(); });
+
+           $(this).append(myform);
+           $countFormsCredits++;
+        };
+
+       $getSum = function(item){
+         var items = $(item);
+         var total = 0;
+         /** TRY TO GET THE SUM */
+         $.each(items, function(index, val) {
+           total += parseInt(val.value);
+         });
+         return total;
+       };
+
     })(jQuery);   
 
      $(function(){
-
-      $("#add-credit-account").bind("click", function(){
-        $("#credit-accounts-container").addCreditForms();
-      });
 
       $("#add-debit-account").bind("click", function(){
         $("#debit-accounts-container").addDebitForms();
       });
 
+      $("#add-credit-account").bind("click", function(){
+        $("#credit-accounts-container").addCreditForms();
+      });
+
+      $("input[name='debit_amounts[]']").on('click keyup keydown keypress change',function(event) {
+        $('.total-debit').html('total debit '+$getSum('.debit-amount'));
+      });
+      $("input[name='credit_amounts[]']").on('click keyup keydown keypress change',function(event) {
+        $('.total-credit').html('total credit '+$getSum('.credit-amount'));
+      });
+
     });
+    
 </script>
 
 @stop
