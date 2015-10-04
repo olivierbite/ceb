@@ -70,6 +70,12 @@ Route::get('/reports/contracts/loan/{loanId}', ['as' => 'reports.contracts.loan'
 Route::get('/reports/contracts/ordinaryloan', ['as' => 'reports.contracts.ordinaryloan', 'uses' => 'ReportController@ordinaryloan']);
 Route::get('/reports/contracts/socialloan', ['as' => 'reports.contracts.socialloan', 'uses' => 'ReportController@socialloan']);
 
+/** SETTINGS ROUTE */
+Route::group(['prefix'=>'settings'], function(){
+	Route::resource('institution', 'InstitutionController');
+	Route::resource('accountingplan', 'AccountController');
+});
+
 /** Ajax routes */
 Route::group(['prefix' => 'ajax'], function () {
 	Route::get('/loans', 'loanController@ajaxFieldUpdate');
@@ -86,13 +92,7 @@ Route::post('files/add', [
 
 Route::get('/test', ['as' => 'loan.print', function () {
 	
-	$member = Ceb\Models\User::findOrfail(3500);
-	foreach ($member->loans as $loan) {
-		
-		echo "<br /> Loan transaction id".$loan->transactionid." and amount " . $loan->loan_to_repay;
-		foreach ($loan->refunds as $refund) {
-			
-		        echo "<br /> Refund transaction id ".$refund->transaction_id." and amount " . $refund->amount;
-		}
-	}
+	$dashboard = (new Ceb\Repositories\Loan\LoanRepository)->getOrdinaryLoanSum();
+
+	dd($dashboard);
 }]);

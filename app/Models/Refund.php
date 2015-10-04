@@ -18,10 +18,21 @@ class Refund extends Model {
 
 	/**
 	 * Get loan by which this Refund belongs to
+	 * 
 	 * @return object
 	 */
 	public function loan()
 	{
 		return $this->belongsTo('Ceb\Models\Loan','loan_id','id');
+	}
+
+	/** 
+	 * Get refund by adhersion ID
+	 *
+	 * @return Object
+	 */
+	public function loanByAdhersion()
+	{
+		return $this->hasMany('Ceb\Models\Loan','adhersion_id','adhersion_id');
 	}
 }

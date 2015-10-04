@@ -76,4 +76,34 @@ class Loan extends Model {
 		return $this->hasMany('Ceb\Models\Refund','loan_id','id');
 	}
 
+	/**
+	 * Get Loan balance
+	 *
+	 * @return numeric 
+	 */
+	public function balance()
+	{
+		return $this->loan_to_repay - $this->refunds()->sum('amount');
+	}
+
+	/**
+	 * Determine if this loan is full paid
+	 *
+	 * @return bool
+	 */
+	public function isFullPaid()
+	{
+		return $this->balance() <= 0;
+	}
+
+	/** 
+	 * Get refund by adhersion ID
+	 *
+	 * @return Object
+	 */
+	public function refundsByAdhersion()
+	{
+		return $this->hasMany('Ceb\Models\Refund','adhersion_id','adhersion_id');
+	}
+
 }

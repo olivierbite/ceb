@@ -85,9 +85,24 @@
                 </a>
                 </li>
               @endif
-                <li><a href="#"><i class="fa fa-bank"></i> {{ trans('navigations.institutions') }}</a></li>
-                <li><a href="#"><i class="fa fa-book"></i> {{ trans('navigations.accounting_plan') }}</a></li>
-                <li><a href="#"><i class="fa fa-lock"></i> {{ trans('navigations.closing_exercise') }}</a></li>
+                <li>
+                  <a href="{!! route('settings.institution.index') !!}">
+                    <i class="fa fa-bank"></i> 
+                      {{ trans('navigations.institutions') }}
+                  </a>
+                </li>
+                <li>
+                   <a href="{!! route('settings.accountingplan.index') !!}">
+                     <i class="fa fa-book"></i> 
+                       {{ trans('navigations.accounting_plan') }}
+                   </a>
+                </li>
+                <li>
+                  <a href="#">
+                     <i class="fa fa-lock"></i> 
+                      {{ trans('navigations.closing_exercise') }}
+                  </a>
+                </li>
               </ul>
             </li>
             <li class="header"> </li>

@@ -31,6 +31,7 @@
   {{-- Loan below javascripts only when requests are for loan --}}
   <script src="{{Url()}}/assets/dist/js/datepickr.js" type="text/javascript"></script>
   <script src="{{ Url()}}/assets/dist/js/loanForm.js"></script>
+
 @endif
 <script type="text/javascript">
 
@@ -113,10 +114,14 @@
         $("#credit-accounts-container").addCreditForms();
       });
 
-      $("input[name='debit_amounts[]']").on('click keyup keydown keypress change',function(event) {
+      $('.debit-amount').on('click keyup keydown keypress change',function(event) {
         $('.total-debit').html('total debit '+$getSum('.debit-amount'));
       });
-      $("input[name='credit_amounts[]']").on('click keyup keydown keypress change',function(event) {
+
+     $(".debit-amount").on('click keyup keydown keypress change',function(event) {
+       console.log(event);
+    });
+      $('.credit-amount').on('click keyup keydown keypress change',function(event) {
         $('.total-credit').html('total credit '+$getSum('.credit-amount'));
       });
 
