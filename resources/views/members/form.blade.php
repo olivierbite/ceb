@@ -46,6 +46,7 @@
                     <dt>{{ trans('member.institution') }}
                      {!! $errors->first('institution','<em class="has-error">(:message)</em>') !!}
                     </dt>
+
                     <dd class=" {{ ($errors->has('institution')) ? 'has-error' : '' }}">
                       {!! Form::select('institution_id', $institutions, $member->institution_id,['class'=>'form-control']) !!}
                     </dd>
@@ -111,9 +112,11 @@
                         <th>{{ trans('member.date_of_birth') }}:
                         {!! $errors->first('date_of_birth','<em class="has-error">(:message)</em>') !!}
                         </th>
+
                         <td class=" {{ ($errors->has('date_of_birth')) ? 'has-error' : '' }}">
                           {!! Form::text('date_of_birth',date('Y-m-d',strtotime($member->date_of_birth)),['class'=>'form-control','id'=>'date2','data-inputmask'=>'\'alias\':\'dd-mm-yyyy\'']) !!}</td>
                       </tr>
+
                       <tr>
                         <tr>
                         <th>{{ trans('member.sex') }}:
