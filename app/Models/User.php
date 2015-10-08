@@ -17,7 +17,7 @@ class User extends Model {
      *
      * @var array
      */
-	protected $dates = ['created_at', 'updated_at']; //, 'date_of_birth'
+	protected $dates = ['created_at']; //, 'date_of_birth', 'updated_at'
 	/**
 	 * The attributes that are mass assignable.
 	 *

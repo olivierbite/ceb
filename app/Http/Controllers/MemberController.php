@@ -267,9 +267,9 @@ class MemberController extends Controller {
 	 * @return [type]
 	 */
 	public function search(MemberRepositoryInterface $member, Request $request) {
-
+        
 		$results = $member->search($request->input('query'));
-
+      
 		return Response::json($results);
 	}
 

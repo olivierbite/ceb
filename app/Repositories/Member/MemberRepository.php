@@ -211,10 +211,12 @@ class MemberRepository implements MemberRepositoryInterface {
 	 * @return mixed
 	 */
 	public function search($keyword) {
-		return $this->user->where('first_name', 'LIKE', '%' . $keyword . '%')
+       
+	 return  $this->user->where('first_name', 'LIKE', '%' . $keyword . '%')
 		            ->orWhere('last_name', 'LIKE', '%' . $keyword . '%')
 		            ->orWhere('member_nid', 'LIKE', '%' . $keyword . '%')
 		            ->orWhere('adhersion_id', 'LIKE', '%' . $keyword . '%')
+		            // ->take(15)
 		            ->get();
 	}
 
