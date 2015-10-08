@@ -216,7 +216,7 @@ class MemberRepository implements MemberRepositoryInterface {
 		            ->orWhere('last_name', 'LIKE', '%' . $keyword . '%')
 		            ->orWhere('member_nid', 'LIKE', '%' . $keyword . '%')
 		            ->orWhere('adhersion_id', 'LIKE', '%' . $keyword . '%')
-		            // ->take(15)
+		            ->take(15)
 		            ->get();
 	}
 
