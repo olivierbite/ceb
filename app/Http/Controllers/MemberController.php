@@ -182,7 +182,6 @@ class MemberController extends Controller {
     public function loanRecords($memberId)
     {
     	$member = $this->member->findOrfail($memberId);
-  
 	    $report = view('reports.member.loan_records',compact('member'))->render();
 		return view('layouts.printing', compact('report'));
     }
