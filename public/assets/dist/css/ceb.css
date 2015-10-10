@@ -4834,6 +4834,11 @@ label.error {
     font-size: 12px;
     width: 220px;
 }
+
+.bs-sidebar .nav > .active > ul {
+    display: block;
+    margin-bottom: 8px;
+}
 /**
  * CUSTOMER BUTTONS
  */

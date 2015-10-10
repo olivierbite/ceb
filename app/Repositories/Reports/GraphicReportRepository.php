@@ -54,8 +54,17 @@ class GraphicReportRepository {
     public function getMonthlyContribution()
     {
     	return $this->contribution->groupBy(DB::raw('month'))
-    					  ->get(
-    					  		[DB::raw('CONCAT(year,month) as month'),
+    					  ->get([
+    					  	 	DB::raw('CONCAT(year,month) as month'),
+    					  		DB::raw('round(sum(amount)) as amount')
+    					  	]);
+    }
+
+    public function getMontlyLoan()
+    {
+    	return $this->loan->gropuBy(DB::raw('month'))
+    					  ->get([
+    					  	 	DB::raw('CONCAT(year,month) as month'),
     					  		DB::raw('round(sum(amount)) as amount')
     					  	]);
     }
