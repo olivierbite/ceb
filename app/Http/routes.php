@@ -86,3 +86,6 @@ Route::get('files/get/{filename}', [
 	'as' => 'files.get', 'uses' => 'FileController@get']);
 Route::post('files/add', [
 	'as' => 'files.add', 'uses' => 'FileController@add']);
+
+
+Route::get('/test','ReportController@memberPerInstituion');

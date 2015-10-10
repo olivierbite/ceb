@@ -3,8 +3,9 @@
 namespace Ceb\Http\Controllers;
 
 use Ceb\Http\Controllers\Controller;
-use Ceb\Models\User;
 use Ceb\Models\Loan;
+use Ceb\Models\User;
+use Ceb\Repositories\Reports\GraphicReportRepository;
 
 class ReportController extends Controller {
 	public $report;
@@ -14,8 +15,9 @@ class ReportController extends Controller {
 		parent::__construct();
 	}
 
-	public function index() {
-		return view('reports.index');
+	public function index(GraphicReportRepository $report) {
+		$contributions = $report->getMonthlyContribution();
+		return view('reports.index',compact('contributions'));
 	}
 
 	/**
