@@ -1,6 +1,6 @@
 <?php
 
-return array (
+return [
   'adhersion_number_you_are_looking_for_cannot_be_found' => 'Adhersion number you are looking for cannot be found',
   'cautionneur_should_not_be_the_same_as_the_member_requesting_loan' => 'Cautionneur should not be the same as the member requesting  loan',
   'cautionneur_has_been_added_successfully' => 'Cautionneur  has  been added  succesfully',
@@ -35,4 +35,4 @@ return array (
   'special_loans' => 'Special Loan',
   'outstanding_loan' => 'Outstanding loan',
   'full_paid_loan' => 'Full Paid Loan',
-);
+];

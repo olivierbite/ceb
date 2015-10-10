@@ -16,6 +16,6 @@
 	  	</tr>
    	 </thead>
  <tbody>
-   @each ('reports.member.item_loan_record', $member->loans, 'loan', 'members.no-items')
+   @each('reports.member.item_loan_record', $member->loans, 'loan', 'members.no-items')
  </tbody>
 </table>

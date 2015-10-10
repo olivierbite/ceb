@@ -18,11 +18,8 @@ return array (
   'interest_on_urgently_loan ' => 'Intérêt sur crédit urgent',
   'interests' => 'Interet',
   'it_is_not_allowed_to_credit_and_debit_same_account_please_correct_and_try_again' => 'Crédite et Débite le  même  compte  n\'est pas  permis, Verfie',
-  'loan' => 
-  array (
     'outstanding_loan' => 'Pret Impayée ',
     'full_paid_loan' => 'Pret Rembourse',
-  ),
   'loan_cancelled' => 'Pret Annuler',
   'loan_completed' => 'Pret Valide',
   'loan_contract_number' => 'Numero du  contrat  de pret',
