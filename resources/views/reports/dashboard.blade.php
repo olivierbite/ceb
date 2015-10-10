@@ -34,7 +34,7 @@
 
 		}
 		var lineChartData = {
-			labels : [@foreach ($contributions as $contribution){!!$contribution->month!!},@endforeach],
+			labels : [@foreach ($loans as $loan){!!$loan->month!!},@endforeach],
 			datasets : [
 				{
 					label: "Contribution per month",
@@ -44,44 +44,26 @@
 					pointStrokeColor : "#fff",
 					pointHighlightFill : "#fff",
 					pointHighlightStroke : "rgba(151,187,205,1)",
-					data :  [@foreach ($contributions as $contribution){!!$contribution->amount!!},@endforeach]
+					data :  [@foreach ($loans as $loan){!!$loan->amount!!},@endforeach]
 				}
 			]
 
 		}
-      var pieData = [ @foreach ($contributions as $contribution)
+
+	  var countColor = 0;
+      var pieData = [ @foreach ($institutions as $key=>$institution)
                        {
-				        value: {!!$contribution->amount!!},
-				        color: "#F7464A",
+				        value: {!!$institution->memberCount() !!},
+				        color:    "#"+((1<<24)*Math.random()|0).toString(16),
 				        highlight: "#FF5A5E",
-				        label: "{!!$contribution->month!!}"
+				        label: "{!!$institution->name !!}"
 					    }
 					  ,@endforeach
 					 ];
 
-      var pieData = [ @foreach ($contributions as $contribution)
-                   {
-			        value: {!!$contribution->amount!!},
-			        color: "#F7464A",
-			        highlight: "#FF5A5E",
-			        label: "{!!$contribution->month!!}"
-				    }
-				  ,@endforeach
-				 ];
-
 	var radarChartData = {
-		labels: ["Eating", "Drinking", "Sleeping", "Designing", "Coding", "Cycling", "Running"],
+		labels: [@foreach ($institutionsLoan as $institution) "{!!$institution->name!!}",@endforeach],
 		datasets: [
-			{
-				label: "My First dataset",
-				fillColor: "rgba(220,220,220,0.2)",
-				strokeColor: "rgba(220,220,220,1)",
-				pointColor: "rgba(220,220,220,1)",
-				pointStrokeColor: "#fff",
-				pointHighlightFill: "#fff",
-				pointHighlightStroke: "rgba(220,220,220,1)",
-				data: [65,59,90,81,56,55,40]
-			},
 			{
 				label: "My Second dataset",
 				fillColor: "rgba(151,187,205,0.2)",
@@ -90,7 +72,7 @@
 				pointStrokeColor: "#fff",
 				pointHighlightFill: "#fff",
 				pointHighlightStroke: "rgba(151,187,205,1)",
-				data: [28,48,40,19,96,27,100]
+				data: [@foreach ($institutionsLoan as $institution) {!!$institution->loanCount()!!} ,@endforeach]
 			}
 		]
 	};

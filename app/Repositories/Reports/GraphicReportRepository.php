@@ -44,7 +44,16 @@ class GraphicReportRepository {
 	 */
     public function getCountMemberPerInstitution()
     {
-    	return $this->institution->with('members')->get(['name',DB::raw('count(members)')]);
+    	return $this->institution->with('members')->get();
+    }
+
+    /**
+     * Get Institutions with loans
+     * @return object 
+     */
+    public function getLoanByInstitution()
+    {
+    	return $this->institution->with('loans')->get();
     }
 
     /**
@@ -54,6 +63,8 @@ class GraphicReportRepository {
     public function getMonthlyContribution()
     {
     	return $this->contribution->groupBy(DB::raw('month'))
+    	                  ->where('year','>=' ,DB::raw('YEAR(CURRENT_DATE - INTERVAL 12 MONTH)'))
+    	                  ->where('month','>=',DB::raw('MONTH(CURRENT_DATE - INTERVAL 12 MONTH)'))
     					  ->get([
     					  	 	DB::raw('CONCAT(year,month) as month'),
     					  		DB::raw('round(sum(amount)) as amount')
@@ -62,10 +73,12 @@ class GraphicReportRepository {
 
     public function getMontlyLoan()
     {
-    	return $this->loan->gropuBy(DB::raw('month'))
+    	return $this->loan->groupBy(DB::raw('month'))	
+    	                  ->where(DB::raw('YEAR(letter_date)'),'>=' ,DB::raw('YEAR(CURRENT_DATE - INTERVAL 12 MONTH)'))
+    	                  ->where(DB::raw('MONTH(letter_date)'),'>=',DB::raw('MONTH(CURRENT_DATE - INTERVAL 12 MONTH)'))
     					  ->get([
-    					  	 	DB::raw('CONCAT(year,month) as month'),
-    					  		DB::raw('round(sum(amount)) as amount')
+    					  	 	DB::raw('CONCAT(YEAR(letter_date),MONTH(letter_date)) as month'),
+    					  		DB::raw('round(sum(loan_to_repay)) as amount')
     					  	]);
     }
 

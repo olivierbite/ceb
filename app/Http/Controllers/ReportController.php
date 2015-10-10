@@ -17,7 +17,11 @@ class ReportController extends Controller {
 
 	public function index(GraphicReportRepository $report) {
 		$contributions = $report->getMonthlyContribution();
-		return view('reports.index',compact('contributions'));
+		$loans = $report->getMontlyLoan();
+		$institutions = $report->getCountMemberPerInstitution();
+		$institutionsLoan = $report->getLoanByInstitution();
+
+		return view('reports.index',compact('contributions','loans','institutions','institutionsLoan'));
 	}
 
 	/**

@@ -4,10 +4,41 @@ namespace Ceb\Models;
 
 class Institution extends Model {
 
+	/**
+	 * Member per institution
+	 * 
+	 * @return object
+	 */
 	public function members() {
 		return $this->hasMany('Ceb\Models\User');
 	}
+    
+    /**
+     * n order to let Eloquent eager load this thing, we must create a method returning Relation object. And here it is:
+     * @return object
+     */
+	public function memberCount()
+	{
+	 return $this->members()->count();
+	}
 
+	/**
+	 * Get loan per insitutions
+	 * @return [type] [description]
+	 */
+	public function loans()
+	{
+		return $this->members()->with('loans');
+	}
+
+	/**
+	 * Get loan count 
+	 * @return int 
+	 */
+	public function loanCount()
+	{
+		return $this->loans()->count();
+	}
 	/**
 	 * Get member with loan
 	 * @return Eloquent Object
