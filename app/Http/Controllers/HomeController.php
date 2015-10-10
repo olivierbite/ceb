@@ -8,7 +8,13 @@ use Ceb\Http\Controllers\Controller;
 
 class HomeController extends Controller
 {
-    function __construct(User $member,) {
-    	$this->foo = $foo;
+    function __construct() {
+    	
+    	parent::__construct();
+    }
+
+    public function index()
+    {
+    	return view('partials.dashboard');
     }
 }

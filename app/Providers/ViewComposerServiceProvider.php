@@ -22,6 +22,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
 		$this->composerBanks();
 		$this->composerDashboard();
 		$this->composerAccountNature();
+		$this->composerLanguages();
 	}
 
 	/**
@@ -151,5 +152,13 @@ class ViewComposerServiceProvider extends ServiceProvider {
 			'settings.accountingplan.form',
 		];
 		view()->composer($views,'\Ceb\ViewComposers\AcccountNatureViewComposer');
+	}
+
+	private function composerLanguages()
+	{
+	    $views = [
+			'sentinel.users.edit',
+		];
+		view()->composer($views,'\Ceb\ViewComposers\LanguagesViewComposer');
 	}
 }

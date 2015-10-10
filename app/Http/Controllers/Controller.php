@@ -6,6 +6,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Sentry;
+use App;
 
 abstract class Controller extends BaseController {
 	use DispatchesJobs, ValidatesRequests;
@@ -16,5 +17,9 @@ abstract class Controller extends BaseController {
 		$this->middleware('sentry.auth');
 		$this->flash = new Flash;
 		$this->user = Sentry::getUser();
+
+		if (!is_null($this->user->language)) {
+		   App::setLocale($this->user->language);
+		}
 	}
 }

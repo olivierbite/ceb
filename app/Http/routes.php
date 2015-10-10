@@ -1,5 +1,4 @@
 <?php
-
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -11,9 +10,7 @@
 |
  */
 
-Route::get('/', ['as' => 'home', 'middleware' => 'sentry.auth', function () {
-	return view('partials.dashboard');
-}]);
+Route::get('/', ['as' => 'home','uses'=>'HomeController@index']);
 
 /** Members routes */
 Route::get('members/search', 'MemberController@search');

@@ -5,7 +5,6 @@
 @parent
 Edit Profile
 @stop
-
 {{-- Content --}}
 @section('content')
 <div class="container">
@@ -51,6 +50,23 @@ Edit Profile
             
             @foreach(config('sentinel.additional_user_fields') as $field => $rules)
             
+               {{-- If this column is language then load languages using drop box and continue --}}
+                @if ($field=='language')
+                    <div class="small-3 columns">
+                     <label for="right-label" class="right inline">{!! ucwords(str_replace('_',' ',$field)) !!}</label>
+                    </div>
+                     <div class="small-9 columns {!! ($errors->has($field)) ? 'has-error' : '' !!}">
+                         {!! Form::select($field,  [
+                    'en'    =>  'English',
+                    'fr'    =>  'French',
+                    'kin'   =>  'Kinyarwanda',
+                    ], Input::old($field) ? Input::old($field) : $user->$field) !!}
+                            {!! ($errors->has($field) ? $errors->first($field, '<small class="error">:message</small>') : '') !!}
+                    </div>
+                    <?php continue; ?>
+                @endif
+
+
                 <div class="small-3 columns">
                     <label for="right-label" class="right inline">{!! ucwords(str_replace('_',' ',$field)) !!}</label>
                 </div>

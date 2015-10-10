@@ -23,7 +23,7 @@
                     <div class="user-image">
                       @include('files.show',['filename'=>\Sentry::getUser()->photo])
                     </div> 
-                  <span class="hidden-xs">{{ Session::get('email') }}</span>
+                  <span class="hidden-xs">{{ \Sentry::getUser()->username }}</span>
                 </a>
                 <ul class="dropdown-menu">
                   <!-- User image -->
