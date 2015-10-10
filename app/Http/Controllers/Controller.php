@@ -18,7 +18,7 @@ abstract class Controller extends BaseController {
 		$this->flash = new Flash;
 		$this->user = Sentry::getUser();
 
-		if (!is_null($this->user->language)) {
+		if (!is_null($this->user)) {
 		   App::setLocale($this->user->language);
 		}
 	}
