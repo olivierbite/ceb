@@ -33,5 +33,11 @@ return array (
   'add' => 'Add',
   'profile' => 'Profile',
   'logout' => 'Logout',
+  'add_attornies'    => 'Add attornies',
   'count_of_members' => '# of Mambers',
+  'contract_saving' => 'Saving Contract',
+  'contract_loan'    => 'Loan Contratct',
+  'loan_records'    => 'Loan Records',
+  'refund_loan'     => 'Refund loan',
+  'do_a_transaction' => 'Transactions',
 );

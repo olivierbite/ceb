@@ -13,6 +13,7 @@ use Ceb\Models\Institution;
 use Ceb\Models\User;
 use Ceb\Repositories\Member\MemberRepositoryInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Redirect;
 use Response;
@@ -37,6 +38,9 @@ class MemberController extends Controller {
 
 			return redirect()->back();
 		}
+
+		// First log
+		Log::info($this->user->email . ' viewed member list');
 
 		$members = $this->member->paginate(20);
 
@@ -145,7 +149,7 @@ class MemberController extends Controller {
 	}
 
 	/**
-	 * refund this member
+	 * Contribution of  this member
 	 * @param  int        $memberId unique ID of this member
 	 * @param  RefundFactory $refund   
 	 * @return redirect
