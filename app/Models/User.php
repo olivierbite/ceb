@@ -112,6 +112,21 @@ class User extends Model {
 	public function loanBalance() {
 		return $this->totalLoans() - $this->totalRefunds();
 	}
+
+	/**
+	 * Get remaining payment installment
+	 * 
+	 * @return int number of remaining installment
+	 */
+	public function remainingInstallment()
+	{
+		if (!$this->hasActiveLoan()) {
+			// No active loan therefore remaining installment is 0
+			return 0;
+		}
+
+		return round($this->loanBalance() / $this->latestLoan()->monthly_fees);
+	}
 	/**
 	 * Determine if this member has active Loan
 	 *

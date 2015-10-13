@@ -5,6 +5,9 @@
 <div class="row">
  @include('members.rightButtons')
 </div>
+<div class="row">
+ @include('members.summary')
+</div>
 </div>
 
 <script src="{{Url()}}/assets/dist/js/datepickr.js" type="text/javascript"></script>

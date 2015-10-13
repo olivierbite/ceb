@@ -9,7 +9,7 @@
 <div class="col-lg-6">
     <div class="box box-solid">
         <div class="box-header">
-            <h3 class="box-title">Loan Summary</h3>
+            <h3 class="box-title">{{ trans('loan.summary') }}</h3>
         </div>
         <div class="box-body">
             <div class="row">
@@ -22,7 +22,7 @@
                         </div>
                         <div class="icon"><i class="ion ion-edit"></i></div>
                         <a class="small-box-footer" href="#">
-                            View detailed report <i class="fa fa-arrow-circle-right"></i>
+                            {{ trans('report.view_detailed_report') }} <i class="fa fa-arrow-circle-right"></i>
                         </a>
                     </div>
                 </div>
@@ -36,7 +36,7 @@
                         </div>
                         <div class="icon"><i class="ion ion-share"></i></div>
                         <a class="small-box-footer" href="#">
-                            View detailed report <i class="fa fa-arrow-circle-right"></i>
+                            {{ trans('report.view_detailed_report') }} <i class="fa fa-arrow-circle-right"></i>
                         </a>
                     </div>
                 </div>
@@ -50,7 +50,7 @@
                         </div>
                         <div class="icon"><i class="ion ion-alert"></i></div>
                         <a class="small-box-footer" href="">
-                            View detailed report <i class="fa fa-arrow-circle-right"></i>
+                            {{ trans('report.view_detailed_report') }} <i class="fa fa-arrow-circle-right"></i>
                         </a>
                     </div>
                 </div>
