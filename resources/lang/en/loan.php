@@ -35,4 +35,9 @@ return [
   'special_loans' => 'Special Loan',
   'outstanding_loan' => 'Outstanding loan',
   'full_paid_loan' => 'Full Paid Loan',
+  'nature'=>'Nature',
+  'wording'=>'Wording',
+  'loan'=>'Loan',
+  'installment_payments'=>'Installment Payments',
+  'installements'=>'Installements',
 ];
