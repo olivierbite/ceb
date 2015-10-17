@@ -76,7 +76,9 @@
 				height:0
 			}, 200, function(){
 				$('#popdown-opacity').remove();
-			});			
+			});	
+
+			window.location.href = window.location.href;		
 		}		
 	}
 
