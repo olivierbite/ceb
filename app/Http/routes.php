@@ -61,11 +61,19 @@ Route::resource('refunds', 'RefundController');
 Route::resource('accounting', 'AccountingController');
 
 /** Reporting routes */
-Route::get('/reports', ['as' => 'reports.index', 'uses' => 'ReportController@index']);
-Route::get('/reports/contracts/saving/{memberId}', ['as' => 'reports.contracts.saving', 'uses' => 'ReportController@contractSaving']);
-Route::get('/reports/contracts/loan/{loanId}', ['as' => 'reports.contracts.loan', 'uses' => 'ReportController@contractLoan']);
-Route::get('/reports/contracts/ordinaryloan', ['as' => 'reports.contracts.ordinaryloan', 'uses' => 'ReportController@ordinaryloan']);
-Route::get('/reports/contracts/socialloan', ['as' => 'reports.contracts.socialloan', 'uses' => 'ReportController@socialloan']);
+Route::group(['prefix'=>'reports'], function(){	
+
+Route::get('/', ['as' => 'reports.index', 'uses' => 'ReportController@index']);
+Route::get('/contracts/saving/{memberId}', ['as' => 'reports.contracts.saving', 'uses' => 'ReportController@contractSaving']);
+Route::get('/contracts/loan/{loanId}', ['as' => 'reports.contracts.loan', 'uses' => 'ReportController@contractLoan']);
+Route::get('/contracts/ordinaryloan', ['as' => 'reports.contracts.ordinaryloan', 'uses' => 'ReportController@ordinaryloan']);
+Route::get('/contracts/socialloan', ['as' => 'reports.contracts.socialloan', 'uses' => 'ReportController@socialloan']);
+
+/** REPORT FILTERS */
+Route::get('/datefilter',['as'=>'reports.date.filter','uses'=>'ReportFilterController@dateFilter']);
+Route::get('/memberfilter',['as'=>'reports.member.filter','uses'=>'ReportFilterController@memberFilter']);
+
+});
 
 /** SETTINGS ROUTE */
 Route::group(['prefix'=>'settings'], function(){
