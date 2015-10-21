@@ -2,27 +2,27 @@
 <h4>{{ trans('report.contracts_reports') }}</h4>  
 <ul class="nav nav-list">
   <li>
-  		<a href="#dropdowns">
+  		<a href="{{ route('reports.member.filter') }}/?reporturl=reports/contracts/saving" class="popdown">
   			<i class="icon-chevron-right"></i> {{ trans('report.savings_contract') }}
   		</a>
   	</li>
    <li>
-  		<a href="#dropdowns">
+  		<a href="{{ route('reports.member.filter') }}/?reporturl=reports/contracts/loan" class="popdown">
   			<i class="icon-chevron-right"></i> {{ trans('report.ordinary_loan_contract') }}
   		</a>
    </li>
    <li>
-  		<a href="#dropdowns">
+  		<a href="{{ route('reports.member.filter') }}/?reporturl=reports/contracts/loan" class="popdown">
   			<i class="icon-chevron-right"></i> {{ trans('report.special_loan_contract') }}
   		</a>
   </li>
   <li>
-  		<a href="#dropdowns">
+  		<a href="{{ route('reports.member.filter') }}/?reporturl=reports/contracts/loan" class="popdown">
   			<i class="icon-chevron-right"></i> {{ trans('report.loan_regularisation_contract') }}
   		</a>
   </li>
   <li>
-  		<a href="#dropdowns">
+  		<a href="{{ route('reports.member.filter') }}/?reporturl=reports/contracts/loan" class="popdown">
   			<i class="icon-chevron-right"></i> {{ trans('report.social_loan_contract') }}
   		</a>
   </li>
@@ -32,12 +32,12 @@
 <h4>{{ trans('report.files_reports') }}</h4>   
 <ul class="nav nav-list">
   <li>
-  		<a href="#dropdowns">
+  		<a href="{{ route('reports.date.filter') }}/?reporturl=reports/contracts/loan" class="popdown">
   			<i class="icon-chevron-right"></i> {{ trans('report.savings_file') }}
   		</a>
   </li>
   <li>
-  		<a href="#dropdowns">
+  		<a href="#dropdowns" class="popdown">
   			<i class="icon-chevron-right"></i> {{ trans('report.loans_file') }}
   		</a>
   </li>
@@ -47,17 +47,17 @@
 <h4>{{ trans('report.the_disbursed_parts') }}</h4>
 <ul class="nav nav-list">
   <li>
-  		<a href="#dropdowns">
+  		<a href="#dropdowns" class="popdown">
   			<i class="icon-chevron-right"></i> {{ trans('report.accounting_dp') }}
   		</a>
   </li>
   <li>
-  		<a href="#dropdowns">
+  		<a href="#dropdowns" class="popdown">
   			<i class="icon-chevron-right"></i> {{ trans('report.saving_dp') }}
   		</a>
   </li>
   <li>
-  		<a href="#dropdowns">
+  		<a href="#dropdowns" class="popdown">
   			<i class="icon-chevron-right"></i> {{ trans('report.loan_dp') }}
   		</a>
   </li>
@@ -67,27 +67,27 @@
 <h4>{{ trans('report.the_accountants_reports') }}</h4>  
 <ul class="nav nav-list">
   <li>
-  		<a href="#dropdowns">
+  		<a href="#dropdowns" class="popdown">
   			<i class="icon-chevron-right"></i> {{ trans('report.ledger') }}
   		</a>
   </li>
   <li>
-  		<a href="#dropdowns">
+  		<a href="#dropdowns" class="popdown">
   			<i class="icon-chevron-right"></i> {{ trans('report.Bilan') }}
   		</a>
   </li>
   <li>
-  		<a href="#dropdowns">
+  		<a href="#dropdowns" class="popdown">
   			<i class="icon-chevron-right"></i> {{ trans('report.journal') }}
   		</a>
   </li>
   <li>
-  		<a href="#dropdowns">
+  		<a href="#dropdowns" class="popdown">
   			<i class="icon-chevron-right"></i> {{ trans('report.operating_account') }}
   		</a>
   </li>
   <li>
-  		<a href="#dropdowns">
+  		<a href="#dropdowns" class="popdown">
   			<i class="icon-chevron-right"></i> {{ trans('report.account_list') }}
   		</a>
   </li>
@@ -97,27 +97,27 @@
 <h4>{{ trans('report.the_management_reports') }}</h4>   
 <ul class="nav nav-list">
   <li>
-  		<a href="#dropdowns">
+  		<a href="#dropdowns" class="popdown">
   			<i class="icon-chevron-right"></i> {{ trans('report.cautions') }}
   		</a>
   </li>
   <li>
-  		<a href="#dropdowns">
+  		<a href="#dropdowns" class="popdown">
   			<i class="icon-chevron-right"></i> {{ trans('report.savings_contribution') }}
   		</a>
   </li>
   <li>
-  		<a href="#dropdowns">
+  		<a href="#dropdowns" class="popdown">
   			<i class="icon-chevron-right"></i> {{ trans('report.loan_repayment') }}
   		</a>
   </li>
   <li>
-  		<a href="#dropdowns">
+  		<a href="#dropdowns" class="popdown">
   			<i class="icon-chevron-right"></i> {{ trans('report.members') }}
   		</a>
   </li>
   <li>
-  		<a href="#dropdowns">
+  		<a href="#dropdowns" class="popdown">
   			<i class="icon-chevron-right"></i> {{ trans('report.various_withdrawal') }}
   		</a>
   </li>

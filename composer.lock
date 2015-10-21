@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "c4f793d3e4e5ec42a762535d456340c8",
+    "hash": "7bfb55d77b278ef9eaf5b2c330e48176",
     "packages": [
         {
             "name": "anlutro/l4-settings",
@@ -893,6 +893,63 @@
             "time": "2015-09-16 16:57:12"
         },
         {
+            "name": "league/csv",
+            "version": "7.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/csv.git",
+                "reference": "2ee1760c262c41986f6371775907fc9e8603fd26"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thephpleague/csv/zipball/2ee1760c262c41986f6371775907fc9e8603fd26",
+                "reference": "2ee1760c262c41986f6371775907fc9e8603fd26",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0",
+                "scrutinizer/ocular": "~1.1"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "7.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "League\\Csv\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ignace Nyamagana Butera",
+                    "email": "nyamsprod@gmail.com",
+                    "homepage": "https://github.com/nyamsprod/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Csv data manipulation made easy in PHP",
+            "homepage": "http://csv.thephpleague.com",
+            "keywords": [
+                "csv",
+                "export",
+                "filter",
+                "import",
+                "read",
+                "write"
+            ],
+            "time": "2015-06-10 11:12:37"
+        },
+        {
             "name": "league/flysystem",
             "version": "1.0.14",
             "source": {
@@ -986,7 +1043,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Maatwebsite/Laravel-Excel/zipball/6935e8e1809277eab2e35e3d470f8a8da96204c6",
+                "url": "https://api.github.com/repos/Maatwebsite/Laravel-Excel/zipball/29acf5e6b9440a02e07698e2153d35d688552706",
                 "reference": "6935e8e1809277eab2e35e3d470f8a8da96204c6",
                 "shasum": ""
             },
@@ -1488,7 +1545,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/activitylog/zipball/edc6843625020155f52412b59fbe0712b22c7bd7",
+                "url": "https://api.github.com/repos/spatie/activitylog/zipball/0d40e4d8fc95e6f2d417b1ec07f528d3676d6505",
                 "reference": "eaa91ba62b8246465a64db536323ee4986753d30",
                 "shasum": ""
             },
@@ -3671,7 +3728,8 @@
         "barryvdh/laravel-translation-manager": 20,
         "anlutro/l4-settings": 20,
         "spatie/activitylog": 20,
-        "maatwebsite/excel": 20
+        "maatwebsite/excel": 20,
+        "league/csv": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,

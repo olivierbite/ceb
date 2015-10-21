@@ -725,8 +725,17 @@ $(document).on('change', '#upload-photo:file', function() {
     }).bind("typeahead:selected", function(obj, user, name) {
     
    
-    // console.log(window.location.protocol+'//'+window.location.host+baseSegment);
-    window.location.href = window.location.protocol+'//'+window.location.host+'/'+getUrlSegment(1) +'/'+ user.id;
+    // If we are in the reporting module, then this is treated as popup
+    // We have a special way to treat this.
+    
+    if (getUrlSegment(1)=='reports') 
+      {
+         var url = window.location.protocol+'//'+window.location.host+'/'+$('.report-name').val() +'/'+ user.id;
+        var win = window.open(url, '_blank');
+        win.focus();
+       return ;
+      };
+     window.location.href = window.location.protocol+'//'+window.location.host+'/'+getUrlSegment(1) +'/'+ user.id;
     });
 
     var typeahead = $('#search-input');
