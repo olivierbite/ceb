@@ -16,7 +16,7 @@ function toggle(source) {
 
 
   @include('contributionsandsavings.form',['institutions'=>$institutions,'institutionId'=>'institutionId'])
-
+  @include('partials.batch_upload',['route'=>'contributions.batch'])
   @include('contributionsandsavings.buttons')
   <table class="ui table">
   	 <thead>

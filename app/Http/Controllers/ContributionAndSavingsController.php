@@ -8,6 +8,7 @@ use Ceb\Models\Account;
 use Ceb\Models\Institution;
 use Ceb\Repositories\Contribution\ContributionRepository as Contribution;
 use Input;
+use League\Csv\Reader;
 
 class ContributionAndSavingsController extends Controller {
 
@@ -106,10 +107,18 @@ class ContributionAndSavingsController extends Controller {
 		$month = $this->contributionFactory->getMonth();
 		$debitAccount = $this->contributionFactory->getDebitAccount();
 		$creditAccount = $this->contributionFactory->getCreditAccount();
-		$members = $this->contributionFactory->getConstributions();
+        $contributionHasDifference = !$this->contributionFactory->getConstributionsWithDifference()->isEmpty();
+		if (Input::has('withDifferences')) {
+			$members = $this->contributionFactory->getConstributionsWithDifference()->forPage(10,10);
+		}
+		else
+		{
+			$members = $this->contributionFactory->getConstributions()->forPage(10,10);
+		}
+
 		$total = $this->contributionFactory->total();
 
-		return view('contributionsandsavings.list', compact('members', 'institutionId', 'total', 'debitAccount', 'creditAccount', 'month'));
+		return view('contributionsandsavings.list', compact('members', 'institutionId', 'total', 'debitAccount', 'creditAccount', 'month','contributionHasDifference'));
 
 	}
 
@@ -126,13 +135,31 @@ class ContributionAndSavingsController extends Controller {
 		return redirect()->route('contributions.index');
 
 	}
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function destroy($id) {
 
+	public function batch()
+	{
+		if (!Input::hasFile('file')) {
+			flash()->error('Please select a file to upload');
+			return $this->reload();
+		}
+		 if(Input::file('file')->getClientOriginalExtension() != 'csv') {
+		    Flash::error('You must upload a csv file');
+		    return $this->index();
+		  }
+
+	    // checking file is valid.
+	    if (Input::file('file')->isValid()) {
+	       
+	       $csv = Reader::createFromPath(Input::file('file'));
+
+	       $message = '';
+
+		   $csv->setOffset(1); //because we don't want to insert the header
+	       $members = $csv->fetchAll();
+           $this->contributionFactory->setMember($members);
+		}
+
+		return $this->reload();
 	}
+
 }

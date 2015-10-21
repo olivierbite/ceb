@@ -4,6 +4,7 @@ use Ceb\Models\Institution;
 use Ceb\Traits\TransactionTrait;
 use Ceb\Models\User;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Database\Eloquent\Collection;
 
 /**
  * This factory helps Contribution
@@ -30,21 +31,70 @@ class ContributionFactory {
 		}
 		// Get the institution by its id
 		$members = $this->institution->find($institutionId)->members;
-	
 		$this->setContributions($members->toArray());
 	}
-    
+
     /**
 	 * Set members
 	 * @param integer $memberId
 	 *
 	 * @return bool
 	 */
-	public function setMember($memberId)
+	public function setMember($memberToSet= array())
 	{	
-		$member = $this->member->findOrFail($memberId);
-		$members[] = $member->toArray();
-		$this->setContributions($members);
+		$members = array();
+
+		// Check if the provided parameter is an id for one member or not
+		if (!is_array($memberToSet) && is_numeric($memberToSet)) {
+			$member = $this->member->findOrFail($memberId);
+		    $members[] = $member->toArray();
+		    $this->setContributions($members);
+			return true;
+		}
+
+		// We have many members to upload
+		if (is_array($memberToSet)) {
+
+			$rowsWithErrors  		 = [];
+			$rowsWithSuccess 		 = [];
+			$rowsWithDifferentAmount = [];
+
+			foreach ($memberToSet as $member) {
+
+				    if (!isset($member[0]) || !isset($member[1])) {
+				    	$rowsWithErrors[] = $member;
+				    	continue;
+				    }
+               
+				    $memberFromDb = $this->member->findByAdhersion($member[0]);
+				    // Does contribution look same as the one registered
+				    if ($memberFromDb->monthly_fee != $member[1]) {
+				    	$memberFromDb->monthly_fee = $member[1];
+				    	$memberFromDb->institution = $memberFromDb->institution->name;
+				    	$rowsWithDifferentAmount[] = $memberFromDb;
+				    }
+
+				    $rowsWithSuccess[] = $memberFromDb;
+				}	
+		}
+
+		$rowsWithErrors  		  = new Collection($rowsWithErrors);
+		$rowsWithDifferentAmount  = new Collection($rowsWithDifferentAmount);
+		$rowsWithSuccess  		  = new Collection($rowsWithSuccess);
+		
+		if (!$rowsWithErrors->isEmpty()) {
+		   $message = 'We have identified '.$rowsWithErrors->count().' member(s) with wrong format, therefore we did not consider them.';	
+		}
+
+		if (!$rowsWithDifferentAmount->isEmpty()) {
+		   $message = 'We have identified '.$rowsWithErrors->count().' member(s) with  diffent contributions amount.';	
+		}
+
+		flash()->error($message);
+		Session::put('contributionsWithDifference',$rowsWithDifferentAmount);
+		Session::put('uploadsWithErrors', $rowsWithErrors);
+
+		$this->setContributions($rowsWithSuccess->toArray());
 		return true;
 	}
     /**
@@ -60,7 +110,6 @@ class ContributionFactory {
 	 * @param array $data
 	 */
 	public function setContributions(array $data) {
-
 		$finalData = [];
 		foreach ($data as $item) {
 			$item['institution'] = $this->institution->find($item['institution_id'])->name;
@@ -77,9 +126,18 @@ class ContributionFactory {
 	 * @return array
 	 */
 	public function getConstributions() {
-		return Session::get('contributions');
+		return new Collection(Session::get('contributions'));
 	}
 
+	/**
+	 * Get contributions with differences
+	 * 
+	 * @return [type] [description]
+	 */
+	public function getConstributionsWithDifference()
+	{
+		return new Collection(Session::get('contributionsWithDifference'));
+	}
 	/**
 	 * Update a single monthly contribution for a given uses
 	 * @param  [type] $adhersion_number [description]
@@ -110,6 +168,7 @@ class ContributionFactory {
 		if (count($content) < 1) {
 			return $sum;
 		}
+
 		// now calculate all amount we have
 		foreach ($content as $item) {
 			$sum += $item['monthly_fee'];
@@ -188,5 +247,7 @@ class ContributionFactory {
 		Session::forget('credit_account');
 		Session::forget('month');
 		Session::forget('institution');
+		Session::forget('uploadsWithErrors');
+		Session::forget('contributionsWithDifference');
 	}
 }
