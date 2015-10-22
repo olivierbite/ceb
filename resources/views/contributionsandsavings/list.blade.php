@@ -18,15 +18,13 @@ function toggle(source) {
   @include('contributionsandsavings.form',['institutions'=>$institutions,'institutionId'=>$institutionId])
   @include('partials.batch_upload',['route'=>'contributions.batch'])
   @if(!$members->isEmpty())
-
   
   {!! Form::open(array('route'=>'contributions.complete','method'=>'POST')) !!}
-  
   <label>{{ trans('contribution.libelle') }}</label>
   {!! Form::text('wording', $wording, ['class'=>'form-control','placeholder'=>'contibution for this month ....']) !!}
     @include('contributionsandsavings.buttons')
   {!! Form::close() !!}
-  {!! str_replace('href="/', 'href="'.Request::url(), $pageLinks->render()) !!}
+  {!! str_replace('href="/?page=', 'href="'.Request::url().'?'.$_SERVER['QUERY_STRING'].'&page=', $pageLinks->render()) !!}
 
 
   <table class="ui table">

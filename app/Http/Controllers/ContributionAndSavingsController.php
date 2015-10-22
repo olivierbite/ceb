@@ -229,9 +229,11 @@ class ContributionAndSavingsController extends Controller {
 		$currentPage = Input::get('page', 1);
 
 		if (Input::has('show-member-with-difference') && Input::get('show-member-with-difference') == 'yes') {
-			return new Paginator($this->contributionFactory->getConstributionsWithDifference(),20,$currentPage);
+			$members = $this->contributionFactory->getConstributionsWithDifference();
+			return new Paginator($members,$members->count(),20,$currentPage);
 		}	
-		return new Paginator($this->contributionFactory->getConstributions(),20,$currentPage);
+			$members = $this->contributionFactory->getConstributions();
+			return new Paginator($members,$members->count(),20,$currentPage);
 	}
 
 	/**
