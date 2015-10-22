@@ -31,7 +31,12 @@ class ContributionFactory {
 		}
 		// Get the institution by its id
 		$members = $this->institution->find($institutionId)->members;
-		$this->setContributions($members->toArray());
+		$toSetMembers =[];
+		foreach ($members as $member) {
+			$member->monthly_fee = (int) $member->monthly_fee;
+			$toSetMembers[] = $member;
+		}
+		$this->setContributions($toSetMembers);
 	}
 
     /**
@@ -47,6 +52,7 @@ class ContributionFactory {
 		// Check if the provided parameter is an id for one member or not
 		if (!is_array($memberToSet) && is_numeric($memberToSet)) {
 			$member = $this->member->findOrFail($memberId);
+			$member->monthly_fee = (int) $member->monthly_fee;
 		    $members[] = $member->toArray();
 		    $this->setContributions($members);
 			return true;
@@ -122,8 +128,25 @@ class ContributionFactory {
 		return Session::put('contributions', $finalData);
 	}
 
+	/**
+	 * Set wording for the current contribution
+	 * 
+	 * @param void
+	 */
+	public function setWording($wording)
+	{
+		Session::put('contribution_wording', $wording);
+	}
 
-
+	/**
+	 * Get wording for current contributionsession
+	 * 
+	 * @return string
+	 */
+	public function getWording()
+	{
+		return Session::get('contribution_wording', null);
+	}
 	/**
 	 * Get all contributions as per the current session
 	 * @return array
@@ -215,7 +238,7 @@ class ContributionFactory {
 	 * @return Integer
 	 */
 	public function getDebitAccount() {
-		return Session::get('debit_account', 13);
+		return Session::get('debit_account', 0);
 	}
 	/**
 	 * Set credit account in the session
@@ -229,7 +252,7 @@ class ContributionFactory {
 	 * @return [type] [description]
 	 */
 	public function getCreditAccount() {
-		return Session::get('credit_account', 26); // Here we assume the account with id 26 is default
+		return Session::get('credit_account', 0); // Here we assume the account with id 26 is default
 	}
 
 	/**
@@ -245,7 +268,7 @@ class ContributionFactory {
 	 * @return integer
 	 */
 	public function getMonth() {
-		return Session::get('month', date('m'));
+		return Session::get('month', 0);
 	}
 
 	/**
@@ -253,7 +276,7 @@ class ContributionFactory {
 	 * @param mixed $institutionId
 	 */
 	public function setInstitution($institutionId) {
-		return Session::put('institution', $institutionId);
+		return Session::put('contribution_institution', $institutionId);
 	}
 
 	/**
@@ -261,7 +284,7 @@ class ContributionFactory {
 	 * @return ID
 	 */
 	public function getInstitution() {
-		return Session::get('institution', 1); // We assume institution 1 is dhe default one
+		return Session::get('contribution_institution', 0); // We assume institution 1 is dhe default one
 	}
 
 	/**
@@ -302,8 +325,9 @@ class ContributionFactory {
 		Session::forget('debit_account');
 		Session::forget('credit_account');
 		Session::forget('month');
-		Session::forget('institution');
+		Session::forget('contribution_institution');
 		Session::forget('uploadsWithErrors');
 		Session::forget('contributionsWithDifference');
+		Session::forget('contribution_wording');
 	}
 }
