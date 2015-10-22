@@ -10,6 +10,10 @@
 		<button  class="btn btn-primary">
 			<i class="fa fa-edit"></i>
 		</button>
+		<a  class="btn btn-danger" href="{!! route('contributions.remove.member',$member['adhersion_id']) !!}"
+		 onclick="return confirm('{{ trans('general.are_you_sure_you_want_to_delete_this_item') }}');">
+			<i class="fa fa-times"></i>
+		</a>
 	</td>
 </tr>
 {!! Form::close() !!}

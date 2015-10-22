@@ -17,7 +17,11 @@ function toggle(source) {
 
   @include('contributionsandsavings.form',['institutions'=>$institutions,'institutionId'=>'institutionId'])
   @include('partials.batch_upload',['route'=>'contributions.batch'])
+  @if(!$members->isEmpty())
   @include('contributionsandsavings.buttons')
+    {!! str_replace('href="/', 'href="'.Request::url(), $pageLinks->render()) !!}
+
+
   <table class="ui table">
   	 <thead>
   	 	<tr>
@@ -33,4 +37,6 @@ function toggle(source) {
    @each ('contributionsandsavings.item', $members, 'member', 'contributionsandsavings.no-items')
  </tbody>
   </table>
+
+@endif
 @stop

@@ -67,13 +67,15 @@ class ContributionFactory {
 				    }
                
 				    $memberFromDb = $this->member->findByAdhersion($member[0]);
+					$memberFromDb->monthly_fee = (int) $memberFromDb->monthly_fee;
+					$member[1] = (int) $member[1];
 				    // Does contribution look same as the one registered
-				    if ($memberFromDb->monthly_fee != $member[1]) {
+				    if ($memberFromDb->monthly_fee !== $member[1]) {
 				    	$memberFromDb->monthly_fee = $member[1];
 				    	$memberFromDb->institution = $memberFromDb->institution->name;
 				    	$rowsWithDifferentAmount[] = $memberFromDb;
 				    }
-
+                     
 				    $rowsWithSuccess[] = $memberFromDb;
 				}	
 		}
@@ -87,10 +89,11 @@ class ContributionFactory {
 		}
 
 		if (!$rowsWithDifferentAmount->isEmpty()) {
-		   $message = 'We have identified '.$rowsWithErrors->count().' member(s) with  diffent contributions amount.';	
+		   $message = 'We have identified '.$rowsWithDifferentAmount->count().' member(s) with  diffent contributions amount.';	
 		}
 
 		flash()->error($message);
+
 		Session::put('contributionsWithDifference',$rowsWithDifferentAmount);
 		Session::put('uploadsWithErrors', $rowsWithErrors);
 
@@ -146,16 +149,39 @@ class ContributionFactory {
 	 */
 	public function updateMonthlyFee($adhersion_number, $newMontlyFee) {
 		// First get what is in the session now
-		$data = $this->getConstributions();
+		$data = $this->getConstributions()->toArray();
 		// in (PHP 5 >= 5.5.0) you don't have to write your own function to search through a multi dimensional array
 		$key = $this->searchAdhersionKey($adhersion_number, $data);
 
-		// An array can have index 0 that's why we check if it's not strictly false
+		// An array can have index 0 that's why we check if it's not strictly false		
 		if ($key !== false) {
-			$data[$key]['monthly_fee'] = $newMontlyFee;
+			$data[$key]['monthly_fee'] = (int) $newMontlyFee;
 		}
+
 		// Now we are ready to go
 		return $this->setContributions($data);
+	}
+
+	/**
+	 * Remove one member from current contribution session
+	 * 
+	 * @param  numeric $memberId
+	 * @return void
+	 */
+	public function removeMember($adhersion_number)
+	{
+      $adhersion_number = (int) $adhersion_number;
+
+	  $filtered = $this->getConstributions()->filter(function($member)  use ($adhersion_number){
+	  	  if ($member['adhersion_id'] == $adhersion_number) {
+	  	  	flash()->warning($member['first_name'].' '.$member['last_name'].'('.$adhersion_number.')'.trans('contribution.has_been_removed_from_current_contribution_session'));
+	  	  	return false;
+	  	  }
+
+	  	  return true;
+	  });
+
+	  $this->setContributions($filtered->toArray());	
 	}
 
 	/**
@@ -229,6 +255,7 @@ class ContributionFactory {
 	public function setInstitution($institutionId) {
 		return Session::put('institution', $institutionId);
 	}
+
 	/**
 	 * get the current contribution institutions
 	 * @return ID
@@ -237,6 +264,35 @@ class ContributionFactory {
 		return Session::get('institution', 1); // We assume institution 1 is dhe default one
 	}
 
+	/**
+	 * Forget contribution with differences
+	 * 		
+	 * @return void
+	 */
+	public function forgetWithDifferences()
+	{
+		$withDifference = $this->getConstributionsWithDifference();
+		$members        = $this->getConstributions();
+
+		$members = $members->filter(function($member) use($withDifference){
+		    return $withDifference->where('adhersion_id',$member['adhersion_id'])->isEmpty();
+		});
+
+		flash()->success($this->getConstributions()->count() - $members->count() . trans('contribution.members_are_removed_from_this_contribution_session'));
+
+		$this->setContributions($members->toArray());
+		$this->forgetContributionWithDifferences();
+	}
+
+	/**
+	 * Remove contribution with differencdes
+	 * 
+	 * @return void
+	 */
+	public function forgetContributionWithDifferences()
+	{
+		Session::forget('contributionsWithDifference');
+	}
 	/**
 	 * Clear all present SessionIds
 	 * @return void

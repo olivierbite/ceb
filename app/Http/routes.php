@@ -30,6 +30,7 @@ Route::group(['prefix'=>'contributions'], function(){
 	Route::get('complete', ['as' => 'contributions.complete', 'uses' => 'ContributionAndSavingsController@complete']);
 	Route::get('cancel', ['as' => 'contributions.cancel', 'uses' => 'ContributionAndSavingsController@cancel']);	
 	Route::post('batch', ['as' => 'contributions.batch', 'uses' => 'ContributionAndSavingsController@batch']);
+	Route::get('{adhersion_id}/remove',['as'=>'contributions.remove.member','uses'=>'ContributionAndSavingsController@removeMember']);
 });
 
 Route::resource('contributions', 'ContributionAndSavingsController');

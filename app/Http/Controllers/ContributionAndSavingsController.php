@@ -9,6 +9,7 @@ use Ceb\Models\Institution;
 use Ceb\Repositories\Contribution\ContributionRepository as Contribution;
 use Input;
 use League\Csv\Reader;
+use Illuminate\Pagination\LengthAwarePaginator as Paginator;
 
 class ContributionAndSavingsController extends Controller {
 
@@ -83,49 +84,41 @@ class ContributionAndSavingsController extends Controller {
 	 */
 	private function reload() {
 
-		// If the user has changed new institution, then set it and get it's dta
-		if (Input::has('institution')) {
-			$this->contributionFactory->setInstitution(Input::get('institution'));
-			$this->contributionFactory->setByInsitution(Input::get('institution'));
-		}
-
-		// If we have Debit account in the url , then set it
-		if (Input::has('debit_account')) {
-			$this->contributionFactory->setDebitAccount(Input::get('debit_account'));
-		}
-
-		// If we have Credit account in the url then set credit account
-		if (Input::has('credit_account')) {
-			$this->contributionFactory->setCreditAccount(Input::get('credit_account'));
-		}
-
-		// If we have month in the parameters set it
-		if (Input::has('month')) {
-			$this->contributionFactory->setMonth(Input::get('month'));
-		}
+		// Detect if there is something to set or be removed
+		$this->setByInsitution();
+		$this->setDebitAccount();
+		$this->setCreditAccount();
+		$this->setMonth();
+		$this->removeContributionWithDifference();
 
 		$month = $this->contributionFactory->getMonth();
 		$debitAccount = $this->contributionFactory->getDebitAccount();
 		$creditAccount = $this->contributionFactory->getCreditAccount();
         $contributionHasDifference = !$this->contributionFactory->getConstributionsWithDifference()->isEmpty();
-		if (Input::has('withDifferences')) {
-			$members = $this->contributionFactory->getConstributionsWithDifference()->forPage(10,10);
-		}
-		else
-		{
-			$members = $this->contributionFactory->getConstributions()->forPage(10,10);
-		}
+		$members = $this->getMembers();
+		$pageLinks = $this->getMembersPageLinks();
 
 		$total = $this->contributionFactory->total();
 
-		return view('contributionsandsavings.list', compact('members', 'institutionId', 'total', 'debitAccount', 'creditAccount', 'month','contributionHasDifference'));
+		return view('contributionsandsavings.list', compact('members','pageLinks', 'institutionId', 'total', 'debitAccount', 'creditAccount', 'month','contributionHasDifference'));
 
+	}
+
+	/**
+	 * Remove a member from the current contribution session
+	 * 
+	 * @param   $adhersion_id 
+	 * @return  mixed
+	 */
+	public function removeMember($adhersion_id)
+	{
+		$this->contributionFactory->removeMember($adhersion_id);
+		return $this->reload();
 	}
 
 	/**
 	 * Cancel contribution
 	 */
-
 	public function cancel() {
 
 		$this->contributionFactory->clearAll();
@@ -136,6 +129,11 @@ class ContributionAndSavingsController extends Controller {
 
 	}
 
+	/**
+	 * Set multiple members by uploading a csv containing their adhersion id and amount
+	 * 
+	 * @return [type] [description]
+	 */
 	public function batch()
 	{
 		if (!Input::hasFile('file')) {
@@ -162,4 +160,86 @@ class ContributionAndSavingsController extends Controller {
 		return $this->reload();
 	}
 
+
+	/**
+	 * Get members who are set to contribute
+	 * 
+	 * @return Paginator
+	 */
+	private function getMembersPageLinks()
+	{
+		$currentPage = Input::get('page', 1);
+
+		if (Input::has('show-member-with-difference') && Input::get('show-member-with-difference') == 'yes') {
+			return new Paginator($this->contributionFactory->getConstributionsWithDifference(),20,$currentPage);
+		}	
+		return new Paginator($this->contributionFactory->getConstributions(),20,$currentPage);
+	}
+
+	/**
+	 * Get members to be displayed
+	 * @return collections
+	 */
+	private function getMembers()
+	{
+		$currentPage = Input::get('page', 1);
+		if (Input::has('show-member-with-difference') && Input::get('show-member-with-difference') == 'yes') {
+			return $this->contributionFactory->getConstributionsWithDifference()->forPage($currentPage,20);
+		}	
+		return $this->contributionFactory->getConstributions()->forPage($currentPage,20);
+	}
+
+	/**
+	 * Set month for the contribution
+	 * 
+	 */
+	private function setMonth()
+	{
+		if (Input::has('month')) {
+			$this->contributionFactory->setMonth(Input::get('month'));
+		}
+	}
+
+	/**
+	 * Set credit account for this contribution
+	 */
+	private function setCreditAccount()
+	{
+		if (Input::has('credit_account')) {
+			$this->contributionFactory->setCreditAccount(Input::get('credit_account'));
+		}
+	}
+
+	/**
+	 * Set debit account for this contribution
+	 */
+	private function setDebitAccount()
+	{
+		if (Input::has('debit_account')) {
+			$this->contributionFactory->setDebitAccount(Input::get('debit_account'));
+		}
+	}
+
+	/**
+	 * Set members by institution
+	 */
+	private function setByInsitution()
+	{
+		if (Input::has('institution')) {
+			$this->contributionFactory->setInstitution(Input::get('institution'));
+			$this->contributionFactory->setByInsitution(Input::get('institution'));
+		}
+	}
+
+	/**
+	 * Remove contribution with differences
+	 * 
+	 * @return void
+	 */
+	public function removeContributionWithDifference()
+	{
+		if (Input::has('remove-member-with-differences') && Input::get('remove-member-with-differences') == 'yes') {
+			$this->contributionFactory->forgetWithDifferences();
+		}
+	}
 }
