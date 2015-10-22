@@ -3,7 +3,9 @@
 namespace Ceb\Http\Controllers;
 
 use Ceb\Http\Controllers\Controller;
+use Ceb\Models\Account;
 use Ceb\Models\Loan;
+use Ceb\Models\Posting;
 use Ceb\Models\User;
 use Ceb\Repositories\Reports\GraphicReportRepository;
 
@@ -62,5 +64,46 @@ class ReportController extends Controller {
 			return false;
 		}
 		return $member;
+	}
+
+	/**
+	 * Show accounting piece reports
+	 * 
+	 * @param  Account $account   
+	 * @param  string  $startDate 
+	 * @param  string  $endDate   
+	 * @return view             
+	 */
+	public function accountingPiece(Posting $posting, $startDate=null,$endDate=null)
+	{
+		$postings = $posting->with('account')->betweenDates($startDate,$endDate)->get();
+		return view('reports.accounting.piece',compact('postings'));
+	}
+
+		/**
+	 * Show ledge  reports
+	 * 
+	 * @param  Ceb\Models\Posting $posting   
+	 * @param  string  $startDate 
+	 * @param  string  $endDate   
+	 * @return view             
+	 */
+	public function ledger(Posting $posting, $startDate=null,$endDate=null)
+	{
+		$postings = $posting->with('account')->betweenDates($startDate,$endDate)->get();
+		return view('reports.accounting.ledger',compact('postings'));
+	}
+
+	/**
+	 * Show bilan report
+	 * @param  Ceb\Models\Account $account   
+	 * @param  string  $startDate 
+	 * @param  string  $endDate   
+	 * @return mixed             
+	 */
+	public function bilan(Account $account,$startDate=null,$endDate=null)
+	{
+		$accounts = $account->with('postings')->get();
+		return view('reports.accounting.bilan',compact('accounts'));
 	}
 }

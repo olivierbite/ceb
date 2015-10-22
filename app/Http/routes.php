@@ -64,15 +64,18 @@ Route::resource('accounting', 'AccountingController');
 /** Reporting routes */
 Route::group(['prefix'=>'reports'], function(){	
 
-Route::get('/', ['as' => 'reports.index', 'uses' => 'ReportController@index']);
-Route::get('/contracts/saving/{memberId}', ['as' => 'reports.contracts.saving', 'uses' => 'ReportController@contractSaving']);
-Route::get('/contracts/loan/{loanId}', ['as' => 'reports.contracts.loan', 'uses' => 'ReportController@contractLoan']);
-Route::get('/contracts/ordinaryloan', ['as' => 'reports.contracts.ordinaryloan', 'uses' => 'ReportController@ordinaryloan']);
-Route::get('/contracts/socialloan', ['as' => 'reports.contracts.socialloan', 'uses' => 'ReportController@socialloan']);
+	/** REPORT FILTERS */
+	Route::get('/datefilter',['as'=>'reports.date.filter','uses'=>'ReportFilterController@dateFilter']);
+	Route::get('/memberfilter',['as'=>'reports.member.filter','uses'=>'ReportFilterController@memberFilter']);
 
-/** REPORT FILTERS */
-Route::get('/datefilter',['as'=>'reports.date.filter','uses'=>'ReportFilterController@dateFilter']);
-Route::get('/memberfilter',['as'=>'reports.member.filter','uses'=>'ReportFilterController@memberFilter']);
+	Route::get('/', ['as' => 'reports.index', 'uses' => 'ReportController@index']);
+	Route::get('/contracts/saving/{memberId}', ['as' => 'reports.contracts.saving', 'uses' => 'ReportController@contractSaving']);
+	Route::get('/contracts/loan/{loanId}', ['as' => 'reports.contracts.loan', 'uses' => 'ReportController@contractLoan']);
+	Route::get('/contracts/ordinaryloan', ['as' => 'reports.contracts.ordinaryloan', 'uses' => 'ReportController@ordinaryloan']);
+	Route::get('/contracts/socialloan', ['as' => 'reports.contracts.socialloan', 'uses' => 'ReportController@socialloan']);
+	Route::get('/accounting/piece/{startDate}/{endDate}',['as' => 'reports.accounting.piece', 'uses' => 'ReportController@accountingPiece']);
+	Route::get('/accounting/ledger/{startDate}/{endDate}',['as'=>'reports.accounting.ledger','uses'=>'ReportController@ledger']);
+	Route::get('/accounting/bilan/{startDate}/{endDate}',['as'=>'reports.accounting.bilan','uses'=>'ReportController@bilan']);
 
 });
 
@@ -98,5 +101,5 @@ Route::post('files/add', [
 
 
 Route::get('/test',function(){
-	dd(Ceb\Models\Account::first()->postings()->betweenDates('2015-08-31','2015-08-31')->get());
+	dd(Ceb\Models\Account::first()->debit_amount);
 });

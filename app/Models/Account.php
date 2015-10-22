@@ -1,8 +1,8 @@
 <?php
 
 namespace Ceb\Models;
-
 use Illuminate\Support\Facades\DB;
+
 class Account extends Model {
 
 
@@ -21,7 +21,7 @@ class Account extends Model {
 	 */
 	public function debits()
 	{
-		return $this->postings()->with('journal')->where(DB::raw('LOWER(transaction_type)'),'debit');
+		return $this->postings()->where(DB::raw('LOWER(transaction_type)'),'debit');
 	}
 
 	/**
@@ -30,6 +30,24 @@ class Account extends Model {
 	 */
 	public function credits()
 	{
-		return $this->postings()->with('journal')->where(DB::raw('LOWER(transaction_type)'),'credit');
+		return $this->postings()->where(DB::raw('LOWER(transaction_type)'),'credit');
+	}
+
+	/**
+	 * Get debit amount sum  for this account
+	 * @return numeric
+	 */
+	public function getDebitAmountAttribute()
+	{
+		return $this->debits()->sum('amount');
+	}
+
+	/**
+	 * Get credit amount sum  for this account
+	 * @return numeric
+	 */
+	public function getCreditAmountAttribute()
+	{
+		return $this->credits()->sum('amount');
 	}
 }
