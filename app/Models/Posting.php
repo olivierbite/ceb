@@ -17,4 +17,13 @@ class Posting extends Model {
 		'cheque_number',
 		'bank',
 	];
+
+	/**
+	 * Relationship with journal
+	 * @return Ceb\Models\Journal
+	 */
+	public function journal()
+	{
+		return $this->belongsTo('\Ceb\Models\Journal');
+	}
 }

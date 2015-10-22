@@ -97,4 +97,6 @@ Route::post('files/add', [
 	'as' => 'files.add', 'uses' => 'FileController@add']);
 
 
-Route::get('/test','ReportController@memberPerInstituion');
+Route::get('/test',function(){
+	dd(Ceb\Models\Account::first()->postings()->betweenDates('2015-08-31','2015-08-31')->get());
+});
