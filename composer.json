@@ -27,7 +27,9 @@
             "database"
         ],
         "files": [
-            "app/Helpers/NumberToLetter.php"
+            "app/Helpers/NumberToLetter.php",
+            "app/Helpers/ArrayHelper.php",
+            "app/Helpers/helpers.php"
         ],
         "psr-4": {
             "Ceb\\": "app/"

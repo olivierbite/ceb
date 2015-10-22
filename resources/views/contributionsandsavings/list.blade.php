@@ -15,9 +15,18 @@ function toggle(source) {
 @section('content')
 
 
-  @include('contributionsandsavings.form',['institutions'=>$institutions,'institutionId'=>'institutionId'])
+  @include('contributionsandsavings.form',['institutions'=>$institutions,'institutionId'=>$institutionId])
+  @include('partials.batch_upload',['route'=>'contributions.batch'])
+  @if(!$members->isEmpty())
+  
+  {!! Form::open(array('route'=>'contributions.complete','method'=>'POST')) !!}
+  <label>{{ trans('contribution.libelle') }}</label>
+  {!! Form::text('wording', $wording, ['class'=>'form-control','placeholder'=>'contibution for this month ....']) !!}
+    @include('contributionsandsavings.buttons')
+  {!! Form::close() !!}
+  {!! str_replace('href="/?page=', 'href="'.Request::url().'?'.$_SERVER['QUERY_STRING'].'&page=', $pageLinks->render()) !!}
 
-  @include('contributionsandsavings.buttons')
+
   <table class="ui table">
   	 <thead>
   	 	<tr>
@@ -33,4 +42,6 @@ function toggle(source) {
    @each ('contributionsandsavings.item', $members, 'member', 'contributionsandsavings.no-items')
  </tbody>
   </table>
+
+@endif
 @stop

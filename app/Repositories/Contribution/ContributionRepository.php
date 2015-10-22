@@ -109,26 +109,27 @@ class ContributionRepository {
 	private function saveContibutions($transactionId) {
 
 		# Get data in the factory
-		$contributions = $this->contributionFactory->getConstributions();
+		$contributions = $this->contributionFactory->getConstributions()->toArray();
 		$month = $this->contributionFactory->getMonth();
 		$fullTransactions = true;
 
-		if (count($contributions) < 1 ) {
-			// nothing to do here
-			return false;
-		}
-
+		$memberWithoutFees = 0;
 		foreach ($contributions as $contribution) {
+			if (empty($contribution['monthly_fee'])) {
+				$memberWithoutFees++;
+				continue;
+			}
+
 			$contribution['transactionid'] = $transactionId;
 			$contribution['month'] = $month;
-			$contribution['institution_id'] = $this->contributionFactory->getInstitution();
+			$contribution['institution_id'] = $contribution['institution_id'];
 			$contribution['amount'] = $contribution['monthly_fee'];
 			$contribution['state'] = 'Ancien';
 			$contribution['year'] = date('Y');
 			$contribution['contract_number'] = $this->getContributionContractNumber();
 			$contribution['transaction_type'] = 'saving';
 			$contribution['transaction_reason'] = 'Montly contribution for the month of '.$month.' of the year '.$contribution['year'];
-			$contribution['wording']       = isset($data['wording']) ? $data['wording'] :$contribution['transaction_reason'];
+			$contribution['wording']       = $this->contributionFactory->getWording();
 			//Remove unwanted column
 			unset($contribution['id']);
 
@@ -140,6 +141,9 @@ class ContributionRepository {
 			}
 		}
 
+		if (!empty($memberWithoutFees)) {
+			flash()->warning(count($memberWithoutFees). trans('contribution.members_could_not_contribute_because_they_have_0_fee'));
+		}
 		return true;
 	}
 
@@ -150,11 +154,14 @@ class ContributionRepository {
 	 */
 	private function savePostings($transactionId) {
 
+		$debitAccount = $this->contributionFactory->getDebitAccount();
+		$creditAccount = $this->contributionFactory->getCreditAccount();
+		
 		// First prepare data to use for the debit account
 		// Once are have debited(deducted data) then we can
 		// Credit the account to be credited
 		$posting['transactionid'] = $transactionId;
-		$posting['account_id'] = $this->contributionFactory->getDebitAccount();
+		$posting['account_id'] = $debitAccount;
 		$posting['journal_id'] = 1; // We assume per default we are using journal 1
 		$posting['asset_type'] = null;
 		$posting['amount'] = $this->contributionFactory->total();
@@ -168,11 +175,12 @@ class ContributionRepository {
 		// Change few data for crediting
 		// Then try to credit the account too
 		$posting['transaction_type'] = 'Credit';
-		$posting['account_id'] = $this->contributionFactory->getCreditAccount();
+		$posting['account_id'] = $creditAccount;
 
 		$crediting = Posting::create($posting);
 
 		if (!$debiting || !$crediting) {
+			
 			return false;
 		}
 		// Ouf time to go to bed now
