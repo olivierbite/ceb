@@ -6,7 +6,7 @@ return array (
   'contributions_and_savings' => 'Contributions & savings',
   'loans_and_repayments' => 'Loans & repayments',
   'accounting' => 'Accounting',
-  'reports' => 'Rapports',
+  'reports' => 'Raports',
   'settings' => 'Configurations',
   'institutions' => 'institutions',
   'accounting_plan' => 'Accounting plan',
