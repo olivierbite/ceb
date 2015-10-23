@@ -74,10 +74,13 @@ class ReportController extends Controller {
 	 * @param  string  $endDate   
 	 * @return view             
 	 */
-	public function accountingPiece(Posting $posting, $startDate=null,$endDate=null)
+	public function accountingPiece(Posting $posting, $startDate=null,$endDate=null,$excel)
 	{
 		$postings = $posting->with('account')->betweenDates($startDate,$endDate)->get();
 		$report= view('reports.accounting.piece',compact('postings'))->render();
+		if ($excel==1) {
+		  toExcel($report,'account-piece-report');
+		}
 		return view('layouts.printing', compact('report'));
 	}
 
@@ -89,10 +92,13 @@ class ReportController extends Controller {
 	 * @param  string  $endDate   
 	 * @return view             
 	 */
-	public function ledger(Posting $posting, $startDate=null,$endDate=null)
+	public function ledger(Posting $posting, $startDate=null,$endDate=null,$excel=0)
 	{
 		$postings = $posting->with('account')->betweenDates($startDate,$endDate)->get();
 		$report  = view('reports.accounting.ledger',compact('postings'))->render();
+	    if ($excel==1) {
+			 toExcel($report,'ledger-report');
+		}
 		return view('layouts.printing', compact('report'));
 	}
 
@@ -103,10 +109,13 @@ class ReportController extends Controller {
 	 * @param  string  $endDate   
 	 * @return mixed             
 	 */
-	public function bilan(Account $account,$startDate=null,$endDate=null)
+	public function bilan(Account $account,$startDate=null,$endDate=null,$excel=0)
 	{
 		$accounts = $account->with('postings')->get();
 		$report = view('reports.accounting.bilan',compact('accounts'))->render();
+		if ($excel==1) {
+			 toExcel($report,'bilan-report');
+		}
 		return view('layouts.printing', compact('report'));
 	}
 
@@ -118,10 +127,13 @@ class ReportController extends Controller {
 	 * @param  string  $endDate   
 	 * @return view             
 	 */
-	public function journal(Posting $posting, $startDate=null,$endDate=null)
+	public function journal(Posting $posting, $startDate=null,$endDate=null,$excel=0)
 	{
 		$postings = $posting->with('account')->betweenDates($startDate,$endDate)->get();
 		$report  = view('reports.accounting.journal',compact('postings'))->render();
+		if ($excel==1) {
+			 toExcel($report,'journal-report');
+		}
 		return view('layouts.printing', compact('report'));
 	}
 
@@ -138,4 +150,6 @@ class ReportController extends Controller {
 		$report = view('reports.accounting.accounts-list',compact('accounts'))->render();
 		return view('layouts.printing', compact('report'));
 	}
+
+
 }

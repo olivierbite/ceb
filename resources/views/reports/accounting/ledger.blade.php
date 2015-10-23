@@ -1,3 +1,4 @@
+@if (!$postings->isEmpty())
 <table border="1">
 	<thead>
 		<tr>
@@ -19,9 +20,10 @@
 		{{-- empty expr --}}
 	@endforelse
 	<tr>
-			<td colspan="2"><b>{{ trans('posting.wording') }}:</b> {!! $posting->wording !!}</td>
-			<td>{!! $posting->betweenDates(Request::segment(4),Request::segment(5))->debits()->sum('amount') !!}</td>
-			<td>{!! $posting->betweenDates(Request::segment(4),Request::segment(5))->credits()->sum('amount') !!}</td>
+			<td colspan="2"><b>{{ trans('posting.wording') }}:</b> {!! $postings->first()->wording !!}</td>
+			<td>{!! $postings->sum('amount') !!}</td>
+			<td>{!! $postings->sum('amount') !!}</td>
 		</tr>
 	</tbody>
 </table>
+@endif

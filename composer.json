@@ -29,7 +29,7 @@
         "files": [
             "app/Helpers/NumberToLetter.php",
             "app/Helpers/ArrayHelper.php",
-            "app/Helpers/helpers.php"
+            "app/Helpers/Helpers.php"
         ],
         "psr-4": {
             "Ceb\\": "app/"
