@@ -4,6 +4,7 @@ namespace Ceb\Http\Controllers;
 
 use Ceb\Http\Controllers\Controller;
 use Ceb\Models\Account;
+use Ceb\Models\Contribution;
 use Ceb\Models\Loan;
 use Ceb\Models\Posting;
 use Ceb\Models\User;
@@ -144,12 +145,44 @@ class ReportController extends Controller {
 	 * @param  string  $endDate   
 	 * @return mixed             
 	 */
-	public function accountsList(Account $account)
+	public function accountsList(Account $account,$excel=0)
 	{
 		$accounts = $account->all();
 		$report = view('reports.accounting.accounts-list',compact('accounts'))->render();
+		if ($excel==1) {
+			 toExcel($report,'journal-report');
+		}
 		return view('layouts.printing', compact('report'));
 	}
 
 
+  	/**
+  	 * Show member loan records
+  	 * @param  numeric $memberId the ID of the member
+  	 * @return view    
+  	 */
+    public function loanRecords(Loan $loan, $startDate=null,$endDate=null,$excel=0,$adhersionId,$excel=1)
+    {
+    	$loans = $loan->with('member')->betweenDates($startDate,$endDate)->where('adhersion_id',$adhersionId)->get();
+	    $report = view('reports.member.loan_records',compact('loans'))->render();
+	    if ($excel==1) {
+			 toExcel($report,'loanRecords-report');
+		}
+		return view('layouts.printing', compact('report'));
+    }
+
+    /**
+     * Show this member contribution
+     * @param  numeric $memberId [description]
+     * @return view       
+     */
+    public function contributions(Contribution $contribution,$startDate=null,$endDate=null,$excel=0,$adhersionId,$excel=0)
+    {
+    	$contributions = $contribution->with('member')->betweenDates($startDate,$endDate)->where('adhersion_id',$adhersionId)->get();
+    	$report = view('reports.member.contributions',compact('contributions'))->render();
+    	if ($excel==1) {
+			 toExcel($report,'contributions-report');
+		}
+    	return view('layouts.printing', compact('report'));
+    }
 }

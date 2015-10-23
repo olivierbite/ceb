@@ -2,27 +2,27 @@
 <h4>{{ trans('report.contracts_reports') }}</h4>  
 <ul class="nav nav-list">
   <li>
-  		<a href="{{ route('reports.member.filter') }}/?reporturl=reports/contracts/saving" class="popdown">
+  		<a href="{{ route('reports.date.filter') }}/?reporturl=reports/members/contracts/saving" class="popdown">
   			<i class="icon-chevron-right"></i> {{ trans('report.savings_contract') }}
   		</a>
   	</li>
    <li>
-  		<a href="{{ route('reports.member.filter') }}/?reporturl=reports/contracts/loan" class="popdown">
+  		<a href="{{ route('reports.date.filter') }}/?reporturl=reports/members/contracts/loan" class="popdown">
   			<i class="icon-chevron-right"></i> {{ trans('report.ordinary_loan_contract') }}
   		</a>
    </li>
    <li>
-  		<a href="{{ route('reports.member.filter') }}/?reporturl=reports/contracts/loan" class="popdown">
+  		<a href="{{ route('reports.date.filter') }}/?reporturl=reports/members/contracts/loan" class="popdown">
   			<i class="icon-chevron-right"></i> {{ trans('report.special_loan_contract') }}
   		</a>
   </li>
   <li>
-  		<a href="{{ route('reports.member.filter') }}/?reporturl=reports/contracts/loan" class="popdown">
+  		<a href="{{ route('reports.date.filter') }}/?reporturl=reports/members/contracts/loan" class="popdown">
   			<i class="icon-chevron-right"></i> {{ trans('report.loan_regularisation_contract') }}
   		</a>
   </li>
   <li>
-  		<a href="{{ route('reports.member.filter') }}/?reporturl=reports/contracts/loan" class="popdown">
+  		<a href="{{ route('reports.date.filter') }}/?reporturl=reports/members/contracts/loan" class="popdown">
   			<i class="icon-chevron-right"></i> {{ trans('report.social_loan_contract') }}
   		</a>
   </li>
@@ -32,12 +32,12 @@
 <h4>{{ trans('report.files_reports') }}</h4>   
 <ul class="nav nav-list">
   <li>
-  		<a href="{{ route('reports.date.filter') }}/?reporturl=reports/contracts/saving" class="popdown">
+  		<a href="{{ route('reports.date.filter') }}/?reporturl=reports/members/contributions" class="popdown">
   			<i class="icon-chevron-right"></i> {{ trans('report.savings_file') }}
   		</a>
   </li>
   <li>
-  		<a  href="{{ route('reports.date.filter') }}/?reporturl=reports/contracts/saving" class="popdown">
+  		<a  href="{{ route('reports.date.filter') }}/?reporturl=reports/members/loanrecords" class="popdown">
   			<i class="icon-chevron-right"></i> {{ trans('report.loans_file') }}
   		</a>
   </li>
@@ -97,35 +97,29 @@
 <h4>{{ trans('report.the_management_reports') }}</h4>   
 <ul class="nav nav-list">
   <li>
-  		<a href="{{ route('reports.date.filter') }}/?reporturl=reports/contracts/saving" class="popdown">
+  		<a href="{{ route('reports.date.filter') }}/?reporturl=reports/members/contracts/saving" class="popdown">
   			<i class="icon-chevron-right"></i> {{ trans('report.cautions') }}
   		</a>
   </li>
   <li>
-  		<a href="{{ route('reports.date.filter') }}/?reporturl=reports/contracts/saving" class="popdown">
+  		<a href="{{ route('reports.date.filter') }}/?reporturl=reports/members/contracts/saving" class="popdown">
   			<i class="icon-chevron-right"></i> {{ trans('report.savings_contribution') }}
   		</a>
   </li>
   <li>
-  		<a href="{{ route('reports.date.filter') }}/?reporturl=reports/contracts/saving" class="popdown">
+  		<a href="{{ route('reports.date.filter') }}/?reporturl=reports/members/contracts/saving" class="popdown">
   			<i class="icon-chevron-right"></i> {{ trans('report.loan_repayment') }}
   		</a>
   </li>
   <li>
-  		<a href="{{ route('reports.date.filter') }}/?reporturl=reports/contracts/saving" class="popdown">
+  		<a href="{{ route('reports.date.filter') }}/?reporturl=reports/members/contracts/saving" class="popdown">
   			<i class="icon-chevron-right"></i> {{ trans('report.members') }}
   		</a>
   </li>
   <li>
-  		<a href="{{ route('reports.date.filter') }}/?reporturl=reports/contracts/saving" class="popdown">
+  		<a href="{{ route('reports.date.filter') }}/?reporturl=reports/members/contracts/saving" class="popdown">
   			<i class="icon-chevron-right"></i> {{ trans('report.various_withdrawal') }}
   		</a>
   </li>
 </ul>
 </div>  
-
-    <p>
-      <a href="{{ route('reports.date.filter') }}" class="popdown btn" title="Grumpy Demo">Grumpy Demo</a>
-      <a href="{{ route('reports.date.filter') }}" class="popdown btn" title="Youtube Demo">Youtube Demo</a>
-      <a href="{{ route('reports.date.filter') }}" class="popdown btn" title="Content Demo">Content Demo</a>
-    </p>

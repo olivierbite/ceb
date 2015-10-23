@@ -1,7 +1,9 @@
 @include('partials.landscapecss')
 
 {{-- Start by pulling this member profile --}}
-@include('reports.member.partials.profile') 
+@if (!$contributions->isEmpty())
+	@include('reports.member.partials.profile',['member'=>$contributions->last()->member])
+@endif 
 <table class="ui table">
   	 <thead>
   	 	<tr>
@@ -14,6 +16,6 @@
 	  	</tr>
    	 </thead>
  <tbody>
-   @each ('reports.member.item_contribution_record', $member->contributions, 'contribution', 'members.no-items')
+   @each ('reports.member.item_contribution_record', $contributions, 'contribution', 'members.no-items')
  </tbody>
 </table>

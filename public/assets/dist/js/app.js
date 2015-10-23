@@ -726,23 +726,25 @@ $(document).on('change', '#upload-photo:file', function() {
     
    
     // If we are in the reporting module, then this is treated as popup
-    // We have a special way to treat this.
+    // We have a special way to treat this.We don't want this to be
+    // redirected because we need to provide more inputs
     
     if (getUrlSegment(1)=='reports') 
       {
-         var url = window.location.protocol+'//'+window.location.host+'/'+$('.report-name').val() +'/'+ user.id;
-        var win = window.open(url, '_blank');
-        win.focus();
-       return ;
+        $('.member_id').val( user.adhersion_id);
+        return true;
+        //  var url = window.location.protocol+'//'+window.location.host+'/'+$('.report-name').val() +'/'+ user.id;
+        //  var win = window.open(url, '_blank');
+        //  win.focus();
+        
+        // return ;
       };
      window.location.href = window.location.protocol+'//'+window.location.host+'/'+getUrlSegment(1) +'/'+ user.id;
     });
 
     var typeahead = $('#search-input');
-
     typeahead.on('keyup', function(e) {
        var old_input = $(this).typeahead('val');
-
       if ($(this).val() === '' && old_input.length == $(this).typeahead('val')) {
         typeahead.closest('#search-wrapper').removeClass('not-empty');
       } else {

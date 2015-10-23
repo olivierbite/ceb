@@ -59,7 +59,6 @@
 </style>
 <div class="wrap ">
 <div class="header">
-<input type="hidden" class="report-name" value="{!! $reportUrl !!}">
 <div class="block title">{!! $title !!}</div>
    <div href="#" class="close-popdown block">
     <i class="fa fa-times"></i>
