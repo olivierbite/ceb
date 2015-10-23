@@ -80,7 +80,7 @@ class ReportController extends Controller {
 		return view('reports.accounting.piece',compact('postings'));
 	}
 
-		/**
+	/**
 	 * Show ledge  reports
 	 * 
 	 * @param  Ceb\Models\Posting $posting   
@@ -105,5 +105,32 @@ class ReportController extends Controller {
 	{
 		$accounts = $account->with('postings')->get();
 		return view('reports.accounting.bilan',compact('accounts'));
+	}
+
+	/**
+	 * Show ledge  reports
+	 * 
+	 * @param  Ceb\Models\Posting $posting   
+	 * @param  string  $startDate 
+	 * @param  string  $endDate   
+	 * @return view             
+	 */
+	public function journal(Posting $posting, $startDate=null,$endDate=null)
+	{
+		$postings = $posting->with('account')->betweenDates($startDate,$endDate)->get();
+		return view('reports.accounting.journal',compact('postings'));
+	}
+
+	/**
+	 * Show accounts list report
+	 * @param  Ceb\Models\Account $account   
+	 * @param  string  $startDate 
+	 * @param  string  $endDate   
+	 * @return mixed             
+	 */
+	public function accountsList(Account $account)
+	{
+		$accounts = $account->all();
+		return view('reports.accounting.accounts-list',compact('accounts'));
 	}
 }
