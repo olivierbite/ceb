@@ -777,10 +777,11 @@ $(document).on('change', '#upload-photo:file', function() {
   /**
    * Make sure the popdown library is initated here
    */
-  $(document).ready(function(){
-    $('.popdown').popdown();
-  });
-  
+  if ($.fn.popdown) { 
+    $(document).ready(function(){
+      $('.popdown').popdown();
+    });
+  }
 
 
   /** WHAT HAPPENS WHEN SOMEONE TRY TO SUBMIT ACCOUNTING FORM */
@@ -830,4 +831,3 @@ $(document).on('change', '#upload-photo:file', function() {
                     }
                    });
     });
-

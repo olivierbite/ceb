@@ -77,7 +77,8 @@ class ReportController extends Controller {
 	public function accountingPiece(Posting $posting, $startDate=null,$endDate=null)
 	{
 		$postings = $posting->with('account')->betweenDates($startDate,$endDate)->get();
-		return view('reports.accounting.piece',compact('postings'));
+		$report= view('reports.accounting.piece',compact('postings'))->render();
+		return view('layouts.printing', compact('report'));
 	}
 
 	/**
@@ -91,7 +92,8 @@ class ReportController extends Controller {
 	public function ledger(Posting $posting, $startDate=null,$endDate=null)
 	{
 		$postings = $posting->with('account')->betweenDates($startDate,$endDate)->get();
-		return view('reports.accounting.ledger',compact('postings'));
+		$report  = view('reports.accounting.ledger',compact('postings'))->render();
+		return view('layouts.printing', compact('report'));
 	}
 
 	/**
@@ -104,7 +106,8 @@ class ReportController extends Controller {
 	public function bilan(Account $account,$startDate=null,$endDate=null)
 	{
 		$accounts = $account->with('postings')->get();
-		return view('reports.accounting.bilan',compact('accounts'));
+		$report = view('reports.accounting.bilan',compact('accounts'))->render();
+		return view('layouts.printing', compact('report'));
 	}
 
 	/**
@@ -118,7 +121,8 @@ class ReportController extends Controller {
 	public function journal(Posting $posting, $startDate=null,$endDate=null)
 	{
 		$postings = $posting->with('account')->betweenDates($startDate,$endDate)->get();
-		return view('reports.accounting.journal',compact('postings'));
+		$report  = view('reports.accounting.journal',compact('postings'))->render();
+		return view('layouts.printing', compact('report'));
 	}
 
 	/**
@@ -131,6 +135,7 @@ class ReportController extends Controller {
 	public function accountsList(Account $account)
 	{
 		$accounts = $account->all();
-		return view('reports.accounting.accounts-list',compact('accounts'));
+		$report = view('reports.accounting.accounts-list',compact('accounts'))->render();
+		return view('layouts.printing', compact('report'));
 	}
 }

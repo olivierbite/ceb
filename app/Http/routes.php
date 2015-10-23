@@ -69,19 +69,19 @@ Route::group(['prefix'=>'reports'], function(){
 	Route::get('/memberfilter',['as'=>'reports.member.filter','uses'=>'ReportFilterController@memberFilter']);
 
 	Route::get('/', ['as' => 'reports.index', 'uses' => 'ReportController@index']);
-	Route::get('/contracts/saving/{memberId}', ['as' => 'reports.contracts.saving', 'uses' => 'ReportController@contractSaving']);
-	Route::get('/contracts/loan/{loanId}', ['as' => 'reports.contracts.loan', 'uses' => 'ReportController@contractLoan']);
-	Route::get('/contracts/ordinaryloan', ['as' => 'reports.contracts.ordinaryloan', 'uses' => 'ReportController@ordinaryloan']);
-	Route::get('/contracts/socialloan', ['as' => 'reports.contracts.socialloan', 'uses' => 'ReportController@socialloan']);
+	Route::get('/contracts/saving/{memberId}/{export_excel}', ['as' => 'reports.contracts.saving', 'uses' => 'ReportController@contractSaving']);
+	Route::get('/contracts/loan/{loanId}/{export_excel}', ['as' => 'reports.contracts.loan', 'uses' => 'ReportController@contractLoan']);
+	Route::get('/contracts/ordinaryloan/{export_excel}', ['as' => 'reports.contracts.ordinaryloan', 'uses' => 'ReportController@ordinaryloan']);
+	Route::get('/contracts/socialloan/{export_excel}', ['as' => 'reports.contracts.socialloan', 'uses' => 'ReportController@socialloan']);
 
 	// ACOUNTING REPORTS 
 	Route::group(['prefix'=>'accounting'], function()
 	{
-		Route::get('piece/{startDate}/{endDate}',['as' => 'reports.accounting.piece', 'uses' => 'ReportController@accountingPiece']);
-		Route::get('ledger/{startDate}/{endDate}',['as'=>'reports.accounting.ledger','uses'=>'ReportController@ledger']);
-		Route::get('bilan/{startDate}/{endDate}',['as'=>'reports.accounting.bilan','uses'=>'ReportController@bilan']);
-		Route::get('journal/{startDate}/{endDate}',['as'=>'reports.accounting.journal','uses'=>'ReportController@journal']);
-		Route::get('accounts',['as'=>'reports.accounting.accounts','uses'=>'ReportController@accountsList']);
+		Route::get('piece/{startDate}/{endDate}/{export_excel}',['as' => 'reports.accounting.piece', 'uses' => 'ReportController@accountingPiece']);
+		Route::get('ledger/{startDate}/{endDate}/{export_excel}',['as'=>'reports.accounting.ledger','uses'=>'ReportController@ledger']);
+		Route::get('bilan/{startDate}/{endDate}/{export_excel}',['as'=>'reports.accounting.bilan','uses'=>'ReportController@bilan']);
+		Route::get('journal/{startDate}/{endDate}/{export_excel}',['as'=>'reports.accounting.journal','uses'=>'ReportController@journal']);
+		Route::get('accounts/{export_excel}',['as'=>'reports.accounting.accounts','uses'=>'ReportController@accountsList']);
 	});
 });
 
