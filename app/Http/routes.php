@@ -65,8 +65,7 @@ Route::resource('accounting', 'AccountingController');
 Route::group(['prefix'=>'reports'], function(){	
 
 	/** REPORT FILTERS */
-	Route::get('/datefilter',['as'=>'reports.date.filter','uses'=>'ReportFilterController@dateFilter']);
-	Route::get('/memberfilter',['as'=>'reports.member.filter','uses'=>'ReportFilterController@memberFilter']);
+	Route::get('/filter',['as'=>'reports.filter','uses'=>'ReportFilterController@filter']);
 
 	Route::get('/', ['as' => 'reports.index', 'uses' => 'ReportController@index']);
 

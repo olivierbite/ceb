@@ -55,11 +55,14 @@ class ViewComposerServiceProvider extends ServiceProvider {
 	 * @return void
 	 */
 	private function composerInstitutions() {
+		
 		$views = [
 			'members.form',
 			'refunds.form',
 			'contributionsandsavings.list',
+			'reports.filters.date_filter',
 		];
+
 		view()->composer($views, 'Ceb\ViewComposers\InstitutionsViewComposer');
 	}
 	/**

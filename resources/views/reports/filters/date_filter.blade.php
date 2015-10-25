@@ -1,41 +1,50 @@
 @extends('reports.layouts.popup')
 @section('content')
-
 <input type="hidden" class="report-name" value="{!! $reportUrl !!}">
-
 <div class="row">
 {{-- only show this search if it's a member reports --}}
-@if (strpos($reportUrl,'member')!== false)
+@if ($filterOptions->member_search == true)
 	@include('members.search')
 @endif
-
 <br/>
+
+@if ($filterOptions->show_institution == true)
+<b>{{ trans('reports.select_institution') }}</b>	
+	<br/>
+	  {!! Form::select('institution', $institutions, null, ['class'=>'form-control']) !!}
+	<br/>
+@endif
+
+@if ($filterOptions->show_dates == true)
 <b>{{ trans('reports.report_range') }}</b>
 <br/>
 <div id="report_date_range_simple">
-		<input type="radio" name="report_type" id="simple_radio" value="simple" checked="checked">
+	<input type="radio" name="report_type" id="simple_radio" value="simple" checked="checked">
 		{!! Form::select('report_date_range_simple', get_simple_date_ranges(),null, ['id'=>'report_date_range_simple']) !!}
 </div>
 <br/>
 	{!! Form::hidden('member_id', null, ['class'=>'member_id']) !!}
-<input type="radio" name="report_type" id="complex_radio" value="complex">
-    {!! Form::select('start_day', get_days(), date('d') , ['class' => 'fom-control start_day']) !!}
-	{!! Form::select('start_month', get_months(), date('m'), ['class' => 'fom-control start_month']) !!}
-	{!! Form::select('start_year', get_years(), date('m'), ['class' => 'fom-control start_year']) !!}
+	<input type="radio" name="report_type" id="complex_radio" value="complex">
+    {!! Form::select('start_day', get_days(), date('d') , ['class' => 'start_day']) !!}
+	{!! Form::select('start_month', get_months(), date('m'), ['class' => 'start_month']) !!}
+	{!! Form::select('start_year', get_years(), date('m'), ['class' => 'start_year']) !!}
 
 <b>-</b>
-    {!! Form::select('end_day', get_days(), date('d') , ['class' => 'fom-control end_day']) !!}
-	{!! Form::select('end_month', get_months(), date('m'), ['class' => 'fom-control end_month']) !!}
-	{!! Form::select('end_year', get_years(), date('m'), ['class' => 'fom-control end_year']) !!}
+    {!! Form::select('end_day', get_days(), date('d') , ['class' => 'end_day']) !!}
+	{!! Form::select('end_month', get_months(), date('m'), ['class' => 'end_month']) !!}
+	{!! Form::select('end_year', get_years(), date('m'), ['class' => 'end_year']) !!}
 
 <br/>
 <br/>
+@endif
+@if ($filterOptions->show_exports == true)
 <div>
 	<b>{!! trans('reports.export_excel') !!}</b> :
 	<input type="radio" name="export_excel" id="export_excel_yes" value="1"> {!! trans('general.yes') !!}
 	<input type="radio" name="export_excel" id="export_excel_no" value="0" checked="checked"> {!! trans('general.no') !!}
 	</div>
 <br/>
+@endif
 <button class="btn btn-success btn-lg btn-block generate_report" type="submit" >{{ trans('report.submit') }}</button>
 </div>
 
