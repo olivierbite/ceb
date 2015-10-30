@@ -21,7 +21,7 @@ function toggle(source) {
   {!! Form::open(array('route'=>'refunds.complete','method'=>'POST')) !!}
   <label>{{ trans('refund.libelle') }}</label>
   {!! Form::text('wording', null, ['class'=>'form-control','placeholder'=>'refund for this month ....']) !!}
-  @include('contributionsandsavings.buttons')
+  @include('contributionsandsavings.buttons',['cancelRoute'=>'refunds.cancel'])
   {!! Form::close() !!}
   <table class="table table-bordered">
   	 <thead>

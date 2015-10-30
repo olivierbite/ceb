@@ -1,5 +1,5 @@
 @extends('layouts.default')
-@section('content-title')
+@section('content_title')
 {{ trans('leave.Leaves_History') }}
 @stop
 @section('content')
@@ -12,6 +12,8 @@
                         <th>#</th>
                         <th>{{ trans('leave.Start_Date') }}</th>
                         <th>{{ trans('leave.end_Date') }}</th>
+                        <th>{{ trans('leave.days') }}</th>
+                        <th>{{ trans('leave.backup') }}</th>
                         <th>{{ trans('leave.status') }}</th>
                     </tr>
                 </thead>
@@ -22,6 +24,8 @@
                             <th scope="row"><?php echo $leave['id'] ?></th>
                             <td>{{ date("d F Y",strtotime($leave->start)) }}</td>
                             <td>{{ date("d F Y",strtotime($leave->end)) }}</td>
+                            <td>{{ $leave->days }}</td>
+                            <td>{{ $leave->backup }}</td>
                             <td>{{ $leave->status }}</td>
                     </tr>
                         <?php } ?>

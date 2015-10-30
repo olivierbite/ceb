@@ -58,7 +58,9 @@ class RefundFactory {
 			flash()->error(trans('member.this_member_doesnot_have_active_loan'));
 			return false;
 		}
-
+        // Make sure amount is numeric
+        $member->monthly_fee = (int) $member->monthly_fee;
+        
 		$members[] = $member;
 		$this->setRefundMembers($members);
 		return true;
