@@ -20,8 +20,9 @@ Edit Group
                     <input placeholder="Name" name="name" value="{!! Input::old('name') ? Input::old('name') : $group->name !!}" type="text" class="form-control">
                     {!! ($errors->has('name') ? $errors->first('name', '<small class="error">:message</small>') : '') !!}
                 </div>
-                <input class="btn btn-lg btn-success col-md-12" value="Save Changes" type="submit">
+                
               </div>
+                <label for="Permissions">Permissions</label>
                 @include('sentinel.groups.permissions')
                
                 <div class="row">
