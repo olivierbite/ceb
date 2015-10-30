@@ -101,7 +101,7 @@ class User extends Model {
      */
     public function leaves()
     {
-        return $this->hasMany('Leave');
+        return $this->hasMany('Ceb\Models\Leave');
     }
 
 	/**

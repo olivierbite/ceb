@@ -10,7 +10,6 @@
         @endforeach
         <div class="form-group">
             {!! Form::label('start',trans('leave.Start_Date'))!!}
-        <input type="radio" name="report_type" id="complex_radio" value="complex">
             {!! Form::select('start_day', get_days(), date('d') , ['class' => 'start_day']) !!}
             {!! Form::select('start_month', get_months(), date('m'), ['class' => 'start_month']) !!}
             {!! Form::select('start_year', get_years(), date('y'), ['class' => 'start_year']) !!}

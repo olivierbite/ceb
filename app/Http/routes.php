@@ -113,6 +113,7 @@ Route::group(['prefix'=>'reports'], function(){
  * LEAVES ROUTES
  */
 	Route::group(array('prefix' => 'leaves'), function() {
+
 	    Route::get('/request', array('as' => 'leaves.request', 'uses' => 'LeaveController@create'));
 	    Route::get('/show', array('as' => 'leaves.show', 'uses' => 'LeaveController@show'));
 	    Route::get('/pending', array('as' => 'leaves.pending', 'uses' => 'LeaveController@index'));
@@ -120,7 +121,7 @@ Route::group(['prefix'=>'reports'], function(){
 	    Route::get('reject/{leave}', array('as' => 'leaves.reject', 'uses' => 'LeaveController@reject'));
 	    Route::get('status/{leave}', array('as' => 'leaves.status', 'uses' => 'LeaveController@status'));
 });
-Route::resource('leaves', 'LeaveController');
+Route::resource('leaves', 'LeaveController',['only' => ['index', 'store','create']]);
 
 /** SETTINGS ROUTE */
 Route::group(['prefix'=>'settings'], function(){

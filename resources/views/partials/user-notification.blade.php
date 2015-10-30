@@ -12,7 +12,7 @@
                 @foreach ($user->getNotificationsNotRead($limit = 20, $paginate = null, $order = 'desc') as $notification)
                    <li>
                     <a href="{!! $notification->url !!}">
-                      <i class="{!! trans($notification->body->name.'-icon') !!} text-aqua"></i> {!! $notification->text !!}
+                      <i class="{!! trans($notification->body->name.'-icon') !!}"></i> {!! $notification->text !!}
                     </a>
                   </li>
                 @endforeach

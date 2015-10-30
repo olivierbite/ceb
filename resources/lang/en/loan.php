@@ -37,5 +37,5 @@ return [
   'full_paid_loan' => 'Full Paid Loan',
 
   /** NOTIFICATIONS */
-  'loan-icon' => 'fa fa-dashboard',
+  'loan-icon' => 'fa fa-dashboard text-aqua',
 ];

@@ -1,16 +1,16 @@
 @extends('layouts.default')
 @section('content')
 <div class="row">
-    <div class="col-md-4 col-md-offset-4">
-        <h2>Leaves History</h2>
+    <div class="col-md-12 col-md-offset-0">
+        <h2>{{ trans('leave.Leaves_History') }}</h2>
         <?php if ($leaves) { ?>
             <table class="table table-bordered">
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Start Date</th>
-                        <th>End Date</th>
-                        <th>Status</th>
+                        <th>{{ trans('leave.Start_Date') }}</th>
+                        <th>{{ trans('leave.end_Date') }}</th>
+                        <th>{{ trans('leave.status') }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -20,29 +20,17 @@
                             <th scope="row"><?php echo $leave['id'] ?></th>
                             <td>{{ date("d F Y",strtotime($leave->start)) }}</td>
                             <td>{{ date("d F Y",strtotime($leave->end)) }}</td>
-                            <td>
-                            <?php switch ($leave->status){
-                                    case 1: 
-                                        echo 'Pending';
-                                        break;
-                                    case 2: 
-                                        echo 'Approved';
-                                        break;
-                                    case 3: 
-                                        echo 'Rejected';
-                                        break;
-                                } ?>
-                            </td>
+                            <td>{{ $leave->status }}</td>
                     </tr>
                         <?php } ?>
                 </tbody>
             </table>
         <?php } else { ?>
-            No Leaves
+            {{ trans('leave.No_Leaves') }}
         <?php } ?>
     </div>
     <div class="col-md-12 col-md-offset-4">
-        <a class="btn btn-primary" href="{{ route('leave.create'); }}">Apply for leave</a>
+        <a class="btn btn-primary popdown" href="{{ route('leaves.create')}}">{{ trans('leave.Apply_for_leave') }}</a>
     </div>
 </div>
 @stop

@@ -62,7 +62,7 @@
             </li>
             <li class="{{ (Request::is('leave*') ? 'active' : '') }} ">
               <a href="{!! route('leaves.index') !!}">
-                <i class="fa fa-table"></i> <span>{{ trans('navigations.leaves') }}</span>
+                <i class="fa fa-calendar"></i> <span>{{ trans('navigations.leaves') }}</span>
               </a>
             </li>
             <li class="{{ (Request::is('report*') ? 'active' : '') }} ">
