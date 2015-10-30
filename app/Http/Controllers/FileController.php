@@ -59,7 +59,7 @@ class FileController extends Controller {
 	 * @param  string $filename 
 	 * @return file           
 	 */
-	public function get($filename) {
+	public function get($filename=null) {
 
 		$entry = $this->file->where('filename', '=', $filename)->first();
 		// If we don't have a file, return this dumy path
