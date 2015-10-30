@@ -21,4 +21,6 @@ return array (
   'user' => 'Utilisateur',
   'groups' => 'Groups',
   'refunds' => 'Remboursements',
+  'leaves'  => 'Leaves management',
+  'regularisation' => 'Regularisation',
 );

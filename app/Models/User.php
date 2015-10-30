@@ -94,6 +94,15 @@ class User extends Model {
 	public function refunds() {
 		return $this->hasMany('Ceb\Models\Refund', 'adhersion_id', 'adhersion_id');
 	}
+    
+    /**
+     * Relationship with leaves
+     * @return  leave object
+     */
+    public function leaves()
+    {
+        return $this->hasMany('Leave');
+    }
 
 	/**
 	 * Get total refunds by this member;
@@ -212,4 +221,6 @@ class User extends Model {
     {
     	$this->attributes['password'] = crypt('Test1234');
     }
+
+
 }

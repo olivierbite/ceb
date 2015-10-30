@@ -25,10 +25,16 @@ function isImage($url) {
 				];
   
    // Get unique header and exchange it with its key 
-   $headers = array_flip(get_headers($url,1)['Content-Type']);
+   $headers = $header = get_headers($url,1)['Content-Type'];
    
-   // Put the the key back to its position and extract the header
-   $header  = (new Illuminate\Support\Collection(array_flip($headers)))->first();
+   // If we have multiple headers, then extract one.
+   if(is_array($headers))
+   {
+	   $headers = array_flip(get_headers($url,1)['Content-Type']);
+	   
+	   // Put the the key back to its position and extract the header
+	   $header  = (new Illuminate\Support\Collection(array_flip($headers)))->first();
+	}
 
    foreach ($contentTypes as $type => $mime) {
    	 if (is_array($mime)) 
