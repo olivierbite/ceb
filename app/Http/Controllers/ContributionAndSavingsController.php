@@ -11,6 +11,7 @@ use Illuminate\Pagination\LengthAwarePaginator as Paginator;
 use Illuminate\Support\Facades\Response;
 use Input;
 use League\Csv\Reader;
+use Log;
 
 class ContributionAndSavingsController extends Controller {
 
@@ -28,7 +29,15 @@ class ContributionAndSavingsController extends Controller {
 	 * @return Response
 	 */
 	public function index() {
+      // First check if the user has the permission to do this
+        if (!$this->user->hasAccess('contribution.index')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
+            return redirect()->back();
+        }
 
+        // First log
+        Log::info($this->user->email . ' viewed index of contribution');
+    
 		return $this->reload();
 	}
 
@@ -38,6 +47,16 @@ class ContributionAndSavingsController extends Controller {
 	 * @return Response
 	 */
 	public function create() {
+
+		// First check if the user has the permission to do this
+        if (!$this->user->hasAccess('contribution.add')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
+            return redirect()->back();
+        }
+
+        // First log
+        Log::info($this->user->email . ' started to add contribution');
+    
 		return view('contributionsandsavings.create');
 	}
 
@@ -46,6 +65,16 @@ class ContributionAndSavingsController extends Controller {
 	 * @return function
 	 */
 	public function show() {
+
+	   // First check if the user has the permission to do this
+        if (!$this->user->hasAccess('contribution.view')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
+            return redirect()->back();
+        }
+
+        // First log
+        Log::info($this->user->email . ' started to view contribution');
+    
 		return $this->reload();
 	}
 
@@ -56,6 +85,16 @@ class ContributionAndSavingsController extends Controller {
 	 * @return Response
 	 */
 	public function update($id) {
+
+	   // First check if the user has the permission to do this
+        if (!$this->user->hasAccess('contribution.update')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
+            return redirect()->back();
+        }
+
+        // First log
+        Log::info($this->user->email . ' updated contribution');
+    
 		// Update
 		$adhersion_number = Input::get('adhersion_number');
 		$monthly_fee = Input::get('monthly_fee');
@@ -71,6 +110,16 @@ class ContributionAndSavingsController extends Controller {
 	 * @return mixed
 	 */
 	public function complete() {
+
+	   // First check if the user has the permission to do this
+        if (!$this->user->hasAccess('contribution.complete')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
+            return redirect()->back();
+        }
+
+        // First log
+        Log::info($this->user->email . ' completed contribution');
+    
 		if (is_null(Input::get('wording')) || empty(Input::get('wording'))) {
 			flash()->error(trans('contribution.you_must_write_wording_for_this_transaction'));
 			return $this->reload();
@@ -160,6 +209,16 @@ class ContributionAndSavingsController extends Controller {
 	 */
 	public function removeMember($adhersion_id)
 	{
+
+	   // First check if the user has the permission to do this
+        if (!$this->user->hasAccess('contribution.remove.member')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
+            return redirect()->back();
+        }
+
+        // First log
+        Log::info($this->user->email . ' removed member contribution');
+    
 		$this->contributionFactory->removeMember($adhersion_id);
 		return $this->reload();
 	}
@@ -168,7 +227,14 @@ class ContributionAndSavingsController extends Controller {
 	 * Cancel contribution
 	 */
 	public function cancel() {
+      // First check if the user has the permission to do this
+        if (!$this->user->hasAccess('contribution.cancel')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
+            return redirect()->back();
+        }
 
+        // First log
+        Log::info($this->user->email . ' cancel contribution');
 		$this->contributionFactory->clearAll();
 		$message = trans('contribution.contribution_cancelled');
 		flash()->success($message);
@@ -184,6 +250,15 @@ class ContributionAndSavingsController extends Controller {
 	 */
 	public function batch()
 	{
+		 // First check if the user has the permission to do this
+        if (!$this->user->hasAccess('contribution.batch.contribution')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
+            return redirect()->back();
+        }
+
+        // First log
+        Log::info($this->user->email . ' did batch contribution');
+
 		if (!Input::hasFile('file')) {
 			flash()->error('Please select a file to upload');
 			return $this->reload();
@@ -214,6 +289,14 @@ class ContributionAndSavingsController extends Controller {
 	 */
 	public function downloadSample()
 	{
+		 // First check if the user has the permission to do this
+        if (!$this->user->hasAccess('contribution.download.sample')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
+            return redirect()->back();
+        }
+
+        // First log
+        Log::info($this->user->email . ' downloaded sample contribution csv');
 		 //PDF file is stored under project/public/download/info.pdf
         $file= storage_path(). "/app/csv/batchcontribution-sample.csv";
 
@@ -227,7 +310,6 @@ class ContributionAndSavingsController extends Controller {
 	private function getMembersPageLinks()
 	{
 		$currentPage = Input::get('page', 1);
-
 		if (Input::has('show-member-with-difference') && Input::get('show-member-with-difference') == 'yes') {
 			$members = $this->contributionFactory->getConstributionsWithDifference();
 			return new Paginator($members,$members->count(),20,$currentPage);
@@ -255,6 +337,15 @@ class ContributionAndSavingsController extends Controller {
 	 */
 	private function setMonth()
 	{
+		 // First check if the user has the permission to do this
+        if (!$this->user->hasAccess('contribution.set.month')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
+            return redirect()->back();
+        }
+
+        // First log
+        Log::info($this->user->email . ' set contribution month');
+
 		if (Input::has('month')) {
 			$this->contributionFactory->setMonth(Input::get('month'));
 		}
@@ -265,6 +356,15 @@ class ContributionAndSavingsController extends Controller {
 	 */
 	private function setCreditAccount()
 	{
+			 // First check if the user has the permission to do this
+        if (!$this->user->hasAccess('contribution.set.credit.account')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
+            return redirect()->back();
+        }
+
+        // First log
+        Log::info($this->user->email . ' set contribution credit account');
+
 		if (Input::has('credit_account')) {
 			$this->contributionFactory->setCreditAccount(Input::get('credit_account'));
 		}
@@ -275,6 +375,15 @@ class ContributionAndSavingsController extends Controller {
 	 */
 	private function setDebitAccount()
 	{
+			 // First check if the user has the permission to do this
+        if (!$this->user->hasAccess('contribution.set.debit.account')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
+            return redirect()->back();
+        }
+
+        // First log
+        Log::info($this->user->email . ' set contribution debit account');
+
 		if (Input::has('debit_account')) {
 			$this->contributionFactory->setDebitAccount(Input::get('debit_account'));
 		}
@@ -285,6 +394,15 @@ class ContributionAndSavingsController extends Controller {
 	 */
 	private function setByInsitution()
 	{
+		// First check if the user has the permission to do this
+        if (!$this->user->hasAccess('contribution.set.by.institution')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
+            return redirect()->back();
+        }
+
+        // First log
+        Log::info($this->user->email . ' set contributions by institution');
+
 		if (Input::has('institution') && !empty(Input::get('institution'))) {
 			$this->contributionFactory->setInstitution(Input::get('institution'));
 			$this->contributionFactory->setByInsitution(Input::get('institution'));
@@ -298,6 +416,15 @@ class ContributionAndSavingsController extends Controller {
 	 */
 	public function removeContributionWithDifference()
 	{
+				// First check if the user has the permission to do this
+        if (!$this->user->hasAccess('contribution.remove.contribution.with.differences')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
+            return redirect()->back();
+        }
+
+        // First log
+        Log::info($this->user->email . ' removed contribution with differences');
+
 		if (Input::has('remove-member-with-differences') && Input::get('remove-member-with-differences') == 'yes') {
 			$this->contributionFactory->forgetWithDifferences();
 		}
