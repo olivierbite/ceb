@@ -75,7 +75,7 @@ class ReportController extends Controller {
 	 * @param  string  $endDate   
 	 * @return view             
 	 */
-	public function accountingPiece(Posting $posting, $startDate=null,$endDate=null,$excel)
+	public function accountingPiece(Posting $posting, $startDate=null,$endDate=null,$excel=0)
 	{
 		$postings = $posting->with('account')->betweenDates($startDate,$endDate)->get();
 		$report= view('reports.accounting.piece',compact('postings'))->render();
@@ -161,7 +161,7 @@ class ReportController extends Controller {
   	 * @param  numeric $memberId the ID of the member
   	 * @return view    
   	 */
-    public function loanRecords(Loan $loan, $startDate=null,$endDate=null,$excel=0,$adhersionId,$excel=1)
+    public function loanRecords(Loan $loan, $startDate=null,$endDate=null,$excel=0,$adhersionId,$excel=0)
     {
     	$loans = $loan->with('member')->betweenDates($startDate,$endDate)->where('adhersion_id',$adhersionId)->get();
 	    $report = view('reports.member.loan_records',compact('loans'))->render();

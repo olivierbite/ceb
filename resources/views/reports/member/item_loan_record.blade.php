@@ -37,7 +37,7 @@
 	<td>{!! $refund->created_at !!}</td>
  	<td>{{ trans('loan.refund') }}</td>
 	<td>{{ trans('loan.refund') }}</td>
-	<td>{{ trans('loan.refund_comment') }} </td>
+	<td>{{ $refund->wording }} </td>
     <td></td>
 	<td></td>
     <td>{!! $refund->monthly_fees !!} </td>

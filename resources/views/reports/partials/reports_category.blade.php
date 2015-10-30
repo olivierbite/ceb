@@ -32,17 +32,17 @@
 <h4>{{ trans('report.files_reports') }}</h4>   
 <ul class="nav nav-list">
   <li>
-  		<a href="{{ route('reports.filter') }}/?reporturl=reports/members/contributions&member_search=true&show_dates=true" class="popdown">
+  		<a href="{{ route('reports.filter') }}/?reporturl=reports/members/contributions&member_search=true&show_dates=true&show_exports=true" class="popdown">
   			<i class="icon-chevron-right"></i> {{ trans('report.savings_file') }}
   		</a>
   </li>
   <li>
-  		<a  href="{{ route('reports.filter') }}/?reporturl=reports/members/loanrecords&member_search=true&show_dates=true" class="popdown">
+  		<a  href="{{ route('reports.filter') }}/?reporturl=reports/members/loanrecords&member_search=true&show_dates=true&show_exports=true" class="popdown">
   			<i class="icon-chevron-right"></i> {{ trans('report.loans_file') }}
   		</a>
   </li>
   <li>
-      <a  href="{{ route('reports.filter') }}/?reporturl=reports/members/refundss&show_dates=true&show_institutions=true" class="popdown">
+      <a  href="{{ route('reports.filter') }}/?reporturl=reports/members/refunds&show_dates=true&show_exports=true&show_institutions=true" class="popdown">
         <i class="icon-chevron-right"></i> {{ trans('report.monthly_refund_file') }}
       </a>
   </li>
