@@ -41,6 +41,14 @@ class RefundController extends Controller {
 	 * @return Redirect
 	 */
 	public function complete() {
+
+		if (is_null(Input::get('wording')) || empty(Input::get('wording'))) {
+			flash()->error(trans('refund.you_must_write_wording_for_this_transaction'));
+			return $this->reload();
+		}
+
+	    $this->refundFactory->setWording(Input::get('wording'));
+
 		// codes to complete transactions
 		$this->refundFactory->complete();
 		

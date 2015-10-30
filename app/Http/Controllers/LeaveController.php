@@ -109,7 +109,7 @@ class LeaveController extends Controller
      */
     public function store(Request $request,Notifynder $notifier)
     {
-        $data =  $request->only(['start', 'end']);
+        $data =  $request->all();
         $data['start'] = $request->get('start_year').'-'.$request->get('start_month').'-'.$request->get('start_day') ;    
         $data['end'] =   $request->get('end_year') .'-'.$request->get('end_month').'-'.$request->get('end_day');    
 
@@ -117,10 +117,13 @@ class LeaveController extends Controller
                         $data, [
                             'start' => 'required|date_format:"Y-m-d"',
                             'end' => 'required||date_format:"Y-m-d"',
+                            'days'=>'required|numeric',
+                            'phone' => 'required',
+                            'backup' => 'required|min:6',
                         ]
         );
         if ($validator->fails()) {
-            return redirect()->route('leaves.create')->withErrors($validator)->withInput();
+            return redirect()->route('leaves.index')->withErrors($validator)->withInput();
         }
       
 

@@ -23,12 +23,7 @@
                     <span class="direct-chat-name pull-left">{!! $notification->from->first_name !!} {!! $notification->from->last_name !!}</span>
                     <span class="direct-chat-timestamp pull-right">{!! $notification->updated_at->format('d M Y H:i') !!}</span>
                   </div>
-                  @if(isImage(route('files.get', $notification->from->photo)))
-                  <!-- /.direct-chat-info -->
-                  <img class="direct-chat-img" src="{{route('files.get', $notification->from->photo)}}" alt="{!! $notification->from->first_name !!}">
-                  @else
-                   <img src="{!! Url() !!}/assets/dist/img/no-image.png" alt="{!! $notification->from->first_name !!}" class="direct-chat-img" />
-                  @endif
+                   <img class="direct-chat-img" src="{{route('files.get', $notification->from->photo)}}" alt="{!! $notification->from->first_name !!}">
 
                   <!-- /.direct-chat-img -->
                   <a href="{!! $notification->url !!}" class="direct-chat-text">

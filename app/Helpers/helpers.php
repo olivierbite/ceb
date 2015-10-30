@@ -14,55 +14,6 @@
 	}
 
 /**
- * Determine if a string is HTML
- */
-function isImage($url) {
-   $contentTypes = ['gif'	=>	'image/gif',
-					'jpeg'	=>	array('image/jpeg', 'image/pjpeg'),
-					'jpg'	=>	array('image/jpeg', 'image/pjpeg'),
-					'jpe'	=>	array('image/jpeg', 'image/pjpeg'),
-					'png'	=>	array('image/png',  'image/x-png'),
-				];
-  
-   // Get unique header and exchange it with its key 
-   $headers = $header = get_headers($url,1)['Content-Type'];
-   
-   // If we have multiple headers, then extract one.
-   if(is_array($headers))
-   {
-	   $headers = array_flip(get_headers($url,1)['Content-Type']);
-	   
-	   // Put the the key back to its position and extract the header
-	   $header  = (new Illuminate\Support\Collection(array_flip($headers)))->first();
-	}
-
-   foreach ($contentTypes as $type => $mime) {
-   	 if (is_array($mime)) 
-   	 {
-
-   	 	foreach ($mime as $key => $value) 
-   	 	{
-   	 		 if (strpos($header, $value) !== false) 
-   	 		 {
-   	    	   return true;
-   	         }
-
-   	         continue;
-   	 	}
-
-   	 	continue;
-   	 }
-
-
-   	 if (strpos($header, $mime) !== false) 
-	 {
-   		return true;
- 	 }
-   }
-
-   return false;
-}
-/**
  * Get simple range dates
  * @return  
  */

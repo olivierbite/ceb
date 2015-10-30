@@ -1,8 +1,10 @@
 @extends('layouts.default')
+@section('content-title')
+{{ trans('leave.Leaves_History') }}
+@stop
 @section('content')
 <div class="row">
     <div class="col-md-12 col-md-offset-0">
-        <h2>{{ trans('leave.Leaves_History') }}</h2>
         <?php if ($leaves) { ?>
             <table class="table table-bordered">
                 <thead>

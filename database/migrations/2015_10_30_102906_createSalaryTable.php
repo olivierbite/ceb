@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateLeavesTable extends Migration
+class CreateSalaryTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,16 +12,17 @@ class CreateLeavesTable extends Migration
      */
    public function up()
     {
-        Schema::create('leaves', function(Blueprint $table) {
+        Schema::create('salaries', function(Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id');
-            $table->dateTime('start');
-            $table->dateTime('end');
-            $table->integer('days');
-            $table->string('phone');
-            $table->string('backup');
-            $table->string('status');
+            $table->dateTime('amount');
+            $table->dateTime('tax');
+            $table->integer('deduction');
+            $table->string('bonus');
+            $table->string('month');
+            $table->string('year');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
     /**
@@ -31,6 +32,6 @@ class CreateLeavesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('leaves');
+        Schema::drop('salaries');
     }
 }

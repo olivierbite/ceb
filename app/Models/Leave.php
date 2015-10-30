@@ -12,7 +12,7 @@ class Leave extends Model
      * @var string
      */
     protected $table = 'leaves';
-    protected $fillable = array('user_id', 'start', 'end', 'status');
+    protected $fillable = array('user_id', 'start', 'end','days','phone','backup', 'status');
     public static $rejected = 'rejected';
     public static $approved = 'approved';
     public static $applied = 'applied';

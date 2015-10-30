@@ -15,14 +15,13 @@
   <div class="col-xs-8 col-md-8">{!! $members->render() !!}</div>
 </div>
   
-  <table class="ui table">
+  <table class="table table-bordered">
   	 <thead>
   	 	<tr>
       <th>{{ trans('member.adhersion_number') }}</th>
   	 		<th>{{ trans('member.names') }}</th>
   	 		<th>{{ trans('member.institution') }}</th>
   	 		<th>{{ trans('member.service') }}</th>
-        <th>{{ trans('member.nid') }}</th>
         <th>{{ trans('member.district') }}</th>
         <th>{{ trans('member.adhersion_date') }}</th>
 
