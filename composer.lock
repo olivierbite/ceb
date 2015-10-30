@@ -4,7 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "7bfb55d77b278ef9eaf5b2c330e48176",
+    "hash": "7b8bcd3dbae0569c8fabffe027958baf",
+    "content-hash": "9512dcefb2f1b5e90b7f39ad5877ef07",
     "packages": [
         {
             "name": "anlutro/l4-settings",
@@ -16,7 +17,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/anlutro/laravel-settings/zipball/e38fd914e2c66215fda07db38ffe01e2cc5bcabf",
+                "url": "https://api.github.com/repos/anlutro/laravel-settings/zipball/49b2ae5ab9f363832e5045a9e2b25182e2c5b976",
                 "reference": "e38fd914e2c66215fda07db38ffe01e2cc5bcabf",
                 "shasum": ""
             },
@@ -413,6 +414,56 @@
                 "string"
             ],
             "time": "2014-12-20 21:24:13"
+        },
+        {
+            "name": "fenos/notifynder",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fenos/Notifynder.git",
+                "reference": "8ea6ba0d14840a7a599c7449722c91a6cf08c4bd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/fenos/Notifynder/zipball/8ea6ba0d14840a7a599c7449722c91a6cf08c4bd",
+                "reference": "8ea6ba0d14840a7a599c7449722c91a6cf08c4bd",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "5.*",
+                "php": ">=5.5.0"
+            },
+            "require-dev": {
+                "laracasts/testdummy": "~2.0",
+                "laravel/framework": "5.0.*",
+                "orchestra/testbench": "3.0.*",
+                "phpspec/phpspec": "~2.1",
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [],
+                "psr-4": {
+                    "Fenos\\Notifynder\\": "src/Notifynder"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabrizio Fenoglio",
+                    "email": "fabri_feno@yahoo.it",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Management system of internal notifications for Laravel 5.*",
+            "keywords": [
+                "laravel",
+                "notifications"
+            ],
+            "time": "2015-10-16 14:22:52"
         },
         {
             "name": "graham-campbell/manager",
@@ -1043,7 +1094,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Maatwebsite/Laravel-Excel/zipball/29acf5e6b9440a02e07698e2153d35d688552706",
+                "url": "https://api.github.com/repos/Maatwebsite/Laravel-Excel/zipball/be63dcef4394a4bbeaf524e7fe89340b7dab6b7a",
                 "reference": "6935e8e1809277eab2e35e3d470f8a8da96204c6",
                 "shasum": ""
             },
@@ -1489,7 +1540,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rydurham/Sentinel/zipball/218e5a31b6a56047caf6acde8257e803fc8ebd74",
+                "url": "https://api.github.com/repos/rydurham/Sentinel/zipball/e03102383c7b863e38cd4027482b5877c0d98bb8",
                 "reference": "218e5a31b6a56047caf6acde8257e803fc8ebd74",
                 "shasum": ""
             },
@@ -3729,7 +3780,8 @@
         "anlutro/l4-settings": 20,
         "spatie/activitylog": 20,
         "maatwebsite/excel": 20,
-        "league/csv": 20
+        "league/csv": 20,
+        "fenos/notifynder": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,

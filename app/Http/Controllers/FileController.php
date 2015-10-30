@@ -54,9 +54,19 @@ class FileController extends Controller {
 
 	}
 
+	/**
+	 * Get file from the diesk
+	 * @param  string $filename 
+	 * @return file           
+	 */
 	public function get($filename) {
 
-		$entry = $this->file->where('filename', '=', $filename)->firstOrFail();
+		$entry = $this->file->where('filename', '=', $filename)->first();
+		// If we don't have a file, return this dumy path
+		if (is_null($entry)) {
+			return redirect(url('assets/dist/img/no-image.png'));
+		}
+
 		$file = $this->storage->disk('local')->get($entry->filename);
 
 		return (new Response($file, 200))

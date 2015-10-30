@@ -148,9 +148,10 @@ return [
 		// Adding service provider for the authentication
 		Sentinel\SentinelServiceProvider::class,
 		Illuminate\Html\HtmlServiceProvider::class,
-		'Laracasts\Flash\FlashServiceProvider',
-		'Spatie\Activitylog\ActivitylogServiceProvider',
-		'Barryvdh\TranslationManager\ManagerServiceProvider',
+		Laracasts\Flash\FlashServiceProvider::class,
+		Spatie\Activitylog\ActivitylogServiceProvider::class,
+		Barryvdh\TranslationManager\ManagerServiceProvider::class,
+		Fenos\Notifynder\NotifynderServiceProvider::class
 
 	],
 
@@ -205,6 +206,7 @@ return [
 		'HTML' => 'Illuminate\Html\HtmlFacade',
 		'Flash' => 'Laracasts\Flash\Flash',
 		'Activity' => 'Spatie\Activitylog\ActivitylogFacade',
+		'Notifynder'    => 'Fenos\Notifynder\Facades\Notifynder'
 
 	],
 

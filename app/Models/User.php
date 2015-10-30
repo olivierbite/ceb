@@ -3,9 +3,12 @@
 namespace Ceb\Models;
 
 use Ceb\Models\Contribution;
+use Fenos\Notifynder\Notifable;
 
 class User extends Model {
 
+	use Notifable;
+	
 	/**
 	 * The database table used by the model.
 	 *

@@ -23,6 +23,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
 		$this->composerDashboard();
 		$this->composerAccountNature();
 		$this->composerLanguages();
+		$this->composerUser();
 	}
 
 	/**
@@ -163,5 +164,14 @@ class ViewComposerServiceProvider extends ServiceProvider {
 			'sentinel.users.edit',
 		];
 		view()->composer($views,'\Ceb\ViewComposers\LanguagesViewComposer');
+	}
+
+	private function composerUser()
+	{
+		
+	    $views = [
+			'*',
+		];
+		view()->composer($views,'\Ceb\ViewComposers\UserViewComposer');
 	}
 }

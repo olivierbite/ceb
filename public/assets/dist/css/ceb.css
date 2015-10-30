@@ -4902,3 +4902,9 @@ label.error {
           width: 100%;
       }
 }
+
+
+/** NOTIFICATION STYLE */
+.dropdown-menu.notifications{
+  font-size: 12px;
+}

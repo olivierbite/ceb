@@ -35,4 +35,7 @@ return [
   'special_loans' => 'Special Loan',
   'outstanding_loan' => 'Outstanding loan',
   'full_paid_loan' => 'Full Paid Loan',
+
+  /** NOTIFICATIONS */
+  'loan-icon' => 'fa fa-dashboard',
 ];

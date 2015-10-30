@@ -285,4 +285,13 @@ class MemberController extends Controller {
 		return Response::json($results);
 	}
 
+	/**
+	 * Show current logged in member notifications
+	 * 		
+	 * @return view
+	 */
+	public function notificatons()
+	{
+		return view('partials.user-all-notifications');
+	}
 }

@@ -3,6 +3,7 @@
 |--------------------------------------------------------------------------
 | Application Routes
 |--------------------------------------------------------------------------
+
 |
 | Here is where you can register all of the routes for an application.
 | It's a breeze. Simply tell Laravel the URIs it should respond to
@@ -12,18 +13,25 @@
 
 Route::get('/', ['as' => 'home','uses'=>'HomeController@index']);
 
-/** Members routes */
-Route::get('members/search', 'MemberController@search');
-Route::resource('members', 'MemberController');
-Route::resource('attornies','AttorneyController');
-Route::get('/members/{memberId}/refund',['as' => 'members.refund' , 'uses'=> 'MemberController@refund']);
-Route::get('/members/{memberId}/contribute',['as' => 'members.contribute' , 'uses'=> 'MemberController@contribute']);
-Route::get('/members/{memberId}/transacts',['as'=>'members.transacts','uses'=>'MemberController@transacts']);
-Route::post('/members/{memberId}/completetransaction',['as'=>'members.completetransaction','uses'=>'MemberController@completeTransaction']);
-Route::get('/members/{memberId}/attornies',['as'=>'members.attornies','uses'=>'MemberController@attornies']);
-Route::get('/members/loanrecords/{memberId}',['as'=>'members.loanrecords','uses'=>'MemberController@loanRecords']);
-Route::get('/members/contributions/{memberId}',['as'=>'members.contributions','uses'=>'MemberController@contributions']);
 
+// NOTIFICATIONS
+Route::get('notifications',['as'=>'notificatons','uses'=>'MemberController@notificatons']);
+
+/** Members routes */
+Route::group(['prefix'=>'members'], function(){
+	Route::get('/search', 'MemberController@search');
+	Route::get('/{memberId}/refund',['as' => 'members.refund' , 'uses'=> 'MemberController@refund']);
+	Route::get('/{memberId}/contribute',['as' => 'members.contribute' , 'uses'=> 'MemberController@contribute']);
+	Route::get('/{memberId}/transacts',['as'=>'members.transacts','uses'=>'MemberController@transacts']);
+	Route::post('/{memberId}/completetransaction',['as'=>'members.completetransaction','uses'=>'MemberController@completeTransaction']);
+	Route::get('/{memberId}/attornies',['as'=>'members.attornies','uses'=>'MemberController@attornies']);
+	Route::get('/loanrecords/{memberId}',['as'=>'members.loanrecords','uses'=>'MemberController@loanRecords']);
+	Route::get('/contributions/{memberId}',['as'=>'members.contributions','uses'=>'MemberController@contributions']);
+});
+Route::resource('members', 'MemberController');
+
+/** Attornies routes */
+Route::resource('attornies','AttorneyController');
 
 /** Contribution routes */
 Route::group(['prefix'=>'contributions'], function(){
@@ -38,15 +46,21 @@ Route::resource('contributions', 'ContributionAndSavingsController');
 
 
 //Loan Routets
-Route::get('/loans/{id}', 'LoanController@selectMember')->where('id', '[0-9]+');
-Route::get('/loans/cancel', ['as' => 'loan.cancel', 'uses' => 'LoanController@cancel']);
-Route::get('/loans/complete', ['as' => 'loan.complete', 'uses' => 'loanController@complete']);
-Route::post('/loans/complete', ['as' => 'loan.complete', 'uses' => 'loanController@complete']);
-Route::get('/loans/remove/cautionneur/{cautionneur}',
-	['as' => 'loan.remove.cautionneur',
-		'uses' => 'loanController@removeCautionneur']
-)->where('cautionneur', '[A-Za-z0-9]+');
-Route::get('/loans/setcautionneur', ['as' => 'loan.add.cautionneur', 'uses' => 'loanController@setCautionneur']);
+Route::group(['prefix'=>'loans'], function(){
+
+	Route::get('/{id}', 'LoanController@selectMember')->where('id', '[0-9]+');
+	Route::get('/cancel', ['as' => 'loan.cancel', 'uses' => 'LoanController@cancel']);
+	Route::get('/complete', ['as' => 'loan.complete', 'uses' => 'loanController@complete']);
+	Route::post('/complete', ['as' => 'loan.complete', 'uses' => 'loanController@complete']);
+	Route::get('/setcautionneur', ['as' => 'loan.add.cautionneur', 'uses' => 'loanController@setCautionneur']);
+	Route::get('/status/{transactionId}', ['as' => 'loan.status', 'uses' => 'loanController@status']);
+	Route::get('/remove/cautionneur/{cautionneur}',
+							  ['as' => 'loan.remove.cautionneur',
+						       'uses' => 'loanController@removeCautionneur']
+				)->where('cautionneur', '[A-Za-z0-9]+');
+
+});
+
 Route::resource('loans', 'LoanController');
 
 /** regularisation */
@@ -66,7 +80,6 @@ Route::group(['prefix'=>'reports'], function(){
 
 	/** REPORT FILTERS */
 	Route::get('/filter',['as'=>'reports.filter','uses'=>'ReportFilterController@filter']);
-
 	Route::get('/', ['as' => 'reports.index', 'uses' => 'ReportController@index']);
 
 	// ACOUNTING REPORTS 
@@ -91,7 +104,9 @@ Route::group(['prefix'=>'reports'], function(){
 		// FILES
 		Route::get('loanrecords/{startDate}/{endDate}/{export_excel}/{memberId}',['as'=>'reports.members.loanrecords','uses'=>'ReportController@loanRecords']);
 		Route::get('contributions/{startDate}/{endDate}/{export_excel}/{memberId}',['as'=>'reports.members.contributions','uses'=>'ReportController@contributions']);
+
 	});
+
 });
 
 /** SETTINGS ROUTE */
@@ -113,8 +128,3 @@ Route::get('files/get/{filename}', [
 	'as' => 'files.get', 'uses' => 'FileController@get']);
 Route::post('files/add', [
 	'as' => 'files.add', 'uses' => 'FileController@add']);
-
-
-Route::get('/test',function(){
-	dd(Ceb\Models\Account::first()->debit_amount);
-});

@@ -45,8 +45,6 @@ class RegularisationController extends Controller
             flash()->warning(trans('regularisation.this_member_doesnot_have_loan_to_regulate'));
         }
        }
-
-
        return view('regularisation.index',compact('loan','member'));
     }
 
