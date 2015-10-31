@@ -13,10 +13,14 @@
        @endif
 
       {{-- Open new group grid  --}}
-      <div class="col-md-4">
-          <div class="box box-warning">
+      <div class="col-md-3">
+          <div class="box box-successs collapsed-box">
               <div class="box-header with-border"> 
                <h4 "box-title">{!! $permissionGroup = explode('.', $permission)[0] !!}</h4>
+               <div class="box-tools pull-right" style="width: 5%">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
+                </button>
+              </div>
               </div>
             <div class="box-body">
             <ul>
