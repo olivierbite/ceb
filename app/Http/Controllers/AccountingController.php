@@ -5,7 +5,7 @@ namespace Ceb\Http\Controllers;
 use Ceb\Http\Controllers\Controller;
 use Ceb\Http\Requests\AccountingRequest;
 use Ceb\Repositories\Accounting\AccountingRepository;
-
+use Log;
 class AccountingController extends Controller {
 
 	function __construct(AccountingRepository $AccountingRepository) {
@@ -18,6 +18,16 @@ class AccountingController extends Controller {
 	 * @return Response
 	 */
 	public function index() {
+
+		// First check if the user has the permission to do this
+        if (!$this->user->hasAccess('accounting.view')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
+
+            return redirect()->back();
+        }
+
+        // First log
+        Log::info($this->user->email . ' starts to view accounting forms');
 		return $this->reload();
 	}
 
@@ -29,51 +39,21 @@ class AccountingController extends Controller {
 	 */
 	public function store(AccountingRequest $request) {
 
+		// First check if the user has the permission to do this
+        if (!$this->user->hasAccess('accounting.posting')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
+
+            return redirect()->back();
+        }
+
+        // First log
+        Log::info($this->user->email . ' completed account posting');
+
 		if ($transactionid = $this->accounting->complete($request->all()) != false) {			
 		  return trans('accounting.transaction_is_recorded_successfully_transaction_id_is').' '.$transactionid;
 		}
 
 		return trans('general.something_unexpected_happned');
-	}
-
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function show($id) {
-		//
-	}
-
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function edit($id) {
-		//
-	}
-
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function update($id) {
-		//
-	}
-
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function destroy($id) {
-		//
 	}
 
 	private function reload() {

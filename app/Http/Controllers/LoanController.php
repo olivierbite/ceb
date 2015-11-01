@@ -3,19 +3,22 @@ namespace Ceb\Http\Controllers;
 
 use Ceb\Factories\LoanFactory;
 use Ceb\Http\Controllers\Controller;
+use Ceb\Models\Loan;
+use Ceb\Models\User as Member;
+use Ceb\Models\User;
 use Input;
 use Redirect;
-use Ceb\Models\User as Member;
-use Ceb\Models\Loan;
 use Session;
 
 class LoanController extends Controller {
 	protected $loanId = 0;
 	protected $currentMember = null;
 	protected $loanFactory;
-	protected $loan;
 	protected $member;
+	protected $loan;
+
 	function __construct(LoanFactory $loanFactory,Member $member,Loan $loan) {
+	
 		$this->member = $member;
 		$this->loanFactory = $loanFactory;
 		$this->loan = $loan;
@@ -162,5 +165,27 @@ class LoanController extends Controller {
 			$this->loanFactory->setCreditAccounts(Input::get('creditAccounts'), Input::get('creditAmounts'));
 		}
 	}
+   
 
+	/**
+	 * Get loan by transaction ID
+	 * @param  Ceb\Models\loan   $loan          
+	 * @param  $transactionId 
+	 * @return 
+	 */
+   public function status(User $user,$transactionId)
+   {
+   		$loan = $this->loan->findByTransaction($transactionId);
+   		$member = $loan->member;
+
+   	    /**
+   	     * @todo add option to  mark notification as read
+   	     * 
+   	     */
+        if ($loan == null) {
+            flash()->warning(trans('loan.the_loan_you_are_looking_for_does_not_exist'));
+         }
+       
+       return view('regularisation.index',compact('loan','member'));
+   }
 }

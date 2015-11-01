@@ -6,11 +6,13 @@ use Illuminate\Http\Request;
 use Ceb\Http\Requests;
 use Ceb\Models\Account;
 use Ceb\Http\Controllers\Controller;
+use Log;
 
 class AccountController extends Controller
 {   
     function __construct(Account $account) {
         $this->account = $account;
+        parent::__construct();
     }
 
     /**
@@ -20,6 +22,15 @@ class AccountController extends Controller
      */
     public function index()
     {
+        // First check if the user has the permission to do this
+        if (!$this->user->hasAccess('account.list')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
+
+            return redirect()->back();
+        }
+
+        // First log
+        Log::info($this->user->email . ' viewed accounts list');
         $accounts = $this->account->paginate(20);
         return view('settings.accountingplan.list',compact('accounts'));
     }
@@ -31,62 +42,15 @@ class AccountController extends Controller
      */
     public function create()
     {
+                // First check if the user has the permission to do this
+        if (!$this->user->hasAccess('account.create')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
+
+            return redirect()->back();
+        }
+
+        // First log
+        Log::info($this->user->email . ' starts to create accounts');
         return view('settings.accountingplan.form');
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(AccountRequest $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }

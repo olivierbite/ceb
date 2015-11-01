@@ -58,7 +58,9 @@ class RefundFactory {
 			flash()->error(trans('member.this_member_doesnot_have_active_loan'));
 			return false;
 		}
-
+        // Make sure amount is numeric
+        $member->monthly_fee = (int) $member->monthly_fee;
+        
 		$members[] = $member;
 		$this->setRefundMembers($members);
 		return true;
@@ -139,6 +141,7 @@ class RefundFactory {
 			$refund['member_id'] = $refundMember->id;
 			$refund['user_id'] = Sentry::getUser()->id;
 			$refund['loan_id'] = $refundMember->latestLoan()->id;
+			$refund['wording'] = $this->getWording();
 
 			// dd($refund);
 			# try to save if it doesn't work then
@@ -306,7 +309,34 @@ class RefundFactory {
 	public function removeInstitution() {
 		Session::forget('refundInstitution');
 	}
+/**
+	 * Set wording for the current contribution
+	 * 
+	 * @param void
+	 */
+	public function setWording($wording)
+	{
+		Session::put('refund_wording', $wording);
+	}
 
+	/**
+	 * Get wording for current contributionsession
+	 * 
+	 * @return string
+	 */
+	public function getWording()
+	{
+		return Session::get('refund_wording', null);
+	}
+
+	/**
+	 * Remove wording from the session
+	 * @return [type] [description]
+	 */
+	public function forgetWording()
+	{
+		Session::forget('refund_wording');
+	}
 	/**
 	 * Cancel transaction that is ongoin
 	 * @return  void
@@ -325,6 +355,7 @@ class RefundFactory {
 		$this->removeInstitution();
 		$this->removeDebitAccount();
 		$this->removeCreditAccount();
+		$this->forgetWording();
 	}
 
 }

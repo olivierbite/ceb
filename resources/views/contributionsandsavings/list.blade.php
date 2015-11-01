@@ -22,12 +22,13 @@ function toggle(source) {
   {!! Form::open(array('route'=>'contributions.complete','method'=>'POST')) !!}
   <label>{{ trans('contribution.libelle') }}</label>
   {!! Form::text('wording', $wording, ['class'=>'form-control','placeholder'=>'contibution for this month ....']) !!}
-    @include('contributionsandsavings.buttons')
+    @include('contributionsandsavings.buttons',['cancelRoute'=>'contributions.cancel'])
   {!! Form::close() !!}
+
   {!! str_replace('href="/?page=', 'href="'.Request::url().'?'.$_SERVER['QUERY_STRING'].'&page=', $pageLinks->render()) !!}
 
 
-  <table class="ui table">
+  <table class="table table-bordered">
   	 <thead>
   	 	<tr>
         <th> <input type="checkbox" onClick="toggle(this)" checked/> </th>

@@ -106,4 +106,14 @@ class Loan extends Model {
 		return $this->hasMany('Ceb\Models\Refund','adhersion_id','adhersion_id');
 	}
 
+	/**
+	 * Find loan by transaction id
+	 * @param  query scope $query     
+	 * @param  string $transactionId 
+	 * @return this
+	 */
+	public function scopeFindByTransaction($query,$transactionId)
+	{
+		return $query->where('transactionid','=',$transactionId)->first();
+	}
 }

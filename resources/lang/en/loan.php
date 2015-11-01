@@ -35,9 +35,15 @@ return [
   'special_loans' => 'Special Loan',
   'outstanding_loan' => 'Outstanding loan',
   'full_paid_loan' => 'Full Paid Loan',
+<<<<<<< HEAD
   'nature'=>'Nature',
   'wording'=>'Wording',
   'loan'=>'Loan',
   'installment_payments'=>'Installment Payments',
   'installements'=>'Installements',
+=======
+
+  /** NOTIFICATIONS */
+  'loan-icon' => 'fa fa-dashboard text-aqua',
+>>>>>>> 6fd3719bf1b265c065af0481e713523c33e5f7c6
 ];

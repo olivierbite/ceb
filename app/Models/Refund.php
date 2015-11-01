@@ -11,6 +11,7 @@ class Refund extends Model {
 		'tranches_number',
 		'transaction_id',
 		'member_id',
+		'wording',
 		'user_id',
 		'loan_id',
 		];

@@ -8,18 +8,14 @@ use Ceb\Http\Requests;
 use Ceb\Http\Controllers\Controller;
 use Ceb\Http\Requests\AttorneyRequest;
 use Redirect;
+use Log;
+
 class AttorneyController  extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Response
-     */
-    public function index()
-    {
-        //
-    }
 
+    function __construct() {
+        parent::__construct();
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -27,6 +23,16 @@ class AttorneyController  extends Controller
      */
     public function create(Request $request)
     {
+
+        // First check if the user has the permission to do this
+        if (!$this->user->hasAccess('attornies.add')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
+
+            return redirect()->back();
+        }
+
+        // First log
+        Log::info($this->user->email . ' started to add attornies');
         $member = $request->get('member');
         return view('attornies.create',compact('member'));
     }
@@ -39,53 +45,21 @@ class AttorneyController  extends Controller
      */
     public function store(AttorneyRequest $request,AttorneyRepository $attornies)
     {
+
+        // First check if the user has the permission to do this
+        if (!$this->user->hasAccess('attornies.add')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
+
+            return redirect()->back();
+        }
+
+        // First log
+        Log::info($this->user->email . ' added attornies');
+
        $message = $attornies->store($request->all());
        flash()->success($message);
        return Redirect::route('members.show',['members'=>$request->get('member')]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  Request  $request
-     * @param  int  $id
-     * @return Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
+   
 }

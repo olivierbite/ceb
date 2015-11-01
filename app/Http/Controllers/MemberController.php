@@ -44,7 +44,7 @@ class MemberController extends Controller {
 		// First log
 		Log::info($this->user->email . ' viewed member list');
 
-		$members = $this->member->paginate(20);
+		$members = $this->member->whereNotNull('adhersion_id')->paginate(20);
 
 		return view('members.list', compact('members'));
 	}
@@ -285,4 +285,13 @@ class MemberController extends Controller {
 		return Response::json($results);
 	}
 
+	/**
+	 * Show current logged in member notifications
+	 * 		
+	 * @return view
+	 */
+	public function notificatons()
+	{
+		return view('partials.user-all-notifications');
+	}
 }

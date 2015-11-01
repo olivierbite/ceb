@@ -25,4 +25,8 @@ return array (
   'refunds' => 'Refunds',
   'reporting'=>'Reporting',
   'regularisation'=>'Regularisation',
+  'refunds' => 'Remboursements',
+  'leaves'  => 'Leaves management',
+  'regularisation' => 'Regularisation',
+
 );

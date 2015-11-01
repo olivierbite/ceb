@@ -2603,7 +2603,7 @@ table.text-center th {
   -o-transform: translate(0, 0);
   transform: translate(0, 0);
   padding: 10px;
-  height: 250px;
+  height: auto;
   overflow: auto;
 }
 .direct-chat-msg,
@@ -4901,4 +4901,10 @@ label.error {
       body, html, .wrapper {
           width: 100%;
       }
+}
+
+
+/** NOTIFICATION STYLE */
+.dropdown-menu.notifications{
+  font-size: 12px;
 }

@@ -62,6 +62,9 @@ return [
 	 */
 
 	'default_permissions' => ['admin', 'users',
+		'account.list','account.create',
+		'accounting.view','accounting.posting','attornies.add',
+		'contribution.index','contribution.add','contribution.view','contribution.update','contribution.complete','contribution.remove.member','contribution.cancel','contribution.batch.contribution','contribution.download.sample','contribution.set.month','contribution.set.credit.account','contribution.set.debit.account','contribution.set.by.institution','contribution.remove.contribution.with.differences',
 		'member.list', 'member.view', 'member.edit', 'member.create', 'member.delete', 'loan.give'],
 
 	/*
