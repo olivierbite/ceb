@@ -27,6 +27,11 @@
     <div class="wrapper">
       <!-- Main content -->
       <section class="invoice">
+        <div class="row no-print">
+            <div class="col-xs-12">
+              <button onclick="window.print();" class="btn btn-success pull-right" style="margin-right: 5px;"><i class="fa fa-print"></i> Print</button>
+            </div>
+          </div>
         <!-- title row -->
         <div class="row">
           <div class="col-xs-12">
@@ -37,11 +42,12 @@
           </div><!-- /.col -->
         </div>
         {!! $report !!}
-        <div class="row no-print">
+          <div class="row no-print">
             <div class="col-xs-12">
               <button onclick="window.print();" class="btn btn-success pull-right" style="margin-right: 5px;"><i class="fa fa-print"></i> Print</button>
             </div>
-          </div>      </section><!-- /.content -->
+          </div>
+        </section><!-- /.content -->
     </div><!-- ./wrapper -->
 
     <!-- AdminLTE App -->

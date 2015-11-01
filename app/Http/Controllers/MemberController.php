@@ -9,7 +9,9 @@ use Ceb\Http\Controllers\Controller;
 use Ceb\Http\Requests\AddNewMemberRequest;
 use Ceb\Http\Requests\CompleteMemberTransactionRequest;
 use Ceb\Http\Requests\EditMemberRequest;
+use Ceb\Models\Contribution;
 use Ceb\Models\Institution;
+use Ceb\Models\Loan;
 use Ceb\Models\User;
 use Ceb\Repositories\Member\MemberRepositoryInterface;
 use Illuminate\Http\Request;
@@ -177,27 +179,34 @@ class MemberController extends Controller {
 
 	   return redirect()->route('refunds.index');
 	}
-  	
-  	/**
+	
+	/**
   	 * Show member loan records
   	 * @param  numeric $memberId the ID of the member
   	 * @return view    
   	 */
-    public function loanRecords($memberId)
+    public function loanRecords(Loan $loan,$adhersionId,$excel=0)
     {
-    	$member = $this->member->findOrfail($memberId);
-	    $report = view('reports.member.loan_records',compact('member'))->render();
+ 		$startDate = date('Y-m-d', 0);
+ 		$endDate   = date('Y-m-d');
+
+    	$loans = $loan->with('member')->betweenDates($startDate,$endDate)->where('adhersion_id',$adhersionId)->get();
+	    $report = view('reports.member.loan_records',compact('loans'))->render();
 		return view('layouts.printing', compact('report'));
     }
+
     /**
      * Show this member contribution
      * @param  numeric $memberId [description]
      * @return view       
      */
-    public function contributions($memberId)
-    {
-    	$member = $this->member->findOrfail($memberId);
-    	$report = view('reports.member.contributions',compact('member'))->render();
+    public function contributions(Contribution $contribution,$adhersionId)
+    { 	
+    	$startDate = date('Y-m-d', 0);
+ 		$endDate   = date('Y-m-d');
+
+    	$contributions = $contribution->with('member')->betweenDates($startDate,$endDate)->where('adhersion_id',$adhersionId)->get();
+    	$report = view('reports.member.contributions',compact('contributions'))->render();
     	return view('layouts.printing', compact('report'));
     }
 

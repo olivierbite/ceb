@@ -8,6 +8,8 @@ return array (
   'accounting' => 'Accounting',
   'reports' => 'Reports',
   'settings' => 'Settings',
+  'reports' => 'Raports',
+  'settings' => 'Configurations',
   'institutions' => 'institutions',
   'accounting_plan' => 'Accounting plan',
   'closing_exercise' => 'Closing Exercise',

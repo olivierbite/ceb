@@ -27,22 +27,39 @@ Edit Group
     
            
                 {!! Form::label('edit_memberships', 'Permissions') !!}  
-                <?php $defaultPermissions = config('sentinel.default_permissions', []); ?>
+              <?php $defaultPermissions = config('sentinel.default_permissions', []); ?>
+                <div class="row">
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                <?php $permissionGroup = null;  ?>
                 @foreach ($defaultPermissions as $permission)
-
-                    <div class="small-10 small-offset-2 columns">
-                       <input name="permissions[{!! $permission !!}]" value="1" type="checkbox" {!! (isset($permissions[$permission]) ? 'checked' : '') !!}>
-                       {!! ucwords(str_replace('.', ' ', $permission)) !!}
-                    </div>
-                @endforeach
-            
-
-            
+                    @if ($permissionGroup != explode('.', $permission)[0] )
+                        @if (!is_null($permissionGroup))
+                            </ul>
+                        @endif
+                        <h4>{!! $permissionGroup = explode('.', $permission)[0] !!}</h4>
+                        <ul>
+                    @endif
+                    <li>
+                    <input name="permissions[{!! $permission !!}]" value="1" type="checkbox" {!! (isset($permissions[$permission]) ? 'checked' : '') !!}>
+                    <?php $permissionLabel =  explode('.', $permission); ?>
+                    @if (count($permissionLabel) > 0)
+                      @foreach ($permissionLabel as $key => $value)
+                      {{-- if the permission doesn't have sub keys then display the key and continue --}}
+                      @if ($key == 0  && count($permissionLabel) > 1)
+                        <?php continue; ?>
+                      @endif
+                       {!! $value !!}
+                      @endforeach 
+                    @endif
+                      
+                    </li>
+                @endforeach 
+                
                 <div class="small-10 small-offset-2 columns">
                     <input name="id" value="{!! $group->hash !!}" type="hidden">
                     <input name="_method" value="PUT" type="hidden">
                     <input name="_token" value="{!! csrf_token() !!}" type="hidden">
-                    <input class="button" value="Save Changes" type="submit">
+                    <input class="btn btn-success" value="Save Changes" type="submit">
                 </div>
             
 

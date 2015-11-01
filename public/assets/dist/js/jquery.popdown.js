@@ -4,12 +4,12 @@
  * @author   : http://twitter.com/SeanNieuwoudt
  * @author   : http://twitter.com/wixelhq
  * @url		 : http://github.com/Wixel/jquery-popdown.git
- * @copyright: 2014 Wixel
+ * @copyright: 2015 Wixel
  * @license  : MIT license
- * @version  : 1.0
+ * @version  : 1.1
  */
 ;(function($){
-	
+
 	/**
 	 * Generate & display the popdown
 	 *
@@ -18,12 +18,12 @@
 	 * @return void
 	 */
 	$.fn.show_popdown = function(uri, options) {
-		
+
 		// Remove previous containers if they exist
 		if($('#popdown-opacity').length > 0) {
 			$('#popdown-opacity').remove();
 		}
-		
+
 		// Construct the background blend
 		opacity = $('<div />').attr('id', 'popdown-opacity').css({
 			position: 'absolute',
@@ -37,7 +37,7 @@
 
 		// Construct the content container
 		container = $('<div class="popdown-loading" />').attr('id', 'popdown-dialog').css({
-			width   : options.width,
+			maxWidth   : options.width,
 			height  : options.height,
 			zIndex	: 99999,
 			margin	: '0 auto',
@@ -50,16 +50,16 @@
 
 		// Fade in the background blend & add content container
 		$('#popdown-opacity').fadeIn(100).append(container);
-		
+
 		// Fade in the container and load the data
 		$('#popdown-opacity').append(container).stop().animate({
 			opacity: 1.0
 		}, 100, function() {
 			$('#popdown-dialog').fadeIn(50, function(){
-				$.get(uri, function(resp) {	
-					$('#popdown-dialog').html(resp).addClass('popdown-done').removeClass('popdown-loading');					
-					$("html, body").animate({ scrollTop: 0 }, "fast");					
-				});				
+				$.get(uri, function(resp) {
+					$('#popdown-dialog').html(resp).addClass('popdown-done').removeClass('popdown-loading');
+					$("html, body").animate({ scrollTop: 0 }, "fast");
+				});
 			});
 		});
 	}
@@ -76,10 +76,8 @@
 				height:0
 			}, 200, function(){
 				$('#popdown-opacity').remove();
-			});	
-
-			window.location.href = window.location.href;		
-		}		
+			});
+		}
 	}
 
 	/**
@@ -87,7 +85,7 @@
 	 *
 	 * @return void
 	 */
-	$.fn.popdown = function(options) {  
+	$.fn.popdown = function(options) {
 
 		var defaults = {
 			width :610,
@@ -103,8 +101,8 @@
 					width : $(document).outerWidth(),
 					height: $(document).outerHeight()
 				});
-			}		
-		});		
+			}
+		});
 
 		// Bind the document ESC key
 		$(document).keyup(function(e){
@@ -112,7 +110,7 @@
 				$.fn.close_popdown();
 			}
 		});
-		
+
 		// General element to close the popdown
 		$(document).on('click', '.close-popdown', function(e){
 			if(!$(this).is('.close-popdown'))  {	 //Only close when someone click on the html element with close-popdown class
@@ -120,14 +118,23 @@
 			}
 			$.fn.close_popdown();
 		});
-		
+
+		// Close popdown when user clicks outside its container
+		$(document).click(function(event) {
+	    if(!$(event.target).closest('#popdown-dialog').length) {
+        if($('#popdown-dialog').is(":visible")) {
+          $.fn.close_popdown();
+        }
+	    }
+		});
+
 		// Bind to each matching element
-		return this.each(function() {  
+		return this.each(function() {
 
 			var self = $(this);
 
 			self.bind('click', function(e){
-				
+
 				if(self.is('a')) {
 					e.preventDefault();
 				}
@@ -144,6 +151,6 @@
 					}
 				}
 			});
-		}); 		
-	};  	
+		});
+	};
 })(jQuery);

@@ -21,8 +21,8 @@ Route::get('/members/{memberId}/contribute',['as' => 'members.contribute' , 'use
 Route::get('/members/{memberId}/transacts',['as'=>'members.transacts','uses'=>'MemberController@transacts']);
 Route::post('/members/{memberId}/completetransaction',['as'=>'members.completetransaction','uses'=>'MemberController@completeTransaction']);
 Route::get('/members/{memberId}/attornies',['as'=>'members.attornies','uses'=>'MemberController@attornies']);
-Route::get('/members/{memberId}/loanrecords',['as'=>'members.loanrecords','uses'=>'MemberController@loanRecords']);
-Route::get('/members/{memberId}/contributions',['as'=>'members.contributions','uses'=>'MemberController@contributions']);
+Route::get('/members/loanrecords/{memberId}',['as'=>'members.loanrecords','uses'=>'MemberController@loanRecords']);
+Route::get('/members/contributions/{memberId}',['as'=>'members.contributions','uses'=>'MemberController@contributions']);
 
 
 /** Contribution routes */
@@ -64,16 +64,34 @@ Route::resource('accounting', 'AccountingController');
 /** Reporting routes */
 Route::group(['prefix'=>'reports'], function(){	
 
-Route::get('/', ['as' => 'reports.index', 'uses' => 'ReportController@index']);
-Route::get('/contracts/saving/{memberId}', ['as' => 'reports.contracts.saving', 'uses' => 'ReportController@contractSaving']);
-Route::get('/contracts/loan/{loanId}', ['as' => 'reports.contracts.loan', 'uses' => 'ReportController@contractLoan']);
-Route::get('/contracts/ordinaryloan', ['as' => 'reports.contracts.ordinaryloan', 'uses' => 'ReportController@ordinaryloan']);
-Route::get('/contracts/socialloan', ['as' => 'reports.contracts.socialloan', 'uses' => 'ReportController@socialloan']);
+	/** REPORT FILTERS */
+	Route::get('/filter',['as'=>'reports.filter','uses'=>'ReportFilterController@filter']);
 
-/** REPORT FILTERS */
-Route::get('/datefilter',['as'=>'reports.date.filter','uses'=>'ReportFilterController@dateFilter']);
-Route::get('/memberfilter',['as'=>'reports.member.filter','uses'=>'ReportFilterController@memberFilter']);
+	Route::get('/', ['as' => 'reports.index', 'uses' => 'ReportController@index']);
 
+	// ACOUNTING REPORTS 
+	Route::group(['prefix'=>'accounting'], function()
+	{
+		Route::get('piece/{startDate}/{endDate}/{export_excel}',['as' => 'reports.accounting.piece', 'uses' => 'ReportController@accountingPiece']);
+		Route::get('ledger/{startDate}/{endDate}/{export_excel}',['as'=>'reports.accounting.ledger','uses'=>'ReportController@ledger']);
+		Route::get('bilan/{startDate}/{endDate}/{export_excel}',['as'=>'reports.accounting.bilan','uses'=>'ReportController@bilan']);
+		Route::get('journal/{startDate}/{endDate}/{export_excel}',['as'=>'reports.accounting.journal','uses'=>'ReportController@journal']);
+		Route::get('accounts/{export_excel}',['as'=>'reports.accounting.accounts','uses'=>'ReportController@accountsList']);
+	});
+
+	// ACOUNTING REPORTS 
+	Route::group(['prefix'=>'members'], function()
+	{
+		// CONTRACTS
+		Route::get('contracts/saving/{memberId}/{export_excel}', ['as' => 'reports.members.contracts.saving', 'uses' => 'ReportController@contractSaving']);
+		Route::get('contracts/loan/{loanId}/{export_excel}', ['as' => 'reports.members.contracts.loan', 'uses' => 'ReportController@contractLoan']);
+		Route::get('contracts/ordinaryloan/{export_excel}', ['as' => 'reports.members.contracts.ordinaryloan', 'uses' => 'ReportController@ordinaryloan']);
+		Route::get('contracts/socialloan/{export_excel}', ['as' => 'reports.members.contracts.socialloan', 'uses' => 'ReportController@socialloan']);
+		
+		// FILES
+		Route::get('loanrecords/{startDate}/{endDate}/{export_excel}/{memberId}',['as'=>'reports.members.loanrecords','uses'=>'ReportController@loanRecords']);
+		Route::get('contributions/{startDate}/{endDate}/{export_excel}/{memberId}',['as'=>'reports.members.contributions','uses'=>'ReportController@contributions']);
+	});
 });
 
 /** SETTINGS ROUTE */
@@ -97,4 +115,6 @@ Route::post('files/add', [
 	'as' => 'files.add', 'uses' => 'FileController@add']);
 
 
-Route::get('/test','ReportController@memberPerInstituion');
+Route::get('/test',function(){
+	dd(Ceb\Models\Account::first()->debit_amount);
+});

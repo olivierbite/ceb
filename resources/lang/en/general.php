@@ -11,4 +11,6 @@ return array (
   'cancel' => 'Cancel',
   'action'=>'Action',
   'date'=>'Date',
+  'close'=>'Close',
+  'Save'=>'Save',
 );

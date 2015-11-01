@@ -11,7 +11,7 @@
 @if(count($member->contributions) > 0)
 
 <a 	class="col-xs-5 col-md-5 btn btn-success btn-box green"
-	href="{{ route('reports.contracts.saving',['memberId' => $member->id]) }}"
+	href="{{ route('reports.members.contracts.saving',['memberId' => $member->id]) }}"
 	target="_blank"
 >
 	<i class="fa fa-newspaper-o"></i>
@@ -21,14 +21,14 @@
 
 @if(count($member->loans) > 0)
 <a 	class="col-xs-5 col-md-5 btn btn-success btn-box green"
-	href="{{ route('reports.contracts.loan',['memberId' => $member->id]) }}"
+	href="{{ route('reports.members.contracts.loan',['memberId' => $member->id]) }}"
 	target="_blank"
 >
 <i class="fa fa-newspaper-o"></i>
 {{ trans('member.contract_loan') }}
 </a>
 <a 	class="col-xs-5 col-md-5 btn btn-inverse btn-box dark"
-	href="{{ route('members.loanrecords',['memberId' => $member->id]) }}"
+	href="{{ route('members.loanrecords',['memberId' => $member->adhersion_id]) }}"
 	target="_blank"
 ><i class="fa fa-newspaper-o"></i>
 {{ trans('member.loan_records') }}
@@ -44,7 +44,7 @@
 
 @endif
 <a 	class="col-xs-5 col-md-5 btn btn-inverse btn-box dark"
-	href="{{ route('members.contributions',['memberId' => $member->id]) }}"
+	href="{{ route('members.contributions',['memberId' => $member->adhersion_id]) }}"
 	target="_blank"
 ><i class="fa fa-newspaper-o"></i>
 {{ trans('member.contributions') }}

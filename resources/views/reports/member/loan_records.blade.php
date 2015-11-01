@@ -1,7 +1,8 @@
 @include('partials.landscapecss')
-
 {{-- Start by pulling this member profile --}}
-@include('reports.member.partials.profile') 
+@if (!$loans->isEmpty())
+	@include('reports.member.partials.profile',['member'=>$loans->last()->member]) 
+@endif
 <table class="ui table">
   	 <thead>
   	 	<tr>
@@ -16,6 +17,6 @@
 	  	</tr>
    	 </thead>
  <tbody>
-   @each('reports.member.item_loan_record', $member->loans, 'loan', 'members.no-items')
+   @each('reports.member.item_loan_record', $loans, 'loan', 'members.no-items')
  </tbody>
 </table>
