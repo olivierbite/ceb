@@ -2,11 +2,12 @@
 
 namespace Ceb\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Ceb\Http\Controllers\Controller;
+use Ceb\Http\Requests;
 use Ceb\Models\Loan;
 use Ceb\Models\User;
-use Ceb\Http\Requests;
-use Ceb\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class RegularisationController extends Controller
 {
@@ -34,6 +35,16 @@ class RegularisationController extends Controller
      */
     public function show($id = null)
     {
+          // First check if the user has the permission to do this
+        if (!$this->user->hasAccess('regularisation.view')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
+
+            return redirect()->back();
+        }
+
+        // First log 
+        Log::info($this->user->email . ' is viewing regularisation');
+    
         $member =  $this->member;
         $loan  = $member->latestLoan(); 
 
@@ -48,37 +59,5 @@ class RegularisationController extends Controller
        return view('regularisation.index',compact('loan','member'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  Request  $request
-     * @param  int  $id
-     * @return Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
+    
 }

@@ -8,6 +8,7 @@ use Ceb\Models\Leave;
 use Ceb\Models\User;
 use Fenos\Notifynder\Notifynder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 class LeaveController extends Controller
@@ -24,9 +25,19 @@ class LeaveController extends Controller
      * @return Response
      */
     public function index()
-    {
-            $leaves = Leave::paginate(20);
-            return view('leaves.pending', array('leaves' => $leaves));
+    {   
+       // First check if the user has the permission to do this
+        if (!$this->user->hasAccess('leaves.view')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
+
+            return redirect()->back();
+        }
+
+        // First log 
+        Log::info($this->user->email . ' started to view leaves requests');
+    
+        $leaves = Leave::paginate(20);
+        return view('leaves.pending', array('leaves' => $leaves));
     }
     /**
      * Show the form for creating a new resource.
@@ -36,6 +47,16 @@ class LeaveController extends Controller
      */
     public function approve($id,Notifynder $notifier)
     {
+        // First check if the user has the permission to do this
+        if (!$this->user->hasAccess('leaves.approve')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
+
+            return redirect()->back();
+        }
+
+        // First log 
+        Log::info($this->user->email . ' started to approve leaves requests');
+    
             $leave = Leave::findOrFail($id);
             $leave->status = Leave::$approved;
             $leave->save();
@@ -58,6 +79,16 @@ class LeaveController extends Controller
      */
     public function reject($id,Notifynder $notifier)
     {
+        // First check if the user has the permission to do this
+        if (!$this->user->hasAccess('leaves.reject')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
+
+            return redirect()->back();
+        }
+
+        // First log 
+        Log::info($this->user->email . ' started to reject leaves requests');
+    
             $leave = Leave::findOrFail($id);
             $leave->status = Leave::$rejected;
             $leave->save();
@@ -82,6 +113,16 @@ class LeaveController extends Controller
      */
     public function show(User $employee)
     {
+         // First check if the user has the permission to do this
+        if (!$this->user->hasAccess('leaves.view.my.leaves')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
+
+            return redirect()->back();
+        }
+
+        // First log 
+        Log::info($this->user->email . ' is viewing his / her leaves requests');
+    
         $userId = $this->user->id;
         $userLeaves = $employee->whereHas('leaves', function($q) use($userId) {
                         $q->where('user_id', '=',$userId);
@@ -98,6 +139,16 @@ class LeaveController extends Controller
      */
     public function create()
     {
+        // First check if the user has the permission to do this
+        if (!$this->user->hasAccess('leaves.request.leaves')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
+
+            return redirect()->back();
+        }
+
+        // First log 
+        Log::info($this->user->email . ' is requesting leave');
+    
         $title = trans('leave.new_leave');
         return view('leaves.create',compact('title'));
     }
@@ -109,6 +160,15 @@ class LeaveController extends Controller
      */
     public function store(Request $request,Notifynder $notifier)
     {
+        // First check if the user has the permission to do this
+        if (!$this->user->hasAccess('leaves.request.leaves')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
+
+            return redirect()->back();
+        }
+
+        // First log 
+        Log::info($this->user->email . ' is requesting leave');
         $data =  $request->all();
         $data['start'] = $request->get('start_year').'-'.$request->get('start_month').'-'.$request->get('start_day') ;    
         $data['end'] =   $request->get('end_year') .'-'.$request->get('end_month').'-'.$request->get('end_day');    
@@ -155,6 +215,15 @@ class LeaveController extends Controller
      */
     public function status($id)
     {   
+        // First check if the user has the permission to do this
+        if (!$this->user->hasAccess('leaves.view.leave.status')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
+
+            return redirect()->back();
+        }
+
+        // First log 
+        Log::info($this->user->email . ' is viewing leave status');
         $leave = Leave::findOrFail($id);
 
         return view('leaves.status', array('leave' => $leave));
