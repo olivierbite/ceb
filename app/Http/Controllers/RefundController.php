@@ -4,6 +4,7 @@ namespace Ceb\Http\Controllers;
 
 use Ceb\Factories\RefundFactory;
 use Ceb\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Log;
 use Input;
 use Redirect;
 
@@ -17,6 +18,16 @@ class RefundController extends Controller {
 	 * @return Response
 	 */
 	public function index() {
+		 // First check if the user has the permission to do this
+        if (!$this->user->hasAccess('refund.index')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
+
+            return redirect()->back();
+        }
+
+        // First log 
+        Log::info($this->user->email . ' is entering refund index');
+	
 		return $this->reload();
 	}
 
@@ -27,6 +38,15 @@ class RefundController extends Controller {
 	 * @return Response
 	 */
 	public function update($id) {
+		 // First check if the user has the permission to do this
+        if (!$this->user->hasAccess('refund.update')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
+
+            return redirect()->back();
+        }
+
+        // First log 
+        Log::info($this->user->email . ' is updating refund');
 		// Update
 		$adhersion_number = Input::get('adhersion_number');
 		$monthly_fee = Input::get('monthly_fee');
@@ -41,7 +61,15 @@ class RefundController extends Controller {
 	 * @return Redirect
 	 */
 	public function complete() {
+ 		// First check if the user has the permission to do this
+        if (!$this->user->hasAccess('refund.complete')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
 
+            return redirect()->back();
+        }
+
+        // First log 
+        Log::info($this->user->email . ' is completing refund');
 		if (is_null(Input::get('wording')) || empty(Input::get('wording'))) {
 			flash()->error(trans('refund.you_must_write_wording_for_this_transaction'));
 			return $this->reload();
@@ -60,6 +88,15 @@ class RefundController extends Controller {
 	 * @return Redirect
 	 */
 	public function cancel() {
+		// First check if the user has the permission to do this
+        if (!$this->user->hasAccess('refund.cancel')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
+
+            return redirect()->back();
+        }
+
+        // First log 
+        Log::info($this->user->email . ' is cancelling refund');
 		$this->refundFactory->cancel();
 		flash()->success(trans('refund.successfully_cancelled'));
 
@@ -99,6 +136,15 @@ class RefundController extends Controller {
 	 * Set institution
 	 */
 	private function setInstitution() {
+		// First check if the user has the permission to do this
+        if (!$this->user->hasAccess('refund.set.institution')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
+
+            return redirect()->back();
+        }
+
+        // First log 
+        Log::info($this->user->email . ' is setting refund institution');
 		// If the user has changed new institution
 		if (Input::has('institution')) {
 			$this->refundFactory->setInstitution(Input::get('institution'));
@@ -110,6 +156,15 @@ class RefundController extends Controller {
 	 * Set Debit account
 	 */
 	private function setDebitAccount() {
+		// First check if the user has the permission to do this
+        if (!$this->user->hasAccess('refund.set.debit.account')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
+
+            return redirect()->back();
+        }
+
+        // First log 
+        Log::info($this->user->email . ' is setting debit account for refund');
 		// If we have Debit account in the url , then set it
 		if (Input::has('debit_account')) {
 			$this->refundFactory->setDebitAccount(Input::get('debit_account'));
@@ -119,6 +174,15 @@ class RefundController extends Controller {
 	 * Set Credit Account
 	 */
 	private function setCreditAccount() {
+			// First check if the user has the permission to do this
+        if (!$this->user->hasAccess('refund.set.credit.account')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
+
+            return redirect()->back();
+        }
+
+        // First log 
+        Log::info($this->user->email . ' is setting credit account for refund');
 		// If we have Credit account in the url then set credit account
 		if (Input::has('credit_account')) {
 			$this->refundFactory->setCreditAccount(Input::get('credit_account'));
@@ -128,6 +192,15 @@ class RefundController extends Controller {
 	 * Set Month
 	 */
 	private function setMonth() {
+	    // First check if the user has the permission to do this
+        if (!$this->user->hasAccess('refund.set.month')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
+
+            return redirect()->back();
+        }
+
+        // First log 
+        Log::info($this->user->email . ' is setting month for refund');
 		// If we have month in the parameters set it
 		if (Input::has('month')) {
 			$this->refundFactory->setMonth(Input::get('month'));

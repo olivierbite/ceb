@@ -18,7 +18,18 @@ class ReportController extends Controller {
 		parent::__construct();
 	}
 
-	public function index(GraphicReportRepository $report) {
+	public function index(GraphicReportRepository $report) 
+	{
+	    // First check if the user has the permission to do this
+        if (!$this->user->hasAccess('reports.index')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
+
+            return redirect()->back();
+        }
+
+        // First log 
+        Log::info($this->user->email . ' is viewing reports charts index');
+    
 		$contributions = $report->getMonthlyContribution();
 		$loans = $report->getMontlyLoan();
 		$institutions = $report->getCountMemberPerInstitution();
@@ -33,6 +44,16 @@ class ReportController extends Controller {
 	 * @return
 	 */
 	public function contractSaving($memberId) {
+		 // First check if the user has the permission to do this
+        if (!$this->user->hasAccess('reports.contract.saving')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
+
+            return redirect()->back();
+        }
+
+        // First log 
+        Log::info($this->user->email . ' is viewing report contract saving');
+    
 		$member = $this->getMember($memberId);
 		$report = $this->report;
 
@@ -48,7 +69,16 @@ class ReportController extends Controller {
 	 * @return mixed
 	 */
 	public function contractLoan($loanId,Loan $loan) {
-		 
+		  // First check if the user has the permission to do this
+        if (!$this->user->hasAccess('reports.contract.loan')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
+
+            return redirect()->back();
+        }
+
+        // First log 
+        Log::info($this->user->email . ' is viewing report contract loan');
+    
 		 $report = $loan->findOrFail($loanId)->contract;
 		return view('layouts.printing', compact('report'));
 	}
@@ -59,6 +89,16 @@ class ReportController extends Controller {
 	 * @return Model
 	 */
 	private function getMember($memberId) {
+		 // First check if the user has the permission to do this
+        if (!$this->user->hasAccess('reports.member')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
+
+            return redirect()->back();
+        }
+
+        // First log 
+        Log::info($this->user->email . ' is viewing report member');
+    
 		// Do we have the member we are looking for ?
 		if (($member = $this->member->find($memberId)) == null) {
 			flash()->error(trans('member.member_not_found'));
@@ -77,6 +117,16 @@ class ReportController extends Controller {
 	 */
 	public function accountingPiece(Posting $posting, $startDate=null,$endDate=null,$excel=0)
 	{
+		 // First check if the user has the permission to do this
+        if (!$this->user->hasAccess('reports.accounting.piece')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
+
+            return redirect()->back();
+        }
+
+        // First log 
+        Log::info($this->user->email . ' is viewing report of accounting piece');
+    
 		$postings = $posting->with('account')->betweenDates($startDate,$endDate)->get();
 		$report= view('reports.accounting.piece',compact('postings'))->render();
 		if ($excel==1) {
@@ -95,6 +145,16 @@ class ReportController extends Controller {
 	 */
 	public function ledger(Posting $posting, $startDate=null,$endDate=null,$excel=0)
 	{
+		 // First check if the user has the permission to do this
+        if (!$this->user->hasAccess('reports.ledger')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
+
+            return redirect()->back();
+        }
+
+        // First log 
+        Log::info($this->user->email . ' is viewing ledger report');
+    
 		$postings = $posting->with('account')->betweenDates($startDate,$endDate)->get();
 		$report  = view('reports.accounting.ledger',compact('postings'))->render();
 	    if ($excel==1) {
@@ -112,6 +172,16 @@ class ReportController extends Controller {
 	 */
 	public function bilan(Account $account,$startDate=null,$endDate=null,$excel=0)
 	{
+		 // First check if the user has the permission to do this
+        if (!$this->user->hasAccess('reports.bilan')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
+
+            return redirect()->back();
+        }
+
+        // First log 
+        Log::info($this->user->email . ' is viewing bilan report');
+    
 		$accounts = $account->with('postings')->get();
 		$report = view('reports.accounting.bilan',compact('accounts'))->render();
 		if ($excel==1) {
@@ -130,6 +200,16 @@ class ReportController extends Controller {
 	 */
 	public function journal(Posting $posting, $startDate=null,$endDate=null,$excel=0)
 	{
+		 // First check if the user has the permission to do this
+        if (!$this->user->hasAccess('reports.journal')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
+
+            return redirect()->back();
+        }
+
+        // First log 
+        Log::info($this->user->email . ' is viewing journal report');
+    
 		$postings = $posting->with('account')->betweenDates($startDate,$endDate)->get();
 		$report  = view('reports.accounting.journal',compact('postings'))->render();
 		if ($excel==1) {
@@ -147,6 +227,16 @@ class ReportController extends Controller {
 	 */
 	public function accountsList(Account $account,$excel=0)
 	{
+		 // First check if the user has the permission to do this
+        if (!$this->user->hasAccess('reports.accounts.list')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
+
+            return redirect()->back();
+        }
+
+        // First log 
+        Log::info($this->user->email . ' is viewing accounts list report');
+    
 		$accounts = $account->all();
 		$report = view('reports.accounting.accounts-list',compact('accounts'))->render();
 		if ($excel==1) {
@@ -162,7 +252,17 @@ class ReportController extends Controller {
   	 * @return view    
   	 */
     public function loanRecords(Loan $loan, $startDate=null,$endDate=null,$excel=0,$adhersionId,$excel=0)
-    {
+    { 
+    // First check if the user has the permission to do this
+        if (!$this->user->hasAccess('reports.loans.records')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
+
+            return redirect()->back();
+        }
+
+        // First log 
+        Log::info($this->user->email . ' is viewing loans records report');
+    
     	$loans = $loan->with('member')->betweenDates($startDate,$endDate)->where('adhersion_id',$adhersionId)->get();
 	    $report = view('reports.member.loan_records',compact('loans'))->render();
 	    if ($excel==1) {
@@ -178,6 +278,16 @@ class ReportController extends Controller {
      */
     public function contributions(Contribution $contribution,$startDate=null,$endDate=null,$excel=0,$adhersionId,$excel=0)
     {
+    	 // First check if the user has the permission to do this
+        if (!$this->user->hasAccess('reports.contributions')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
+
+            return redirect()->back();
+        }
+
+        // First log 
+        Log::info($this->user->email . ' is viewing contributions report');
+    
     	$contributions = $contribution->with('member')->betweenDates($startDate,$endDate)->where('adhersion_id',$adhersionId)->get();
     	$report = view('reports.member.contributions',compact('contributions'))->render();
     	if ($excel==1) {

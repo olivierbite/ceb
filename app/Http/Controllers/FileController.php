@@ -7,6 +7,7 @@ use Ceb\Models\File as FileModel;
 use Illuminate\Contracts\Filesystem\Factory as Storage;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
 use Request;
 
 class FileController extends Controller {
@@ -26,13 +27,31 @@ class FileController extends Controller {
 	 * @return Response
 	 */
 	public function index() {
-		$entries = $this->file->all();
+		  // First check if the user has the permission to do this
+        if (!$this->user->hasAccess('files.view')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
+
+            return redirect()->back();
+        }
+
+        // First log
+        Log::info($this->user->email . ' started to view files');
+		$entries = $this->file->paginate(20);
 
 		return view('files.index', compact('entries'));
 	}
 
 	public function add() {
 
+	  // First check if the user has the permission to do this
+        if (!$this->user->hasAccess('files.add')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
+
+            return redirect()->back();
+        }
+
+        // First log 
+        Log::info($this->user->email . ' started to add a file');
 		$file = Request::file('filefield');
 
 		$extension = $file->getClientOriginalExtension();

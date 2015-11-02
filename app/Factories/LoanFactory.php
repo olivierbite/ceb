@@ -79,12 +79,19 @@ class LoanFactory {
 	 * @return void
 	 */
 	public function addLoanInput(array $data) {
+
 		// First get the existing loan inputs
 		$loanInputsData = $this->getLoanInputs();
-
+        
 		// Add the submitted one before saving
 		foreach ($data as $key => $value) {
 			$loanInputsData[$key] = $value;
+		}
+
+		if (isset($loanInputsData['debit_accounts']) && $loanInputsData['credit_accounts']) {
+			
+		$this->setDebitsAccounts($loanInputsData['debit_accounts'], $loanInputsData['debit_amounts']);
+		$this->setCreditAccounts($loanInputsData['credit_accounts'], $loanInputsData['credit_amounts']);
 		}
 
 		Session::put('loanInputs', $loanInputsData);
@@ -105,6 +112,7 @@ class LoanFactory {
 				break;
 			}
 		}
+
 		Session::put('loanInputs', $loanInputsData);
 	}
 
@@ -189,6 +197,7 @@ class LoanFactory {
 	public function setDebitsAccounts(array $debits, array $amounts) {
 		Session::put('debitaccounts', $this->accountAmount($debits, $amounts));
 	}
+
 	/**
 	 * Get the debit accounts
 	 * @return array of debit account and their amount
@@ -517,6 +526,7 @@ class LoanFactory {
 	 * @return boolean
 	 */
 	private function isValidPosting() {
+
 		$debits = $this->getDebitAccounts();
 		$credits = $this->getCreditAccounts();
 

@@ -6,6 +6,7 @@ use Ceb\Http\Controllers\Controller;
 use Ceb\Models\Loan;
 use Ceb\Models\User as Member;
 use Ceb\Models\User;
+use Illuminate\Support\Facades\Log;
 use Input;
 use Redirect;
 use Session;
@@ -30,9 +31,20 @@ class LoanController extends Controller {
 	 * @return Response
 	 */
 	public function index() {
+	// First check if the user has the permission to do this
+        if (!$this->user->hasAccess('loan.index')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
+
+            return redirect()->back();
+        }
+
+        // First log 
+        Log::info($this->user->email . ' is viewing loan index');
+		
 		if (Input::has('operation_type')) {
 			$this->loanFactory->addLoanInput(['operation_type' =>Input::get('operation_type')]);
 		}
+		
 		return $this->reload();
 	}
 
@@ -43,7 +55,16 @@ class LoanController extends Controller {
 	 * @return Response
 	 */
 	public function selectMember($id) {
+	   // First check if the user has the permission to do this
+        if (!$this->user->hasAccess('loan.add.member.to.loan.form')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
 
+            return redirect()->back();
+        }
+
+        // First log 
+        Log::info($this->user->email . ' is adding member to loan form');
+		
 		// Add the select member to the session
 		$this->loanFactory->addMember($id);
 		return $this->reload();
@@ -54,7 +75,16 @@ class LoanController extends Controller {
 	 * @return mixed
 	 */
 	public function complete() {
+// First check if the user has the permission to do this
+        if (!$this->user->hasAccess('loan.complete.loan.request')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
 
+            return redirect()->back();
+        }
+
+        // First log 
+        Log::info($this->user->email . ' is completing loan request');
+	
 		$memberId = $this->loanFactory->getMember()->id;
 
 		// Make sure we update with latest form inputs
@@ -77,6 +107,16 @@ class LoanController extends Controller {
 	 * @return mixed
 	 */
 	public function cancel() {
+		// First check if the user has the permission to do this
+        if (!$this->user->hasAccess('loan.cancel.loan.request')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
+
+            return redirect()->back();
+        }
+
+        // First log 
+        Log::info($this->user->email . ' is cancelling loan request');
+	
 		$this->loanFactory->cancel();
 		$message = trans('loan.loan_cancelled');
 		flash()->success($message);
@@ -88,6 +128,16 @@ class LoanController extends Controller {
 	 * Set new cautionneur
 	 */
 	public function setCautionneur() {
+		// First check if the user has the permission to do this
+        if (!$this->user->hasAccess('loan.set.loan.cautionneur')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
+
+            return redirect()->back();
+        }
+
+        // First log 
+        Log::info($this->user->email . ' is setting loan cautionneur');
+	
 		$this->loanFactory->setCautionneur(Input::all());
 
 		return $this->reload();
@@ -98,6 +148,16 @@ class LoanController extends Controller {
 	 * @return   mixed
 	 */
 	public function removeCautionneur($cautionneur) {
+	    // First check if the user has the permission to do this
+        if (!$this->user->hasAccess('loan.remove.loan.cautionneur')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
+
+            return redirect()->back();
+        }
+
+        // First log 
+        Log::info($this->user->email . ' is setting loan cautionneur');
+	
 		$this->loanFactory->removeCautionneur($cautionneur);
 		return $this->reload();
 	}
@@ -175,6 +235,16 @@ class LoanController extends Controller {
 	 */
    public function status(User $user,$transactionId)
    {
+   	    // First check if the user has the permission to do this
+        if (!$this->user->hasAccess('loan.check.loan.status')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
+
+            return redirect()->back();
+        }
+
+        // First log 
+        Log::info($this->user->email . ' is checking loan status');
+	
    		$loan = $this->loan->findByTransaction($transactionId);
    		$member = $loan->member;
 
