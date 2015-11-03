@@ -11,6 +11,7 @@ use Redirect;
 class RefundController extends Controller {
 	function __construct(RefundFactory $refundFactory) {
 		$this->refundFactory = $refundFactory;
+		parent::__construct();
 	}
 	/**
 	 * Display a listing of the resource.

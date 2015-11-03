@@ -9,6 +9,7 @@ use Ceb\Models\Loan;
 use Ceb\Models\Posting;
 use Ceb\Models\User;
 use Ceb\Repositories\Reports\GraphicReportRepository;
+use Illuminate\Support\Facades\Log;
 
 class ReportController extends Controller {
 	public $report;
