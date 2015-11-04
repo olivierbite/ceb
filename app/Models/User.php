@@ -2,8 +2,10 @@
 
 namespace Ceb\Models;
 
+use Cartalyst\Sentry\Groups\GroupInterface;
 use Ceb\Models\Contribution;
 use Fenos\Notifynder\Notifable;
+use Vinkla\Hashids\Facades\Hashids;
 
 class User extends Model {
 
@@ -48,12 +50,38 @@ class User extends Model {
 	];
 
 	/**
+	 * The Eloquent group model.
+	 *
+	 * @var string
+	 */
+	protected static $groupModel = 'Cartalyst\Sentry\Groups\Eloquent\Group';
+
+	/**
+	 * The user groups pivot table name.
+	 *
+	 * @var string
+	 */
+	protected static $userGroupsPivot = 'users_groups';
+	/**
 	 * The attributes excluded from the model's JSON form.
 	 *
 	 * @var array
 	 */
 	protected $hidden = ['password', 'remember_token'];
 
+	  /**
+     * Scope a query to only include active users.
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeSearch($query, $keyword)
+    {
+	 return $query->where('first_name', 'LIKE', '%' . $keyword . '%')
+		            ->orWhere('last_name', 'LIKE', '%' . $keyword . '%')
+		            ->orWhere('email', 'LIKE', '%' . $keyword . '%')
+		            ->orWhere('member_nid', 'LIKE', '%' . $keyword . '%')
+		            ->orWhere('adhersion_id', 'LIKE', '%' . $keyword . '%');
+	}
 	/** Get member names */
 	public function names() {
 		return $this->first_name . ' ' . $this->last_name;
@@ -222,5 +250,58 @@ class User extends Model {
     	$this->attributes['password'] = crypt('Test1234');
     }
 
+     /**
+     * Use a mutator to derive the appropriate hash for this user
+     *
+     * @return mixed
+     */
+    public function getHashAttribute()
+    {
+        return Hashids::encode($this->id);
+    }
 
+    /**
+	 * See if the user is in the given group.
+	 *
+	 * @param \Cartalyst\Sentry\Groups\GroupInterface  $group
+	 * @return bool
+	 */
+	public function inGroup(GroupInterface $group)
+	{
+		foreach ($this->getGroups() as $_group)
+		{
+			if ($_group->getId() == $group->getId())
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+		/**
+	 * Returns an array of groups which the given
+	 * user belongs to.
+	 *
+	 * @return array
+	 */
+	public function getGroups()
+	{
+		if ( ! $this->userGroups)
+		{
+			$this->userGroups = $this->groups()->get();
+		}
+
+		return $this->userGroups;
+	}
+
+	/**
+	 * Returns the relationship between users and groups.
+	 *
+	 * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+	 */
+	public function groups()
+	{
+		return $this->belongsToMany(static::$groupModel, static::$userGroupsPivot);
+	}
 }

@@ -79,7 +79,7 @@
               <ul class="treeview-menu">
                 @if (Sentry::check() && Sentry::getUser()->hasAccess('admin'))
                 <li {{ (Request::is('users*') ? 'class="active"' : '') }}>
-                <a href="{{ action('\\Sentinel\Controllers\UserController@index') }}">
+                <a href="{{ route('ceb.settings.users.index') }}">
                 <i class="fa fa-user"></i>{{ trans('navigations.user') }}
                 </a>
                 </li>

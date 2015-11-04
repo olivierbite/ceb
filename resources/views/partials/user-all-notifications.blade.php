@@ -1,6 +1,7 @@
 @extends('layouts.default')
 @section('content')
-<?php $user = $user->find(\Sentry::getUser()->id) ?>
+<?php $cebUser = $CebUser->find(\Sentry::getUser()->id); ?>
+
 <div class="col-md-12">
           <!-- DIRECT CHAT PRIMARY -->
           <div class="box box-primary direct-chat direct-chat-primary">
@@ -8,13 +9,13 @@
               <h3 class="box-title">{{ trans('general.user-notifications') }}</h3>
 
               <div class="box-tools pull-right">
-                <span data-toggle="tooltip" title="3 New Messages" class="badge bg-light-blue">{!! $user->countNotificationsNotRead(); !!}</span>
+                <span data-toggle="tooltip" title="3 New Messages" class="badge bg-light-blue">{!! $cebUser->countNotificationsNotRead(); !!}</span>
                 </button>
               </div>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
-              @foreach ($user->getNotificationsNotRead($limit = 20, $paginate = null, $order = 'desc') as $notification)          
+              @foreach ($cebUser->getNotificationsNotRead($limit = 20, $paginate = null, $order = 'desc') as $notification)          
               <!-- Conversations are loaded here -->
               <div class="direct-chat-messages">
                 <!-- Message. Default to the left -->

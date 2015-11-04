@@ -1,4 +1,4 @@
-<?php $user = $user->find(\Sentry::getUser()->id) ?>
+<?php $user = $CebUser->find(\Sentry::getUser()->id) ?>
 <li class="dropdown notifications-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
               <i class="fa fa-bell-o"></i>
