@@ -10,9 +10,9 @@ use Illuminate\Contracts\View\View;
 class UserViewComposer {
 	public $user;
 	function __construct(User $user) {
-		$this->user = $user;
+		$this->CebUser = $user;
 	}
 	public function compose(View $view) {
-		$view->with('user', $this->user);
+		$view->with('CebUser', $this->CebUser);
 	}
 }

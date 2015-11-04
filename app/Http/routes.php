@@ -142,3 +142,7 @@ Route::get('files/get/{filename?}', [
 	'as' => 'files.get', 'uses' => 'FileController@get']);
 Route::post('files/add', [
 	'as' => 'files.add', 'uses' => 'FileController@add']);
+
+
+/** SENTINEL ROUTES */
+Route::get('settings/users', ['as' => 'ceb.settings.users.index', 'uses' => 'UserController@index']);

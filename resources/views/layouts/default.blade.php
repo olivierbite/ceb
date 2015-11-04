@@ -20,7 +20,7 @@
       <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         @include('partials.content_header')
-
+        
         <!-- Main content -->
         <section class="content">
 
