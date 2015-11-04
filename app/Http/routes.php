@@ -145,6 +145,4 @@ Route::post('files/add', [
 
 
 /** SENTINEL ROUTES */
-
 Route::get('settings/users', ['as' => 'ceb.settings.users.index', 'uses' => 'UserController@index']);
-Route::get('settings/users/{id}/edit', ['as'=>'ceb.settings.users.edit','uses' => 'UserController@edit']);
