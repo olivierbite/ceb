@@ -59,5 +59,6 @@
       @endforeach
     </tbody>
   </table>
+  {!! $users->render() !!}
    </div><!-- /.box-body -->
   @stop
