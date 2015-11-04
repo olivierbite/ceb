@@ -91,14 +91,20 @@ class MemberController extends Controller {
 	 * @return Response
 	 */
 	public function show($id) {
+		
 		// First check if the user has the permission to do this
-		if (!$this->user->hasAccess('member.view')) {
+		if (!$this->user->hasAccess('member.view') && !$this->user->hasAccess('ceb.view.own.profile')) {
 			flash()->error(trans('Sentinel::users.noaccess'));
 
 			return redirect()->back();
 		}
 
 		$member = $this->member->findOrfail($id);
+
+		// If this user is ceb member then we only show his profile
+		if ($this->user->hasAccess('ceb.member')) {
+			$member = $this->member->findOrfail($this->user->id);
+		}
 
 		return view('members.edit', compact('member'));
 	}

@@ -11,7 +11,7 @@ Edit Group
 <form method="POST" action="{!! route('sentinel.groups.update', $group->hash) !!}" accept-charset="UTF-8">
   
         <div class="small-6 large-centered columns">
-            <h3>Edit Group</h3>
+            <h3>{{ trans('edit.groups') }}</h3>
               <div class="row">
                     <div class="col-md-2">
                     <label for="right-label" class="right inline">{{ trans('group.name') }}</label>
@@ -22,9 +22,10 @@ Edit Group
                 </div>
                 
               </div>
-                <label for="Permissions">Permissions</label>
-                @include('sentinel.groups.permissions')
-               
+                <label for="Permissions">{{ trans('groups.permissions') }}</label>
+                   <p>{{ trans('groups.select_ceb_view_own_profile_if_you_want_people_of_this_group_to_only_see_their_profile') }}</p>
+                    @include('sentinel.groups.permissions')
+
                 <div class="row">
                   <div class="col-md-12">
                                 <input name="id" value="{!! $group->hash !!}" type="hidden">

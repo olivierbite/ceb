@@ -28,7 +28,7 @@
       <div class="login-box-body">
       <div class="login-logo">
         <a href="{{Url()}}" class="logo">
-          <img src="http://placehold.it/100x100" alt="">
+          <img src="{{Url('assets/dist/img/logo.jpg')}}" style="width:100px;height: 100px;">
         </a>
        </div><!-- /.login-logo -->
        <!-- Notifications -->

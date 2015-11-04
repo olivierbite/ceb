@@ -61,7 +61,7 @@ return [
 	|
 	 */
 
-	'default_permissions' => ['admin', 'users',
+	'default_permissions' => ['admin', 'users','ceb.view.own.profile',
 		'account.list','account.create',
 		'accounting.view','accounting.posting','attornies.add',
 		'contribution.index','contribution.add','contribution.view','contribution.update','contribution.complete','contribution.remove.member','contribution.cancel','contribution.batch.contribution','contribution.download.sample','contribution.set.month','contribution.set.credit.account','contribution.set.debit.account','contribution.set.by.institution','contribution.remove.contribution.with.differences',
