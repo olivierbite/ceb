@@ -2,22 +2,16 @@
 <html>
   @include('partials.head')
 
-  
   <body class="skin-blue sidebar-mini {{ ((Request::is('report*') || Sentry::getUser()->hasAccess('ceb.view.own.profile')) ? 'sidebar-collapse' : '') }}">
     <!-- Site wrapper -->
     <div class="wrapper">
-
     @include('partials.nav_header')
-
       <!-- =============================================== -->
-
       <!-- Left side column. contains the sidebar -->
       @if(!Sentry::getUser()->hasAccess('ceb.view.own.profile') || (Sentry::check() && Sentry::getUser()->hasAccess('admin'))) 
         @include('partials.nav_left')
       @endif
-
       <!-- =============================================== -->
-
       <!-- Content Wrapper. Contains page content -->
       <div class="content-wrapper">
         <!-- Content Header (Page header) -->
