@@ -34,11 +34,11 @@ class UserController extends Controller
     public function index(Request $request)
     {
     	if ($request->has('query')) {	
-	    	$users = \Ceb\Models\User::search($request->input('query'))->paginate(20);
+	    	$users = \Ceb\Models\User::search($request->input('query'))->paginate(10);
     	}
     	else
     	{
-    	  $users = $this->user->paginate(20);
+    	  $users = $this->user->paginate(10);
         }
         return view('sentinel.users.index', compact('users'));
     }
