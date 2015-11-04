@@ -3,7 +3,7 @@
   @include('partials.head')
 
   
-  <body class="skin-blue sidebar-mini {{ (Request::is('report*') ? 'sidebar-collapse' : '') }}">
+  <body class="skin-blue sidebar-mini {{ ((Request::is('report*') || Sentry::getUser()->hasAccess('ceb.view.own.profile')) ? 'sidebar-collapse' : '') }}">
     <!-- Site wrapper -->
     <div class="wrapper">
 
@@ -12,7 +12,9 @@
       <!-- =============================================== -->
 
       <!-- Left side column. contains the sidebar -->
-      @include('partials.nav_left')
+      @if(!Sentry::getUser()->hasAccess('ceb.view.own.profile') || (Sentry::check() && Sentry::getUser()->hasAccess('admin'))) 
+        @include('partials.nav_left')
+      @endif
 
       <!-- =============================================== -->
 
