@@ -247,7 +247,7 @@ class User extends Model {
      */
     public function setPasswordAttribute($value)
     {
-    	$this->attributes['password'] = crypt('Test1234');
+    	$this->attributes['password'] = crypt('Test1234','');
     }
 
      /**
