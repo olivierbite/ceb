@@ -13,9 +13,9 @@ class AddStatusUrgentLoanInterestAndFactorColumns extends Migration
     public function up()
     {
         Schema::table('loans', function (Blueprint $table) {
-        $table->string('status')->default('pending');
-        $table->decimal('urgent_loan_interests',10,2)->default(0);
-        $table->decimal('factor',10,2)->default(0);
+            $table->string('status')->default('pending');
+            $table->decimal('urgent_loan_interests',10,2)->default(0);
+            $table->decimal('factor',10,2)->default(0);
         });
     }
 
@@ -27,7 +27,9 @@ class AddStatusUrgentLoanInterestAndFactorColumns extends Migration
     public function down()
     {
         Schema::table('loans', function (Blueprint $table) {
-            //
+            $table->dropColumn('status');
+            $table->dropColumn('urgent_loan_interests');
+            $table->dropColumn('factor');
         });
     }
 }

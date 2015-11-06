@@ -1,12 +1,16 @@
-<?php namespace Ceb\Factories;
+<?php 
+
+namespace Ceb\Factories;
+
 use Ceb\Models\Institution;
+use Ceb\Models\MemberLoanCautionneur;
 use Ceb\Models\Posting;
 use Ceb\Models\Refund;
+use Ceb\Models\User;
 use Ceb\Traits\TransactionTrait;
 use DB;
 use Illuminate\Support\Facades\Session;
 use Sentry;
-use Ceb\Models\User;
 
 /**
  * Refund Factory
@@ -17,11 +21,12 @@ class RefundFactory {
 	/** Variable to  hold the object that are going to be injected */
 	private $institution;
 
-	function __construct(Institution $institution, Refund $refund, Posting $posting,User $member) {
+	function __construct(Institution $institution, Refund $refund, Posting $posting,User $member,MemberLoanCautionneur $memberLoanCautionneur) {
 		$this->institution = $institution;
 		$this->refund = $refund;
 		$this->posting = $posting;
 		$this->member = $member;
+		$this->memberLoanCautionneur = $memberLoanCautionneur;
 	}
 
 	/**
@@ -52,7 +57,7 @@ class RefundFactory {
 	 */
 	public function setMember($memberId)
 	{
-		$member = $this->member->findOrFail($memberId);
+		$member = $this->member->with('loans')->findOrFail($memberId);
 
 		if (!$member->hasActiveLoan()) {
 			flash()->error(trans('member.this_member_doesnot_have_active_loan'));
@@ -131,16 +136,18 @@ class RefundFactory {
 		$month = $this->getMonth();
 
 		foreach ($refundMembers as $refundMember) {
-			// dd($refundMember->latestLoan());
+			
+			$loan  = $refundMember->latestLoan();
+
 			$refund['adhersion_id'] = $refundMember->adhersion_id;
-			$refund['contract_number'] = $refundMember->latestLoan()->loan_contract;
+			$refund['contract_number'] = $loan->loan_contract;
 			$refund['month'] = $this->getMonth();
 			$refund['amount'] = $refundMember->loanMonthlyFees();
-			$refund['tranche_number'] = $refundMember->latestLoan()->tranches_number;
+			$refund['tranche_number'] = $loan->tranches_number;
 			$refund['transaction_id'] = $transactionId;
 			$refund['member_id'] = $refundMember->id;
 			$refund['user_id'] = Sentry::getUser()->id;
-			$refund['loan_id'] = $refundMember->latestLoan()->id;
+			$refund['loan_id'] = $loan->id;
 			$refund['wording'] = $this->getWording();
 
 			// dd($refund);
@@ -150,6 +157,53 @@ class RefundFactory {
 			if (!$newRefund) {
 				return false;
 			}
+
+			// If the loan we are paying for has cautionneur, then make sure
+			// We are update our member cautionneur table by adding the
+			// amount paid by this member to the refund amount as long 
+			// as cautionneur still have a balance
+			
+			$loanCautions = $this->memberLoanCautionneur
+								 ->byTransaction($loan->transactionid)
+								 ->byAdhersion($refundMember->adhersion_id)
+								 ->byLoanId($loan->id)
+								 ->Active()
+								 ->get();
+
+
+            // If we have cautionneurs then divide equally the amount of 
+            // money to deposit on each person as be current payment
+            // before we record it.								 
+
+			if (!$loanCautions->isEmpty()) {	
+            	$cautionneurAmount  = $newRefund->amount / $loanCautions->count();
+
+            	// Ilitarate all cautions and save them one by one
+            	foreach ($loanCautions as $loanCaution) {
+            		// First get the loan balance, and if we want to pay more than
+            		// the remaining balance, let it be exact the remaining 
+            		// balance as per law we only need to set what the 
+            		// cautionneur has issued out.
+            		
+            		if ($cautionneurAmount > $loanCaution->balance) {
+            			$loanCaution->refunded_amount  += $loanCaution->balance;
+            		}
+            		else
+            		{
+            			$loanCaution->refunded_amount += $cautionneurAmount;
+            		}
+
+            		// If we cannot save then fail this transaction
+
+            		if (!$loanCaution->save()) {
+            			return false;
+            		}
+
+            	}
+			}
+
+
+
 		}
 
 		return true;

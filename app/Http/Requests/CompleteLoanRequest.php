@@ -96,10 +96,12 @@ class CompleteLoanRequest extends Request
         
         // Validate bonded amount
         $bondedAmount = (int) $attributes['amount_bonded'];
+        $contributions = (int) str_replace(',', '', $attributes['member']['contributions']);
 
         // If we have bonded amount then check if we have cautionneur
-        if (!empty($bondedAmount)) {
-
+        // If the amount to repay is higher than total contributions  
+        // we need to have a cautionneur
+        if (!empty($bondedAmount) && ($attributes['loan_to_repay'] > $contributions )) {
             // If we have bonded amount make sure we fail this transacation            
             $cautionneur = $this->loanFactory->getCautionneurs();
 
@@ -107,6 +109,8 @@ class CompleteLoanRequest extends Request
                  $attributes['cautionneur']                 = 'cautionneur';
                  $attributes['cautionneur_confirmation']    = 'cautionneur_to_faile';
             }
+        }else{
+          $attributes['amount_bonded'] = 0;
         }
         
         // Format/sanitize data here

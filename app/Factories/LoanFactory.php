@@ -46,6 +46,12 @@ class LoanFactory {
 			return false;
 		}
 
+		if ($member->right_to_loan < 1) {
+			flash()->error(trans('loan.this_member_doesnot_have_enough_right_to_loan_because_he_has_pending_loans'));
+			$this->cancel();
+			return false;
+		}
+
 		Session::put('loan_member', $member);
 
 		$this->updateCautionneur();
@@ -403,7 +409,7 @@ class LoanFactory {
 
         $newLoan = $this->loan->create($data);
 	    // If we have bond then save cautionneurs in also in the database
-		if ($inputs['amount_bonded'] > 0 ) {
+		if ($inputs['amount_bonded'] > 0 && ($inputs['loan_to_repay'] > $member->totalContributions())) {
 			// Attempt to record the loan
 			if ($this->recordCautionneurs($transactionid, $newLoan->id) == false) {
 				return false;
@@ -422,12 +428,13 @@ class LoanFactory {
 	public function recordCautionneurs($transactionid,$loanId)
 	{
 		$cautionneurs = $this->getCautionneurs();
+		$member 	  = $this->getMember();
 		// Devide amount equally 
 		$amount  = $this->getBondedAmount() / count($cautionneurs);
 
 		foreach ($cautionneurs as $cautionneur) {
 				$memberLoanCautionneur = new MemberLoanCautionneur;
-				$memberLoanCautionneur->member_adhersion_id       = $cautionneur->id;
+				$memberLoanCautionneur->member_adhersion_id       = $member->adhersion_id;
 				$memberLoanCautionneur->cautionneur_adhresion_id  = $cautionneur->adhersion_id;
 				$memberLoanCautionneur->amount                    = $amount;
 				$memberLoanCautionneur->transaction_id			  = $transactionid;
@@ -446,7 +453,7 @@ class LoanFactory {
 
 
 	/**
-	 * Save posting to the database
+	 * Save posting to the databasee
 	 * @param  STRING $transactionId UNIQUE TRANSACTIONID
 	 * @return bool
 	 */

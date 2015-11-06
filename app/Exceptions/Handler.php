@@ -5,6 +5,8 @@ namespace Ceb\Exceptions;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Session;
 
 class Handler extends ExceptionHandler
 {
@@ -39,10 +41,29 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {
+          // If model is not found 
           if ($e instanceof ModelNotFoundException ) {
-            flash()->error(trans('general.we_could_not_find_what_you_are_looking_for'));
-        return redirect()->back();
-    }
+                flash()->error(trans('general.we_could_not_find_what_you_are_looking_for'));
+                return redirect()->back();
+          }
+
+          if (get_class($e) == 'Illuminate\Session\TokenMismatchException') {
+                    /**
+                     * Generate a new token for more security
+                     */
+                    Session::regenerateToken();
+
+                    Session::flash('error', trans('token_tricking_is_very_bad'));
+
+                    /**
+                     * Redirect to the last step
+                     * Refill any old inputs except _token (it would override our new token)
+                     * Set the error message
+                     */
+            return redirect()->back()->withInput(Input::except('_token'))->withErrors($errors);
+          }
+
+
         return parent::render($request, $e);
     }
 }

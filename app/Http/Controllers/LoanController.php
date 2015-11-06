@@ -79,7 +79,6 @@ class LoanController extends Controller {
 		// First check if the user has the permission to do this
         if (!$this->user->hasAccess('loan.complete.loan.request')) {
             flash()->error(trans('Sentinel::users.noaccess'));
-
             return redirect()->back();
         }
 
@@ -102,6 +101,13 @@ class LoanController extends Controller {
 				$this->loanId = $loanId;
 				flash()->success($message);
 				$this->currentMember = $memberId;
+
+				// If this user doesn't have right to view the contract
+				// Then show him an error
+		        if (!$this->user->hasAccess('reports.contract.loan')) {
+		            flash()->warning(trans('loan.loan_completed_but_we_didnot_show_you_contract_because_you_do_not_have_the_right_to_view_it'));
+		            $this->loanId = 0;
+		        }
 			}
         }
        

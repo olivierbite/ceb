@@ -70,10 +70,9 @@ class ReportController extends Controller {
 	 * @return mixed
 	 */
 	public function contractLoan($loanId,Loan $loan) {
-		  // First check if the user has the permission to do this
+		// First check if the user has the permission to do this
         if (!$this->user->hasAccess('reports.contract.loan')) {
             flash()->error(trans('Sentinel::users.noaccess'));
-
             return redirect()->back();
         }
 
