@@ -144,7 +144,51 @@ class User extends Model {
 	public function refunds() {
 		return $this->hasMany('Ceb\Models\Refund', 'adhersion_id', 'adhersion_id');
 	}
+
+	/**
+	 * Member refunds
+	 * @return Objects contains all refunds by this memebr
+	 */
+	public function cautions() {
+		return $this->hasMany('Ceb\Models\MemberLoanCautionneur', 'member_adhersion_id', 'adhersion_id');
+	}
     
+    /**
+     * Get caution amount attributes
+     * @return [type] [description]
+     */
+    public function getCautionAmountAttribute()
+    {
+    	$this->cautions()->sum('amount');
+    }
+
+    /**
+     * Get caution refunded amount attributes
+     * @return 
+     */
+    public function getCautionRefundedAttribute()
+    {
+    	$this->cautions()->sum('refunded_amount');
+    }
+
+     /**
+     * Get caution balance attributes
+     * @return 
+     */
+    public function getCautionBalanceAttribute()
+    {
+    	$this->getCautionAmountAttribute() - $this->getCautionRefundedAttribute();
+    }
+
+    /**
+     * Has active caution scope
+     * @return bool
+     */
+    public function scopeHasActiveCaution()
+    {
+    	return $this->getCautionBalanceAttribute() > 0;
+    }
+
     /**
      * Relationship with leaves
      * @return  leave object
