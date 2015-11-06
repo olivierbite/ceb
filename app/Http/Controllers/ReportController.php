@@ -254,7 +254,7 @@ class ReportController extends Controller {
   	 */
     public function loanRecords(Loan $loan, $startDate=null,$endDate=null,$excel=0,$adhersionId,$excel=0)
     { 
-    // First check if the user has the permission to do this
+	    // First check if the user has the permission to do this
         if (!$this->user->hasAccess('reports.loans.records')) {
             flash()->error(trans('Sentinel::users.noaccess'));
 

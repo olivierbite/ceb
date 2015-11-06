@@ -3,6 +3,7 @@ namespace Ceb\Http\Controllers;
 
 use Ceb\Factories\LoanFactory;
 use Ceb\Http\Controllers\Controller;
+use Ceb\Http\Requests\CompleteLoanRequest;
 use Ceb\Models\Loan;
 use Ceb\Models\User as Member;
 use Ceb\Models\User;
@@ -27,7 +28,7 @@ class LoanController extends Controller {
 	}
 	/**
 	 * Display a listing of the resource.
-	 *
+	 * @param integer $loanId determines if the loan is completed or
 	 * @return Response
 	 */
 	public function index() {
@@ -74,8 +75,8 @@ class LoanController extends Controller {
 	 * Complete loan transaction
 	 * @return mixed
 	 */
-	public function complete() {
-// First check if the user has the permission to do this
+	public function complete(CompleteLoanRequest $request) {
+		// First check if the user has the permission to do this
         if (!$this->user->hasAccess('loan.complete.loan.request')) {
             flash()->error(trans('Sentinel::users.noaccess'));
 
@@ -93,13 +94,17 @@ class LoanController extends Controller {
         // Update accounting fields too
         $this->ajaxAccountingFeilds();
 
-        // Complete transaction
-		if ($loanId = $this->loanFactory->complete()) {
-			$message = trans('loan.loan_completed');
-			$this->loanId = $loanId;
-			flash()->success($message);
-			$this->currentMember = $memberId;
-		}
+        // Only complete transaction when someone does a post request
+        if ($request->isMethod('post')) {
+	        // Complete transaction
+			if ($loanId = $this->loanFactory->complete()) {
+				$message = trans('loan.loan_completed');
+				$this->loanId = $loanId;
+				flash()->success($message);
+				$this->currentMember = $memberId;
+			}
+        }
+       
 		return $this->reload($this->loanId);
 	}
 	/**
@@ -224,6 +229,8 @@ class LoanController extends Controller {
 		if (Input::has('creditAccounts')) {
 			$this->loanFactory->setCreditAccounts(Input::get('creditAccounts'), Input::get('creditAmounts'));
 		}
+
+		$this->loanFactory->setBondedAmount();
 	}
    
 

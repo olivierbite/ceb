@@ -40,6 +40,9 @@ class Loan extends Model {
 		'special_loan_interests',
 		'special_loan_amount_to_receive',
 		'user_id',
+		'status',
+		'urgent_loan_interests',
+		'factor',
 	];
 
 	/**
@@ -87,6 +90,16 @@ class Loan extends Model {
 	}
 
 	/**
+	 * Get balance 
+	 * 
+	 * @return 
+	 */
+	public function getBalanceAttribute()
+	{
+		return $this->loan_to_repay - $this->refunds()->sum('amount');
+	}
+
+	/**
 	 * Determine if this loan is full paid
 	 *
 	 * @return bool
@@ -96,6 +109,15 @@ class Loan extends Model {
 		return $this->balance() <= 0;
 	}
 
+	/**
+	 * Scope to determine if the loan is full paid
+	 * 
+	 * @return ;
+	 */
+	public function scopeIsFullPaid()
+	{
+		return $this->balance() <= 0;
+	}
 	/** 
 	 * Get refund by adhersion ID
 	 *
@@ -116,4 +138,54 @@ class Loan extends Model {
 	{
 		return $query->where('transactionid','=',$transactionId)->first();
 	}
+
+	/**
+     * Scope a query to only include users of a given type(ordinary loan/ urgent , special etc...).
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeOfType($query, $type)
+    {
+        return $query->where('operation_type', $type);
+    }
+
+	/**
+     * Scope a query to only include loans of a given status.
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeOfStatus($query, $status)
+    {
+        return $query->where('status', $status);
+    }
+
+	/**
+     * Scope a query to only include approved loans.
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeApproved($query)
+    {
+        return $query->where('status', '=','approved');
+    }
+
+    /**
+     * Scope a query to only include pending loans.
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopePending($query)
+    {
+        return $query->where('status', '=','pending');
+    }
+
+    /**
+     * Scope a query to only include rejected loans.
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeRejected($query)
+    {
+        return $query->where('status', '=','rejected');
+    }
 }

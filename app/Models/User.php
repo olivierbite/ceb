@@ -4,7 +4,9 @@ namespace Ceb\Models;
 
 use Cartalyst\Sentry\Groups\GroupInterface;
 use Ceb\Models\Contribution;
+use Ceb\Models\Setting;
 use Fenos\Notifynder\Notifable;
+use Illuminate\Support\Facades\DB;
 use Vinkla\Hashids\Facades\Hashids;
 
 class User extends Model {
@@ -23,6 +25,18 @@ class User extends Model {
      * @var array
      */
 	protected $dates = ['created_at']; //, 'date_of_birth', 'updated_at'
+
+	/**
+	 * Wished amount percentage
+	 * @var float
+	 */
+	protected $rightToLoanPercentage = 2.5;
+
+	/**
+	 * Minimum months a user needs to have before having a loan.
+	 * @var 
+	 */
+	protected $minimumMonthsToLoan;
 	/**
 	 * The attributes that are mass assignable.
 	 *
@@ -69,7 +83,15 @@ class User extends Model {
 	 */
 	protected $hidden = ['password', 'remember_token'];
 
-	  /**
+	/**
+	 * Entry point for our model
+	 * @param Setting $setting 
+	 */
+	function __construct() {
+		$this->rightToLoanPercentage = Setting::keyValue('loan.wished.amount');
+		$this->minimumMonthsToLoan   = Setting::keyValue('loan.member.minimum.months');
+	}
+	 /**
      * Scope a query to only include active users.
      *
      * @return \Illuminate\Database\Eloquent\Builder
@@ -139,11 +161,28 @@ class User extends Model {
 	public function totalRefunds() {
 		return $this->refunds()->sum('amount');
 	}
+
+	/**
+	 * total_refunds attribute
+	 * @return  
+	 */
+	public function getTotalRefundsAttribute()
+	{
+		return $this->refunds()->sum('amount');
+	}
 	/**
 	 * Get the total amount of contribution
 	 */
 	public function totalContributions() {
 		return $this->contributions()->sum('amount');
+	}
+
+	/**
+	 * Get the total amount of contribution attributes
+	 * 
+	 */
+	public function getTotalContributionAttribute() {
+		return $this->contributions->sum('amount');
 	}
 	/**
 	 * Get the loan balance
@@ -153,6 +192,23 @@ class User extends Model {
 		return $this->totalLoans() - $this->totalRefunds();
 	}
 
+	/**
+	 * Check if this person has Ceb minimum loan months
+	 * @return 
+	 */
+	public function scopeEligible($query)
+	{
+		return $query->where('created_at','<=',DB::raw('DATE_SUB(now(), INTERVAL 6 MONTH)'));
+	}
+
+	/**
+	 * loan_balance attribute
+	 * @return numeric
+	 */
+	public function getLoanBalanceAttribute()
+	{
+		return $this->totalLoans() - $this->totalRefunds();
+	}
 	/**
 	 * Get remaining payment installment
 	 * 
@@ -179,11 +235,35 @@ class User extends Model {
 	/**
 	 * Get Right to loan
 	 */
-	public function generalRightToLoan() {
-		return $this->totalContributions() * 2.5;
+	public function generalRightToLoan() 
+	{
+		return $this->totalContributions() * $this->rightToLoanPercentage;
+	}
+	/**
+	 * general_right_to_loan attributes
+	 * 		
+	 * @return number
+	 */
+	public function getGeneralRightToLoanAttribute()
+	{
+		return $this->totalContributions() * $this->rightToLoanPercentage;
 	}
 
-	public function rightToLoan($value='')
+	/**
+	 * Right to loan considering loan
+	 * @param  string $value
+	 * @return 
+	 */
+	public function rightToLoan()
+	{
+		return $this->generalRightToLoan() - $this->loanBalance();
+	}
+
+	/**
+	 * right_to_loan_attribute
+	 * @return [type] [description]
+	 */
+	public function getRightToLoanAttribute()
 	{
 		return $this->generalRightToLoan() - $this->loanBalance();
 	}
@@ -221,6 +301,16 @@ class User extends Model {
 	}
 
 	/**
+	 * Find member by adhresion
+	 * @param   $query        
+	 * @param   $adhersion_id 
+	 * @return query builder
+	 */
+	public function scopeByAdhersion($query,$adhersion_id)
+	{
+		return $query->where('adhersion_id',$adhersion_id);		
+	}
+	/**
      * Set the user's first name.
      *
      * @param  string  $value
@@ -239,7 +329,7 @@ class User extends Model {
     public function setLastNameAttribute($value)
     {
         $this->attributes['last_name'] = ucfirst($value);
-    }
+    }  
 
     /**
      * Set the member's password
@@ -250,7 +340,16 @@ class User extends Model {
     	$this->attributes['password'] = crypt('Test1234','');
     }
 
-     /**
+    /**
+     * Get name attributes
+     * @return  string
+     */
+    public function getNamesAttributes()
+    {
+    	return $this->first_name .' '.$this->last_name;
+    }
+
+    /**
      * Use a mutator to derive the appropriate hash for this user
      *
      * @return mixed

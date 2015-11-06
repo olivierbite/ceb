@@ -20,7 +20,7 @@
   <div class="col-md-3">
   <div class="form-group">
    <label>{{ trans('loan.number_of_installments') }}</label>
-  {!! Form::selectRange('tranches_number', 1, env('LOAN_MAXIMUM_INSTALLMENT',72),
+  {!! Form::selectRange('tranches_number', 1, $setting->keyValue('loan.maximum.installments'),
                           isset($loanInputs['tranches_number'])?$loanInputs['tranches_number']:null,
                          ['class'=>'form-control loan-select','id'=>'numberOfInstallment'])
     !!}
@@ -109,7 +109,7 @@
   
 {!! $errors->first('cheque_number','<label class="has-error">:message</label>') !!} 
   {!! Form::input('text', 'cheque_number',isset($loanInputs['cheque_number'])?$loanInputs['cheque_number']:null,
-                  ['class'=>'form-control loan-input','id'=>'cheque_number'])
+                  ['class'=>'form-control','id'=>'cheque_number'])
     !!}
   </div>
   </div>

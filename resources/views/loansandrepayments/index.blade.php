@@ -6,13 +6,14 @@
 
 @section('content')
 
-	@if ($loanId != 0 )
-		{{-- We have completed the transaction let's print the invoice --}}
+	@if (!empty($loanId))
+    {{-- We have completed the transaction let's print the invoice --}}
 	<script type="text/javascript">
 	function print(url) {
 	  var win = window.open(url, '_blank');
 	  win.focus();
 	}
+	
 	print('{!! route('reports.members.contracts.loan',['loanId' => $loanId,'excel'=>0]) !!}');
 	</script>
 	@endif
@@ -38,6 +39,8 @@
 	@endif
 
 	@include('loansandrepayments.caution_form')
+	
+	@include('partials.wording')
 
 	@include('accounting.form')
 

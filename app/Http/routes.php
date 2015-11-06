@@ -146,3 +146,12 @@ Route::post('files/add', [
 
 /** SENTINEL ROUTES */
 Route::get('settings/users', ['as' => 'ceb.settings.users.index', 'uses' => 'UserController@index']);
+
+
+$router->get('/test/{start?}/{end?}',function($start=1,$end=12)
+	{
+		// Display all SQL executed in Eloquent
+		$rate = Ceb\Models\LoanRate::rate('17');
+		
+		dd($rate,'done');
+	});
