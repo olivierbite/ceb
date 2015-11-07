@@ -102,7 +102,7 @@ return [
             'confirmed' => 'You cannot debit and debit same accounts, check if one or more accounts are not present in both debit and credit.',
         ],
         'cautionneur'     => [
-            'confirmed' => 'You have to provide a cautionneur when there is amount to bond.',
+            'confirmed' => 'You have to provide two cautionneurs when there is amount to bond.',
         ],
         'movement_type'=> [
             'min' => 'Please select movement type.',

@@ -58,12 +58,12 @@ class GraphicReportRepository {
     public function getLoanByInstitution()
     {
     	return DB::select('select a.name,
-                            CASE WHEN CAST(sum(b.amount) AS UNSIGNED) IS NULL THEN 0
-                            ELSE CAST(sum(b.amount) AS UNSIGNED) END AS sumLoan  from institutions as a LEFT JOIN
+                            CASE WHEN CAST(sum(b.countLoan) AS UNSIGNED) IS NULL THEN 0
+                            ELSE CAST(sum(b.countLoan) AS UNSIGNED) END AS loansCount  from institutions as a LEFT JOIN
                             (
                             SELECT b.adhersion_id,
                                    b.institution_id,
-                                   sum(loan_to_repay) as amount
+                                   count(a.id) as countLoan
                                    FROM 
                                    ceb.loans as a 
                                    LEFT JOIN 

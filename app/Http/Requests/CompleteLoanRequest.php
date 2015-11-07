@@ -105,7 +105,9 @@ class CompleteLoanRequest extends Request
             // If we have bonded amount make sure we fail this transacation            
             $cautionneur = $this->loanFactory->getCautionneurs();
 
-            if (count($cautionneur) == 0 ) {
+            //  We can only allow two cautionneurs if they are not set 
+            //  We will fail this validation
+            if (count($cautionneur) !== 2) {
                  $attributes['cautionneur']                 = 'cautionneur';
                  $attributes['cautionneur_confirmation']    = 'cautionneur_to_faile';
             }

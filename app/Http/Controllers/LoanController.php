@@ -35,7 +35,6 @@ class LoanController extends Controller {
 	// First check if the user has the permission to do this
         if (!$this->user->hasAccess('loan.index')) {
             flash()->error(trans('Sentinel::users.noaccess'));
-
             return redirect()->back();
         }
 
@@ -268,7 +267,6 @@ class LoanController extends Controller {
         if ($loan == null) {
             flash()->warning(trans('loan.the_loan_you_are_looking_for_does_not_exist'));
          }
-       
        return view('regularisation.index',compact('loan','member'));
    }
 }

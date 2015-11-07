@@ -150,6 +150,7 @@ Route::get('settings/users', ['as' => 'ceb.settings.users.index', 'uses' => 'Use
 
 $router->get('/test/{start?}/{end?}',function($start=1,$end=12)
 	{
-		
-		dd( Ceb\Models\User::find(1547)->caution_amount );
+		$categories = Fenos\Notifynder\Models\NotificationCategory::all()->toArray();
+
+		dd( $categories );
 	});
