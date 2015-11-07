@@ -40,4 +40,7 @@ return array (
   'loan_records'    => 'Loan Records',
   'refund_loan'     => 'Refund loan',
   'do_a_transaction' => 'Transactions',
+  'total_contribution'=>'Total Contribution',
+  'loan_as_of_today'=>'Loan As Of Today',
+  'remaining_installments'=>'Remaining Installments',
 );
