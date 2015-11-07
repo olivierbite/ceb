@@ -50,10 +50,10 @@ Route::group(['prefix'=>'loans'], function(){
 
 	Route::get('/{id}', 'LoanController@selectMember')->where('id', '[0-9]+');
 	Route::get('/cancel', ['as' => 'loan.cancel', 'uses' => 'LoanController@cancel']);
-	Route::get('/complete', ['as' => 'loan.complete', 'uses' => 'loanController@complete']);
-	Route::post('/complete', ['as' => 'loan.complete', 'uses' => 'loanController@complete']);
-	Route::get('/setcautionneur', ['as' => 'loan.add.cautionneur', 'uses' => 'loanController@setCautionneur']);
-	Route::get('/status/{transactionId}', ['as' => 'loan.status', 'uses' => 'loanController@status']);
+	Route::get('/complete', ['as' => 'loan.complete', 'uses' => 'LoanController@complete']);
+	Route::post('/complete', ['as' => 'loan.complete', 'uses' => 'LoanController@complete']);
+	Route::get('/setcautionneur', ['as' => 'loan.add.cautionneur', 'uses' => 'LoanController@setCautionneur']);
+	Route::get('/status/{transactionId}', ['as' => 'loan.status', 'uses' => 'LoanController@status']);
 	Route::get('/remove/cautionneur/{cautionneur}',
 							  ['as' => 'loan.remove.cautionneur',
 						       'uses' => 'loanController@removeCautionneur']
@@ -133,7 +133,7 @@ Route::group(['prefix'=>'settings'], function(){
 Route::group(['prefix' => 'ajax'], function () {
 	Route::get('/loans', 'loanController@ajaxFieldUpdate');
 
-	Route::post('/loans/accounting', ['as' => 'ajax.accounting', 'uses' => 'loanController@ajaxAccountingFeilds']);
+	Route::post('/loans/accounting', ['as' => 'ajax.accounting', 'uses' => 'LoanController@ajaxAccountingFeilds']);
 });
 
 /** Files routes */
