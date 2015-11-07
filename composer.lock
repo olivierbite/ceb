@@ -4,8 +4,12 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
+<<<<<<< HEAD
+    "hash": "7b8bcd3dbae0569c8fabffe027958baf",
+=======
     "hash": "2527259947d7cc42bf7ff44d9ff22bc4",
     "content-hash": "9512dcefb2f1b5e90b7f39ad5877ef07",
+>>>>>>> 1cca8f4b5c868e81c52c510a75b1d362fa91e35b
     "packages": [
         {
             "name": "anlutro/l4-settings",
@@ -817,6 +821,18 @@
         },
         {
             "name": "laravel/framework",
+<<<<<<< HEAD
+            "version": "v5.1.22",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/framework.git",
+                "reference": "11d9627c7cd4d12b6e884b87daa7a2f898cf54cb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/11d9627c7cd4d12b6e884b87daa7a2f898cf54cb",
+                "reference": "11d9627c7cd4d12b6e884b87daa7a2f898cf54cb",
+=======
             "version": "v5.1.23",
             "source": {
                 "type": "git",
@@ -827,6 +843,7 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/laravel/framework/zipball/a4ea877d2bb6a68796b244a741594968796c1c4e",
                 "reference": "a4ea877d2bb6a68796b244a741594968796c1c4e",
+>>>>>>> 1cca8f4b5c868e81c52c510a75b1d362fa91e35b
                 "shasum": ""
             },
             "require": {
@@ -942,7 +959,11 @@
                 "framework",
                 "laravel"
             ],
+<<<<<<< HEAD
+            "time": "2015-10-28 21:58:18"
+=======
             "time": "2015-11-03 16:32:33"
+>>>>>>> 1cca8f4b5c868e81c52c510a75b1d362fa91e35b
         },
         {
             "name": "league/csv",
@@ -1583,12 +1604,21 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/rydurham/Sentinel.git",
+<<<<<<< HEAD
+                "reference": "e03102383c7b863e38cd4027482b5877c0d98bb8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/rydurham/Sentinel/zipball/e03102383c7b863e38cd4027482b5877c0d98bb8",
+                "reference": "e03102383c7b863e38cd4027482b5877c0d98bb8",
+=======
                 "reference": "eb42b46fe7b257597d56972065d323e984e36db9"
             },
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/rydurham/Sentinel/zipball/eb42b46fe7b257597d56972065d323e984e36db9",
                 "reference": "eb42b46fe7b257597d56972065d323e984e36db9",
+>>>>>>> 1cca8f4b5c868e81c52c510a75b1d362fa91e35b
                 "shasum": ""
             },
             "require": {
@@ -1631,7 +1661,11 @@
                 "laravel",
                 "sentry"
             ],
+<<<<<<< HEAD
+            "time": "2015-10-18 21:52:59"
+=======
             "time": "2015-11-04 21:55:39"
+>>>>>>> 1cca8f4b5c868e81c52c510a75b1d362fa91e35b
         },
         {
             "name": "spatie/activitylog",

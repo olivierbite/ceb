@@ -1,7 +1,7 @@
 <?php
 
 return array (
-  'dashboard' => 'Tableaux De Bord ',
+  'dashboard' => 'Tableaux de bord ',
   'members' => 'Membres',
   'contributions_and_savings' => 'Cotisation & Epargne',
   'loans_and_repayments' => 'Pret & Repaiement',

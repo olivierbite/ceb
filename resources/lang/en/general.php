@@ -11,4 +11,10 @@ return array (
   'cancel' => 'Cancel',
   'action'=>'Action',
   'date'=>'Date',
+  'close'=>'Close',
+  'Save'=>'Save',
+  'download_sample'=>'Download Sample',
+  'libelle'=>'Wording',
+  'reason_for_this_transaction'=>'Reason of this transaction',
+  'options'=>'Options',
 );

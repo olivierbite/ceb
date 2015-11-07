@@ -35,6 +35,6 @@ return array (
   'wished_amount' => 'Montant Souhaite',
   'ordinary_loans' => 'Pret ordinaire',
   'special_loans' => 'Pret Special',
-  'outstanding_loan' => 'Pret impayé ',
+  'outstanding_loan' =>'Pret impayé',
   'full_paid_loan' => 'Pret Rembourse  ',
 );
