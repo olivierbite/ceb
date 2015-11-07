@@ -83,10 +83,12 @@ class ReportController extends Controller {
         // Try to look for him using his adhersion number
         if(is_null($foundUser = $user->with('loans')->find($identifier)))
         {
-        	// We could not find the user using his Id let's try 
+        	// We could not find the user using his Id, we assume, the 
+        	// the provided identifier is a adhersion id  let's try 
         	// to look for him/her using his adhersion number
+        	
         	if (is_null($foundUser = $user->with('loans')->byAdhersion($identifier))) {
-        		
+
         		flash()->error(trans('member.we_could_not_find_the_member_you_are_looking_for'));
 
         		Log::error('Unable to find a member with identifier'.$identifier);
@@ -95,7 +97,17 @@ class ReportController extends Controller {
         	}
         }
 
-		$report = $foundUser->latestLoan()->contract;
+        // now we have found the member, let's try get his loan, otherwise we 
+        // will display an error
+        if (is_null($report = $foundUser->latestLoan())) {
+
+        	    flash()->error(trans('member.member_you_are_looking_for_does_not_have_a_loan_contract'));
+
+        		Log::error('The member you are looking for does not have a loan contract:'.$identifier);
+        		
+        		return redirect()->back();
+        }
+		$report = $report->contract;
 		
  		return view('layouts.printing', compact('report'));
 	}
