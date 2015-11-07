@@ -1,5 +1,8 @@
 <?php
 
+// Fixing the bug Allowed memory size of 134217728 bytes exhausted
+ini_set('memory_limit', '-1');
+
 /**
  * Laravel - A PHP Framework For Web Artisans
  *

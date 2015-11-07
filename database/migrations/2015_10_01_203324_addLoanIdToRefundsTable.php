@@ -13,7 +13,9 @@ class AddLoanIdToRefundsTable extends Migration
     public function up()
     {
        Schema::table('refunds', function (Blueprint $table) {
-            $table->integer("loan_id");
+             if (!Schema::hasColumn('refunds', 'loan_id')) {
+                 $table->integer('loan_id');
+            }  
         });
     }
 

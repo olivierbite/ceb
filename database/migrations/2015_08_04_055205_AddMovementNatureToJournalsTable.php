@@ -22,7 +22,7 @@ class AddMovementNatureToJournalsTable extends Migration {
 	 */
 	public function down() {
 		Schema::table('journals', function (Blueprint $table) {
-			$table->string('movement_nature');
+			$table->dropColumn('movement_nature');
 		});
 	}
 }
