@@ -69,7 +69,7 @@ class ReportController extends Controller {
 	 * @param  $memberId
 	 * @return mixed
 	 */
-	public function contractLoan($loanId,Loan $loan) {
+	public function contractLoan(User $user,$adhersionId) {
 		// First check if the user has the permission to do this
         if (!$this->user->hasAccess('reports.contract.loan')) {
             flash()->error(trans('Sentinel::users.noaccess'));
@@ -78,9 +78,10 @@ class ReportController extends Controller {
 
         // First log 
         Log::info($this->user->email . ' is viewing report contract loan');
-    
-		 $report = $loan->findOrFail($loanId)->contract;
-		return view('layouts.printing', compact('report'));
+
+		 $report = $user->with('loans')->byAdhersion($adhersionId)->first()->latestLoan()->contract;
+		
+ 		return view('layouts.printing', compact('report'));
 	}
 
 	/**
