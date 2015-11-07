@@ -43,4 +43,11 @@ return [
   'loan-icon' => 'fa fa-dashboard text-aqua',
   'ordinary_loan'=>'Ordinary Loan',
   'remaining_installements'=>'Remaining Installements',
+  'loan_index'=>'index',
+'loan_add_member_to_loan_form'=>'add member to loan form',
+ 'loan_complete_loan_request'=>'complete loan request',
+ 'loan_cancel_loan_request'=>'cancel loan request',
+ 'loan_set_loan_cautionneur'=>'set loan cautionneur',
+'loan_remove_loan_cautionneur'=>'remove loan cautionneur',
+ 'loan_check_loan_status'=>'check loan status',
 ];

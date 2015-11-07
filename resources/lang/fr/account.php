@@ -2,6 +2,6 @@
 
 return [
     'account_list'=>'List',
-    'account_create'=>'Create',
+    'account_create'=>'Cree',
     
 ];

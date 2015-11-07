@@ -53,4 +53,9 @@ return array (
   'bank'=>'Bank',
   'debit_account'=>'Debit Account',
   'credit_account'=>'Credit Account',
+'member_list'=>'list',
+'member_view'=>'view',
+'member_edit'=>'edit',
+'member_create'=>'create',
+'member_delete'=>'delete',
 );

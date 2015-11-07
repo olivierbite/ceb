@@ -27,7 +27,7 @@
             @endif
             <li>
               <input name="permissions[{!! $permission !!}]" value="1" type="checkbox" {!! (isset($permissions[$permission]) ? 'checked' : '') !!}>
-               {{ trans($permission) }}
+               {{ trans( $permissionGroup.'.'.str_replace('.', '_', $permission)) }}
             </li>      
       @endforeach
       </ul>

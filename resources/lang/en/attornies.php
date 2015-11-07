@@ -2,6 +2,6 @@
 
 return [
    
-    'add'=>'add',
+    'attornies_add'=>'add',
         
 ];

@@ -1,7 +1,0 @@
-
-<?php
-
-return [
-    'view.own.profile'=>'view own profile ',
-   
-];

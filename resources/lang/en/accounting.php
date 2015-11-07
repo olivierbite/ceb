@@ -1,10 +1,10 @@
 <?php
 
 return array (
-	'accounting'=>'Accounting',
-	'debit_account'=>'Debit Account',
-  'creditt_account'=>'Credit Account',
-   'amount'=>'Amount',
-   'view'=>'View',
-   'posting'=>'Posting'
+	'accounting_accounting'=>'Accounting',
+	'accounting_debit_account'=>'Debit Account',
+  'accounting_creditt_account'=>'Credit Account',
+   'accounting_amount'=>'Amount',
+   'accounting_view'=>'View',
+   'accounting_posting'=>'Posting',
 	);

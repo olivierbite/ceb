@@ -4,7 +4,12 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
+<<<<<<< HEAD
     "hash": "7b8bcd3dbae0569c8fabffe027958baf",
+=======
+    "hash": "2527259947d7cc42bf7ff44d9ff22bc4",
+    "content-hash": "9512dcefb2f1b5e90b7f39ad5877ef07",
+>>>>>>> 1cca8f4b5c868e81c52c510a75b1d362fa91e35b
     "packages": [
         {
             "name": "anlutro/l4-settings",
@@ -349,16 +354,16 @@
         },
         {
             "name": "doctrine/inflector",
-            "version": "v1.0.1",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/inflector.git",
-                "reference": "0bcb2e79d8571787f18b7eb036ed3d004908e604"
+                "reference": "90b2128806bfde671b6952ab8bea493942c1fdae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/inflector/zipball/0bcb2e79d8571787f18b7eb036ed3d004908e604",
-                "reference": "0bcb2e79d8571787f18b7eb036ed3d004908e604",
+                "url": "https://api.github.com/repos/doctrine/inflector/zipball/90b2128806bfde671b6952ab8bea493942c1fdae",
+                "reference": "90b2128806bfde671b6952ab8bea493942c1fdae",
                 "shasum": ""
             },
             "require": {
@@ -370,7 +375,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.0.x-dev"
+                    "dev-master": "1.1.x-dev"
                 }
             },
             "autoload": {
@@ -412,7 +417,7 @@
                 "singularize",
                 "string"
             ],
-            "time": "2014-12-20 21:24:13"
+            "time": "2015-11-06 14:35:42"
         },
         {
             "name": "fenos/notifynder",
@@ -816,6 +821,7 @@
         },
         {
             "name": "laravel/framework",
+<<<<<<< HEAD
             "version": "v5.1.22",
             "source": {
                 "type": "git",
@@ -826,6 +832,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/laravel/framework/zipball/11d9627c7cd4d12b6e884b87daa7a2f898cf54cb",
                 "reference": "11d9627c7cd4d12b6e884b87daa7a2f898cf54cb",
+=======
+            "version": "v5.1.23",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/framework.git",
+                "reference": "a4ea877d2bb6a68796b244a741594968796c1c4e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/a4ea877d2bb6a68796b244a741594968796c1c4e",
+                "reference": "a4ea877d2bb6a68796b244a741594968796c1c4e",
+>>>>>>> 1cca8f4b5c868e81c52c510a75b1d362fa91e35b
                 "shasum": ""
             },
             "require": {
@@ -941,20 +959,24 @@
                 "framework",
                 "laravel"
             ],
+<<<<<<< HEAD
             "time": "2015-10-28 21:58:18"
+=======
+            "time": "2015-11-03 16:32:33"
+>>>>>>> 1cca8f4b5c868e81c52c510a75b1d362fa91e35b
         },
         {
             "name": "league/csv",
-            "version": "7.1.2",
+            "version": "7.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/csv.git",
-                "reference": "2ee1760c262c41986f6371775907fc9e8603fd26"
+                "reference": "69bafa6ff924fbf9effe4275d6eb16be81a853ef"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/csv/zipball/2ee1760c262c41986f6371775907fc9e8603fd26",
-                "reference": "2ee1760c262c41986f6371775907fc9e8603fd26",
+                "url": "https://api.github.com/repos/thephpleague/csv/zipball/69bafa6ff924fbf9effe4275d6eb16be81a853ef",
+                "reference": "69bafa6ff924fbf9effe4275d6eb16be81a853ef",
                 "shasum": ""
             },
             "require": {
@@ -962,13 +984,13 @@
                 "php": ">=5.4.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "~4.0",
-                "scrutinizer/ocular": "~1.1"
+                "fabpot/php-cs-fixer": "^1.9",
+                "phpunit/phpunit": "^4.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "7.1-dev"
+                    "dev-master": "7.2-dev"
                 }
             },
             "autoload": {
@@ -998,7 +1020,7 @@
                 "read",
                 "write"
             ],
-            "time": "2015-06-10 11:12:37"
+            "time": "2015-11-02 07:36:25"
         },
         {
             "name": "league/flysystem",
@@ -1274,16 +1296,16 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "1.20.0",
+            "version": "1.21.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "bfd3eaba109c9a2405c92174c8e17f20c2b9caf3"
+                "reference": "7b08ec6f75791e130012f206e3f7b0e76e18e3d7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/bfd3eaba109c9a2405c92174c8e17f20c2b9caf3",
-                "reference": "bfd3eaba109c9a2405c92174c8e17f20c2b9caf3",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/7b08ec6f75791e130012f206e3f7b0e76e18e3d7",
+                "reference": "7b08ec6f75791e130012f206e3f7b0e76e18e3d7",
                 "shasum": ""
             },
             "require": {
@@ -1291,12 +1313,12 @@
                 "symfony/translation": "~2.6|~3.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "~4.0"
+                "phpunit/phpunit": "~4.0|~5.0"
             },
             "type": "library",
             "autoload": {
-                "psr-0": {
-                    "Carbon": "src"
+                "psr-4": {
+                    "Carbon\\": "src/Carbon/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -1317,7 +1339,7 @@
                 "datetime",
                 "time"
             ],
-            "time": "2015-06-25 04:19:39"
+            "time": "2015-11-04 20:07:17"
         },
         {
             "name": "nikic/php-parser",
@@ -1582,12 +1604,21 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/rydurham/Sentinel.git",
+<<<<<<< HEAD
                 "reference": "e03102383c7b863e38cd4027482b5877c0d98bb8"
             },
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/rydurham/Sentinel/zipball/e03102383c7b863e38cd4027482b5877c0d98bb8",
                 "reference": "e03102383c7b863e38cd4027482b5877c0d98bb8",
+=======
+                "reference": "eb42b46fe7b257597d56972065d323e984e36db9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/rydurham/Sentinel/zipball/eb42b46fe7b257597d56972065d323e984e36db9",
+                "reference": "eb42b46fe7b257597d56972065d323e984e36db9",
+>>>>>>> 1cca8f4b5c868e81c52c510a75b1d362fa91e35b
                 "shasum": ""
             },
             "require": {
@@ -1630,7 +1661,11 @@
                 "laravel",
                 "sentry"
             ],
+<<<<<<< HEAD
             "time": "2015-10-18 21:52:59"
+=======
+            "time": "2015-11-04 21:55:39"
+>>>>>>> 1cca8f4b5c868e81c52c510a75b1d362fa91e35b
         },
         {
             "name": "spatie/activitylog",

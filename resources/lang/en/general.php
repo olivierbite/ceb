@@ -16,4 +16,5 @@ return array (
   'download_sample'=>'Download Sample',
   'libelle'=>'Wording',
   'reason_for_this_transaction'=>'Reason of this transaction',
+  'options'=>'Options',
 );
