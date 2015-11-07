@@ -23,7 +23,6 @@
 		{!! Form::select('report_date_range_simple', get_simple_date_ranges(),null, ['id'=>'report_date_range_simple']) !!}
 </div>
 <br/>
-	{!! Form::hidden('member_id', null, ['class'=>'member_id']) !!}
 	<input type="radio" name="report_type" id="complex_radio" value="complex">
     {!! Form::select('start_day', get_days(), date('d') , ['class' => 'start_day']) !!}
 	{!! Form::select('start_month', get_months(), date('m'), ['class' => 'start_month']) !!}
@@ -92,9 +91,12 @@ $(document).ready(function()
 		    adhersion_id = $('.member_id').val();
 			url = url +'/'+adhersion_id;
 		}
-	   
+
+		console.log($('.member_id').val());
 		if(baseUrl.indexOf('contract') !== -1)
 		{
+
+	   console.log(baseUrl.indexOf('contract'));
 			url = baseUrl+'/'+adhersion_id+'/'+ export_excel;
 		}
 		/** OPEN  THE REPORT */

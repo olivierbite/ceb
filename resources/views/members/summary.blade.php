@@ -23,7 +23,7 @@
 </div>
 <div class="small-box bg-black">
     <div class="inner">
-        <h3>{!! !empty($member->caution_balance) ? $member->caution_balance : 0 !!}</h3>
+        <h3>{!! number_format($member->caution_amount - $member->caution_refunded) !!}</h3>
         <p>{{ trans('member.total_cautions_amount') }}</p>
     </div>
     <div class="icon"><i class="ion ion-heart"></i></div>

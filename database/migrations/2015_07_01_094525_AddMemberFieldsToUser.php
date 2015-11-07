@@ -54,7 +54,9 @@ class AddMemberFieldsToUser extends Migration {
 			$table->dropColumn('member_nid');
 			$table->dropColumn('telephone');
 			$table->dropColumn('termination_date');
-			$table->dropColumn('institution');
+			if (Schema::hasColumn('users', 'institution')) {
+                 $table->integer('institution');
+            }  
 			$table->dropColumn('service');
 			$table->dropColumn('monthly_fee');
 			$table->dropColumn('attorney');
