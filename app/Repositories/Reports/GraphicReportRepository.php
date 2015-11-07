@@ -46,7 +46,7 @@ class GraphicReportRepository {
     {
     	return Db::select('select a.name,count(b.adhersion_id) countStudents  
                             from institutions as a 
-                                LEFT JOIN ceb.users as b 
+                                LEFT JOIN users as b 
                             ON a.id = b.institution_id group by a.name;'
                         );
     }
@@ -59,7 +59,7 @@ class GraphicReportRepository {
     {
     	return DB::select('select a.name,
                             CASE WHEN CAST(sum(b.amount) AS UNSIGNED) IS NULL THEN 0
-                            ELSE CAST(sum(b.amount) AS UNSIGNED) END AS sumLoan  from ceb.institutions as a LEFT JOIN
+                            ELSE CAST(sum(b.amount) AS UNSIGNED) END AS sumLoan  from institutions as a LEFT JOIN
                             (
                             SELECT b.adhersion_id,
                                    b.institution_id,
@@ -67,7 +67,7 @@ class GraphicReportRepository {
                                    FROM 
                                    ceb.loans as a 
                                    LEFT JOIN 
-                                   ceb.users as b
+                                   users as b
                                    ON a.adhersion_id = b.adhersion_id
                              group by b.adhersion_id,
                              b.institution_id
