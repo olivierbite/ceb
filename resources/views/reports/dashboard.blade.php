@@ -51,9 +51,9 @@
 		}
 
 	  var countColor = 0;
-      var pieData = [ @foreach ($institutions as $key=>$institution)
+      var pieData = [ @foreach ($institutions as $institution)
                        {
-				        value: {!!$institution->memberCount() !!},
+				        value: {!!$institution->countStudents !!},
 				        color:    "#"+((1<<24)*Math.random()|0).toString(16),
 				        highlight: "#FF5A5E",
 				        label: "{!!$institution->name !!}"
@@ -72,7 +72,7 @@
 				pointStrokeColor: "#fff",
 				pointHighlightFill: "#fff",
 				pointHighlightStroke: "rgba(151,187,205,1)",
-				data: [@foreach ($institutionsLoan as $institution) {!!$institution->loanCount()!!} ,@endforeach]
+				data: [@foreach ($institutionsLoan as $institution) {!!$institution->sumLoan!!} ,@endforeach]
 			}
 		]
 	};
