@@ -31,8 +31,9 @@ class ReportController extends Controller {
 
         // First log 
         Log::info($this->user->email . ' is viewing reports charts index');
-    
+
 		$contributions = $report->getMonthlyContribution();
+	    
 		$loans = $report->getMontlyLoan();
 		$institutions = $report->getCountMemberPerInstitution();
 		$institutionsLoan = $report->getLoanByInstitution();
