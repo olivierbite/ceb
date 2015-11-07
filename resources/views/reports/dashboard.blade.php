@@ -72,7 +72,7 @@
 				pointStrokeColor: "#fff",
 				pointHighlightFill: "#fff",
 				pointHighlightStroke: "rgba(151,187,205,1)",
-				data: [@foreach ($institutionsLoan as $institution) {!!$institution->sumLoan!!} ,@endforeach]
+				data: [@foreach ($institutionsLoan as $institution) {!!$institution->loansCount!!} ,@endforeach]
 			}
 		]
 	};
