@@ -6,6 +6,7 @@ use Ceb\Http\Controllers\Controller;
 use Ceb\Http\Requests;
 use Ceb\Models\Leave;
 use Ceb\Models\User;
+use Ceb\Models\UserGroup;
 use Fenos\Notifynder\Notifynder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -61,11 +62,11 @@ class LeaveController extends Controller
             $leave->status = Leave::$approved;
             $leave->save();
                     // Send notification
-        $notifier->category('leave.approved')
-                   ->from($this->user->id)
-                   ->to($leave->user_id)
-                   ->url(route('leaves.show'))
-                   ->send();
+           $notifier->category('leave.approved')
+                    ->from($this->user->id)
+                    ->to($leave->user_id)
+                    ->url(route('leaves.show'))
+                    ->send();
 
             flash()->success(trans('leave.leave_approved_successfully'));
             return redirect()->route('leaves.pending'); 
@@ -195,12 +196,31 @@ class LeaveController extends Controller
         $newLeave = Leave::create($data);
         if ($newLeave) {
 
-        // Send notification
-        $notifier->category('leave.leave')
+        
+        // Get all users who have the right to approve leave
+        // if we found them then ilitirate them and 
+        // make sure, we notify all of them
+        $groups = UserGroup::with('users')->get();
+
+        foreach ($groups as $group) {      
+            
+            // If this group doesn't have access then 
+            // go to the next group
+            
+            if (!$group->hasAccess('leaves.leaves.approve')) {
+                continue;
+            }
+
+            // Group has access let's notify them
+           foreach ($group->users as $user) {
+               $notifier->category('leave.leave')
                    ->from($this->user->id)
-                   ->to(1)
+                   ->to($user->id)
                    ->url(route('leaves.index'))
                    ->send();
+           }
+        }
+        
 
             return redirect()->route('leaves.index');
         }

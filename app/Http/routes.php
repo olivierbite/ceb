@@ -150,15 +150,6 @@ Route::get('settings/users', ['as' => 'ceb.settings.users.index', 'uses' => 'Use
 
 $router->get('/test/{start?}/{end?}',function($start=1,$end=12)
 	{
-		// Display all SQL executed in Eloquent
-		$rates = Ceb\Models\MemberLoanCautionneur::byTransaction('2015110621381')
-												->byAdhersion('20070032')
-												->byLoanId('138266')
-												->Active()
-												->get();
 		
-		foreach ($rates as $rate) {
-			$rate->refunded_amount = 1000;
-			dd($rate->save());
-		}
+		dd( Ceb\Models\User::find(1547)->caution_amount );
 	});

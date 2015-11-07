@@ -8,10 +8,16 @@ use Ceb\Models\Setting;
 use Fenos\Notifynder\Notifable;
 use Illuminate\Support\Facades\DB;
 use Vinkla\Hashids\Facades\Hashids;
+use Cartalyst\Sentry\Users\Eloquent\User as Model;
+use Ceb\Traits\LogsActivity;
+use Spatie\Activitylog\LogsActivityInterface;
 
 class User extends Model {
 
 	use Notifable;
+
+	use LogsActivity;
+
 	
 	/**
 	 * The database table used by the model.
@@ -150,7 +156,7 @@ class User extends Model {
 	 * @return Objects contains all refunds by this memebr
 	 */
 	public function cautions() {
-		return $this->hasMany('Ceb\Models\MemberLoanCautionneur', 'member_adhersion_id', 'adhersion_id');
+		return $this->hasMany('Ceb\Models\MemberLoanCautionneur', 'cautionneur_adhresion_id', 'adhersion_id');
 	}
     
     /**
@@ -159,7 +165,7 @@ class User extends Model {
      */
     public function getCautionAmountAttribute()
     {
-    	$this->cautions()->sum('amount');
+    	return $this->cautions->sum('amount');
     }
 
     /**
@@ -168,27 +174,9 @@ class User extends Model {
      */
     public function getCautionRefundedAttribute()
     {
-    	$this->cautions()->sum('refunded_amount');
+    	return $this->cautions->sum('refunded_amount');
     }
-
-     /**
-     * Get caution balance attributes
-     * @return 
-     */
-    public function getCautionBalanceAttribute()
-    {
-    	$this->getCautionAmountAttribute() - $this->getCautionRefundedAttribute();
-    }
-
-    /**
-     * Has active caution scope
-     * @return bool
-     */
-    public function scopeHasActiveCaution()
-    {
-    	return $this->getCautionBalanceAttribute() > 0;
-    }
-
+    
     /**
      * Relationship with leaves
      * @return  leave object
@@ -446,5 +434,29 @@ class User extends Model {
 	public function groups()
 	{
 		return $this->belongsToMany(static::$groupModel, static::$userGroupsPivot);
+	}
+
+	/**
+	 * See if a group has access to the passed permission(s).
+	 *
+	 * If multiple permissions are passed, the group must
+	 * have access to all permissions passed through, unless the
+	 * "all" flag is set to false.
+	 *
+	 * @param  string|array  $permissions
+	 * @param  bool  $all
+	 * @return bool
+	 */
+	public function scopeHasRight($query,$permissions)
+	{
+		// If this user has the right, then pass the query otherwise
+		// Fail the query intentionally 	
+		dd($permissions,$this->hasAccess($permissions));
+		if ($this->hasAccess($permissions) == true) {
+			return $query->where(DB::raw('1=1'));
+		}
+
+		// Fail this query scope because this person does not have the right
+	    return $query->where(DB::raw('1=2'));
 	}
 }
