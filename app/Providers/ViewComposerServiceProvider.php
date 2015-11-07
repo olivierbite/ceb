@@ -24,6 +24,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
 		$this->composerAccountNature();
 		$this->composerLanguages();
 		$this->composerUser();
+		$this->composerSetting();
 	}
 
 	/**
@@ -173,5 +174,13 @@ class ViewComposerServiceProvider extends ServiceProvider {
 			'*',
 		];
 		view()->composer($views,'\Ceb\ViewComposers\UserViewComposer');
+	}
+
+	private function composerSetting()
+	{
+		$views = [
+			'*',
+		];
+		view()->composer($views,'\Ceb\ViewComposers\SettingViewComposer');
 	}
 }

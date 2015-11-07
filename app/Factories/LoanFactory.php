@@ -1,11 +1,15 @@
 <?php
 namespace Ceb\Factories;
 use Ceb\Models\Loan;
+use Ceb\Models\LoanRate;
+use Ceb\Models\MemberLoanCautionneur;
 use Ceb\Models\Posting;
+use Ceb\Models\Setting;
 use Ceb\Models\User;
 use Ceb\Traits\TransactionTrait;
-use Datetime;
 use DB;
+use Datetime;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Session;
 use Sentry;
 use Validator;
@@ -16,52 +20,40 @@ use Validator;
 class LoanFactory {
 	use TransactionTrait;
 	protected $errors;
-	/**
-	 * Loan validadtion rules
-	 * @var array
-	 */
-	protected $loanRules =  [
-        'loan_to_repay' => 'required',
-        'cheque_number' => 'required'
-    ];
+	protected $wishedAmountPercentage;
 
-	function __construct(Session $session, User $member, Loan $loan, Posting $posting) {
+	function __construct(Session $session, User $member, Loan $loan,LoanRate $loanRate, Posting $posting,Setting $setting) {
 		$this->session = $session;
 		$this->member = $member;
 		$this->loan = $loan;
+		$this->loanRate = $loanRate;
 		$this->posting = $posting;
+		$this->setting = $setting;	
+		$this->wishedAmountPercentage = $this->setting->keyValue('loan.wished.amount');
 	}
 
-	/**
-	 * Are the data we are trying to validator okay?
-	 * @param  array $data
-	 * @return bool this returns true if the data is valid
-	 */
-	public function isValidLoanData($data) {
-
-		$validator = Validator::make($data,$this->loanRules);
-		if($validator->fails()){
-			$this->errors = implode($validator->errors()->all());
-			return false;
-		}
-		// For us to reach here it's because the validation passed
-		return true;
-	}
 	/**
 	 * Add member to is going to receive loan
 	 * @param integer $memberId ID of the member to add to the session
 	 */
 	function addMember($memberId) {
-		$member = $this->member->find($memberId);
+		$member = $this->member->eligible($memberId)->find($memberId);
 
 		// Detect if this member is not more than 6 months
 		// as per de definition of CEB
-		if (!$this->isEligeable($member)) {
+		if (is_null($member)) {
 			flash()->error(trans('loan.error_member_has_to_be_at_least_6_months_in_ceb'));
 			return false;
 		}
 
+		if ($member->right_to_loan < 1) {
+			flash()->error(trans('loan.this_member_doesnot_have_enough_right_to_loan_because_he_has_pending_loans'));
+			$this->cancel();
+			return false;
+		}
+
 		Session::put('loan_member', $member);
+
 		$this->updateCautionneur();
 	}
 
@@ -116,6 +108,45 @@ class LoanFactory {
 		Session::put('loanInputs', $loanInputsData);
 	}
 
+	/**
+	 * Set amount bonded for this loan
+	 * @param  $amountBonded 
+	 */		
+	public function setBondedAmount()
+	{
+		$bondedAmount = $this->getLoanInput('loan_to_repay') - $this->getMember()->totalContributions();
+		
+		Session::put('bonded_amount', $bondedAmount);
+	}
+
+	/**
+	 * Get bonded amount value
+	 * @return  numeric
+	 */
+	public function getBondedAmount()
+	{
+		return Session::get('bonded_amount', 0);
+	}
+
+	/**
+	 * Forget bonded amount
+	 * @return 
+	 */
+	public function forgetBondedAmount()
+	{
+		Session::forget('bonded_amount');
+	}
+
+	/**
+	 * Get loan input by key
+	 * @param  string $key 
+	 * @return    
+	 */
+	public function getLoanInput($key)
+	{
+		$loanInputs = $this->getLoanInputs();
+		return isset($loanInputs[$key]) ? $loanInputs[$key] : null; 
+	}
 	/**
 	 * Get current loan input fields
 	 * @return array
@@ -173,13 +204,13 @@ class LoanFactory {
 	 */
 	public function updateCautionneur() {
 		$cautionneurs = $this->getCautionneurs();
-
 		foreach ($cautionneurs as $key => $cautionneur) {
 			if ($cautionneur->id == $this->getMember()->id) {
 				unset($cautionneurs[$key]);
 			}
 		}
-		Session::put('cautionneurs', $cautionneurs);
+
+		Session::put('', $cautionneurs);
 	}
 	/**
 	 * Get cautionneurs set
@@ -260,6 +291,7 @@ class LoanFactory {
 
 		// 1. First record the loan
 		$transactionId = $this->getTransactionId();
+		$this->setBondedAmount();
 		$this->calculateLoanDetails();
 
 		// Start saving if something fails cancel everything
@@ -367,7 +399,7 @@ class LoanFactory {
 		$data['cautionneur2'] = isset($inputs['cautionneur2']) ? $inputs['cautionneur2'] : null;
 		$data['average_refund'] = 0;
 		$data['amount_refounded'] = 0;
-		$data['comment'] = 'No comment so far';
+		$data['comment'] = $inputs['wording'];
 		$data['special_loan_contract_number'] = 0;
 		$data['remaining_tranches'] = isset($inputs['tranches_number']) ? $inputs['tranches_number'] : 1;
 		$data['special_loan_tranches'] = 0;
@@ -375,11 +407,53 @@ class LoanFactory {
 		$data['special_loan_amount_to_receive'] = 0;
 		$data['user_id'] = Sentry::getUser()->id;
 
-		return $this->loan->create($data);
+        $newLoan = $this->loan->create($data);
+	    // If we have bond then save cautionneurs in also in the database
+		if ($inputs['amount_bonded'] > 0 && ($inputs['loan_to_repay'] > $member->totalContributions())) {
+			// Attempt to record the loan
+			if ($this->recordCautionneurs($transactionid, $newLoan->id) == false) {
+				return false;
+			}
+		}
+		// if we reach here it means that we didn't have bond therefore let's continue
+		return $newLoan;
 	}
 
 	/**
-	 * Save posting to the database
+	 * Record cautionneur details for this loan
+	 * @param  string $transactionid 
+	 * @param  string $loanId        
+	 * @return bool         
+	 */
+	public function recordCautionneurs($transactionid,$loanId)
+	{
+		$cautionneurs = $this->getCautionneurs();
+		$member 	  = $this->getMember();
+		// Devide amount equally 
+		$amount  = $this->getBondedAmount() / count($cautionneurs);
+
+		foreach ($cautionneurs as $cautionneur) {
+				$memberLoanCautionneur = new MemberLoanCautionneur;
+				$memberLoanCautionneur->member_adhersion_id       = $member->adhersion_id;
+				$memberLoanCautionneur->cautionneur_adhresion_id  = $cautionneur->adhersion_id;
+				$memberLoanCautionneur->amount                    = $amount;
+				$memberLoanCautionneur->transaction_id			  = $transactionid;
+				$memberLoanCautionneur->loan_id                   = $loanId;
+				$memberLoanCautionneur->letter_date			  	  = $this->getLoanInput('letter_date');
+
+				// Fail transaction if something went wrong
+				if(!$memberLoanCautionneur->save())
+				{
+					return false;
+				}
+		}
+
+		return true;
+	}
+
+
+	/**
+	 * Save posting to the databasee
 	 * @param  STRING $transactionId UNIQUE TRANSACTIONID
 	 * @return bool
 	 */
@@ -436,12 +510,7 @@ class LoanFactory {
 	 */
 	public function getInterestRate() {
 		$numberOfInstallment = $this->getTranschesNumber();
-		if ($numberOfInstallment > 0 && $numberOfInstallment <= 12) {return 3.4;}
-		if ($numberOfInstallment > 12 && $numberOfInstallment <= 24) {return 3.6;}
-		if ($numberOfInstallment > 24 && $numberOfInstallment <= 36) {return 4.1;}
-		if ($numberOfInstallment > 36 && $numberOfInstallment <= 48) {return 4.3;}
-		if ($numberOfInstallment>48 && $numberOfInstallment<=60 ) {return 4.8;}		
-		if ($numberOfInstallment>60 && $numberOfInstallment<=72 ) {return 5;}
+		return $this->loanRate->rate($numberOfInstallment,$numberOfInstallment);
 	}
 	/**
 	 * Calculate loan details
@@ -450,11 +519,6 @@ class LoanFactory {
 	public function calculateLoanDetails($validation = false) {
 
 		$loanDetails = $this->getLoanInputs();
-		if ($validation && ($this->isValidLoanData($loanDetails) == false)) {
-			// We have nothing to calculate therefore
-			// let's just return false
-			return false;
-		}
       
 		$loanToRepay = isset($loanDetails['loan_to_repay'])?$loanDetails['loan_to_repay']:0;
 		$interestRate = $this->getInterestRate();
@@ -476,8 +540,9 @@ class LoanFactory {
 		$netToReceive = $loanToRepay - $interests;
 
 		// Update fields
-		$this->addLoanInput(['right_to_loan' => round(($loanToRepay * 2.5), 0)]);
-		$this->addLoanInput(['wished_amount' => round(($loanToRepay * 2.5), 0)]);
+
+		$this->addLoanInput(['right_to_loan' => round(($loanToRepay * $this->wishedAmountPercentage), 0)]);
+		$this->addLoanInput(['wished_amount' => round(($loanToRepay * $this->wishedAmountPercentage), 0)]);
 		$this->addLoanInput(['interests' => round($interests, 0)]);
 		$this->addLoanInput(['net_to_receive' => round($netToReceive, 0)]);
 		$this->addLoanInput(['monthly_fees' => round(($loanToRepay / $numberOfInstallment), 0)]);
@@ -517,7 +582,7 @@ class LoanFactory {
 
 		// Check if the months are at least 6 configured to 1 for the
 		// Development purpose
-		return $interval >= 1;
+		return $interval >= $this->setting->keyValue('loan.member.minimum.months');
 	}
 
 	/**
@@ -562,6 +627,7 @@ class LoanFactory {
 	 */
 	private function clearAll() {
 		$this->clearMember();
+		$this->forgetBondedAmount();
 		Session::forget('loanInputs');
 		Session::forget('cautionneurs');
 		Session::forget('creditaccounts');

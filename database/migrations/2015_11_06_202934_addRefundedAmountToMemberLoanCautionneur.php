@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddWordingToRefund extends Migration
+class AddRefundedAmountToMemberLoanCautionneur extends Migration
 {
     /**
      * Run the migrations.
@@ -12,8 +12,8 @@ class AddWordingToRefund extends Migration
      */
     public function up()
     {
-        Schema::table('refunds', function (Blueprint $table) {
-            $table->text('wording');
+        Schema::table('member_loan_cautionneurs', function (Blueprint $table) {
+            $table->decimal('refunded_amount',10,2)->default(0);
         });
     }
 
@@ -24,10 +24,8 @@ class AddWordingToRefund extends Migration
      */
     public function down()
     {
-        Schema::table('refunds', function (Blueprint $table) {
-            if (Schema::hasColumn('refunds', 'wording')) {
-                 $table->dropColumn('wording');
-            }        
+        Schema::table('member_loan_cautionneurs', function (Blueprint $table) {
+            $table->dropColumn('refunded_amount');
         });
     }
 }

@@ -78,7 +78,6 @@ jQuery(document).ready(function($) {
 	// If loan to repay is less or equal to the total contribution 
 	// Then hide the caution form
   	if(parseInt(loanToRepay) <= parseInt(totalContributions)){
-  		console.log('just testing');
 		$('#cautionForm').css('display', 'none');
 	}else{
 		$('#cautionForm').css('display', 'show');;
@@ -199,12 +198,12 @@ jQuery(document).ready(function($) {
       rightToLoanAmount = parseInt(rightToLoanAmount);
 
       var wishedAmount 	  = parseInt($('#wished_amount').val());
-
+      
       if(wishedAmount > rightToLoanAmount){
 		    notification = notification.replace('message','Wished amount has to be less or equal to Right to loan');
 			$('.loan-notifications').html(notification);
 			$('#wished_amount').addClass('has-error');
-			$('#wished_amount').val(rightToLoanAmount);
+			// $('#wished_amount').val(rightToLoanAmount);
 			return false;
 		}
 		// For us to reach here

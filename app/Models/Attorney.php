@@ -1,6 +1,7 @@
 <?php
 
 namespace Ceb\Models;
+use Ceb\Models\Model;
 
 class Attorney extends Model {
 	/**

@@ -95,6 +95,15 @@ return [
         'transactionamount'=> [
             'confirmed' => 'Amount must equal to debit / credit amount.',
         ],
+        'loanaccountamount'=> [
+            'confirmed' => 'Loan to repay amount must equal to debit / credit amount.',
+        ],
+        'accounts'     => [
+            'confirmed' => 'You cannot debit and debit same accounts, check if one or more accounts are not present in both debit and credit.',
+        ],
+        'cautionneur'     => [
+            'confirmed' => 'You have to provide a cautionneur when there is amount to bond.',
+        ],
         'movement_type'=> [
             'min' => 'Please select movement type.',
         ],
