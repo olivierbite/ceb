@@ -2,11 +2,12 @@
 
 namespace Ceb\Traits;
 use Activity;
-use Spatie\Activitylog\Exceptions\UserNotAuthenticatedException;
-use Illuminate\Contracts\Events\Dispatcher ;
-use Sentry;
 use Config;
 use Illuminate\Config\Repository;
+use Illuminate\Contracts\Events\Dispatcher ;
+use Sentry;
+use Spatie\Activitylog\Exceptions\UserNotAuthenticatedException;
+use Spatie\Activitylog\LogsActivityInterface;
 trait LogsActivity
 {
     /**

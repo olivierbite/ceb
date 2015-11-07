@@ -6,9 +6,11 @@ use Ceb\Models\MemberLoanCautionneur;
 use Ceb\Models\Posting;
 use Ceb\Models\Setting;
 use Ceb\Models\User;
+use Ceb\Models\UserGroup;
 use Ceb\Traits\TransactionTrait;
 use DB;
 use Datetime;
+use Fenos\Notifynder\Facades\Notifynder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Session;
 use Sentry;
@@ -311,6 +313,32 @@ class LoanFactory {
 		DB::commit();
         
         $contractId = $this->makeContract($saveLoan);
+
+        // Notify all people who has right to approve loan 
+            // Get all users who have the right to approve leave
+        // if we found them then ilitirate them and 
+        // make sure, we notify all of them
+        $groups = UserGroup::with('users')->get();
+
+        foreach ($groups as $group) {      
+            
+            // If this group doesn't have access then 
+            // go to the next group
+            
+            if (!$group->hasAccess('leaves.leaves.approve')) {
+                continue;
+            }
+
+            // Group has access let's notify them
+           foreach ($group->users as $user) {
+               Notifynder::category('leave.leave')
+                   ->from($this->user->id)
+                   ->to($user->id)
+                   ->url(route('leaves.index'))
+                   ->send();
+           }
+		}
+
 		// Since we are done let's make sure everything is cleaned fo
 		// the next transaction
 		$this->clearAll();

@@ -8,7 +8,6 @@ use Spatie\Activitylog\LogsActivityInterface;
 
 class Model extends Eloquent implements LogsActivityInterface {
 	use LogsActivity;
-
 	/**
 	 * Get contribution between two dates
 	 * 

@@ -10,6 +10,7 @@ use Ceb\Models\Posting;
 use Ceb\Models\User;
 use Ceb\Repositories\Reports\GraphicReportRepository;
 use Illuminate\Support\Facades\Log;
+use Ceb\Factories\LoanFactory;
 
 class ReportController extends Controller {
 	public $report;
@@ -30,8 +31,9 @@ class ReportController extends Controller {
 
         // First log 
         Log::info($this->user->email . ' is viewing reports charts index');
-    
+
 		$contributions = $report->getMonthlyContribution();
+	    
 		$loans = $report->getMontlyLoan();
 		$institutions = $report->getCountMemberPerInstitution();
 		$institutionsLoan = $report->getLoanByInstitution();
@@ -69,7 +71,7 @@ class ReportController extends Controller {
 	 * @param  $memberId
 	 * @return mixed
 	 */
-	public function contractLoan($loanId,Loan $loan) {
+	public function contractLoan(User $user,$identifier) {
 		// First check if the user has the permission to do this
         if (!$this->user->hasAccess('reports.contract.loan')) {
             flash()->error(trans('Sentinel::users.noaccess'));
@@ -78,9 +80,45 @@ class ReportController extends Controller {
 
         // First log 
         Log::info($this->user->email . ' is viewing report contract loan');
-    
-		 $report = $loan->findOrFail($loanId)->contract;
-		return view('layouts.printing', compact('report'));
+
+        // Try to find this user by his id, if it fails then 
+        // Try to look for him using his adhersion number
+        if(is_null($foundUser = $user->with('loans')->find($identifier)))
+        {
+        	// We could not find the user using his Id, we assume, the 
+        	// the provided identifier is a adhersion id  let's try 
+        	// to look for him/her using his adhersion number
+        	
+        	if (is_null($foundUser = $user->with('loans')->byAdhersion($identifier)->first())) {
+
+        		flash()->error(trans('member.we_could_not_find_the_member_you_are_looking_for'));
+
+        		Log::error('Unable to find a member with identifier'.$identifier);
+        		
+        		return redirect()->back();
+        	}
+        }
+
+        // now we have found the member, let's try get his loan, otherwise we 
+        // will display an error
+        if (is_null($report = $foundUser->latestLoan())) {
+
+        	    flash()->error(trans('member.member_you_are_looking_for_does_not_have_a_loan_contract'));
+
+        		Log::error('The member you are looking for does not have a loan contract:'.$identifier);
+        		
+        		return redirect()->back();
+        }
+
+		// if the contract is empty, we assume it is not generated, let's try to generate it and save it
+		if (empty($report->contract)) {
+			$report->contract = generateContract($foundUser,strtolower($report->operation_type));
+			$report->save();
+		}
+		
+		$report = $report->contract;
+
+ 		return view('layouts.printing', compact('report'));
 	}
 
 	/**
