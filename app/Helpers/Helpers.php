@@ -120,3 +120,32 @@ function random_color()
     }
     return $c;
 }
+
+/**
+ * This method helps to generate a written contrat
+ * @param  Ceb\Models\User $member who has the contratc
+ * @param  string $contract_type  type of the contrac that helps to know which letter to use (social_loan,special_loan,ordinary_loan)
+ * @return rendered view
+ */
+function generateContract($member,$contract_type)
+{
+	switch ($contract_type) {
+			case (strpos($contract_type,'ordinary_loan') !== FALSE):
+			     // Ordinary loan
+				 $contract = view('reports.contracts_loan_ordinary', compact('member'))->render();
+				break;
+			case 'special_loan':
+				// Special loan	
+			    $contract = view('reports.contracts_loan_special', compact('member'))->render();
+				break;
+			case 'social_loan':
+				// Social loan.			
+			    $contract = view('reports.contracts_loan_social', compact('member'))->render();
+				break;
+			default: // Could not detect the contract
+				$contract = 'Unable to determine the contract type';
+				break;
+		}
+
+	return $contract;	
+}

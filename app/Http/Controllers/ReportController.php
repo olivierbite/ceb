@@ -10,6 +10,7 @@ use Ceb\Models\Posting;
 use Ceb\Models\User;
 use Ceb\Repositories\Reports\GraphicReportRepository;
 use Illuminate\Support\Facades\Log;
+use Ceb\Factories\LoanFactory;
 
 class ReportController extends Controller {
 	public $report;
@@ -87,7 +88,7 @@ class ReportController extends Controller {
         	// the provided identifier is a adhersion id  let's try 
         	// to look for him/her using his adhersion number
         	
-        	if (is_null($foundUser = $user->with('loans')->byAdhersion($identifier))) {
+        	if (is_null($foundUser = $user->with('loans')->byAdhersion($identifier)->first())) {
 
         		flash()->error(trans('member.we_could_not_find_the_member_you_are_looking_for'));
 
@@ -107,8 +108,15 @@ class ReportController extends Controller {
         		
         		return redirect()->back();
         }
-		$report = $report->contract;
+
+		// if the contract is empty, we assume it is not generated, let's try to generate it and save it
+		if (empty($report->contract)) {
+			$report->contract = generateContract($foundUser,strtolower($report->operation_type));
+			$report->save();
+		}
 		
+		$report = $report->contract;
+
  		return view('layouts.printing', compact('report'));
 	}
 
