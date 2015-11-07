@@ -69,7 +69,7 @@ class ReportController extends Controller {
 	 * @param  $memberId
 	 * @return mixed
 	 */
-	public function contractLoan(User $user,$adhersionId) {
+	public function contractLoan(User $user,$identifier) {
 		// First check if the user has the permission to do this
         if (!$this->user->hasAccess('reports.contract.loan')) {
             flash()->error(trans('Sentinel::users.noaccess'));
@@ -79,7 +79,23 @@ class ReportController extends Controller {
         // First log 
         Log::info($this->user->email . ' is viewing report contract loan');
 
-		 $report = $user->with('loans')->byAdhersion($adhersionId)->first()->latestLoan()->contract;
+        // Try to find this user by his id, if it fails then 
+        // Try to look for him using his adhersion number
+        if(is_null($foundUser = $user->with('loans')->find($identifier)))
+        {
+        	// We could not find the user using his Id let's try 
+        	// to look for him/her using his adhersion number
+        	if (is_null($foundUser = $user->with('loans')->byAdhersion($identifier))) {
+        		
+        		flash()->error(trans('member.we_could_not_find_the_member_you_are_looking_for'));
+
+        		Log::error('Unable to find a member with identifier'.$identifier);
+        		
+        		return redirect()->back();
+        	}
+        }
+
+		$report = $foundUser->latestLoan()->contract;
 		
  		return view('layouts.printing', compact('report'));
 	}
