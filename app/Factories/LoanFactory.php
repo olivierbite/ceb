@@ -31,6 +31,7 @@ class LoanFactory {
 		$this->loanRate = $loanRate;
 		$this->posting = $posting;
 		$this->setting = $setting;	
+		$this->user    = Sentry::getUser();
 		$this->wishedAmountPercentage = $this->setting->keyValue('loan.wished.amount');
 	}
 
@@ -165,24 +166,49 @@ class LoanFactory {
 		$cautionneurId = array_values($cautionneur)[0];
 		$cautionneurs = $this->getCautionneurs();
 
-		$cautionneurs[$arrayKey] = $this->member->findByAdhersion($cautionneurId);
+		// Get rid of any empty array element we may have
+        $cautionneurs = array_filter($cautionneurs);
 
-		if ($cautionneurs[$arrayKey] == null) {
+        $cautionneurs = array_shift($cautionneurs);
+
+        $newCautionneur = $this->member->findByAdhersion($cautionneurId);
+
+        if ($newCautionneur == null) {
 			flash()->error(trans('loan.adhersion_number_you_are_looking_for_cannot_be_found'));
-			// Nothing to do here
+			// Nothing $to do here
 			return false;
 		}
+
+		if (!empty($cautionneurs)) {
+        // Make sure we are not setting one cautionneurs two times
+    	if ($cautionneurs->id == $newCautionneur->id) {
+    		flash()->error(trans('loan.the_member_you_are_trying_to_set_is_already_set_as_cautionneur_please_choose_another_member'));
+				// Nothing to do here
+			return false;
+	        }
+		}
+
 		// Make sure the selected cautionneur is not
 		// same as the member
-		if ($cautionneurs[$arrayKey]->id == $this->getMember()->id) {
+		if ($newCautionneur->id == $this->getMember()->id) {
 			flash()->error(trans('loan.cautionneur_should_not_be_the_same_as_the_member_requesting_loan'));
 			return false;
 		}
-		// Add this to loan input
-		$this->addLoanInput([$arrayKey=>$cautionneurs[$arrayKey]->id]);
 
+		// Only set if this is not empty
+		if (!empty($cautionneurs)) {
+	        $allCautionneurs['cautionneur1'] = $cautionneurs;
+	        $allCautionneurs['cautionneur2'] = $newCautionneur;
+		}
+		else
+		{
+			$allCautionneurs['cautionneur1'] = $newCautionneur;
+		}
+
+		// Add this to loan input
+		$this->addLoanInput([$arrayKey=>$newCautionneur->id]);
 		flash()->success(trans('loan.cautionneur_has_been_added_successfully'));
-		Session::put('cautionneurs', $cautionneurs);
+		Session::put('cautionneurs', $allCautionneurs);
 	}
 
 	/**
@@ -214,13 +240,15 @@ class LoanFactory {
 
 		Session::put('', $cautionneurs);
 	}
+
 	/**
 	 * Get cautionneurs set
 	 * @return  array of cautionneur
 	 */
 	public function getCautionneurs() {
-		return Session::get('cautionneurs', []);
+		return Session::get('cautionneurs',new Collection([]));
 	}
+    
 
 	/**
 	 * Setting the debit accounts and their value
@@ -325,16 +353,16 @@ class LoanFactory {
             // If this group doesn't have access then 
             // go to the next group
             
-            if (!$group->hasAccess('leaves.leaves.approve')) {
+            if (!$group->hasAccess('loan.can.approve.loan')) {
                 continue;
             }
 
             // Group has access let's notify them
            foreach ($group->users as $user) {
-               Notifynder::category('leave.leave')
+               Notifynder::category('loan.approval')
                    ->from($this->user->id)
                    ->to($user->id)
-                   ->url(route('leaves.index'))
+                   ->url(route('loan.status',['transactionid'=>$transactionId]))
                    ->send();
            }
 		}
@@ -549,6 +577,7 @@ class LoanFactory {
 		$loanDetails = $this->getLoanInputs();
       
 		$loanToRepay = isset($loanDetails['loan_to_repay'])?$loanDetails['loan_to_repay']:0;
+		$wishedAmount = isset($loanDetails['loan_to_repay']) ?  $loanDetails['loan_to_repay'] : round(($loanToRepay * $this->wishedAmountPercentage), 0);
 		$interestRate = $this->getInterestRate();
 		$numberOfInstallment = $this->getTranschesNumber();
 		// Interest formular
@@ -568,9 +597,8 @@ class LoanFactory {
 		$netToReceive = $loanToRepay - $interests;
 
 		// Update fields
-
 		$this->addLoanInput(['right_to_loan' => round(($loanToRepay * $this->wishedAmountPercentage), 0)]);
-		$this->addLoanInput(['wished_amount' => round(($loanToRepay * $this->wishedAmountPercentage), 0)]);
+		$this->addLoanInput(['wished_amount' => $wishedAmount]);
 		$this->addLoanInput(['interests' => round($interests, 0)]);
 		$this->addLoanInput(['net_to_receive' => round($netToReceive, 0)]);
 		$this->addLoanInput(['monthly_fees' => round(($loanToRepay / $numberOfInstallment), 0)]);
