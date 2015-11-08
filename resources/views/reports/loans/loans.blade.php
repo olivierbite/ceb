@@ -19,7 +19,7 @@
 	</thead>
 
 	<tbody>
-		@each ('reports.loans.item', $loans, 'loan', 'empty.view')
+		@each ('reports.loans.item', $loans, 'loan', 'partials.no-item')
 	</tbody>
 </table>	
 {!! method_exists(get_class($loans),'render') ? $loans->render() : null !!}

@@ -7,7 +7,7 @@
 	<td>{{ $member->right_to_loan }} </td>
 	<td>{{ $loan->wished_amount }} </td>
 	<td>{{ $loan->rate }}</td>
-	<td>{{ $loan->tranches_number }}.</td>
+	<td>{{ $loan->tranches_number }}</td>
 	<td>{{ $loan->monthly_fees }} </td>
 	<td>{{ $loan->loan_to_repay }}</td>
 	<td>{{ $loan->interests }}</td>

@@ -461,7 +461,7 @@ class LoanFactory {
 		$data['special_loan_tranches'] = 0;
 		$data['special_loan_interests'] = 0;
 		$data['special_loan_amount_to_receive'] = 0;
-		$data['rate'] = $inputs['rate'];
+		$data['rate'] = $this->getInterestRate();
 		$data['user_id'] = Sentry::getUser()->id;
 
         $newLoan = $this->loan->create($data);

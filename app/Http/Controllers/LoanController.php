@@ -290,7 +290,7 @@ class LoanController extends Controller {
    }
 
 
-   public function getPending($transactionId = null)
+   public function getPending($loanId = null)
    {
    	    // First check if the user has the permission to do this
         if (!$this->user->hasAccess('loan.can.approve.loan')) {
@@ -302,9 +302,9 @@ class LoanController extends Controller {
         // First log 
         Log::info($this->user->email . ' is viewing pending loan');
 
-        if (!is_null($transactionId)) {
+        if (!is_null($loanId)) {
         	// we are looking for a special loan, let's grab it  	
-	   		$loans = $this->loan->pending()->findByTransaction($transactionId)->paginate(20);;
+	   		$loans = $this->loan->pending()->where('id',$loanId)->paginate(20);;
         }
         else
         {

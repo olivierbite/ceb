@@ -13,7 +13,7 @@ class AddRateToLoansTable extends Migration
     public function up()
     {
         Schema::table('loans', function (Blueprint $table) {
-            if (Schema::hasColumn('laons', 'rate')) {
+            if (Schema::hasColumn('laons', 'rate') == false) {
                 $table->decimal('rate',10,2);
             }
         });

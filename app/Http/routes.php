@@ -53,7 +53,7 @@ Route::group(['prefix'=>'loans'], function(){
 	Route::get('/complete', ['as' => 'loan.complete', 'uses' => 'LoanController@complete']);
 	Route::post('/complete', ['as' => 'loan.complete', 'uses' => 'LoanController@complete']);
 	Route::get('/setcautionneur', ['as' => 'loan.add.cautionneur', 'uses' => 'LoanController@setCautionneur']);
-	Route::get('/pending/{transactionId?}', ['as' => 'loan.pending', 'uses' => 'LoanController@getPending']);
+	Route::get('/pending/{loanId?}', ['as' => 'loan.pending', 'uses' => 'LoanController@getPending']);
 	Route::get('/process/{loanId}/{status}', ['as' => 'loan.process', 'uses' => 'LoanController@process']);
 
 	Route::get('/remove/cautionneur/{cautionneur}',
