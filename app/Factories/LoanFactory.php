@@ -167,7 +167,7 @@ class LoanFactory {
 		$cautionneurs = $this->getCautionneurs();
 
 		// Get rid of any empty array element we may have
-        $cautionneurs = array_filter($cautionneurs);
+        $cautionneurs = is_array($cautionneurs) ? array_filter($cautionneurs):[];
 
         $cautionneurs = array_shift($cautionneurs);
 
