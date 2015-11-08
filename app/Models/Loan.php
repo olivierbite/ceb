@@ -136,7 +136,7 @@ class Loan extends Model {
 	 */
 	public function scopeFindByTransaction($query,$transactionId)
 	{
-		return $query->where('transactionid','=',$transactionId)->first();
+		return $query->where('transactionid','=',$transactionId);
 	}
 
 	/**

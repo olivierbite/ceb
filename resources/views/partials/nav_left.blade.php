@@ -35,10 +35,24 @@
               </a>
             </li>
             <li class="{{ (Request::is('loan*') ? 'active' : '') }} ">
-              <a href="{{ route('loans.index') }}">
-                <i class="fa fa-dashboard"></i>
+              <a href="#">
+                <i class="fa fa-money"></i>
                 <span>{{ trans('navigations.loans') }}</span>
+               <i class="fa fa-angle-left pull-right"></i>
               </a>
+              <ul class="treeview-menu {{ (Request::is('loan*') ? 'class="active"' : '') }}">
+                <li>
+                  <a href="{{ route('loans.index') }}">
+                  <i class="fa fa-money"></i>{{ trans('navigations.give_loan') }}
+                  </a>
+                </li>
+
+                <li >
+                  <a href="{{ route('loan.pending') }}">
+                  <i class="fa fa-money"></i>{{ trans('navigations.pending_loans') }}
+                  </a>
+                </li>
+              </ul>
             </li>
            <li class="{{ (Request::is('regularisation*') ? 'active' : '') }} ">
               <a href="{{ route('regularisation.index') }}">

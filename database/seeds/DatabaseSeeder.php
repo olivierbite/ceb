@@ -14,9 +14,9 @@ class DatabaseSeeder extends Seeder
     {
         Model::unguard();
 
-        $this->call(LoanRateSeeder::class);
-        $this->call(settingTableSeeder::class);
-        $this->call(NotificationCategoriesSeeder::class);
+            $this->call(LoanRateSeeder::class);
+            $this->call(settingTableSeeder::class);
+            $this->call(NotificationCategoriesSeeder::class);
 
         Model::reguard();
     }
