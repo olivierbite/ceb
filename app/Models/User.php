@@ -241,6 +241,7 @@ class User extends Model {
 	{
 		return $this->totalLoans() - $this->totalRefunds();
 	}
+
 	/**
 	 * Get remaining payment installment
 	 * 
@@ -255,12 +256,30 @@ class User extends Model {
 
 		return round($this->loanBalance() / $this->latestLoan()->monthly_fees);
 	}
+
+	/**
+	 * Get the remaining tranches for this member
+	 * @return  number
+	 */
+	public function getRemainingTranchesAttribute()
+	{
+		return $this->remainingInstallment();
+	}
 	/**
 	 * Determine if this member has active Loan
 	 *
 	 * @return  bool
 	 */
 	public function hasActiveLoan() {
+		return $this->loanBalance() > 0;
+	}
+
+	/**
+	 * Check if a user has active loan
+	 * @return  bool
+	 */
+	public function getHasActiveLoanAttribute()
+	{
 		return $this->loanBalance() > 0;
 	}
 
@@ -293,7 +312,7 @@ class User extends Model {
 
 	/**
 	 * right_to_loan_attribute
-	 * @return [type] [description]
+	 * @return 
 	 */
 	public function getRightToLoanAttribute()
 	{
@@ -305,7 +324,7 @@ class User extends Model {
 	 * @return  numeric
 	 */
 	public function totalLoans() {
-		return $this->loans()->sum('loan_to_repay');
+		return $this->loans()->approved()->sum('loan_to_repay');
 	}
 
 	/**
@@ -321,7 +340,7 @@ class User extends Model {
 	 * @return user Object
 	 */
 	public function latestLoan() {
-		return $this->loans()->orderBy('created_at', 'desc')->first();
+		return $this->loans()->approved()->orderBy('created_at', 'desc')->first();
 	}
 	/**
 	 * Find a member by his adhersion ID
@@ -473,7 +492,7 @@ class User extends Model {
 	{
 		// If this user has the right, then pass the query otherwise
 		// Fail the query intentionally 	
-		dd($permissions,$this->hasAccess($permissions));
+		
 		if ($this->hasAccess($permissions) == true) {
 			return $query->where(DB::raw('1=1'));
 		}

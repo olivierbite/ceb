@@ -22,21 +22,33 @@
    {!! Form::open(['method'=>'POST','url'=>route('loan.complete')]) !!}
 	@include('loansandrepayments.client_information_form')
     
+	{{-- 
+		If the member has been selected then check if he has 
+		 active loan if he does display active loans information
+	 --}}
+
+	@if (!empty($member))
+		@if ($member->has_active_loan == true)
+			@include('loansandrepayments.previous_loan_details',['member'=>$member])
+		@endif
+	@endif
+
+    @include('loansandrepayments.ordinary_loan_form')
     {{-- {!! dd($loanInputs['operation_type']) !!} --}}
 
-	@if (strpos($loanInputs['operation_type'], 'ordinary_loan') !== FALSE)
+{{-- 	@if (strpos($loanInputs['operation_type'], 'ordinary_loan') !== FALSE)
 
-		@include('loansandrepayments.ordinary_loan_form')  {{-- This is ordinary loan type --}}
+		@include('loansandrepayments.ordinary_loan_form')
 
 	@elseif (strpos($loanInputs['operation_type'], 'special_loan') !== FALSE)
 
-		@include('loansandrepayments.special_loan_form') {{-- This is special loan --}}
+		@include('loansandrepayments.special_loan_form')
 
 	@elseif (strpos($loanInputs['operation_type'], 'social_loan') !== FALSE)
 
-		@include('loansandrepayments.ordinary_loan_form') {{-- This is special loan --}}
+		@include('loansandrepayments.ordinary_loan_form')
 
-	@endif
+	@endif --}}
 
 	@include('loansandrepayments.caution_form')
 	
