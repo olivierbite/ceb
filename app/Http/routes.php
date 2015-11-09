@@ -66,6 +66,7 @@ Route::group(['prefix'=>'loans'], function(){
 Route::resource('loans', 'LoanController');
 
 /** regularisation */
+Route::get('regularisation/type/{type?}', ['as'=>'regularisation.type','uses'=>'RegularisationController@index']);
 Route::resource('regularisation', 'RegularisationController');
 
 /** Refunds routes */

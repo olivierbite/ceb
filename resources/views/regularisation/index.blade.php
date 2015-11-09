@@ -8,9 +8,9 @@
 @section('content')
 
   {{-- @include('loansandrepayments.index_buttons') --}}
-   {!! Form::open(['method'=>'POST','url'=>route('loan.complete')]) !!}
+   {!! Form::open(['method'=>'PUT','url'=>route('regularisation.update',$member->latestLoan()->id)]) !!}
     @include('regularisation.client_information_form')
-
+     {!! Form::hidden('regularisationType', $regularisationType) !!}
     @if (!empty($member))
     @if ($member->has_active_loan == true)
       @include('loansandrepayments.previous_loan_details',['member'=>$member])
@@ -19,19 +19,19 @@
   
   @include('regularisation.form')
 
-  
   @include('partials.wording')
-
-  @include('accounting.form')
+  
+  @if ($regularisationType == 'both' || $regularisationType == 'amount') 
+    @include('accounting.form')
+  @endif
 
 @stop
 
  @if ($loan != null )
 @section('content_footer')
-    @include('partials.buttons',['completeRoute'=>'loan.complete','cancelRoute'=>'loan.cancel'])
+     @include('partials.buttons',['cancelRoute'=>'regularisation.index'])
     {!! Form::close() !!}
-
-@stop
+@endsection
 @endif
 
 @else

@@ -58,7 +58,26 @@
               <a href="{{ route('regularisation.index') }}">
                 <i class="fa fa-dashboard"></i>
                 <span>{{ trans('navigations.regularisation') }}</span>
+               <i class="fa fa-angle-left pull-right"></i>
               </a>
+              <ul class="treeview-menu {{ (Request::is('regularisation*') ? 'class="active"' : '') }}">
+                <li>
+                  <a href="{{ route('regularisation.type',['type'=>'installments']) }}">
+                  <i class="fa fa-money"></i>{{ trans('navigations.regularisation_installments') }}
+                  </a>
+                </li>
+
+                <li>
+                  <a href="{{ route('regularisation.type',['type'=>'amount']) }}">
+                  <i class="fa fa-money"></i>{{ trans('navigations.regularisation_amount') }}
+                  </a>
+                </li>
+                <li>
+                  <a href="{{ route('regularisation.type',['type'=>'both']) }}">
+                  <i class="fa fa-money"></i>{{ trans('navigations.regularisation_both') }}
+                  </a>
+                </li>
+              </ul>
             </li>
             <li class="{{ (Request::is('refund*') ? 'active' : '') }} ">
               <a href="{{ route('refunds.index') }}">

@@ -136,6 +136,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
 		$views = [
 			'accounting.journal',
 			'members.transactions',
+			'regularisation.index',
 			'loansandrepayments.ordinary_loan_form',
 			'loansandrepayments.special_loan_form',
 		];
