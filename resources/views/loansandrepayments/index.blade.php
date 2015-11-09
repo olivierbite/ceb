@@ -14,7 +14,7 @@
 	  win.focus();
 	}
 	
-	print('{!! route('reports.members.contracts.loan',['loanId' => $loanId,'excel'=>0]) !!}');
+	 // print('{!! route('reports.members.contracts.loan',['loanId' => $loanId,'excel'=>0]) !!}');
 	</script>
 	@endif
 

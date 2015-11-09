@@ -417,11 +417,19 @@ class User extends Model {
      * Get name attributes
      * @return  string
      */
-    public function getNamesAttributes()
+    public function getNamesAttribute()
     {
     	return $this->first_name .' '.$this->last_name;
     }
 
+    /**
+     * Get institution attribute
+     * @return  
+     */
+    public function getInstitutionNameAttribute()
+    {
+    	return $this->institution->name;
+    }
     /**
      * Use a mutator to derive the appropriate hash for this user
      *
