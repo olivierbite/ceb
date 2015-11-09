@@ -1,7 +1,9 @@
 <?php
 namespace Ceb\ViewComposers;
 
-use Ceb\Repositories\Loan\LoanRepository;
+use Ceb\Models\Institution;
+use Ceb\Models\Loan;
+use Ceb\Models\User;
 use Illuminate\Contracts\View\View;
 
 /**
@@ -9,19 +11,23 @@ use Illuminate\Contracts\View\View;
  */
 class DashboardViewComposer {
 	
-	public $loans;
+	public $dashboard  = [];
 
-	function __construct(LoanRepository $loanRepository) {
+	function __construct(Institution $institution,Loan $loan,User $member) {
 
-		$this->loans['ordinary_loan'] 			= $loanRepository->getOrdinaryLoanSum();
-		$this->loans['social_loan']				= $loanRepository->getSocialLoanSum();
-		$this->loans['special_loan'] 			= $loanRepository->getSpecialLoanSum();
-		$this->loans['urgent_ordinary_loan'] 	= $loanRepository->getUrgentOrdinaryLoanSum();
-		$this->loans['outstanding_loan']		= $loanRepository->getOutStandingAmount();
-		$this->loans['fullpaid']				= $loanRepository->FullPaid();
+		$this->dashboard['ordinary_loan'] 			= $loan->ofStatus('approved')->ofType('ordinary_loan')->count();
+		$this->dashboard['social_loan']				= $loan->ofStatus('approved')->ofType('social_loan')->count();
+		$this->dashboard['special_loan'] 			= $loan->ofStatus('approved')->ofType('special_loan')->count();
+		$this->dashboard['urgent_ordinary_loan'] 	= $loan->ofStatus('approved')->ofType('urgent_ordinary_loan')->count();
+		$this->dashboard['outstanding_loan']		= $loan->sumOutStanding();
+		$this->dashboard['left_members_count']		= $member->hasLeft()->count();
+		$this->dashboard['active_members_count']	= $member->isActive()->count();
+		$this->dashboard['institutions']			= $institution->count();
+		$this->dashboard['outstandingLoans']		= $loan->countOutStanding();
+		$this->dashboard['paidLoans']				= $loan->countPaid();				
 	}
 
 	public function compose(View $view) {
-		$view->with('dashboarddata',$this->loans);
+		$view->with('dashboarddata',$this->dashboard);
 	}
 }

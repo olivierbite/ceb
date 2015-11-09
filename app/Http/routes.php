@@ -152,7 +152,5 @@ Route::get('settings/users', ['as' => 'ceb.settings.users.index', 'uses' => 'Use
 
 $router->get('/test/{start?}/{end?}',function($start=1,$end=12)
 	{
-		$categories = Fenos\Notifynder\Models\NotificationCategory::all()->toArray();
-
-		dd( $categories );
+	   dd((new Ceb\Models\Loan)->countOutStanding());
 	});

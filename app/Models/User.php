@@ -342,6 +342,28 @@ class User extends Model {
 	{
 		return $query->where('adhersion_id',$adhersion_id);		
 	}
+
+	/**
+	 * Get member who has left
+	 * @param  $query 
+	 * @return  
+	 */
+	public function scopeHasLeft($query)
+	{
+		return $query->whereNotNull('termination_date');
+	}
+
+	/**
+	 * Get member who are active
+	 * @param  $query 
+	 * @return 
+	 */
+	public function scopeIsActive($query)
+	{
+		return $query->whereNull('termination_date');
+	}
+
+	
 	/**
      * Set the user's first name.
      *
