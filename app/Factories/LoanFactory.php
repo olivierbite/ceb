@@ -362,7 +362,7 @@ class LoanFactory {
                Notifynder::category('loan.approval')
                    ->from($this->user->id)
                    ->to($user->id)
-                   ->url(route('loan.status',['transactionid'=>$transactionId]))
+                   ->url(route('loan.pending',['loanid'=>$saveLoan->id]))
                    ->send();
            }
 		}
@@ -461,6 +461,7 @@ class LoanFactory {
 		$data['special_loan_tranches'] = 0;
 		$data['special_loan_interests'] = 0;
 		$data['special_loan_amount_to_receive'] = 0;
+		$data['rate'] = $this->getInterestRate();
 		$data['user_id'] = Sentry::getUser()->id;
 
         $newLoan = $this->loan->create($data);
@@ -603,6 +604,7 @@ class LoanFactory {
 		$this->addLoanInput(['net_to_receive' => round($netToReceive, 0)]);
 		$this->addLoanInput(['monthly_fees' => round(($loanToRepay / $numberOfInstallment), 0)]);
 		$this->addLoanInput(['adhersion_id' => $this->getMember()->adhersion_id]);
+		$this->addLoanInput(['rate' => $interestRate]);
 
 		// Add cautionneur
 		foreach ($this->getCautionneurs() as $key => $value) {

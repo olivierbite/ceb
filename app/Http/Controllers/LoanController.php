@@ -245,7 +245,7 @@ class LoanController extends Controller {
 	 * @param  $transactionId 
 	 * @return 
 	 */
-   public function status(User $user,$transactionId)
+   public function process($loanId,$toSetstatus)
    {
    	    // First check if the user has the permission to do this
         if (!$this->user->hasAccess('loan.check.loan.status')) {
@@ -254,19 +254,64 @@ class LoanController extends Controller {
             return redirect()->back();
         }
 
-        // First log 
-        Log::info($this->user->email . ' is checking loan status');
-	
-   		$loan = $this->loan->findByTransaction($transactionId);
-   		$member = $loan->member;
+        /** we can only allow to reject or approve a loan */
+        if ((strtolower($toSetstatus) !== 'rejected') && (strtolower($toSetstatus) !== 'approved')) {
+        	flash()->error(trans('loan.loan_can_either_be_approved_or_rejected'));
+        	return redirect()->back();
+        }
 
-   	    /**
-   	     * @todo add option to  mark notification as read
-   	     * 
-   	     */
-        if ($loan == null) {
-            flash()->warning(trans('loan.the_loan_you_are_looking_for_does_not_exist'));
-         }
-       return view('regularisation.index',compact('loan','member'));
+        // First log 
+        Log::info($this->user->email . ' is checking loan status');	
+
+   		$loan = $this->loan->pending()->find($loanId);
+
+   		if (is_null($loan)) {
+   			flash()->worning(trans('loan.we_could_not_find_the_loan_you_are_looking_for'));
+   			return redirect()->back();
+   		}
+
+  		$loan->status = strtolower($toSetstatus);
+  		
+  		$isWellUpdated = $loan->save();
+
+	  	flash()->success(trans('loan.loan_with_transaction_id_'.$loan->transactionid.'_has_been_'.$loan->status));
+
+  		if(($isWellUpdated == true) && (strtolower($toSetstatus) === 'approved'))
+  		{
+	  		/**
+	   	     * @todo add option to  mark notification as read
+	   	     * 
+	   	     */
+	  		return redirect()->route('reports.members.contracts.loan',['loanId'=>$loan->member->id]);
+  		}
+
+  		return redirect()->route('loan.pending');
+   	    
+   }
+
+
+   public function getPending($loanId = null)
+   {
+   	    // First check if the user has the permission to do this
+        if (!$this->user->hasAccess('loan.can.approve.loan')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
+
+            return redirect()->back();
+        }
+
+        // First log 
+        Log::info($this->user->email . ' is viewing pending loan');
+
+        if (!is_null($loanId)) {
+        	// we are looking for a special loan, let's grab it  	
+	   		$loans = $this->loan->pending()->where('id',$loanId)->paginate(20);;
+        }
+        else
+        {
+	   		$loans = $this->loan->with('member.institution')->pending()->paginate(20);
+        }
+
+   	    return view('reports.loans.loans',compact('loans'));
+
    }
 }

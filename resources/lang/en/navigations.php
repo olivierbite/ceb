@@ -20,6 +20,8 @@ return array (
   'help' => 'Aide',
   'refund' => 'Refund',
   'loans' => 'Loans',
+  'give_loan' => 'Give loan',
+  'pending_loans' =>'Pending loans',
   'user' => 'Users',
   'groups' => 'Groups',
   'refunds' => 'Refunds',

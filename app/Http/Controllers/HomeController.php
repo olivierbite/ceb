@@ -16,7 +16,7 @@ class HomeController extends Controller
     public function index()
     {
     	// If this person is a ceb MEMBER then take him to his profile
-    	if ($this->user->hasAccess('ceb.view.own.profile')) {
+    	if ($this->user->hasAccess('ceb.view.own.profile') && !$this->user->hasAccess('admin')) {
     		return redirect()->route('members.show',$this->user->id);
     	}
     	return view('partials.dashboard');
