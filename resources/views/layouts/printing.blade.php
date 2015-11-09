@@ -42,6 +42,7 @@
             </h2>
           </div><!-- /.col -->
         </div>
+        <img src="{!! url('assets/images/header.png') !!}" style=" display: block;margin-left: auto;margin-right: auto;">
         {!! $report !!}
           <div class="row no-print">
             <div class="col-xs-12">

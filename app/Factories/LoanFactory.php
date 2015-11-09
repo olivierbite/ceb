@@ -49,11 +49,15 @@ class LoanFactory {
 			return false;
 		}
 
-		if ($member->right_to_loan < 1) {
-			flash()->error(trans('loan.this_member_doesnot_have_enough_right_to_loan_because_he_has_pending_loans'));
-			$this->cancel();
-			return false;
-		}
+		/** If we are allowed to provide loan to people with negative right to loan */
+	 	if ($this->setting->keyValue('loan.allow.member.with.negative.right.to.loan') == 0) {
+	 		if ($member->right_to_loan < 1) {
+				flash()->error(trans('loan.this_member_doesnot_have_enough_right_to_loan_because_he_has_pending_loans'));
+				$this->cancel();
+				return false;
+			}
+	 	}
+		
 
 		Session::put('loan_member', $member);
 

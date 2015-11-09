@@ -2,6 +2,8 @@
 
 namespace Ceb\Models;
 
+use Illuminate\Support\Facades\DB;
+
 class Loan extends Model {
 		/**
      * The attributes that should be mutated to dates.
@@ -188,5 +190,60 @@ class Loan extends Model {
     public function scopeRejected($query)
     {
         return $query->where('status', '=','rejected');
+    }
+
+    /**
+     * Count paid loans
+     * @return number;
+     */
+    public function countPaid()
+    {
+    	$count=  DB::select("SELECT count(1) as count
+    						FROM 
+								(SELECT adhersion_id,sum(loan_to_repay) loan FROM loans where status = 'approved' group by adhersion_id) 
+									as a
+							LEFT JOIN 
+								(SELECT adhersion_id,sum(amount) refund FROM refunds group by adhersion_id) 
+						     	   as b
+							ON a.adhersion_id = b.adhersion_id 
+							WHERE a.loan <= b.refund
+						");
+
+     	return array_shift($count)->count;
+    }
+
+    /**
+     * Count loan with outstanding money
+     * @return number;
+     */
+    public function countOutStanding()
+    {
+    	$count=  DB::select("SELECT count(1) as count
+    						FROM 
+								(SELECT adhersion_id,sum(loan_to_repay) loan FROM loans where status = 'approved' group by adhersion_id) 
+									as a
+							LEFT JOIN 
+								(SELECT adhersion_id,sum(amount) refund FROM refunds group by adhersion_id) 
+						     	   as b
+							ON a.adhersion_id = b.adhersion_id
+							WHERE a.loan > b.refund
+						");
+
+     	return array_shift($count)->count;
+    }
+
+    /**
+     * Sum  outstanding loan amount
+     * @return number;
+     */
+    public function sumOutStanding()
+    {
+    	$sum=  DB::select("SELECT sum(a.loan_to_repay) - sum(b.amount) as amount
+	    						FROM 
+									(select sum(loan_to_repay) as loan_to_repay FROM loans WHERE status = 'approved') as a,
+									refunds as b 
+						   ");
+
+     	return array_shift($sum)->amount;
     }
 }

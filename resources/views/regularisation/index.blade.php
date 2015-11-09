@@ -10,11 +10,19 @@
   {{-- @include('loansandrepayments.index_buttons') --}}
    {!! Form::open(['method'=>'POST','url'=>route('loan.complete')]) !!}
     @include('regularisation.client_information_form')
-    
-    @if ($loan != null )
-	    @include('regularisation.form') 
-	    @include('regularisation.caution_form')
+
+    @if (!empty($member))
+    @if ($member->has_active_loan == true)
+      @include('loansandrepayments.previous_loan_details',['member'=>$member])
     @endif
+  @endif
+  
+  @include('regularisation.form')
+
+  
+  @include('partials.wording')
+
+  @include('accounting.form')
 
 @stop
 

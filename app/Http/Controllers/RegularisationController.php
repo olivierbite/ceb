@@ -52,7 +52,8 @@ class RegularisationController extends Controller
        if (!is_null($id)) {  
         $member =  $this->member->findOrFail($id);
         $loan  = $member->latestLoan();
-        if ($loan == null) {
+        
+        if ($member->has_active_loan == false) {
             flash()->warning(trans('regularisation.this_member_doesnot_have_loan_to_regulate'));
         }
        }
