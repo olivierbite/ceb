@@ -12,9 +12,12 @@ return array (
   'action'=>'Action',
   'date'=>'Date',
   'close'=>'Close',
-  'Save'=>'Save',
+  'save'=>'Save',
   'download_sample'=>'Download Sample',
   'libelle'=>'Wording',
   'reason_for_this_transaction'=>'Reason of this transaction',
   'options'=>'Options',
+  'write_your_wording'=>'Write your  wording',
+  'cheque_number'=>'Cheque number',
+
 );
