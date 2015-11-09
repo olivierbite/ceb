@@ -45,15 +45,15 @@
    </div>
   </div>
 
-  @if (isset($loanInputs['tranches_number']) && !strpos($loanInputs['tranches_number'],'ordinary_loan'))
-    {{-- Show contract number when this one is not an ordinary loan --}}
-  
+  @if (strtolower($loanInputs['operation_type']) == 'urgent_ordinary_loan')
   <div class="col-md-3">
   <div class="form-group">
-   <label>{{ trans('loan.remaining_installements') }}</label>
-  {!! Form::input('text', 'remaining_installements',isset($loanInputs['remaining_installements'])?$loanInputs['remaining_installements']:null,
-                  ['class'=>'form-control loan-input'])
-    !!}
+    <div class="checkbox checkbox-warning">
+          <input id="checkbox2" class="styled administration_fees" checked type="checkbox" value="{!! Ceb\Models\Setting::keyValue('loan.administration.fee') !!}" name="administration_fees">
+          <label for="checkbox2" style="font-weight: 800;">
+             {{ trans('loan.administration_fees') }}
+          </label>
+      </div>
   </div>
   </div>
 @endif
@@ -84,14 +84,16 @@
     !!}
   </div>
   </div>
+  @if (strtolower($loanInputs['operation_type']) == 'urgent_ordinary_loan')
   <div class="col-md-3">
   <div class="form-group">
    <label>{{ trans('loan.interest_on_urgently_loan ') }}</label>
   {!! Form::input('text', 'interest_on_urgently_loan',isset($loanInputs['interest_on_urgently_loan'])?$loanInputs['interest_on_urgently_loan']:null,
-                  ['class'=>'form-control loan-input','id'=>'interest_on_urgently_loan'])
+                  ['class'=>'form-control loan-input','id'=>'interest_on_urgently_loan','disabled'=>true])
     !!}
   </div>
   </div>
+    @endif
 </div>
 
 <div class="row">

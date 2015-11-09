@@ -128,15 +128,31 @@ jQuery(document).ready(function($) {
 		
 		var interests = (loanToRepay * (interestRate*numberOfInstallment)) / (1200 +(interestRate*numberOfInstallment));
 		var netToReceive = loanToRepay - interests;
-		
+		var administration_fees = 2;
+		var operation_type  	= $('#operation_type').val();
+		var urgent_loan_interests = 0;
 		// Update fields		
 		$('#interests').val(Math.round(interests) );
 		data[$('#interests').attr('name')] = $('#interests').val();
-
-		$('#netToReceive').val(Math.round(netToReceive) );
-		data[$('#netToReceive').attr('name')] = $('#netToReceive').val();
         
     	$('#monthlyInstallments').val(Math.round((loanToRepay/numberOfInstallment)) );
+
+        // If this loan is urgent loan, then calculate administration fees
+		// And remove it from the net_to_receive
+		if (operation_type.toLowerCase() == 'urgent_ordinary_loan') {
+			
+			 urgent_loan_interests = loanToRepay * (administration_fees / 100);
+
+			$('#interest_on_urgently_loan').val(parseInt(urgent_loan_interests));
+			$('#netToReceive').val(parseInt(netToReceive - urgent_loan_interests ));
+			data[$('#netToReceive').attr('name')] = $('#netToReceive').val();
+		}
+		else{
+			$('.administration_fees').css('display', 'none');
+			$('#netToReceive').val(Math.round(netToReceive) );
+			data[$('#netToReceive').attr('name')] = $('#netToReceive').val();
+		};
+
   		
   		// If the amount to repay is less or equal to the 
   		// User total contributions then there is no 
@@ -164,9 +180,13 @@ jQuery(document).ready(function($) {
 
 	function calculateUrgentLoanFees(){
 		if ($('#operation_type').val()=='urgent_ordinary_loan') {
+
 			if (loanToRepay > 0 ) {
 				$('#interest_on_urgently_loan').val(Math.round((loanToRepay*.02)) );
+				return true;
 			};
+
+
 			$('#interest_on_urgently_loan').val(0);
 			return true;
 		};
@@ -252,7 +272,7 @@ jQuery(document).ready(function($) {
    	  */
    	function validateOrdinaryLoan(element){
    		var letterDate = new Date(element.val());
-   		calculateUrgentLoanFees();
+   		// calculateUrgentLoanFees();
    	   	// if (letterDate.getDate() > 15) {
    	   	// 	$('#operation_type').val('urgent_ordinary_loan');
    	   	// 	return ;

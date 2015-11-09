@@ -17,4 +17,15 @@ class Setting extends Model {
     {
     	return $query->where('key',$key)->first()->value;
     }
+
+    /**
+     * Determine if the key exists
+     * @param  $query 
+     * @param   $key   
+     * @return  
+     */
+    public function hasKey($key)
+    {
+    	return $this->where('key',$key)->count() > 0;
+    }
 }

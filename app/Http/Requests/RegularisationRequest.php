@@ -60,6 +60,7 @@ class RegularisationRequest extends Request
         // Grab all inputs from the user
         $attributes = parent::all();
 
+        dd($attributes);
         // Continue only if the method is get 
          if ($this->isMethod('get')) {
            return $attributes;

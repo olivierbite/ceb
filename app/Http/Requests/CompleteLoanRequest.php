@@ -5,6 +5,7 @@ namespace Ceb\Http\Requests;
 use Cartalyst\Sentry\Facades\Laravel\Sentry;
 use Ceb\Factories\LoanFactory;
 use Ceb\Http\Requests\Request;
+use Ceb\Models\Setting;
 use Ceb\Models\User;
 
 
@@ -15,9 +16,10 @@ class CompleteLoanRequest extends Request
      */
     protected $loanFactory;
 
-    function __construct(LoanFactory $loanFactory,User $member) {
+    function __construct(LoanFactory $loanFactory,User $member,Setting $setting) {
         $this->loanFactory = $loanFactory;
         $this->member = $member;
+        $this->setting = $setting;
     }
 
     public function authorize()
@@ -37,11 +39,21 @@ class CompleteLoanRequest extends Request
         if ($this->isMethod('get')) {
            return [];
         }
+
+        $attributes = parent::all();
+
+        $rightToLoan = $this->member->findByAdhersion($attributes['adhersion_id'])->right_to_loan;
+
+        // Validate the right to loan
+        $settingKey = strtolower($attributes['operation_type']).'.amount';
+        if ($this->setting->hasKey($settingKey) !== false) {
+           $rightToLoan = $this->setting->keyValue($settingKey);
+        }
      
       //Continue with Rule validation
         return [
           'operation_type'    =>  'required|min:3',
-          'loan_to_repay'     =>  'required|numeric|min:5000',
+          'loan_to_repay'     =>  'required|numeric|min:5000|max:'.$rightToLoan,
           'wording'           =>  'required|min:6',
           'cheque_number'     =>  'required|alpha_dash|min:5',
           'bank'              =>  'required|min:1',

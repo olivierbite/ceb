@@ -466,6 +466,7 @@ class LoanFactory {
 		$data['special_loan_interests'] = 0;
 		$data['special_loan_amount_to_receive'] = 0;
 		$data['rate'] = $this->getInterestRate();
+		$data['urgent_loan_interests']  = $inputs['urgent_loan_interests'];
 		$data['user_id'] = Sentry::getUser()->id;
 
         $newLoan = $this->loan->create($data);
@@ -584,6 +585,7 @@ class LoanFactory {
 		$loanToRepay = isset($loanDetails['loan_to_repay'])?$loanDetails['loan_to_repay']:0;
 		$wishedAmount = isset($loanDetails['loan_to_repay']) ?  $loanDetails['loan_to_repay'] : round(($loanToRepay * $this->wishedAmountPercentage), 0);
 		$interestRate = $this->getInterestRate();
+		$administration_fees = (int) $this->setting->keyValue('loan.administration.fee');
 		$numberOfInstallment = $this->getTranschesNumber();
 		// Interest formular
 		// The formular to calculate interests at ceb is as following
@@ -606,9 +608,18 @@ class LoanFactory {
 		$this->addLoanInput(['wished_amount' => $wishedAmount]);
 		$this->addLoanInput(['interests' => round($interests, 0)]);
 		$this->addLoanInput(['net_to_receive' => round($netToReceive, 0)]);
+	    $this->addLoanInput(['urgent_loan_interests' => 0]);
 		$this->addLoanInput(['monthly_fees' => round(($loanToRepay / $numberOfInstallment), 0)]);
 		$this->addLoanInput(['adhersion_id' => $this->getMember()->adhersion_id]);
 		$this->addLoanInput(['rate' => $interestRate]);
+
+		// If this loan is urgent loan, then calculate administration fees
+		// And remove it from the net_to_receive
+		if (strtolower($loanDetails['operation_type']) == 'urgent_ordinary_loan') {
+		 $urgent_loan_interests = round($netToReceive, 0) * ($administration_fees / 100);
+		 $this->addLoanInput(['urgent_loan_interests' => $urgent_loan_interests]);
+		 $this->addLoanInput(['net_to_receive' =>  round($netToReceive, 0) - $urgent_loan_interests]);
+		}
 
 		// Add cautionneur
 		foreach ($this->getCautionneurs() as $key => $value) {
@@ -616,9 +627,6 @@ class LoanFactory {
 		}
         
 		return true;
-		// If loan to pay is less or equal to the
-		// Contributions then hide the caution section
-
 	}
 
 	/**

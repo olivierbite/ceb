@@ -43,7 +43,7 @@
    <div class="col-md-2">
   <div class="form-group">
    <div class="checkbox checkbox-warning">
-          <input id="checkbox2" class="styled" type="checkbox" checked="">
+          <input id="checkbox2" class="styled" type="checkbox" value="{!! Ceb\Models\Setting::keyValue('loan.administration.fee') !!}" name="administration_fees">
           <label for="checkbox2" style="font-weight: 800;">
              {{ trans('loan.administration_fees') }}
           </label>
