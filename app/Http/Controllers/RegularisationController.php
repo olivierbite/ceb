@@ -50,7 +50,8 @@ class RegularisationController extends Controller
         
         $previousUrl = new Collection(explode('/',URL::previous()));
 
-        $regularisationType = $previousUrl->last();
+        $regularisationType = strtolower($previousUrl->last());
+        
         $member =  $this->member;
         $loan  = $member->latestLoan(); 
         // If passed id is not null try to get the member

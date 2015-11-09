@@ -65,6 +65,11 @@ class RegularisationRequest extends Request
            return $attributes;
         }
 
+        /** We don't have to continue if regularisation type is installment */
+        if ($attributes['regularisationType'] == 'installments') {
+            return $attributes;
+        }
+
         // Set the member by his adhersion ID
         $memberId = $this->member->findByAdhersion($attributes['adhersion_id'])->id;
 
