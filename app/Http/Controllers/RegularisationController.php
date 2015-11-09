@@ -51,7 +51,7 @@ class RegularisationController extends Controller
         $previousUrl = new Collection(explode('/',URL::previous()));
 
         $regularisationType = strtolower($previousUrl->last());
-        
+
         $member =  $this->member;
         $loan  = $member->latestLoan(); 
         // If passed id is not null try to get the member
@@ -61,6 +61,7 @@ class RegularisationController extends Controller
 
         if ($member->has_active_loan == false) {
             flash()->warning(trans('regularisation.this_member_doesnot_have_loan_to_regulate'));
+            return redirect()->back();
         }
        }
        return view('regularisation.index',compact('loan','member','regularisationType'));

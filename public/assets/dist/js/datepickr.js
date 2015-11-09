@@ -183,12 +183,17 @@ var datepickr = (function() {
 		}
 		
 		element = buildCache[nodeName].cloneNode(false);
+
 		
 		if(attributes != null) {
 			for(var attribute in attributes) {
 				element[attribute] = attributes[attribute];
 			}
 		}
+		
+		if (element == null) {
+			return false;
+		};
 		
 		if(content != null) {
 			if(typeof(content) == 'object') {
@@ -287,13 +292,16 @@ var datepickr = (function() {
 		var inputLeft = inputTop = 0,
 		obj = this.element;
 		
+		if (typeof obj == 'undefined'|| typeof obj == null || obj == null) {
+			return false;
+		}
+
 		if(obj.offsetParent) {
 			do {
 				inputLeft += obj.offsetLeft;
 				inputTop += obj.offsetTop;
 			} while (obj = obj.offsetParent);
 		}
-		
 		var calendarContainer = buildNode('div', { className: 'calendar' });
 		calendarContainer.style.cssText = 'display: none; position: absolute; top: ' + (inputTop + this.element.offsetHeight) + 'px; left: ' + inputLeft + 'px; z-index: 100;';
 		
@@ -358,6 +366,10 @@ var datepickr = (function() {
 		
 		datepickrs.push(this);
 		
+		if (typeof this.element == 'undefined'|| typeof this.element == null || this.element == null) {
+			return false;
+		}
+
 		if(this.element.nodeName == 'INPUT') {
 			addEvent(this.element, 'focus', this.open);
 		} else {
