@@ -60,7 +60,7 @@ class Handler extends ExceptionHandler
                      * Refill any old inputs except _token (it would override our new token)
                      * Set the error message
                      */
-            return redirect()->back()->withInput(Input::except('_token'))->withErrors($errors);
+            return redirect()->back()->withInput(Input::except('_token'));
           }
 
 

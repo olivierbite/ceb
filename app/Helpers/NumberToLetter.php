@@ -2,10 +2,10 @@
 function convert_number_to_words($number) {
     
     $hyphen      = '-';
-    $conjunction = ' and ';
+    $conjunction = ' '.trans('numbers.and').' ';
     $separator   = ', ';
-    $negative    = 'negative ';
-    $decimal     = ' point ';
+    $negative    = ' '.trans('numbers.genative').' ';
+    $decimal     = ' '.trans('numbers.point').' ';;
     $dictionary  = array(
         0                   => trans('numbers.zero'),
         1                   => trans('numbers.one'),

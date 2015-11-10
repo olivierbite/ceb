@@ -11,9 +11,6 @@ class settingTableSeeder extends Seeder
      */
     public function run()
     {
-     if (DB::table('settings')->count()>0) {
-    		return true;
-    	}
 	 
 	 $settings = [
 	  0 => [
@@ -41,7 +38,34 @@ class settingTableSeeder extends Seeder
 	  	    'value' => 2.5,
 	  	    'type'  => 'numeric',
 	  	   ],
+      5 => [
+	  	    'key'=> 'loan.allow.member.with.negative.right.to.loan',
+	  	    'value' => 1,
+	  	    'type'  => 'boolean',
+	  	   ],
+	  6 => [
+	  	    'key'=> 'loan.administration.fee',
+	  	    'value' => 2,
+	  	    'type'  => 'percentage',
+	  	   ],
+	  7 => [
+	  	    'key'=> 'special_loan.amount',
+	  	    'value' => 100000,
+	  	    'type'  => 'numeric',
+	  	   ],
+	  8 => [
+	  	    'key'=> 'social_loan.amount',
+	  	    'value' => 500000,
+	  	    'type'  => 'numeric',
+	  	   ],
+	  9 => [
+	  	    'key'=> 'emergency_loan.amount',
+	  	    'value' => 200000,
+	  	    'type'  => 'numeric',
+	  	   ],
 	 ];
+
+	 DB::table('settings')->truncate();
 
      DB::table('settings')->insert($settings);
     }

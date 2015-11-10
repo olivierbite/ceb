@@ -5,21 +5,18 @@ namespace Ceb\Http\Requests;
 use Cartalyst\Sentry\Facades\Laravel\Sentry;
 use Ceb\Factories\LoanFactory;
 use Ceb\Http\Requests\Request;
-use Ceb\Models\Setting;
 use Ceb\Models\User;
 
-
-class CompleteLoanRequest extends Request
+class RegularisationRequest extends Request
 {
-    /**
+   /**
      * @var Ceb\Factories\LoanFactory
      */
     protected $loanFactory;
 
-    function __construct(LoanFactory $loanFactory,User $member,Setting $setting) {
+    function __construct(LoanFactory $loanFactory,User $member) {
         $this->loanFactory = $loanFactory;
         $this->member = $member;
-        $this->setting = $setting;
     }
 
     public function authorize()
@@ -39,21 +36,11 @@ class CompleteLoanRequest extends Request
         if ($this->isMethod('get')) {
            return [];
         }
-
-        $attributes = parent::all();
-
-        $rightToLoan = $this->member->findByAdhersion($attributes['adhersion_id'])->right_to_loan;
-
-        // Validate the right to loan
-        $settingKey = strtolower($attributes['operation_type']).'.amount';
-        if ($this->setting->hasKey($settingKey) !== false) {
-           $rightToLoan = $this->setting->keyValue($settingKey);
-        }
      
       //Continue with Rule validation
         return [
           'operation_type'    =>  'required|min:3',
-          'loan_to_repay'     =>  'required|numeric|min:5000|max:'.$rightToLoan,
+          'loan_to_repay'     =>  'required|numeric|min:5000',
           'wording'           =>  'required|min:6',
           'cheque_number'     =>  'required|alpha_dash|min:5',
           'bank'              =>  'required|min:1',
@@ -73,40 +60,50 @@ class CompleteLoanRequest extends Request
         // Grab all inputs from the user
         $attributes = parent::all();
 
+        dd($attributes);
         // Continue only if the method is get 
          if ($this->isMethod('get')) {
            return $attributes;
         }
 
+        /** We don't have to continue if regularisation type is installment */
+        if ($attributes['regularisationType'] == 'installments') {
+            return $attributes;
+        }
+
         // Set the member by his adhersion ID
         $memberId = $this->member->findByAdhersion($attributes['adhersion_id'])->id;
-
-        $this->loanFactory->addMember($memberId);
 
         // Modify or Add new array key/values
         // ==================================
         // Make sure these fields are numeric
          $attributes['loan_to_repay']  = intval($attributes['loan_to_repay']) ;
 
-        // Validating account amount
-        $attributes['accounting_amount'] = array_sum($attributes['debit_amounts']);
-        $attributes['accounting_amount_confirmation'] = array_sum($attributes['credit_amounts']);
-        
-        // Validate total amount vs Account amount   
-        $attributes['loanaccountamount'] = $attributes['loan_to_repay'];
-        $attributes['loanaccountamount_confirmation'] = $attributes['accounting_amount_confirmation'];
+         if ($attributes['loan_to_repay'] > 0 ) {
+            // Validating account amount
+            $attributes['accounting_amount'] = array_sum($attributes['debit_amounts']);
+            $attributes['accounting_amount_confirmation'] = array_sum($attributes['credit_amounts']);
+            
+            // Validate total amount vs Account amount   
+            $attributes['loanaccountamount'] = $attributes['loan_to_repay'];
+            $attributes['loanaccountamount_confirmation'] = $attributes['accounting_amount_confirmation'];
 
-        // Validate bank
-        $attributes['bank'] = $attributes['bank_id'];
+            // Validate bank
+            $attributes['bank'] = $attributes['bank_id'];
         
-        // Validate the input accounts 
-        $accounts = array_intersect($attributes['credit_accounts'], $attributes['debit_accounts']);
-        if (count($accounts) > 0) {    
-            $attributes['accounts']              = count($accounts);
-            $attributes['accounts_confirmation'] = 0;
+         
+
+            // Validate the input accounts 
+            $accounts = array_intersect($attributes['credit_accounts'], $attributes['debit_accounts']);
+            if (count($accounts) > 0) {    
+                $attributes['accounts']              = count($accounts);
+                $attributes['accounts_confirmation'] = 0;
+            }
         }
-        
+
         // Validate bonded amount
+        if (isset($attributes['amount_bonded'])) {
+        
         $bondedAmount = (int) $attributes['amount_bonded'];
         $contributions = (int) str_replace(',', '', $attributes['member']['contributions']);
 
@@ -126,7 +123,8 @@ class CompleteLoanRequest extends Request
         }else{
           $attributes['amount_bonded'] = 0;
         }
-        
+
+        }
         // Format/sanitize data here
         return $attributes;
     }

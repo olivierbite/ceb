@@ -11,11 +11,8 @@ class LoanRateSeeder extends Seeder
      */
     public function run()
     {
-    	if (DB::table('loan_rates')->count()>0) {
-    		return true;
-    	}
     	
-    	$loanRates = [
+	$loanRates = [
     	0=> [
 			'start_month'=> 1,
 			'end_month'	 => 12,
@@ -47,6 +44,8 @@ class LoanRateSeeder extends Seeder
 			'rate'		 => 5,
 	    	],
     	];
+
+    	DB::table('loan_rates')->truncate();
 
         DB::table('loan_rates')->insert($loanRates);
     }

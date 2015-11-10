@@ -24,7 +24,7 @@
 	
 		<tr style="height:0px">
 			<td>
-			Cautionneur></p>
+			Cautionneur1</p>
 			</td>
 			<td>
 			{!! $member->latestLoan()->getCautionneur1->first_name !!} {!! $member->latestLoan()->getCautionneur1->last_name !!}
@@ -45,7 +45,7 @@
 	
 		<tr style="height:0px">
 			<td>
-			Cautionneur1
+			Cautionneur2
 			</td>
 			<td>
 			{!! $member->latestLoan()->getCautionneur2->first_name !!} {!! $member->latestLoan()->getCautionneur2->last_name !!}

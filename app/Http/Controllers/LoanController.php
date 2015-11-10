@@ -194,11 +194,13 @@ class LoanController extends Controller {
 			$rightToLoan = $member->rightToLoan();
 		}
 
-		if ($member->hasActiveLoan()) {// Member has active loan
-			 if ($loanInputs['operation_type'] == 'special_loan') {
-			    $rightToLoan = 100000;
-			 }		 
-		 $activeLoan = $member->latestLoan();
+		/**
+		 * Get what the user is allowed to have if configured 
+		 */
+		$settingKey = strtolower($loanInputs['operation_type']).'.amount';
+		if ($this->setting->hasKey($settingKey) !== false) {
+			 $rightToLoan = $this->setting->keyValue($settingKey);
+			 $activeLoan = $member->latestLoan();
 		}
 
 		return view('loansandrepayments.index', compact('member','loanId','rightToLoan','activeLoan', 'loanInputs','operationType', 'cautionneurs', 'debitAccounts', 'creditAccounts', 'currentMemberId'));
