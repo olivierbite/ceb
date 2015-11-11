@@ -59,4 +59,5 @@ return array (
 'member_create'=>'create',
 'member_delete'=>'delete',
 'select_movement_type_first'=>'Select movement type first',
+'total_cautions_amount'=>'Total cautions amount',
 );

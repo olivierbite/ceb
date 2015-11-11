@@ -16,4 +16,7 @@ return array (
   'wording'=>'wording',
   'cheque_number'=>'cheque number',
   'bank'=>'Bank',
+  'transaction_is_recorded_successfully_transaction_id_is'=>'Transaction recorded successfully, Transaction ID is',
+
+
 	);

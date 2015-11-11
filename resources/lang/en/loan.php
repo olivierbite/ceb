@@ -65,4 +65,9 @@ return [
   'special_number_of_cheque'=>'Special number of cheque',
   'special_bank'=>'Special bank',
   'special_loan'=>'Special loan',
+  'previous_loan_type'=>'Previous loan type',
+  'additional_installments'=>'Additional Installments',
+  'administration_fees'=>'Administration fees',
+   'remaining_installments'=>'Remaining Installments',
+   'additional_amount_to_repay'=>'Montant additionel a payer',
 ];
