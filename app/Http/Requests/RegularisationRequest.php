@@ -91,15 +91,14 @@ class RegularisationRequest extends Request
         }
 
         /** We don't have to continue if regularisation type is installment */
-        if ($attributes['regularisationType'] == 'installments') {
+        if (strtolower($attributes['regularisationType']) === 'installments') {
             return $attributes;
         }
 
-        dd($attributes);
         // Modify or Add new array key/values
         // ==================================
         // Make sure these fields are numeric
-         $attributes['loan_to_repay']  = intval($attributes['loan_to_repay']) ;
+         $attributes['loan_to_repay']  = isset($attributes['loan_to_repay'])?  intval($attributes['loan_to_repay']):null ;
 
          if ($attributes['loan_to_repay'] > 0 ) {
             // Validating account amount

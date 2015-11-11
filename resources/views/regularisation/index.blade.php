@@ -7,11 +7,11 @@
 
 @if (!is_null($member))
   {{-- @include('loansandrepayments.index_buttons') --}}
-   {!! Form::open(['method'=>'PUT','url'=>route('regularisation.update',$member->latestLoan()->id)]) !!}
-
+   {!! Form::open(['method'=>'POST','url'=>route('regularisation.regulate')]) !!}
     @include('regularisation.client_information_form')
        {!! Form::hidden('regularisationType', $regularisationType) !!}
        {!! Form::hidden('loan_id', $member->latestLoan()->id) !!}
+       {!! Form::hidden('member_id', $member->id) !!}
 
     @if (!empty($member))
       @if ($member->has_active_loan == true)

@@ -64,7 +64,7 @@
                 <ul class="treeview-menu {{ (Request::is('regularisation*') ? 'class="active"' : '') }}">
                 @foreach ($regularisations as $key=>$value)
                   <li>
-                    <a href="{{ route('regularisation.type',['type'=>$key]) }}">
+                    <a href="{{ route('regularisation.type.'.$key) }}">
                     <i class="fa fa-money"></i>{{ trans($value) }}
                     </a>
                   </li>

@@ -15,13 +15,13 @@
                 <p>{{ trans($value.'_descriptions') }}  </p>
             </div>
             <div class="icon"><i class="ion ion-heart"></i></div>
-            <a class="small-box-footer" href="{{ route('regularisation.type',['type'=>$key]) }}">
+            <a class="small-box-footer" href="{{ route('regularisation.type.'.$key) }}">
                {{ trans('give_regularisation_'.$value) }}<i class="fa fa-arrow-circle-right"></i>
             </a>
         </div>
           </div>
        @empty
-           {{-- empty expr --}}
+       
        @endforelse
     @endif
 

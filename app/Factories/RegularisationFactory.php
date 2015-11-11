@@ -10,6 +10,7 @@ use Ceb\Models\LoanRegulationsBackup;
 use Ceb\Models\User;
 use Ceb\Traits\TransactionTrait;
 use Illuminate\Support\Facades\DB;
+use Exception;
 
 /**
 * Regularisaction Factory
@@ -40,23 +41,7 @@ class RegularisationFactory
 			throw new Exception(trans('member.member_doesnot_exist'), 1);
 		}
 
-		switch (strtolower($data['regularisationType'])) {
-			case 'installments':
-				return $this->regulateInstallaments($data,$member);
-				break;
-			case 'amount':
-				return $this->regulateAmount($data,$member);
-				break;
-			case 'amount_installments':
-				return $this->regulateAmount($data,$member);
-				break;
-			default:
-				throw new Exception(trans('regularisation.unable_to_determine_which_kind_of_regularisation_you_want_to_perform'), 1);
-				break;
-		}
-
-		// If we reach here it is because we have an error
-		throw new Exception(trans('regularisation.error_occured_while_trying_to_complete_regularisation'), 1);
+		return $this->regulateLoan($data,$member);
 		
 	}
 
@@ -66,10 +51,20 @@ class RegularisationFactory
 	 * @param  string $value
 	 * @return true / false;
 	 */
-	public function regulateInstallaments($data,$member)
+	public function regulateLoan($data,$member)
 	{
 		$loanToRepay = $member->loan_balance;
-		$numberOfInstallment = $member->remaining_tranches + $data['additional_installments'];
+		/** If we have loan to repay, then this is regulation for amount */
+		if(isset($data['loan_to_repay']) && (strpos(strtolower($data['regularisationType']),'amount') !==false) ) {
+			$loanToRepay +=$data['loan_to_repay'];
+		}
+
+		$numberOfInstallment = $member->remaining_tranches;
+		/** If we have installments in the regulationtype then  we assume this has to deal with installment */
+		if (isset($data['additional_installments']) && (strpos(strtolower($data['regularisationType']),'installments') !==false)) {
+		    $numberOfInstallment +=$data['additional_installments'];
+		}
+
 		$calculateLoanDetails = $this->getLoanDetails($numberOfInstallment, $loanToRepay);
 		$administrationFees   = 0;
 
@@ -98,13 +93,13 @@ class RegularisationFactory
 		$toRegulateLoan->monthly_fees 	     	 =	round($loanToRepay / $numberOfInstallment,0);
 		$toRegulateLoan->tranches_number 		 =  $numberOfInstallment;
 		$toRegulateLoan->user_id                 =  $this->user->id;
-		$toRegulateLoan->transactionid 			 = 	$transactionId;
+		$toRegulateLoan->transactionid 			 = 	$toRegulateLoan->transactionid.'_'.$data['regularisationType'];
 		$toRegulateLoan->urgent_loan_interests   =  $administrationFees;
 		$toRegulateLoan->rate 					 =  $calculateLoanDetails['interest_rate'];
 		$toRegulateLoan->reason                  =  'regularisation_'.$data['regularisationType'];
+		$toRegulateLoan->comment   				 =  $data['wording'];
 
 		$results = $toRegulateLoan->save();
-
 		if ( $results == false) {
 			throw new Exception(trans('regularisation.error_occured_while_trying_to_regulate_this_installment_regulation'), 1);		
 		}
@@ -113,63 +108,11 @@ class RegularisationFactory
 		$toRegulateLoan->contract 				 =  generateContract($member,$toRegulateLoan->operation_type);
 		$toRegulateLoan->save();
 
-	    // Rollback the transaction via if one of the insert fails
-		if (!$loanBackup  || !$results) {
-			DB::rollBack();
-			return false;
+
+		/** If Debit account exists */
+		if(isset($data['debit_accounts'],$data['debit_amounts'],$data['credit_accounts'],$data['credit_amounts']) && (strpos(strtolower($data['regularisationType']),'amount') !==false) ) {
+			$this->savePostings($toRegulateLoan->transactionid);
 		}
-		// Lastly, Let's commit a transaction since we reached here
-		DB::commit();
-		flash()->success(trans('regularisation.you_have_successfully_done_loan_installment_regulation'));
-		return true;
-	}
-
-	public function regulateAmount()
-	{
-		$loanToRepay = $member->loan_balance;
-		$numberOfInstallment = $member->remaining_tranches + $data['additional_installments'];
-		$calculateLoanDetails = $this->getLoanDetails($numberOfInstallment, $loanToRepay);
-		$administrationFees   = 0;
-
-		// Let's remove administration fees if it was applied
-		if (isset($data['administration_fees'])) {
-			$administrationFees = $loanToRepay - ($loanToRepay * $data['administration_fees']);
-			// Make sure we remove this administration fees
-			$calculateLoanDetails['net_to_receive'] -= $administrationFees;
-		}
-        
-        $transactionId = $this->getTransactionId();
-
-		// Start saving if something fails cancel everything
-		DB::beginTransaction();
-
-		$toRegulateLoan 						 =  Loan::find((int) $data['loan_id']);
-
-		// Start by doing backup
-		LoanRegulationsBackup::unguard();
-			$loanBackup = LoanRegulationsBackup::create($toRegulateLoan->toArray());
-		LoanRegulationsBackup::reguard();
-
-		$toRegulateLoan->movement_nature 		 = 'regularisation_'.$data['regularisationType'];
-		$toRegulateLoan->interests 	     		 =	round($calculateLoanDetails['interests']);
-		$toRegulateLoan->amount_received 	     =	round($calculateLoanDetails['net_to_receive']);
-		$toRegulateLoan->monthly_fees 	     	 =	round($loanToRepay / $numberOfInstallment,0);
-		$toRegulateLoan->tranches_number 		 =  $numberOfInstallment;
-		$toRegulateLoan->user_id                 =  $this->user->id;
-		$toRegulateLoan->transactionid 			 = 	$transactionId;
-		$toRegulateLoan->urgent_loan_interests   =  $administrationFees;
-		$toRegulateLoan->rate 					 =  $calculateLoanDetails['interest_rate'];
-		$toRegulateLoan->reason                  =  'regularisation_'.$data['regularisationType'];
-
-		$results = $toRegulateLoan->save();
-
-		if ( $results == false) {
-			throw new Exception(trans('regularisation.error_occured_while_trying_to_regulate_this_installment_regulation'), 1);		
-		}
-
-		// Now we can generate
-		$toRegulateLoan->contract 				 =  generateContract($member,$toRegulateLoan->operation_type);
-		$toRegulateLoan->save();
 
 	    // Rollback the transaction via if one of the insert fails
 		if (!$loanBackup  || !$results) {
@@ -178,38 +121,39 @@ class RegularisationFactory
 		}
 		// Lastly, Let's commit a transaction since we reached here
 		DB::commit();
-		flash()->success(trans('regularisation.you_have_successfully_done_loan_installment_regulation'));
+		flash()->success(trans('regularisation.you_have_successfully_done_loan_'.$data['regularisationType'].'_regulation'));
 		return true;
 	}
+
 
 	/**
 	 * Save posting to the databasee
 	 * @param  STRING $transactionId UNIQUE TRANSACTIONID
 	 * @return bool
 	 */
-	public function savePostings($transactionId) {
-
+	public function savePostings($transactionId,$data) {
 		// Start by validating the information we
 		// are about to svae in our database
-		if (!$this->isValidPosting()) {
-			return false;
-		}
+		// Debiting amount
+		$debits = $this->accountAmount($data['debit_accounts'],$data['debit_amounts']);
 
-		//Debiting....
-		$debits = $this->getDebitAccounts();
-
+		$wording = $data['wording'];
+		$cheque_number=$data['cheque_number'];
+		$bank=$data['bank_id'];
+		
 		foreach ($debits as $accountId => $amount) {
-			$results = $this->savePosting($accountId, $amount, $transactionId, 'Debit', $journalId = 1);
+			$results = $this->savePosting($accountId, $amount, $transactionId, 'Debit', $journalId = 1,$wording,$cheque_number,$bank);
 			if (!$results) {
-
 				return false;
 			}
 		}
 
 		//Crediting
-		$credits = $this->getCreditAccounts();
+		$credits = $this->accountAmount($data['credit_accounts'],$data['credit_amounts']);
+
 		foreach ($credits as $accountId => $amount) {
-			$results = $this->savePosting($accountId, $amount, $transactionId, 'Credit', $journalId = 1);
+
+			$results = $this->savePosting($accountId, $amount, $transactionId, 'Credit', $journalId = 1,$wording,$cheque_number,$bank);
 			if (!$results) {
 				return false;
 			}
