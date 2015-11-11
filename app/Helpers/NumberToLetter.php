@@ -1,9 +1,9 @@
 <?php 
 function convert_number_to_words($number) {
     
-    $hyphen      = '-';
+    $hyphen      = trans('numbers.hyphen');  // In english it is  - 
     $conjunction = ' '.trans('numbers.and').' ';
-    $separator   = ', ';
+    $separator   = trans('numbers.separator').' '; // in english it's , 
     $negative    = ' '.trans('numbers.genative').' ';
     $decimal     = ' '.trans('numbers.point').' ';;
     $dictionary  = array(
