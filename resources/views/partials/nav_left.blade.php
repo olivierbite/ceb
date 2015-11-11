@@ -60,24 +60,17 @@
                 <span>{{ trans('navigations.regularisation') }}</span>
                <i class="fa fa-angle-left pull-right"></i>
               </a>
-              <ul class="treeview-menu {{ (Request::is('regularisation*') ? 'class="active"' : '') }}">
-                <li>
-                  <a href="{{ route('regularisation.type',['type'=>'installments']) }}">
-                  <i class="fa fa-money"></i>{{ trans('navigations.regularisation_installments') }}
-                  </a>
-                </li>
-
-                <li>
-                  <a href="{{ route('regularisation.type',['type'=>'amount']) }}">
-                  <i class="fa fa-money"></i>{{ trans('navigations.regularisation_amount') }}
-                  </a>
-                </li>
-                <li>
-                  <a href="{{ route('regularisation.type',['type'=>'both']) }}">
-                  <i class="fa fa-money"></i>{{ trans('navigations.regularisation_both') }}
-                  </a>
-                </li>
-              </ul>
+                @if (count($regularisations) > 0 )
+                <ul class="treeview-menu {{ (Request::is('regularisation*') ? 'class="active"' : '') }}">
+                @foreach ($regularisations as $key=>$value)
+                  <li>
+                    <a href="{{ route('regularisation.type',['type'=>$key]) }}">
+                    <i class="fa fa-money"></i>{{ trans($value) }}
+                    </a>
+                  </li>
+                @endforeach
+                </ul>
+                @endif
             </li>
             <li class="{{ (Request::is('refund*') ? 'active' : '') }} ">
               <a href="{{ route('refunds.index') }}">

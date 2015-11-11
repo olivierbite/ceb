@@ -589,6 +589,7 @@ class LoanFactory {
 		$interestRate = $this->getInterestRate();
 		$administration_fees = (int) $this->setting->keyValue('loan.administration.fee');
 		$numberOfInstallment = $this->getTranschesNumber();
+		
 		// Interest formular
 		// The formular to calculate interests at ceb is as following
 		// I =  P *(TI * N)

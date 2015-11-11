@@ -67,6 +67,8 @@ Route::resource('loans', 'LoanController');
 
 /** regularisation */
 Route::get('regularisation/type/{type?}', ['as'=>'regularisation.type','uses'=>'RegularisationController@index']);
+Route::get('regularisation/types', ['as'=>'regularisation.types','uses'=>'RegularisationController@regurationTypes']);
+
 Route::resource('regularisation', 'RegularisationController');
 
 /** Refunds routes */

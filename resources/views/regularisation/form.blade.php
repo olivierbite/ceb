@@ -1,16 +1,20 @@
 <div class="row">
- 
-    <div class="col-md-2">
+  {{-- only display additional_installments if we need to deal with installments / echeance --}}
+  @if (strpos($regularisationType, 'installments') !== false)
+  <div class="col-md-2">
   <div class="form-group">
    <label>{{ trans('loan.additional_installments') }}</label>
-      {!! Form::selectRange('tranches_number', 1, $setting->keyValue('loan.maximum.installments'),
+      {!! Form::selectRange('additional_installments', 1, $setting->keyValue('loan.maximum.installments'),
             isset($loanInputs['tranches_number'])?$loanInputs['tranches_number']:null,
                    ['class'=>'form-control loan-select','id'=>'numberOfInstallment'])
        !!}
    </div>
   </div>
+  @endif
 
-  @if ($regularisationType == 'both' || $regularisationType == 'amount') 
+  {{-- only display additional_installments if we need to deal with amount / montant --}}
+ 
+  @if (strpos($regularisationType, 'amount') !== false) 
   <div class="col-md-2">
   <div class="form-group">
    <label>{{ trans('loan.additional_amount_to_repay') }}</label>      
