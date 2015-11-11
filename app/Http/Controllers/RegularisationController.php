@@ -79,6 +79,15 @@ class RegularisationController extends Controller
             flash()->warning(trans('regularisation.this_member_doesnot_have_loan_to_regulate'));
             return redirect()->back();
         }
+
+        ///////////////////////////////////////////////////////////////////////
+        // If this member has 0 right to loan then we cannot regulate amount //
+        ///////////////////////////////////////////////////////////////////////
+
+        if ($rightToLoan == 0 && (strpos(strtolower($regularisationType),'amount') !==false) ) {
+            flash()->warning(trans('regularisation.this_member_has_0_remaining_right_to_loan'));
+            return redirect()->back();
+        }
        }
        return view('regularisation.index',compact('loan','member','regularisationType','rightToLoan'));
     }

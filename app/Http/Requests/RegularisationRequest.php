@@ -95,7 +95,7 @@ class RegularisationRequest extends Request
             return $attributes;
         }
 
-
+        dd($attributes);
         // Modify or Add new array key/values
         // ==================================
         // Make sure these fields are numeric

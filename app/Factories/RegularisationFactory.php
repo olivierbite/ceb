@@ -8,6 +8,7 @@ use Ceb\Models\Loan;
 use Ceb\Models\LoanRate;
 use Ceb\Models\LoanRegulationsBackup;
 use Ceb\Models\User;
+use Ceb\Traits\TransactionTrait;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -15,6 +16,7 @@ use Illuminate\Support\Facades\DB;
 */
 class RegularisationFactory
 {
+	use TransactionTrait;
 	
 	function __construct(User $member,Contribution $contribution, Loan $loan,LoanRate $loanRate)
 	{
@@ -78,6 +80,7 @@ class RegularisationFactory
 			$calculateLoanDetails['net_to_receive'] -= $administrationFees;
 		}
         
+        $transactionId = $this->getTransactionId();
 
 		// Start saving if something fails cancel everything
 		DB::beginTransaction();
@@ -95,6 +98,7 @@ class RegularisationFactory
 		$toRegulateLoan->monthly_fees 	     	 =	round($loanToRepay / $numberOfInstallment,0);
 		$toRegulateLoan->tranches_number 		 =  $numberOfInstallment;
 		$toRegulateLoan->user_id                 =  $this->user->id;
+		$toRegulateLoan->transactionid 			 = 	$transactionId;
 		$toRegulateLoan->urgent_loan_interests   =  $administrationFees;
 		$toRegulateLoan->rate 					 =  $calculateLoanDetails['interest_rate'];
 		$toRegulateLoan->reason                  =  'regularisation_'.$data['regularisationType'];
@@ -120,6 +124,99 @@ class RegularisationFactory
 		return true;
 	}
 
+	public function regulateAmount()
+	{
+		$loanToRepay = $member->loan_balance;
+		$numberOfInstallment = $member->remaining_tranches + $data['additional_installments'];
+		$calculateLoanDetails = $this->getLoanDetails($numberOfInstallment, $loanToRepay);
+		$administrationFees   = 0;
+
+		// Let's remove administration fees if it was applied
+		if (isset($data['administration_fees'])) {
+			$administrationFees = $loanToRepay - ($loanToRepay * $data['administration_fees']);
+			// Make sure we remove this administration fees
+			$calculateLoanDetails['net_to_receive'] -= $administrationFees;
+		}
+        
+        $transactionId = $this->getTransactionId();
+
+		// Start saving if something fails cancel everything
+		DB::beginTransaction();
+
+		$toRegulateLoan 						 =  Loan::find((int) $data['loan_id']);
+
+		// Start by doing backup
+		LoanRegulationsBackup::unguard();
+			$loanBackup = LoanRegulationsBackup::create($toRegulateLoan->toArray());
+		LoanRegulationsBackup::reguard();
+
+		$toRegulateLoan->movement_nature 		 = 'regularisation_'.$data['regularisationType'];
+		$toRegulateLoan->interests 	     		 =	round($calculateLoanDetails['interests']);
+		$toRegulateLoan->amount_received 	     =	round($calculateLoanDetails['net_to_receive']);
+		$toRegulateLoan->monthly_fees 	     	 =	round($loanToRepay / $numberOfInstallment,0);
+		$toRegulateLoan->tranches_number 		 =  $numberOfInstallment;
+		$toRegulateLoan->user_id                 =  $this->user->id;
+		$toRegulateLoan->transactionid 			 = 	$transactionId;
+		$toRegulateLoan->urgent_loan_interests   =  $administrationFees;
+		$toRegulateLoan->rate 					 =  $calculateLoanDetails['interest_rate'];
+		$toRegulateLoan->reason                  =  'regularisation_'.$data['regularisationType'];
+
+		$results = $toRegulateLoan->save();
+
+		if ( $results == false) {
+			throw new Exception(trans('regularisation.error_occured_while_trying_to_regulate_this_installment_regulation'), 1);		
+		}
+
+		// Now we can generate
+		$toRegulateLoan->contract 				 =  generateContract($member,$toRegulateLoan->operation_type);
+		$toRegulateLoan->save();
+
+	    // Rollback the transaction via if one of the insert fails
+		if (!$loanBackup  || !$results) {
+			DB::rollBack();
+			return false;
+		}
+		// Lastly, Let's commit a transaction since we reached here
+		DB::commit();
+		flash()->success(trans('regularisation.you_have_successfully_done_loan_installment_regulation'));
+		return true;
+	}
+
+	/**
+	 * Save posting to the databasee
+	 * @param  STRING $transactionId UNIQUE TRANSACTIONID
+	 * @return bool
+	 */
+	public function savePostings($transactionId) {
+
+		// Start by validating the information we
+		// are about to svae in our database
+		if (!$this->isValidPosting()) {
+			return false;
+		}
+
+		//Debiting....
+		$debits = $this->getDebitAccounts();
+
+		foreach ($debits as $accountId => $amount) {
+			$results = $this->savePosting($accountId, $amount, $transactionId, 'Debit', $journalId = 1);
+			if (!$results) {
+
+				return false;
+			}
+		}
+
+		//Crediting
+		$credits = $this->getCreditAccounts();
+		foreach ($credits as $accountId => $amount) {
+			$results = $this->savePosting($accountId, $amount, $transactionId, 'Credit', $journalId = 1);
+			if (!$results) {
+				return false;
+			}
+		}
+		// We are safe here
+		return true;
+	}
 
 	/**
 	 * Get new loan details after calculations
