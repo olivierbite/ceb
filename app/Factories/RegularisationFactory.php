@@ -86,7 +86,9 @@ class RegularisationFactory
 
 		// Start by doing backup
 		LoanRegulationsBackup::unguard();
-			$loanBackup = LoanRegulationsBackup::create($toRegulateLoan->toArray());
+			$backup = $toRegulateLoan->toArray();
+			unset($backup['id']);
+			$loanBackup = LoanRegulationsBackup::create($backup);
 		LoanRegulationsBackup::reguard();
 
 		$toRegulateLoan->movement_nature 		 = 'regularisation_'.$data['regularisationType'];
@@ -100,26 +102,28 @@ class RegularisationFactory
 		$toRegulateLoan->rate 					 =  $calculateLoanDetails['interest_rate'];
 		$toRegulateLoan->reason                  =  'regularisation_'.$data['regularisationType'];
 		$toRegulateLoan->comment   				 =  $data['wording'];
+		$toRegulateLoan->contract 				 =  '';
 
 		if(isset($data['loan_to_repay']) && (strpos(strtolower($data['regularisationType']),'amount') !==false) ) {
-			$toRegulateLoan->loanToRepay         =  $loanToRepay;
+			$toRegulateLoan->loan_to_repay       =  $loanToRepay;
 			$toRegulateLoan->right_to_loan      -=  $loanToRepay;
+
+			dd($data['loan_to_repay']);
+			// Record accounting too
+			$posting = $this->savePostings($toRegulateLoan->transactionid,$data);
+
+			// Fail this transaction if the posting didn't go well.
+			if (!$posting) {
+				DB::rollBack();
+				return false;
+				}
 		}
 
 		$results = $toRegulateLoan->save();
+
 		
-		// Now we can generate
-		$toRegulateLoan->contract 				 =  generateContract($member,$toRegulateLoan->operation_type);
-		$toRegulateLoan->save();
-
-
-		/** If Debit account exists */
-		if(isset($data['debit_accounts'],$data['debit_amounts'],$data['credit_accounts'],$data['credit_amounts']) && (strpos(strtolower($data['regularisationType']),'amount') !==false) ) {
-			$posting = $this->savePostings($toRegulateLoan->transactionid,$data);
-		}
-
 	    // Rollback the transaction via if one of the insert fails
-		if (!$loanBackup  || !$results || !$posting) {
+		if (!$loanBackup  || !$results) {
 			DB::rollBack();
 			return false;
 		}
