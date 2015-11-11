@@ -56,7 +56,17 @@
       </div>
   </div>
   </div>
-@endif
+  @endif
+  
+  {{-- If this loan is social loan make sure we ask the user to provider the reason  --}}
+  @if (strtolower($loanInputs['operation_type']) == 'social_loan')
+  <div class="col-md-3">
+  <div class="form-group">
+     <label> {{ trans('loan.social_loan_motives') }} </label>
+     {!! Form::select('reason', $socialLoanReasons, null, ['class' => 'form-control']) !!} 
+  </div>
+  </div>
+  @endif
 </div>
 
 <div class="row">

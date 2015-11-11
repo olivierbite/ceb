@@ -58,7 +58,8 @@ class LoanFactory {
 			}
 	 	}
 		
-
+	 	$this->clearAll();
+	 	
 		Session::put('loan_member', $member);
 
 		$this->updateCautionneur();
@@ -242,7 +243,7 @@ class LoanFactory {
 			}
 		}
 
-		Session::put('', $cautionneurs);
+		Session::put('cautionneurs', $cautionneurs);
 	}
 
 	/**
@@ -466,6 +467,7 @@ class LoanFactory {
 		$data['special_loan_interests'] = 0;
 		$data['special_loan_amount_to_receive'] = 0;
 		$data['rate'] = $this->getInterestRate();
+		$data['reason'] = isset($inputs['reason']) ? $inputs['reason'] : null;
 		$data['urgent_loan_interests']  = $inputs['urgent_loan_interests'];
 		$data['user_id'] = Sentry::getUser()->id;
 

@@ -41,19 +41,23 @@ class CompleteLoanRequest extends Request
         }
 
         $attributes = parent::all();
+        $rightToLoan = 0 ;
+        
+        $member = $this->member->findByAdhersion($attributes['adhersion_id']);
 
-        $rightToLoan = $this->member->findByAdhersion($attributes['adhersion_id'])->right_to_loan;
+        if (!is_null($member)) {
+          $rightToLoan = $member->right_to_loan;
+        }
 
         // Validate the right to loan
         $settingKey = strtolower($attributes['operation_type']).'.amount';
         if ($this->setting->hasKey($settingKey) !== false) {
            $rightToLoan = $this->setting->keyValue($settingKey);
         }
-     
-      //Continue with Rule validation
-        return [
+      
+      $validations = [
           'operation_type'    =>  'required|min:3',
-          'loan_to_repay'     =>  'required|numeric|min:5000|max:'.$rightToLoan,
+          'loan_to_repay'     =>  'required|numeric|max:'.$rightToLoan,
           'wording'           =>  'required|min:6',
           'cheque_number'     =>  'required|alpha_dash|min:5',
           'bank'              =>  'required|min:1',
@@ -62,6 +66,14 @@ class CompleteLoanRequest extends Request
           'cautionneur'       =>  'confirmed',
           'accounts'          =>  'confirmed',
         ];
+
+      // if this loan is social loan, make sure the user has selected a reason
+      if (strtolower($attributes['operation_type']) == 'social_loan') {
+        $validations['reason']  =  'required|min:3';
+      }
+
+        //Continue with Rule validation
+        return $validations; 
     }
 
     /**
@@ -79,9 +91,11 @@ class CompleteLoanRequest extends Request
         }
 
         // Set the member by his adhersion ID
-        $memberId = $this->member->findByAdhersion($attributes['adhersion_id'])->id;
+        $member = $this->member->findByAdhersion($attributes['adhersion_id']);
 
-        $this->loanFactory->addMember($memberId);
+        if (!is_null($member)) { 
+          $this->loanFactory->addMember($member->id);
+        }
 
         // Modify or Add new array key/values
         // ==================================

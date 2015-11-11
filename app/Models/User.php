@@ -8,11 +8,11 @@ use Ceb\Models\Setting;
 use Fenos\Notifynder\Notifable;
 use Illuminate\Support\Facades\DB;
 use Vinkla\Hashids\Facades\Hashids;
-use Cartalyst\Sentry\Users\Eloquent\User as Model;
+use Cartalyst\Sentry\Users\Eloquent\User as SentinelModel;
 use Ceb\Traits\LogsActivity;
 use Spatie\Activitylog\LogsActivityInterface;
 
-class User extends Model {
+class User extends SentinelModel {
 
 	use Notifable;
 

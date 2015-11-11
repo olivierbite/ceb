@@ -46,6 +46,7 @@ class Loan extends Model {
 		'urgent_loan_interests',
 		'factor',
 		'rate',
+		'reason',
 	];
 
 	/**

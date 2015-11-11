@@ -113,6 +113,9 @@ return [
         'inputaccounts' =>[
             'max' => 'It is not allowed to credit and debit same account, Please correct input and try again.',
         ],    
+        'reason' =>[
+            'min' => 'Please choose the reason for this social loan before you continue',
+        ],
     ],
 
 

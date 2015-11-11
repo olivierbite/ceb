@@ -25,6 +25,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
 		$this->composerLanguages();
 		$this->composerUser();
 		$this->composerSetting();
+		$this->composerSocialLoanReasons();
 	}
 
 	/**
@@ -183,5 +184,13 @@ class ViewComposerServiceProvider extends ServiceProvider {
 			'*',
 		];
 		view()->composer($views,'\Ceb\ViewComposers\SettingViewComposer');
+	}
+
+	private function composerSocialLoanReasons()
+	{
+		$views = [
+			'loansandrepayments.ordinary_loan_form',
+		];
+		view()->composer($views,'\Ceb\ViewComposers\SocialLoanMotivesViewComposer');
 	}
 }
