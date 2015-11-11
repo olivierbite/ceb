@@ -7,10 +7,11 @@ use Ceb\Models\Contribution;
 use Ceb\Models\Loan;
 use Ceb\Models\LoanRate;
 use Ceb\Models\LoanRegulationsBackup;
+use Ceb\Models\Posting;
 use Ceb\Models\User;
 use Ceb\Traits\TransactionTrait;
-use Illuminate\Support\Facades\DB;
 use Exception;
+use Illuminate\Support\Facades\DB;
 
 /**
 * Regularisaction Factory
@@ -19,12 +20,13 @@ class RegularisationFactory
 {
 	use TransactionTrait;
 	
-	function __construct(User $member,Contribution $contribution, Loan $loan,LoanRate $loanRate)
+	function __construct(User $member,Contribution $contribution, Loan $loan,LoanRate $loanRate,Posting $posting)
 	{
 		$this->member 		= $member;
 		$this->contribution = $contribution;
 		$this->loan			= $loan;
 		$this->loanRate     = $loanRate;
+		$this->posting 		= $posting;
 		$this->user 		= Sentry::getUser();
 	}
 
@@ -99,11 +101,13 @@ class RegularisationFactory
 		$toRegulateLoan->reason                  =  'regularisation_'.$data['regularisationType'];
 		$toRegulateLoan->comment   				 =  $data['wording'];
 
-		$results = $toRegulateLoan->save();
-		if ( $results == false) {
-			throw new Exception(trans('regularisation.error_occured_while_trying_to_regulate_this_installment_regulation'), 1);		
+		if(isset($data['loan_to_repay']) && (strpos(strtolower($data['regularisationType']),'amount') !==false) ) {
+			$toRegulateLoan->loanToRepay         =  $loanToRepay;
+			$toRegulateLoan->right_to_loan      -=  $loanToRepay;
 		}
 
+		$results = $toRegulateLoan->save();
+		
 		// Now we can generate
 		$toRegulateLoan->contract 				 =  generateContract($member,$toRegulateLoan->operation_type);
 		$toRegulateLoan->save();
@@ -111,17 +115,18 @@ class RegularisationFactory
 
 		/** If Debit account exists */
 		if(isset($data['debit_accounts'],$data['debit_amounts'],$data['credit_accounts'],$data['credit_amounts']) && (strpos(strtolower($data['regularisationType']),'amount') !==false) ) {
-			$this->savePostings($toRegulateLoan->transactionid);
+			$posting = $this->savePostings($toRegulateLoan->transactionid,$data);
 		}
 
 	    // Rollback the transaction via if one of the insert fails
-		if (!$loanBackup  || !$results) {
+		if (!$loanBackup  || !$results || !$posting) {
 			DB::rollBack();
 			return false;
 		}
+
 		// Lastly, Let's commit a transaction since we reached here
 		DB::commit();
-		flash()->success(trans('regularisation.you_have_successfully_done_loan_'.$data['regularisationType'].'_regulation'));
+
 		return true;
 	}
 
@@ -140,7 +145,7 @@ class RegularisationFactory
 		$wording = $data['wording'];
 		$cheque_number=$data['cheque_number'];
 		$bank=$data['bank_id'];
-		
+
 		foreach ($debits as $accountId => $amount) {
 			$results = $this->savePosting($accountId, $amount, $transactionId, 'Debit', $journalId = 1,$wording,$cheque_number,$bank);
 			if (!$results) {

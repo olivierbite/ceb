@@ -78,7 +78,7 @@ class RegularisationController extends Controller
 
         $member =  $this->member->findOrFail($id);
         $loan  = $member->latestLoan();
-        $rightToLoan = $member->right_to_loan;
+        $rightToLoan = $member->more_right_to_loan_amount;
 
         if ($member->has_active_loan == false) {
             flash()->warning(trans('regularisation.this_member_doesnot_have_loan_to_regulate'));
@@ -105,8 +105,9 @@ class RegularisationController extends Controller
     public function regulate(Request $request,RegularisationFactory  $regularisationFactory)
     {
         $rules = $this->rules($request->all());
+        $data  = $this->all($request->all());
 
-        $validator = Validator::make($request->all(),$rules);
+        $validator = Validator::make($data,$rules);
 
         if ($validator->fails()) {
             return redirect()->route('regularisation.index')
@@ -184,7 +185,7 @@ class RegularisationController extends Controller
         }
 
         if (!is_null($member)) {
-          $rightToLoan = $member->more_right_to_loan_amount;
+          $rightToLoan = $attributes['member']['right_to_loan'];
         }
 
 
@@ -208,7 +209,7 @@ class RegularisationController extends Controller
       if (strpos(strtolower($attributes['regularisationType']), 'amount')  !== false ) { 
         $validations['loan_to_repay']         =  'required|numeric|max:'.$rightToLoan;
         $validations['cheque_number']         =  'required|alpha_dash|min:5';
-        $validations['bank']                  =  'required|min:1';
+        $validations['bank_id']               =  'required|min:1';
         $validations['accounting_amount']     =  'required|confirmed|numeric|min:'.$attributes['loan_to_repay'];
         $validations['loanaccountamount']     =  'required|confirmed|numeric';
         $validations['accounts']              =  'confirmed';
