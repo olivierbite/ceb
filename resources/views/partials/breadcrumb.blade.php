@@ -1,5 +1,3 @@
 <ol class="breadcrumb">
-            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li><a href="#">Examples</a></li>
-            <li class="active">Blank page</li>
-          </ol>
+      <strong>{{ trans('general.date') }}  {!! date('d-M-Y') !!} </strong>
+</ol>

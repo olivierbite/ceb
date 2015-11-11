@@ -122,7 +122,7 @@ class RegularisationController extends Controller
        {
            flash()->error(trans('regulation.could_not_complete_'.$request->get('regularisationType').'_regularisation_because_an_error_has_occured'));
        }
-       return $this->regurationTypes();
+       return redirect()->route('regularisation.types');
     }
 
 
