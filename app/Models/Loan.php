@@ -5,7 +5,8 @@ namespace Ceb\Models;
 use Illuminate\Support\Facades\DB;
 
 class Loan extends Model {
-		/**
+	
+	/**
      * The attributes that should be mutated to dates.
      *
      * @var array
@@ -182,6 +183,7 @@ class Loan extends Model {
     {
         return $query->where('status', '=','pending');
     }
+
 
     /**
      * Scope a query to only include rejected loans.

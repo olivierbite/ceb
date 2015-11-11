@@ -307,7 +307,26 @@ class User extends SentinelModel {
 	 */
 	public function rightToLoan()
 	{
-		return $this->generalRightToLoan() - $this->loanBalance();
+		// If this member has active loan, as we calculate 
+		// Amount to loan that he is eligeable for we 
+		// need to consider right to loan a member
+		// had before we give him this loan
+		
+		$generalRightToLoan = $this->generalRightToLoan();
+		$latestLoan 		= $this->latestLoan();
+		$contributions 		= $this->contributions();
+
+		// Since this member has active loan, let's determine
+		// what is his right loan as of previous loan
+		// Then deduct the loan he was given
+
+		if ($this->hasActiveLoan()) {	
+
+			$generalRightToLoan = $contributions->before($latestLoan->created_at)->sum('amount') * $this->rightToLoanPercentage;
+			return  $generalRightToLoan - $latestLoan->loan_to_repay;
+		}
+
+		return $generalRightToLoan;
 	}
 
 	/**
@@ -316,7 +335,33 @@ class User extends SentinelModel {
 	 */
 	public function getRightToLoanAttribute()
 	{
-		return $this->generalRightToLoan() - $this->loanBalance();
+		return $this->rightToLoan();
+	}
+
+	/**
+	 * Determine if this member still have right to loan
+	 * 
+	 * @return boolean 
+	 */
+	public function getHasMoreRightToLoanAttribute()
+	{
+		return $this->more_right_to_loan_amount > 0;
+	}
+
+	/**
+	 * Get remaining amount right to loan attribute
+	 * @return numeric
+	 */
+	public function getMoreRightToLoanAmountAttribute()
+	{
+		$latestLoan = $this->latestLoan();
+	    $remainingAmount = $latestLoan->right_to_loan - $latestLoan->loan_to_repay;
+
+	    if ($remainingAmount < 0 ) {
+	    	return 0;
+	    }
+
+	    return $remainingAmount;
 	}
 
 	/**

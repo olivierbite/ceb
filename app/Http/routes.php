@@ -153,5 +153,5 @@ Route::get('settings/users', ['as' => 'ceb.settings.users.index', 'uses' => 'Use
 
 $router->get('/test/{start?}/{end?}',function($start=1,$end=12)
 	{
-	   dd((new Ceb\Models\Loan)->countOutStanding());
+	   dd(Ceb\Models\User::with('loans')->byAdhersion('20070003')->first()->more_right_to_loan_amount);
 	});
