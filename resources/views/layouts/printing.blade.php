@@ -5,15 +5,16 @@
     <title>CEB | PRINTING</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    @include('partials.css')
+    {{-- partials.css --}}
     <style type="text/css"  media="print">
-    @media print {
-      body, html, .invoice,wrapper {
-          width: 100%;
-          font-size: 10px;
+          @media print {
+            body, html, .invoice,wrapper {
+                width: 100%;
+                font-size: 10px;
+            }
       }
-}
     </style>
+    <link rel="stylesheet" type="text/css" href="{!! url('/assets/dist/css/report.css') !!}">
     @yield('headercss')
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -33,16 +34,8 @@
             </div>
           </div>
         <!-- title row -->
-        <div class="row">
-          <div class="col-xs-12">
-            <h2 class="page-header">
-              <span class="logo-mini">
-              <img src="{!! url('assets/dist/img/logo.jpg') !!}" style="width:40px;height:40px;"></span>CEB 
-              <small class="pull-right">Date: {!! date('d/m/Y') !!}</small>
-            </h2>
-          </div><!-- /.col -->
-        </div>
         <img src="{!! url('assets/images/header.png') !!}" style=" display: block;margin-left: auto;margin-right: auto;">
+        <br/>
         {!! $report !!}
           <div class="row no-print">
             <div class="col-xs-12">

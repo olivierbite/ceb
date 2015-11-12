@@ -333,4 +333,30 @@ class ReportController extends Controller {
 		}
     	return view('layouts.printing', compact('report'));
     }
+
+
+    public function loans(Loan $loan,$startDate=null,$endDate=null,$status='all',$excel=0)
+    {
+    	 // First check if the user has the permission to do this
+        if (!$this->user->hasAccess('reports.loans.status')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
+
+            return redirect()->back();
+        }
+
+    	$results = $loan->with('member')->betweenDates($startDate,$endDate);
+    	// if status is not all, then fetch the status
+    	if (strtolower($status) !== 'all') {
+	    	$results = $results->ofStatus($status);
+    	}
+
+    	$loans = $results->orderBy('operation_type','ASC')->paginate(50);
+
+    	$report = view('reports.loans.loans',compact('loans'))->render();
+
+    	if ($excel==1) {
+			 toExcel($report,$status.'_between_'.request()->segment(3).'_and_'.request()->segment(4));
+		}
+    	return view('layouts.printing', compact('report'));
+    }
 }

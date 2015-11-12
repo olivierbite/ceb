@@ -12,7 +12,8 @@ class ReportFilterController extends Controller
         'member_search'     => false,
         'show_institution'  => false,
         'show_dates'        => false,
-        'show_exports'     => false,
+        'show_exports'      => false,
+        'show_loan_status'  => false,
     ];
 
     function __construct() {
@@ -47,6 +48,10 @@ class ReportFilterController extends Controller
          // Should we show export options
          if ($request->has('show_exports')) {
             $this->filterOptions->show_exports      = (bool) $request->get('show_exports');
+         }
+
+         if ($request->has('show_loan_status')) {
+            $this->filterOptions->show_loan_status     = (bool) $request->get('show_loan_status');
          }
 
          $filterOptions = $this->filterOptions;

@@ -41,6 +41,11 @@
   			<i class="icon-chevron-right"></i> {{ trans('report.loans_file') }}
   		</a>
   </li>
+    <li>
+      <a  href="{{ route('reports.filter') }}/?reporturl=reports/loans&show_loan_status=true&show_dates=true&show_exports=true" class="popdown">
+        <i class="icon-chevron-right"></i> {{ trans('report.loan_by_status') }}
+      </a>
+  </li>
   <li>
       <a  href="{{ route('reports.filter') }}/?reporturl=reports/members/refunds&show_dates=true&show_exports=true&show_institutions=true" class="popdown">
         <i class="icon-chevron-right"></i> {{ trans('report.monthly_refund_file') }}

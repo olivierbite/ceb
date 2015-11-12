@@ -48,6 +48,11 @@ class RegularisationController extends Controller
      */
     public function show($id = null,$regularisationType = null)
     {
+           // First check if the user has the permission to do this
+            if (!$this->user->hasAccess('regularisation.index')) {
+                flash()->error(trans('Sentinel::users.noaccess'));
+                return redirect()->back();
+            }
       // First check if the user has the permission to do this
         if (!$this->user->hasAccess('regularisation.view')) {
             flash()->error(trans('Sentinel::users.noaccess'));
@@ -104,6 +109,41 @@ class RegularisationController extends Controller
      */
     public function regulate(Request $request,RegularisationFactory  $regularisationFactory)
     {
+       
+       /**
+        * Check if the user has the right to do this first
+        */
+       if (array_key_exists($request->get('regularisationType'),$this->regularisationsTypes) == false)
+       {
+          flash()->warning(trans('general.we_could_not_determine_what_you_are_looking_for'));
+          return redirect()->route('regularisation.types');
+       }
+
+       if ($request->get('regularisationType') == 'installments' ) { 
+               // First check if the user has the permission to do this
+            if (!$this->user->hasAccess('regularisation.installments')) {
+                flash()->error(trans('Sentinel::users.noaccess'));
+                return redirect()->back();
+            }
+       }
+      
+      elseif ($request->get('regularisationType') == 'amount' ) { 
+               // First check if the user has the permission to do this
+            if (!$this->user->hasAccess('regularisation.amount')) {
+                flash()->error(trans('Sentinel::users.noaccess'));
+                return redirect()->back();
+            }
+       }
+
+       elseif ($request->get('regularisationType') == 'amount_installments' ) { 
+               // First check if the user has the permission to do this
+            if (!$this->user->hasAccess('regularisation.amount.installments')) {
+                flash()->error(trans('Sentinel::users.noaccess'));
+                return redirect()->back();
+            }
+       }
+
+
         $rules = $this->rules($request->all());
         $data  = $this->all($request->all());
 

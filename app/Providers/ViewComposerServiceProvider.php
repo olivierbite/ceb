@@ -27,6 +27,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
 		$this->composerSetting();
 		$this->composerSocialLoanReasons();
 		$this->composerRegularisactions();
+		$this->composerLoanStatus();
 	}
 
 	/**
@@ -203,5 +204,14 @@ class ViewComposerServiceProvider extends ServiceProvider {
 			'regularisation.regularisationstype',
 		];
 		view()->composer($views,'\Ceb\ViewComposers\RegularisactionViewComposer');
+	}
+
+	private function composerLoanStatus()
+	{
+		
+		$views = [
+			'reports.filters.date_filter',
+		];
+		view()->composer($views,'\Ceb\ViewComposers\LoanStatusViewComposer');
 	}
 }

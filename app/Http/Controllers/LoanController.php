@@ -313,7 +313,7 @@ class LoanController extends Controller {
 	   		$loans = $this->loan->with('member.institution')->pending()->paginate(20);
         }
 
-   	    return view('reports.loans.loans',compact('loans'));
+   	    return view('loansandrepayments.pending_loans',compact('loans'));
 
    }
 }

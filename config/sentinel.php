@@ -71,8 +71,10 @@ return [
 		'leaves.view','leaves.approve','leaves.reject','leaves.view.my.leaves','leaves.request.leaves','leaves.view.leave.status',
 		'refund.index','refund.update','refund.complete','refund.cancel','refund.set.institution','refund.set.debit.account','refund.set.credit.account','refund.set.month',
 		'loan.index','loan.add.member.to.loan.form','loan.complete.loan.request','loan.cancel.loan.request','loan.set.loan.cautionneur','loan.remove.loan.cautionneur','loan.check.loan.status','loan.can.approve.loan',
+		'regularisation.index','regularisation.installments','regularisation.amount','regularisation.amount.installments',
 		'member.list', 'member.view', 'member.edit', 'member.create', 'member.delete', 
-		'reports.index','reports.contract.saving','reports.contract.loan','reports.member','reports.accounting.piece','reports.ledger','reports.bilan','reports.journal','reports.accounts.list','reports.loans.records','reports.contributions',
+		'reports.index','reports.contract.saving','reports.contract.loan','reports.member','reports.accounting.piece','reports.ledger',
+		'reports.bilan','reports.journal','reports.accounts.list','reports.loans.records','reports.contributions','reports.loans.status',
 		],
 
 	/*
