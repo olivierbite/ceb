@@ -75,6 +75,7 @@ return [
 		'member.list', 'member.view', 'member.edit', 'member.create', 'member.delete', 
 		'reports.index','reports.contract.saving','reports.contract.loan','reports.member','reports.accounting.piece','reports.ledger',
 		'reports.bilan','reports.journal','reports.accounts.list','reports.loans.records','reports.contributions','reports.loans.status',
+		'utility.can.do.database.backup',
 		],
 
 	/*

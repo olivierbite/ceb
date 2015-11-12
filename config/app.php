@@ -151,7 +151,7 @@ return [
 		Laracasts\Flash\FlashServiceProvider::class,
 		Spatie\Activitylog\ActivitylogServiceProvider::class,
 		Barryvdh\TranslationManager\ManagerServiceProvider::class,
-		Fenos\Notifynder\NotifynderServiceProvider::class
+		Fenos\Notifynder\NotifynderServiceProvider::class,
 
 	],
 

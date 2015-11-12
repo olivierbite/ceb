@@ -17,7 +17,15 @@
           </a>
           <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
-
+            @if (\Sentry::check())
+              @if (\Sentry::getUser()->hasAccess('utility.can.do.database.backup'))
+                <li>
+                <a href="{{ route('utility.backup') }}" class="label label-warning" style="font-size: 14px;">
+                  <i class="fa fa-floppy-o"></i> {{ trans('general.make_database_backup') }}
+                </a>
+                </li>
+              @endif                
+            @endif
               <!-- USER NOTIFICATIO -->
               @include('partials.user-notification')
               
