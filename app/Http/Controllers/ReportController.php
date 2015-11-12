@@ -337,8 +337,14 @@ class ReportController extends Controller {
 
     public function loans(Loan $loan,$startDate=null,$endDate=null,$status='all',$excel=0)
     {
-    	$results = $loan->with('member')->betweenDates($startDate,$endDate);
+    	 // First check if the user has the permission to do this
+        if (!$this->user->hasAccess('reports.loans.status')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
 
+            return redirect()->back();
+        }
+
+    	$results = $loan->with('member')->betweenDates($startDate,$endDate);
     	// if status is not all, then fetch the status
     	if (strtolower($status) !== 'all') {
 	    	$results = $results->ofStatus($status);
