@@ -25,6 +25,8 @@ class ViewComposerServiceProvider extends ServiceProvider {
 		$this->composerLanguages();
 		$this->composerUser();
 		$this->composerSetting();
+		$this->composerSocialLoanReasons();
+		$this->composerRegularisactions();
 	}
 
 	/**
@@ -183,5 +185,23 @@ class ViewComposerServiceProvider extends ServiceProvider {
 			'*',
 		];
 		view()->composer($views,'\Ceb\ViewComposers\SettingViewComposer');
+	}
+
+	private function composerSocialLoanReasons()
+	{
+		$views = [
+			'loansandrepayments.ordinary_loan_form',
+		];
+		view()->composer($views,'\Ceb\ViewComposers\SocialLoanMotivesViewComposer');
+	}
+
+	private function composerRegularisactions()
+	{
+		
+		$views = [
+			'partials.nav_left',
+			'regularisation.regularisationstype',
+		];
+		view()->composer($views,'\Ceb\ViewComposers\RegularisactionViewComposer');
 	}
 }

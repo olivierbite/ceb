@@ -65,9 +65,17 @@ Route::group(['prefix'=>'loans'], function(){
 
 Route::resource('loans', 'LoanController');
 
-/** regularisation */
-Route::get('regularisation/type/{type?}', ['as'=>'regularisation.type','uses'=>'RegularisationController@index']);
-Route::resource('regularisation', 'RegularisationController');
+	/** regularisation */
+	$regularisationsTypes = (new Ceb\ViewComposers\RegularisactionViewComposer)->getRegularisationTypes();
+
+	foreach ($regularisationsTypes as $key => $value) {
+	 Route::get('regularisation/type/'.$key, ['as'=>'regularisation.type.'.$key,'uses'=>'RegularisationController@index']);
+	}
+	
+	Route::post('regularisation/regulate', ['as'=>'regularisation.regulate','uses'=>'RegularisationController@regulate']);
+	Route::get('regularisation/types', ['as'=>'regularisation.types','uses'=>'RegularisationController@regurationTypes']);
+
+	Route::resource('regularisation', 'RegularisationController');
 
 /** Refunds routes */
 // Route::get('/refunds/complete', ['as' => 'refunds.complete', 'uses' => 'RefundController@complete']);
@@ -153,5 +161,5 @@ Route::get('settings/users', ['as' => 'ceb.settings.users.index', 'uses' => 'Use
 
 $router->get('/test/{start?}/{end?}',function($start=1,$end=12)
 	{
-	   dd((new Ceb\Models\Loan)->countOutStanding());
+	   dd(isset($data['debit_accounts'],$data['debit_amounts'],$data['credit_accounts'],$data['credit_amounts'],$data['loan_to_repay']));
 	});

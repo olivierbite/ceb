@@ -58,7 +58,8 @@ class LoanFactory {
 			}
 	 	}
 		
-
+	 	$this->clearAll();
+	 	
 		Session::put('loan_member', $member);
 
 		$this->updateCautionneur();
@@ -242,7 +243,7 @@ class LoanFactory {
 			}
 		}
 
-		Session::put('', $cautionneurs);
+		Session::put('cautionneurs', $cautionneurs);
 	}
 
 	/**
@@ -466,6 +467,7 @@ class LoanFactory {
 		$data['special_loan_interests'] = 0;
 		$data['special_loan_amount_to_receive'] = 0;
 		$data['rate'] = $this->getInterestRate();
+		$data['reason'] = isset($inputs['reason']) ? $inputs['reason'] : null;
 		$data['urgent_loan_interests']  = $inputs['urgent_loan_interests'];
 		$data['user_id'] = Sentry::getUser()->id;
 
@@ -587,6 +589,7 @@ class LoanFactory {
 		$interestRate = $this->getInterestRate();
 		$administration_fees = (int) $this->setting->keyValue('loan.administration.fee');
 		$numberOfInstallment = $this->getTranschesNumber();
+		
 		// Interest formular
 		// The formular to calculate interests at ceb is as following
 		// I =  P *(TI * N)

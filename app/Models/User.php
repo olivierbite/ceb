@@ -8,11 +8,11 @@ use Ceb\Models\Setting;
 use Fenos\Notifynder\Notifable;
 use Illuminate\Support\Facades\DB;
 use Vinkla\Hashids\Facades\Hashids;
-use Cartalyst\Sentry\Users\Eloquent\User as Model;
+use Cartalyst\Sentry\Users\Eloquent\User as SentinelModel;
 use Ceb\Traits\LogsActivity;
 use Spatie\Activitylog\LogsActivityInterface;
 
-class User extends Model {
+class User extends SentinelModel {
 
 	use Notifable;
 
@@ -307,7 +307,31 @@ class User extends Model {
 	 */
 	public function rightToLoan()
 	{
-		return $this->generalRightToLoan() - $this->loanBalance();
+		// If this member has active loan, as we calculate 
+		// Amount to loan that he is eligeable for we 
+		// need to consider right to loan a member
+		// had before we give him this loan
+		// 
+		if (($generalRightToLoan = $this->generalRightToLoan()) < 0) {
+			return 0;
+		}
+
+		$latestLoan 		= $this->latestLoan();
+		$contributions 		= $this->contributions();
+
+		// Since this member has active loan, let's determine
+		// what is his right loan as of previous loan
+		// Then deduct the loan he was given
+
+		if ($this->hasActiveLoan()) {	
+
+			$generalRightToLoan = $contributions->before($latestLoan->created_at)->sum('amount') * $this->rightToLoanPercentage;
+			$rightToLoan = $generalRightToLoan - $latestLoan->loan_to_repay;
+
+			return  ($rightToLoan > 0 ) ? $rightToLoan : 0;
+		}
+
+		return $generalRightToLoan;
 	}
 
 	/**
@@ -316,7 +340,33 @@ class User extends Model {
 	 */
 	public function getRightToLoanAttribute()
 	{
-		return $this->generalRightToLoan() - $this->loanBalance();
+		return $this->rightToLoan();
+	}
+
+	/**
+	 * Determine if this member still have right to loan
+	 * 
+	 * @return boolean 
+	 */
+	public function getHasMoreRightToLoanAttribute()
+	{
+		return $this->more_right_to_loan_amount > 0;
+	}
+
+	/**
+	 * Get remaining amount right to loan attribute
+	 * @return numeric
+	 */
+	public function getMoreRightToLoanAmountAttribute()
+	{
+		$latestLoan = $this->latestLoan();
+	    $remainingAmount = $latestLoan->right_to_loan - $latestLoan->loan_to_repay;
+
+	    if ($remainingAmount < 0 ) {
+	    	return 0;
+	    }
+
+	    return $remainingAmount;
 	}
 
 	/**

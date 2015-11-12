@@ -30,9 +30,9 @@ return array (
   'refunds' => 'Remboursements',
   'leaves'  => 'Leaves management',
   'regularisation' => 'Regularisation',
-  'regularisation_installments' =>'Installments',
-  'regularisation_amount' =>'Amount',
-  'regularisation_both' =>'Both',
+  'installments' =>'Installments',
+  'amount' =>'Amount',
+  'amount_installments' =>'Amount Installments',
 
 
 );

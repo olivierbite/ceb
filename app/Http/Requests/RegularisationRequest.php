@@ -32,23 +32,48 @@ class RegularisationRequest extends Request
     public function rules()
     {
 
-        // Only validate for other method other than get
-        if ($this->isMethod('get')) {
-           return [];
+        $attributes = parent::all();
+
+        $rightToLoan = 0 ;
+        $member      = null;
+
+        if (isset($attributes['adhersion_id'])) {
+          $member = $this->member->findByAdhersion($attributes['adhersion_id']);
         }
-     
-      //Continue with Rule validation
-        return [
-          'operation_type'    =>  'required|min:3',
-          'loan_to_repay'     =>  'required|numeric|min:5000',
-          'wording'           =>  'required|min:6',
-          'cheque_number'     =>  'required|alpha_dash|min:5',
-          'bank'              =>  'required|min:1',
-          'accounting_amount' =>  'required|confirmed|numeric|min:'.parent::get('amount'),
-          'loanaccountamount' =>  'required|confirmed|numeric',
-          'cautionneur'       =>  'confirmed',
-          'accounts'          =>  'confirmed',
+
+        if (!is_null($member)) {
+          $rightToLoan = $member->more_right_to_loan_amount;
+        }
+
+
+      $validations = [
+          'adhersion_id'          =>  'required|min:4',
+          'loan_id'               =>  'required|numeric',
+          'regularisationType'    =>  'required|min:3',
+          'wording'               =>  'required|min:6',
         ];
+      
+       /**
+       * If this regularisation needs to deal with installments
+       */
+       if (strpos(strtolower($attributes['regularisationType']), 'installments')  !== false ) { 
+          $validations['additional_installments'] = 'required|numeric|min:1';
+       }
+
+      /**
+       * If this regularisation needs to deal with money
+       */
+      if (strpos(strtolower($attributes['regularisationType']), 'amount')  !== false ) { 
+        $validations['loan_to_repay']         =  'required|numeric|max:'.$rightToLoan;
+        $validations['cheque_number']         =  'required|alpha_dash|min:5';
+        $validations['bank']                  =  'required|min:1';
+        $validations['accounting_amount']     =  'required|confirmed|numeric|min:'.parent::get('amount');
+        $validations['loanaccountamount']     =  'required|confirmed|numeric';
+        $validations['accounts']              =  'confirmed';
+      }
+
+      //Continue with Rule validation
+      return  $validations;
     }
 
     /**
@@ -60,24 +85,20 @@ class RegularisationRequest extends Request
         // Grab all inputs from the user
         $attributes = parent::all();
 
-        dd($attributes);
         // Continue only if the method is get 
          if ($this->isMethod('get')) {
            return $attributes;
         }
 
         /** We don't have to continue if regularisation type is installment */
-        if ($attributes['regularisationType'] == 'installments') {
+        if (strtolower($attributes['regularisationType']) === 'installments') {
             return $attributes;
         }
-
-        // Set the member by his adhersion ID
-        $memberId = $this->member->findByAdhersion($attributes['adhersion_id'])->id;
 
         // Modify or Add new array key/values
         // ==================================
         // Make sure these fields are numeric
-         $attributes['loan_to_repay']  = intval($attributes['loan_to_repay']) ;
+         $attributes['loan_to_repay']  = isset($attributes['loan_to_repay'])?  intval($attributes['loan_to_repay']):null ;
 
          if ($attributes['loan_to_repay'] > 0 ) {
             // Validating account amount
@@ -101,30 +122,6 @@ class RegularisationRequest extends Request
             }
         }
 
-        // Validate bonded amount
-        if (isset($attributes['amount_bonded'])) {
-        
-        $bondedAmount = (int) $attributes['amount_bonded'];
-        $contributions = (int) str_replace(',', '', $attributes['member']['contributions']);
-
-        // If we have bonded amount then check if we have cautionneur
-        // If the amount to repay is higher than total contributions  
-        // we need to have a cautionneur
-        if (!empty($bondedAmount) && ($attributes['loan_to_repay'] > $contributions )) {
-            // If we have bonded amount make sure we fail this transacation            
-            $cautionneur = $this->loanFactory->getCautionneurs();
-
-            //  We can only allow two cautionneurs if they are not set 
-            //  We will fail this validation
-            if (count($cautionneur) !== 2) {
-                 $attributes['cautionneur']                 = 'cautionneur';
-                 $attributes['cautionneur_confirmation']    = 'cautionneur_to_faile';
-            }
-        }else{
-          $attributes['amount_bonded'] = 0;
-        }
-
-        }
         // Format/sanitize data here
         return $attributes;
     }

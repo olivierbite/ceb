@@ -1,7 +1,7 @@
 <?php
 
 return array (
-  'please_search_for_a_member_in_the_above_search_box_before_you_continue' => 'Please search',
+  'please_search_for_a_member_in_the_above_search_box_before_you_continue' => 'Please search for a member in the above search box before you continue',
   'upload_photo' => 'Upload photo',
   'photo_selected' => 'Photo selected',
   'upload_signature' => 'Upload signature',

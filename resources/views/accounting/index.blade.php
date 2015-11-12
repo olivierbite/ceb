@@ -10,6 +10,6 @@
 
 	@include('accounting.form')
 
-	@include('partials.saving_cancel_buttons',['route'=>'accounting'])
+	@include('partials.buttons',['cancelRoute'=>'accounting.index'])
 
 @stop

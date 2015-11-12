@@ -18,6 +18,7 @@
 {{ Session::forget('error') }}
 @endif
 
+
 @if ($message = Session::get('warning'))
 <div class="row">
 	<div data-alert class="alert alert-warning radius">
