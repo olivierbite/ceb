@@ -45,7 +45,7 @@ return array (
   'contract_saving' => 'Contrat d\'Epargne',
   'contract_loan'    => 'Contrat de Pret',
   'loan_records'    => 'Fiche de Pret',
-  'refund_loan'     => 'Fiche de Remboursement',
+  'refund_loan'     => 'Rembourse',
   'do_a_transaction' => 'Faire une Transactions',
   'total_contribution'=>'Total Epargne',
   'loan_as_of_today'=>'Credit en cours',
@@ -66,4 +66,7 @@ return array (
 'member_create'=>'Cree',
 'member_delete'=>'Efface',
 'total_cautions_amount'=>'Montant Total Cautionnne',
+'view_members'=>'Vue Membres',
+'left_members'=>'Membres Retire',
+'active_members'=>'Membre Active',
 );

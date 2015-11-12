@@ -19,5 +19,6 @@ return array (
   'options'=>'Options',
   'write_your_wording'=>'Write your  wording',
   'cheque_number'=>'Cheque number',
+  'view_full_lists'=>'View full list',
 
 );

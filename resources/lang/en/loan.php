@@ -70,4 +70,5 @@ return [
   'administration_fees'=>'Administration fees',
    'remaining_installments'=>'Remaining Installments',
    'additional_amount_to_repay'=>'Montant additionel a payer',
+   
 ];

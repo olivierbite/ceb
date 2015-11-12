@@ -60,4 +60,8 @@ return array (
 'member_delete'=>'delete',
 'select_movement_type_first'=>'Select movement type first',
 'total_cautions_amount'=>'Total cautions amount',
+'view_members'=>'View Members',
+'left_members'=>'Left Members',
+'active_members'=>'Active Members',
+
 );

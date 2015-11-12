@@ -16,5 +16,7 @@ return array (
   'options'=>'Options',
   'write_your_wording'=>'libelle',
   'cheque_number'=>'Cheque numero',
+    'view_full_lists'=>'Vue liste complet',
+
 
 );
