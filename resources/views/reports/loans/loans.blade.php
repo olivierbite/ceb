@@ -1,26 +1,51 @@
-@extends('layouts.default')
-
-@section('content')
-{!! method_exists(get_class($loans),'render') ? $loans->render() : null !!}
-<table class="table table-bordered">
+<table class="pure-table pure-table-bordered">
+<caption>	
+		{{ trans('reports.'.request()->segment(5).'_loans') }}  
+		{{ trans('general.between') }} 
+			{!! date('d/M/Y',strtotime(request()->segment(3))) !!} 
+		{{ trans('general.and') }} 
+			{!! date('d/M/Y',strtotime(request()->segment(4))) !!}
+</caption>
 	<thead>
-		<th>{{ trans('member.names') }} </th>
-		<th>{{ trans('member.institution') }}</th>
-		<th>{{ trans('member.adhersion_number') }}</th>
-		<th>{{ trans('member.balance_of_loan') }} </th>
-		<th>{{ trans('member.right_to_loan') }} </th>
-		<th>{{ trans('loan.wished_amount') }} </th>
-		<th>{{ trans('loan.rate') }}</th>
-		<th>{{ trans('loan.number_of_installments') }}</th>
-		<th>{{ trans('loan.monthly_installments') }}</th>
-		<th>{{ trans('loan.loan_to_repay') }}</th>
-		<th>{{ trans('loan.interests') }}</th>
- 		<th style="width: 170px;"><i class="fa fa-gear"></i>{{ trans('general.action') }}</th>
+		<tr>
+			<th>#</th>
+			<th>Noms et prenoms</th>
+			<th>Institution</th>
+			<th>Nº Adhesion</th>
+			<th>Epargne</th>
+			<th>Dette</th>
+			<th>Solde</th>
+			<th>CM</th>
+			<th>Droit</th>
+			<th>Souhait</th>
+			<th>Taux</th>
+			<th>Ech</th>
+			<th>Tranche</th>
+			<th>P A Remb</th>
+			<th>Nouv dette</th>
+			<th>Facteur</th>
+			<th>Interets</th>
+			<th>Int P O U</th>
+			<th>N A T</th>
+			<th>N P DRT</th>
+		</tr>
 	</thead>
-
 	<tbody>
-		@each ('reports.loans.item', $loans, 'loan', 'partials.no-item')
+		
+		<?php $number = 1; ?>
+		<?php $loanType = null; ?>
+		@foreach ($loans as $loan)
+
+			@if ($loanType !== $loan->operation_type)
+			<tr>
+				<th colspan="20">{!! $loanType = $loan->operation_type; !!}</th>
+			</tr>
+			<?php $number = 1; ?>
+			@endif
+
+			@include('reports.loans.item',compact('loan','number'))
+			<?php $number++; ?>
+		@endforeach
+
 	</tbody>
 </table>	
-{!! method_exists(get_class($loans),'render') ? $loans->render() : null !!}
-@endsection

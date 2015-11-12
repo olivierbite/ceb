@@ -36,9 +36,18 @@
 <br/>
 <br/>
 @endif
+
+@if ($filterOptions->show_loan_status == true)
+<div>
+	<b>{!! trans('reports.loan_status') !!} :</b> 
+    {!! Form::select('loan_status', $loanStatuses, null , ['class' => 'loan_status']) !!}
+ </div>
+@endif	
+
+
 @if ($filterOptions->show_exports == true)
 <div>
-	<b>{!! trans('reports.export_excel') !!}</b> :
+	<b>{!! trans('reports.export_excel') !!} :</b> 
 	<input type="radio" name="export_excel" id="export_excel_yes" value="1"> {!! trans('general.yes') !!}
 	<input type="radio" name="export_excel" id="export_excel_no" value="0" checked="checked"> {!! trans('general.no') !!}
 	</div>
@@ -56,6 +65,7 @@ $(document).ready(function()
 		var baseUrl = $(".report-name").val();
 		var url = null;
 		var export_excel = 0;
+		var daterange    = null;
 		var adhersion_id = 'none';
 		if ($('#export_excel_yes').is(':checked'))
 		{
@@ -65,13 +75,27 @@ $(document).ready(function()
 
 		if ($("#simple_radio").is(':checked'))
 		{
-			 url= '/'+baseUrl+'/'+$("#report_date_range_simple option:selected").val() +'/'+export_excel;
+			 daterange = $("#report_date_range_simple option:selected").val();
+			 url= '/'+baseUrl+'/'+daterange +'/'+export_excel;
+			 /** if we are going to look for loan status then change the url format */
+			if($('.loan_status').length !== 0 ){
+				var loan_status = $('.loan_status').val();
+				url = '/'+baseUrl+'/'+daterange +'/'+loan_status+'/'+ export_excel;
+			}
 		}
 		else
 		{
 			var start_date = $(".start_year").val()+'-'+$(".start_month").val()+'-'+$('.start_day').val();
 			var end_date = $(".end_year").val()+'-'+$(".end_month").val()+'-'+$('.end_day').val();
-			url = '/'+baseUrl+'/'+start_date + '/'+ end_date +'/'+ export_excel;
+
+			daterange = start_date + '/'+ end_date;
+			url = '/'+baseUrl+'/'+ daterange+'/'+ export_excel;
+
+			/** if we are going to look for loan status then change the url format */
+			if($('.loan_status').length !== 0 ){
+				var loan_status = $('.loan_status').val();
+				url = '/'+baseUrl+'/'+daterange +'/'+loan_status+'/'+ export_excel;
+			}
 		}
         
 		/** Add additinal parameters for the members routes */
@@ -92,13 +116,12 @@ $(document).ready(function()
 			url = url +'/'+adhersion_id;
 		}
 
-		console.log($('.member_id').val());
 		if(baseUrl.indexOf('contract') !== -1)
 		{
-
-	   console.log(baseUrl.indexOf('contract'));
+           
 			url = baseUrl+'/'+adhersion_id+'/'+ export_excel;
 		}
+
 		/** OPEN  THE REPORT */
 		OpenInNewTab(url);
 

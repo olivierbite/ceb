@@ -8,9 +8,10 @@
 	 */
     function toExcel($report,$name='report'){
 			$filename = $name .'.xls';
-			header('Content-type: application/vnd.ms-excel');
-			header('Content-Disposition: attachment; filename='.$filename);
-			 return $report;
+			header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+			header('Content-Disposition: attachment;filename="'.$filename.'"');
+			header('Cache-Control: max-age=0');
+			return $report;
 	}
 
 /**
