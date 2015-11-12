@@ -4,7 +4,7 @@ return array (
   'dashboard' => 'Tableaux de bord ',
   'members' => 'Membres',
   'contributions_and_savings' => 'Cotisation & Epargne',
-  'loans_and_repayments' => 'Pret & Repaiement',
+  'loans_and_repayments' => 'Pret & Repaiyement',
   'accounting' => 'Comptabilite',
   'reports' => 'Rapports',
   'settings' => 'Configurations',
