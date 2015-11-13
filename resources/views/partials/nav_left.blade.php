@@ -65,7 +65,7 @@
                 @foreach ($regularisations as $key=>$value)
                   <li>
                     <a href="{{ route('regularisation.type.'.$key) }}">
-                    <i class="fa fa-money"></i>{{ trans($value) }}
+                    <i class="fa fa-level-up"></i>{{ trans($value) }}
                     </a>
                   </li>
                 @endforeach
@@ -93,12 +93,12 @@
             </li>
             <li class="{{ (Request::is('items*') ? 'active' : '') }} ">
               <a href="{!! route('items.index') !!}">
-               <i class="fa fa-shopping-cart"></i></i> <span>{{ trans('navigations.items_inventory') }}</span>
+               <i class="fa fa-tasks"></i></i> <span>{{ trans('navigations.items') }}</span>
               </a>
             </li>
             <li class="{{ (Request::is('report*') ? 'active' : '') }} ">
               <a href="{!! route('reports.index') !!}">
-                <i class="fa fa-table"></i> <span>{{ trans('navigations.reports') }}</span>
+                <i class="fa fa-bar-chart"></i> <span>{{ trans('navigations.reports') }}</span>
               </a>
             </li>
             <li class="treeview">

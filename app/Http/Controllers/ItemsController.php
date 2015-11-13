@@ -11,7 +11,8 @@ use Illuminate\Support\Facades\Input;
 class ItemsController extends Controller
 {
    function __construct(Item $item){
-    $this->item = $item;
+        parent::__construct();
+        $this->item = $item;
    }
 
     /**
@@ -20,6 +21,12 @@ class ItemsController extends Controller
      * @return  view
      */
     public function index() {
+        // First check if the user has the permission to do this
+        if (!$this->user->hasAccess('items.index')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
+
+            return redirect()->back();
+        }
       $items = $this->item->paginate(20);
       return view('items.list',compact('items'));
     }
@@ -34,12 +41,20 @@ class ItemsController extends Controller
         $item = new Item;
         if (!empty($data  = $request->all())) 
         {
+            // First check if the user has the permission to do this
+            if (!$this->user->hasAccess('items.add')) {
+                flash()->error(trans('Sentinel::users.noaccess'));
+
+                return redirect()->back();
+            }
+
             $insert = $this->item->insert($data);
             if ($insert === TRUE) 
             {
                 flash()->success(trans('item.item_added'));
                 return redirect()->route('items.index');
             } 
+
             return redirect()->back()->withErrors($insert)->withInput();
         }
         return view('items.add',compact('item'));
@@ -60,17 +75,31 @@ class ItemsController extends Controller
         } 
 
         if (!empty($item) && !empty($data = Input::all())) 
-        {
+        {   
+            // First check if the user has the permission to do this
+            if (!$this->user->hasAccess('items.edit')) {
+                flash()->error(trans('Sentinel::users.noaccess'));
+                return redirect()->back();
+            }
+
             $update = $item->modify($data);
             if ($update === TRUE) 
             {
                 flash()->success(trans('item.item_item_updated'));
                 return redirect()->route('items.index');
             } 
+
             return redirect()->route('items.edit',['id'=>$id])
                                 ->withErrors($update)
                                 ->withInput();
         }
+
+        // First check if the user has the permission to do this
+        if (!$this->user->hasAccess('items.view')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
+            return redirect()->back();
+        }
+
         return view('items.add', compact('item'));
     }
 
@@ -80,6 +109,13 @@ class ItemsController extends Controller
      * @return  redirect
      */
     public function delete($id) {
+
+        // First check if the user has the permission to do this
+        if (!$this->user->hasAccess('items.delete')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
+            return redirect()->back();
+        }
+        
         // Find by ID first
         $item = $this->item->find($id);
         if (!empty($item)) {
@@ -89,6 +125,7 @@ class ItemsController extends Controller
                return redirect()->back();
             }
         }
+
         flash()->warning('item.item_deleted');
         return redirect()->route('items.index');        
     }
