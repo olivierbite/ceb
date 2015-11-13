@@ -4,7 +4,8 @@
 @if (!$contributions->isEmpty())
 	@include('reports.member.partials.profile',['member'=>$contributions->last()->member])
 @endif 
-<table class="ui table">
+<table class="pure-table pure-table-bordered">
+<caption> {{ trans('reports.member_contribution_file') }} </caption>
   	 <thead>
   	 	<tr>
 	  	 	<th>{{ trans('general.date') }}</th>

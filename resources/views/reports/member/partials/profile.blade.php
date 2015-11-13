@@ -1,4 +1,4 @@
- <table class="ui table" style="width:40%;padding:0;line-height: 9; ">
+ <table class="pure-table pure-table-bordered" style="width:40%; ">
   	 	<tr>
 	  	 	<th>{{ trans('member.adhersion_number') }}</th>
 	     	<td>{{ $member->adhersion_id }}</td>
