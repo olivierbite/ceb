@@ -13,6 +13,19 @@
 			header('Cache-Control: max-age=0');
 			return $report;
 	}
+/**
+ * This will execute $cmd in the background (no cmd window) without PHP waiting for it to finish, on both Windows and Unix. 
+ * @param  string $cmd 
+ * @return void
+ */
+function execInBackground($cmd) { 
+    if (substr(php_uname(), 0, 7) == "Windows"){ 
+        pclose(popen("start /B ". $cmd, "r"));  
+    } 
+    else { 
+        exec($cmd . " > /dev/null &");   
+    } 
+} 
 
 /**
  * Get simple range dates

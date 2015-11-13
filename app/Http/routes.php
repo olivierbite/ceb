@@ -168,7 +168,25 @@ Route::post('files/add', [
 Route::get('settings/users', ['as' => 'ceb.settings.users.index', 'uses' => 'UserController@index']);
 
 
+/** UTILITY ROUTES */
+$router->get('/utility/backup',['as'=>'utility.backup','uses'=>'UtilityController@backup']);
+
 $router->get('/test/{start?}/{end?}',function($start=1,$end=12)
 	{
-	   dd(isset($data['debit_accounts'],$data['debit_amounts'],$data['credit_accounts'],$data['credit_amounts'],$data['loan_to_repay']));
-	});
+		$dbhost = env('DB_HOST');
+		$dbuser = env('DB_USERNAME');
+		$dbpass = env('DB_PASSWORD');
+		$dbname = env('DB_DATABASE');
+		$fileName = $dbname.'_backup_'.date('Y-M-d').'.gz';
+		$pathToFile = storage_path('app').'/'.$fileName;
+
+		$mysqldump=exec('which mysqldump');
+		$path = exec('pwd');
+
+		$command = "$mysqldump --opt -h $dbhost --user='$dbuser' --password='$dbpass'  $dbname |gzip > $pathToFile.gz";
+
+		return response()->download($fileName);
+
+		return response()->download($pathToFile, $name, $headers);
+		dd($path,$command,exec($command),exec($dbpass));
+   });
