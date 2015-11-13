@@ -229,6 +229,7 @@ class MemberRepository implements MemberRepositoryInterface {
 	return $members->transform(function($member){
 
 			return [
+					'id'	=> $member->id,
 					'photo' => $member->photo,
 					'adhersion_id' => $member->adhersion_id,
 					'first_name' => $member->first_name,
