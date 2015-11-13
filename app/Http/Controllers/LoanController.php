@@ -273,7 +273,7 @@ class LoanController extends Controller {
    		$loan = $this->loan->pending()->find($loanId);
 
    		if (is_null($loan)) {
-   			flash()->worning(trans('loan.we_could_not_find_the_loan_you_are_looking_for'));
+   			flash()->warning(trans('loan.we_could_not_find_the_loan_you_are_looking_for'));
    			return redirect()->back();
    		}
 
