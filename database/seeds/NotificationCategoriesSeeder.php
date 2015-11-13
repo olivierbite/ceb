@@ -12,9 +12,6 @@ class NotificationCategoriesSeeder extends Seeder
     public function run()
     {
     	
-      if (DB::table('notification_categories')->count() > 0) {
-      	return true;
-      }
 	  $notificatCategories =    [
 								  0 =>  [
 								    "name" => "loan.loan",
@@ -46,7 +43,7 @@ class NotificationCategoriesSeeder extends Seeder
 								  ]
 								  
 								];
-
+		DB::table('notification_categories')->truncate();
 		 DB::table('notification_categories')->insert($notificatCategories);
 
     }
