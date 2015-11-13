@@ -39,6 +39,10 @@ class NotificationCategoriesSeeder extends Seeder
 								  5 =>  [
 								    "name" => "loan.request.received",
 								    "text" => "{from.username} has received your loan request.",
+								  ],
+								  6 =>  [
+								  	"name" => "loan.approved",
+								  	"text" => "Your loan request has been approved",
 								  ]
 								  
 								];
