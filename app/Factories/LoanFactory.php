@@ -359,7 +359,7 @@ class LoanFactory {
                    ->from($this->user->id)
                    ->to($user->id)
                    ->url(route('loan.pending',['loanid'=>$saveLoan->id]))
-                   ->send();
+                   ->sendWithEmail();
            }
 		}
 

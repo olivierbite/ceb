@@ -15,8 +15,7 @@ return [
     |
     */
 
-    'driver' => env('MAIL_DRIVER', 'smtp'),
-
+  'driver' => 'mandrill',
     /*
     |--------------------------------------------------------------------------
     | SMTP Host Address
@@ -27,9 +26,7 @@ return [
     | the Mailgun mail service which will provide reliable deliveries.
     |
     */
-
-    'host' => env('MAIL_HOST', 'smtp.mailgun.org'),
-
+    'host' => 'smtp.mailgun.org',
     /*
     |--------------------------------------------------------------------------
     | SMTP Host Port
@@ -40,9 +37,7 @@ return [
     | stay compatible with the Mailgun e-mail application by default.
     |
     */
-
-    'port' => env('MAIL_PORT', 587),
-
+    'port' => 587,
     /*
     |--------------------------------------------------------------------------
     | Global "From" Address
@@ -53,9 +48,7 @@ return [
     | used globally for all e-mails that are sent by your application.
     |
     */
-
-    'from' => ['address' => null, 'name' => null],
-
+    'from' => array('address' => 'kamaroly@gmail.com', 'name' => 'huguka'),
     /*
     |--------------------------------------------------------------------------
     | E-Mail Encryption Protocol
@@ -66,9 +59,7 @@ return [
     | transport layer security protocol should provide great security.
     |
     */
-
-    'encryption' => env('MAIL_ENCRYPTION', 'tls'),
-
+    'encryption' => 'tls',
     /*
     |--------------------------------------------------------------------------
     | SMTP Server Username
@@ -79,9 +70,7 @@ return [
     | connection. You may also set the "password" value below this one.
     |
     */
-
-    'username' => env('MAIL_USERNAME'),
-
+    'username' => null,
     /*
     |--------------------------------------------------------------------------
     | SMTP Server Password
@@ -92,9 +81,7 @@ return [
     | connection so that the application will be able to send messages.
     |
     */
-
-    'password' => env('MAIL_PASSWORD'),
-
+    'password' => null,
     /*
     |--------------------------------------------------------------------------
     | Sendmail System Path
@@ -105,9 +92,7 @@ return [
     | been provided here, which will work well on most of your systems.
     |
     */
-
     'sendmail' => '/usr/sbin/sendmail -bs',
-
     /*
     |--------------------------------------------------------------------------
     | Mail "Pretend"
@@ -118,7 +103,7 @@ return [
     | you may inspect the message. This is great for local development.
     |
     */
-
     'pretend' => false,
+
 
 ];

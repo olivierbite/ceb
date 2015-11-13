@@ -61,12 +61,13 @@ class LeaveController extends Controller
             $leave = Leave::findOrFail($id);
             $leave->status = Leave::$approved;
             $leave->save();
-                    // Send notification
+        
+            // Send notification
            $notifier->category('leave.approved')
                     ->from($this->user->id)
                     ->to($leave->user_id)
                     ->url(route('leaves.show'))
-                    ->send();
+                    ->sendWithEmail();;
 
             flash()->success(trans('leave.leave_approved_successfully'));
             return redirect()->route('leaves.pending'); 
@@ -99,7 +100,7 @@ class LeaveController extends Controller
                    ->from($this->user->id)
                    ->to($leave->user_id)
                    ->url(route('leaves.show'))
-                   ->send();
+                   ->sendWithEmail();
 
             flash()->success(trans('leave.leave_rejected_successfully'));
             
@@ -217,7 +218,7 @@ class LeaveController extends Controller
                    ->from($this->user->id)
                    ->to($user->id)
                    ->url(route('leaves.index'))
-                   ->send();
+                   ->sendWithEmail();
            }
         }
         
