@@ -116,6 +116,9 @@ return [
         'reason' =>[
             'min' => 'Please choose the reason for this social loan before you continue',
         ],
+        'cautionneur1'=>[
+            'required' => 'Please select a cautionneur for this loan',
+        ],
     ],
 
 

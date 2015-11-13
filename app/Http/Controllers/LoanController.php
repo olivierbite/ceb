@@ -148,7 +148,10 @@ class LoanController extends Controller {
         // First log 
         Log::info($this->user->email . ' is setting loan cautionneur');
 	
-		$this->loanFactory->setCautionneur(Input::all());
+		if($this->loanFactory->setCautionneur(Input::all()))
+		{			
+			flash()->success(trans('loan.cautionneur_has_been_added_successfully'));
+		}
 
 		return $this->reload();
 	}
@@ -191,13 +194,14 @@ class LoanController extends Controller {
 		$rightToLoan = 0;
 
 		if ($member->exists) {
-			$rightToLoan = $member->rightToLoan();
+			$rightToLoan = $member->right_to_loan;
 		}
 
 		/**
 		 * Get what the user is allowed to have if configured 
 		 */
 		$settingKey = strtolower($loanInputs['operation_type']).'.amount';
+
 		if ($this->setting->hasKey($settingKey) !== false) {
 			 $rightToLoan = $this->setting->keyValue($settingKey);
 			 $activeLoan = $member->latestLoan();

@@ -8,6 +8,7 @@ use Illuminate\Contracts\Filesystem\Factory as Storage;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Request;
 
 class FileController extends Controller {
@@ -80,6 +81,8 @@ class FileController extends Controller {
 	 */
 	public function get($filename=null) {
 
+      try
+      {
 		$entry = $this->file->where('filename', '=', $filename)->first();
 		// If we don't have a file, return this dumy path
 		if (is_null($entry)) {
@@ -90,6 +93,11 @@ class FileController extends Controller {
 
 		return (new Response($file, 200))
 			->header('Content-Type', $entry->mime);
+		}
+		catch(FileNotFoundException $e)
+		{
+			return redirect(url('assets/dist/img/no-image.png'));
+		}
 	}
 
 }

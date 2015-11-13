@@ -288,7 +288,7 @@ class User extends SentinelModel {
 	 */
 	public function generalRightToLoan() 
 	{
-		return $this->totalContributions() * $this->rightToLoanPercentage;
+		return $this->total_contribution * $this->rightToLoanPercentage;
 	}
 	/**
 	 * general_right_to_loan attributes
@@ -311,8 +311,8 @@ class User extends SentinelModel {
 		// Amount to loan that he is eligeable for we 
 		// need to consider right to loan a member
 		// had before we give him this loan
-		// 
-		if (($generalRightToLoan = $this->generalRightToLoan()) < 0) {
+		
+		if (($generalRightToLoan = $this->generalRightToLoan()) <= 0) {
 			return 0;
 		}
 
@@ -328,6 +328,7 @@ class User extends SentinelModel {
 			$generalRightToLoan = $contributions->before($latestLoan->created_at)->sum('amount') * $this->rightToLoanPercentage;
 			$rightToLoan = $generalRightToLoan - $latestLoan->loan_to_repay;
 
+
 			return  ($rightToLoan > 0 ) ? $rightToLoan : 0;
 		}
 
@@ -340,6 +341,7 @@ class User extends SentinelModel {
 	 */
 	public function getRightToLoanAttribute()
 	{
+
 		return $this->rightToLoan();
 	}
 

@@ -58,8 +58,6 @@ class LoanFactory {
 			}
 	 	}
 		
-	 	$this->clearAll();
-	 	
 		Session::put('loan_member', $member);
 
 		$this->updateCautionneur();
@@ -166,15 +164,14 @@ class LoanFactory {
 	 * Set new cautionneur
 	 * @param array $cautionneur
 	 */
-	public function setCautionneur(array $cautionneur) {
+	public function setCautionneur(array $cautionneur) 
+	{
 		$arrayKey = array_keys($cautionneur)[0];
 		$cautionneurId = array_values($cautionneur)[0];
 		$cautionneurs = $this->getCautionneurs();
 
 		// Get rid of any empty array element we may have
         $cautionneurs = is_array($cautionneurs) ? array_filter($cautionneurs):[];
-
-        $cautionneurs = array_shift($cautionneurs);
 
         $newCautionneur = $this->member->findByAdhersion($cautionneurId);
 
@@ -184,9 +181,11 @@ class LoanFactory {
 			return false;
 		}
 
-		if (!empty($cautionneurs)) {
+
+		if (!empty($cautionneurs) && is_array($cautionneurs)) {
+		$existingKey  = array_keys($cautionneurs)[0];
         // Make sure we are not setting one cautionneurs two times
-    	if ($cautionneurs->id == $newCautionneur->id) {
+    	if ($cautionneurs[$existingKey]->id == $newCautionneur->id) {
     		flash()->error(trans('loan.the_member_you_are_trying_to_set_is_already_set_as_cautionneur_please_choose_another_member'));
 				// Nothing to do here
 			return false;
@@ -199,21 +198,14 @@ class LoanFactory {
 			flash()->error(trans('loan.cautionneur_should_not_be_the_same_as_the_member_requesting_loan'));
 			return false;
 		}
-
-		// Only set if this is not empty
-		if (!empty($cautionneurs)) {
-	        $allCautionneurs['cautionneur1'] = $cautionneurs;
-	        $allCautionneurs['cautionneur2'] = $newCautionneur;
-		}
-		else
-		{
-			$allCautionneurs['cautionneur1'] = $newCautionneur;
-		}
+	
+	    $cautionneurs[$arrayKey]= $newCautionneur;
 
 		// Add this to loan input
 		$this->addLoanInput([$arrayKey=>$newCautionneur->id]);
-		flash()->success(trans('loan.cautionneur_has_been_added_successfully'));
-		Session::put('cautionneurs', $allCautionneurs);
+		Session::put('cautionneurs', $cautionneurs);
+
+		return true;
 	}
 
 	/**
@@ -242,7 +234,6 @@ class LoanFactory {
 				unset($cautionneurs[$key]);
 			}
 		}
-
 		Session::put('cautionneurs', $cautionneurs);
 	}
 
@@ -251,7 +242,7 @@ class LoanFactory {
 	 * @return  array of cautionneur
 	 */
 	public function getCautionneurs() {
-		return Session::get('cautionneurs',new Collection([]));
+		return Session::get('cautionneurs',[]);
 	}
     
 
@@ -585,7 +576,7 @@ class LoanFactory {
 		$loanDetails = $this->getLoanInputs();
       
 		$loanToRepay = isset($loanDetails['loan_to_repay'])?$loanDetails['loan_to_repay']:0;
-		$wishedAmount = isset($loanDetails['loan_to_repay']) ?  $loanDetails['loan_to_repay'] : round(($loanToRepay * $this->wishedAmountPercentage), 0);
+		$wishedAmount = isset($loanDetails['wished_amount']) ?  $loanDetails['wished_amount'] : round(($loanToRepay * $this->wishedAmountPercentage), 0);
 		$interestRate = $this->getInterestRate();
 		$administration_fees = (int) $this->setting->keyValue('loan.administration.fee');
 		$numberOfInstallment = $this->getTranschesNumber();
