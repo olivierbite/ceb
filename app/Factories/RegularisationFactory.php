@@ -86,7 +86,7 @@ class RegularisationFactory
 
 		// Start by doing backup
 		LoanRegulationsBackup::unguard();
-			$backup = $toRegulateLoan->toArray();
+			$backup = $toRegulateLoan->getAttributes();
 			unset($backup['id']);
 			$loanBackup = LoanRegulationsBackup::create($backup);
 		LoanRegulationsBackup::reguard();
@@ -108,7 +108,6 @@ class RegularisationFactory
 			$toRegulateLoan->loan_to_repay       =  $loanToRepay;
 			$toRegulateLoan->right_to_loan      -=  $loanToRepay;
 
-			dd($data['loan_to_repay']);
 			// Record accounting too
 			$posting = $this->savePostings($toRegulateLoan->transactionid,$data);
 
@@ -120,7 +119,6 @@ class RegularisationFactory
 		}
 
 		$results = $toRegulateLoan->save();
-
 		
 	    // Rollback the transaction via if one of the insert fails
 		if (!$loanBackup  || !$results) {
