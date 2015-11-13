@@ -336,7 +336,7 @@ class LoanFactory {
 		// Lastly, Let's commit a transaction since we reached here
 		DB::commit();
         
-        $contractId = $this->makeContract($saveLoan);
+        // $contractId = $this->makeContract($saveLoan);
 
         // Notify all people who has right to approve loan 
             // Get all users who have the right to approve leave
@@ -373,7 +373,7 @@ class LoanFactory {
 		// Since we are done let's make sure everything is cleaned fo
 		// the next transaction
 		$this->clearAll();
-		return $contractId;
+		return $transactionId;
 
 	}
 
