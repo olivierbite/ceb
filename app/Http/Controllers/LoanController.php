@@ -7,6 +7,7 @@ use Ceb\Http\Requests\CompleteLoanRequest;
 use Ceb\Models\Loan;
 use Ceb\Models\User as Member;
 use Ceb\Models\User;
+use Fenos\Notifynder\Facades\Notifynder;
 use Illuminate\Support\Facades\Log;
 use Input;
 use Redirect;
@@ -282,12 +283,19 @@ class LoanController extends Controller {
 
 	  	flash()->success(trans('loan.loan_with_transaction_id_'.$loan->transactionid.'_has_been_'.$loan->status));
 
-  		if(($isWellUpdated == true) && (strtolower($toSetstatus) === 'approved'))
+  		if(($isWellUpdated == true) && (strtolower($toSetstatus) === 'approved' ))
   		{
 	  		/**
 	   	     * @todo add option to  mark notification as read
 	   	     * 
 	   	     */
+	   	      /** Notify the requestor */
+        Notifynder::category('loan.approved')
+                   ->from($this->user->id)
+                   ->to($loan->member->id)
+                   ->url(route('members.show',['memberid'=>$loan->member->id]))
+                   ->sendWithEmail();
+                   
 	  		return redirect()->route('reports.members.contracts.loan',['loanId'=>$loan->member->id]);
   		}
 

@@ -34,8 +34,13 @@ class NotificationCategoriesSeeder extends Seeder
 								  ],
 								  4 =>  [
 								    "name" => "loan.approval",
-								    "text" => "{from.username} added loan that needs your approval",
+								    "text" => "{from.username} added loan that needs your approval.",
+								  ],
+								  5 =>  [
+								    "name" => "loan.request.received",
+								    "text" => "{from.username} has received your loan request.",
 								  ]
+								  
 								];
 
 		 DB::table('notification_categories')->insert($notificatCategories);
