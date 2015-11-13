@@ -8,6 +8,7 @@ use Ceb\Traits\FileTrait;
 use Illuminate\Config\Repository;
 use Illuminate\Contracts\Filesystem\Factory as Storage;
 use Illuminate\Events\Dispatcher;
+use Illuminate\Support\Facades\DB;
 use Sentinel\DataTransferObjects\BaseResponse;
 use Sentinel\DataTransferObjects\FailureResponse;
 use Str;
@@ -123,6 +124,11 @@ class MemberRepository implements MemberRepositoryInterface {
 			// Extract First name and last name
 			$data['first_name'] = trim(substr($data['names'], 0, $endOfFirstName = strpos($data['names'], ' ')));
 			$data['last_name'] = trim(substr($data['names'], $endOfFirstName, strlen($data['names'])));
+
+			// Trim any space
+			$data['first_name'] = trim($data['first_name']);
+			$data['last_name'] = trim($data['last_name']);
+
 			//Clean data by  Remove tocket and Method and names fields
 			unset($data['_method']);
 			unset($data['_token']);
@@ -211,13 +217,28 @@ class MemberRepository implements MemberRepositoryInterface {
 	 * @return mixed
 	 */
 	public function search($keyword) {
-       
-	 return  $this->user->where('first_name', 'LIKE', '%' . $keyword . '%')
-		            ->orWhere('last_name', 'LIKE', '%' . $keyword . '%')
+     
+     $keyword = trim($keyword);
+	 $members = $this->user->where(DB::raw('trim(first_name)'), 'LIKE', '%' . $keyword . '%')
+		            ->orWhere(DB::raw('trim(last_name)'), 'LIKE', '%' . $keyword . '%')
 		            ->orWhere('member_nid', 'LIKE', '%' . $keyword . '%')
 		            ->orWhere('adhersion_id', 'LIKE', '%' . $keyword . '%')
-		            ->take(15)
+		            ->take(5)
 		            ->get();
+
+	return $members->transform(function($member){
+
+			return [
+					'photo' => $member->photo,
+					'adhersion_id' => $member->adhersion_id,
+					'first_name' => $member->first_name,
+					'last_name' => $member->last_name,
+					'member_nid' => $member->member_nid,
+					'service' => $member->service,
+					'institution' =>$member->institution_name,
+				 ];
+	});
+		       
 	}
 
 	/**
