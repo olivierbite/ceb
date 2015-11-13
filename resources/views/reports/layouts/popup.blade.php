@@ -61,7 +61,7 @@
 <div class="header">
 <div class="block title">
 @if (strpos($title , '.') === false)
-    {!! $title !!}
+    {!! 'report.'.$title !!}
 @else 
     <?php $title = explode('.',$title); ?>
     <?php unset($title[0]) ?>
