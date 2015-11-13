@@ -50,7 +50,8 @@ class ViewComposerServiceProvider extends ServiceProvider {
 			'accounting.form',
 			'contributionsandsavings.form',
 			'refunds.form',
-			'members.transactions'
+			'members.transactions',
+			'reports.filters.date_filter',
 		];
 
 		view()->composer($views, 'Ceb\ViewComposers\AccountViewComposer');
@@ -118,9 +119,8 @@ class ViewComposerServiceProvider extends ServiceProvider {
 		$views = [
 			'regularisation.form',
 			'loansandrepayments.ordinary_loan_form',
-			'loansandrepayments.special_loan_form'
-
-		
+			'loansandrepayments.special_loan_form',
+			'reports.filters.date_filter',
 		];
 		view()->composer($views, '\Ceb\ViewComposers\LoanTypeViewComposer');
 	}

@@ -56,7 +56,7 @@
             </li>
            <li class="{{ (Request::is('regularisation*') ? 'active' : '') }} ">
               <a href="{{ route('regularisation.index') }}">
-                <i class="fa fa-dashboard"></i>
+                <i class="fa fa-level-up"></i>
                 <span>{{ trans('navigations.regularisation') }}</span>
                <i class="fa fa-angle-left pull-right"></i>
               </a>

@@ -60,7 +60,7 @@ class settingTableSeeder extends Seeder
 	  	   ],
 	  9 => [
 	  	    'key'=> 'emergency_loan.amount',
-	  	    'value' => 200000,
+	  	    'value' => 210000,
 	  	    'type'  => 'numeric',
 	  	   ],
 	 ];

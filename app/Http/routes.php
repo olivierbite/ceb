@@ -62,43 +62,32 @@ Route::group(['prefix'=>'loans'], function(){
 				)->where('cautionneur', '[A-Za-z0-9]+');
 
 });
-
 Route::resource('loans', 'LoanController');
 
 	/** regularisation */
 	$regularisationsTypes = (new Ceb\ViewComposers\RegularisactionViewComposer)->getRegularisationTypes();
-	foreach ($regularisationsTypes as $key => $value) {
+	foreach ($regularisationsTypes as $key => $value) 
+	{
 	 Route::get('regularisation/type/'.$key, ['as'=>'regularisation.type.'.$key,'uses'=>'RegularisationController@index']);
 	}
-	
 	Route::post('regularisation/regulate', ['as'=>'regularisation.regulate','uses'=>'RegularisationController@regulate']);
 	Route::get('regularisation/types', ['as'=>'regularisation.types','uses'=>'RegularisationController@regurationTypes']);
 	Route::resource('regularisation', 'RegularisationController');
 
-/** Refunds routes */
-Route::post('/refunds/complete', ['as' => 'refunds.complete', 'uses' => 'RefundController@complete']);
-Route::get('/refunds/cancel', ['as' => 'refunds.cancel', 'uses' => 'RefundController@cancel']);
-Route::resource('refunds', 'RefundController');
+	/** Refunds routes */
+	Route::post('/refunds/complete', ['as' => 'refunds.complete', 'uses' => 'RefundController@complete']);
+	Route::get('/refunds/cancel', ['as' => 'refunds.cancel', 'uses' => 'RefundController@cancel']);
+	Route::resource('refunds', 'RefundController');
 
-/** Accounting routes */
-Route::resource('accounting', 'AccountingController');
+	/** Accounting routes */
+	Route::resource('accounting', 'AccountingController');
 
-/** Reporting routes */
-Route::group(['prefix'=>'reports'], function(){	
+	/** Reporting routes */
+	Route::group(['prefix'=>'reports'], function(){	
 
 	/** REPORT FILTERS */
 	Route::get('/filter',['as'=>'reports.filter','uses'=>'ReportFilterController@filter']);
 	Route::get('/', ['as' => 'reports.index', 'uses' => 'ReportController@index']);
-
-	// ACOUNTING REPORTS 
-	Route::group(['prefix'=>'accounting'], function()
-	{
-		Route::get('piece/{startDate}/{endDate}/{export_excel?}',['as' => 'reports.accounting.piece', 'uses' => 'ReportController@accountingPiece']);
-		Route::get('ledger/{startDate}/{endDate}/{export_excel?}',['as'=>'reports.accounting.ledger','uses'=>'ReportController@ledger']);
-		Route::get('bilan/{startDate}/{endDate}/{export_excel?}',['as'=>'reports.accounting.bilan','uses'=>'ReportController@bilan']);
-		Route::get('journal/{startDate}/{endDate}/{export_excel?}',['as'=>'reports.accounting.journal','uses'=>'ReportController@journal']);
-		Route::get('accounts/{export_excel?}',['as'=>'reports.accounting.accounts','uses'=>'ReportController@accountsList']);
-	});
 
 	// ACOUNTING REPORTS 
 	Route::group(['prefix'=>'members'], function()
@@ -113,6 +102,27 @@ Route::group(['prefix'=>'reports'], function(){
 		Route::get('loanrecords/{startDate}/{endDate}/{export_excel?}/{memberId}',['as'=>'reports.members.loanrecords','uses'=>'ReportController@loanRecords']);
 		Route::get('contributions/{startDate}/{endDate}/{export_excel?}/{memberId}',['as'=>'reports.members.contributions','uses'=>'ReportController@contributions']);
 
+	});
+
+	// ACOUNTING REPORTS 
+	Route::group(['prefix'=>'accounting'], function()
+	{
+		Route::get('piece/{startDate}/{endDate}/{export_excel?}',['as' => 'reports.accounting.piece', 'uses' => 'ReportController@accountingPiece']);
+		Route::get('ledger/{startDate}/{endDate}/{export_excel?}',['as'=>'reports.accounting.ledger','uses'=>'ReportController@ledger']);
+		Route::get('bilan/{startDate}/{endDate}/{export_excel?}',['as'=>'reports.accounting.bilan','uses'=>'ReportController@bilan']);
+		Route::get('journal/{startDate}/{endDate}/{export_excel?}',['as'=>'reports.accounting.journal','uses'=>'ReportController@journal']);
+		Route::get('accounts/{export_excel?}',['as'=>'reports.accounting.accounts','uses'=>'ReportController@accountsList']);
+	});
+
+	// PIECES REPORTS 
+	Route::group(['prefix'=>'piece'], function()
+	{
+			Route::group(['prefix'=>'disbursed'], function()
+			{
+				Route::get('saving/{startDate}/{endDate}/{export_excel?}',['as'=>'piece.disbursed.saving','uses'=>'ReportController@pieceDisbursedSaving']);
+				Route::get('account/{startDate}/{endDate}/{export_excel?}',['as'=>'piece.disbursed.account','uses'=>'ReportController@pieceDisbursedAccount']);
+				Route::get('loan/{startDate}/{endDate}/{export_excel?}',['as'=>'piece.disbursed.account','uses'=>'ReportController@pieceDisbursedLoan']);
+			});
 	});
 
 	// LOANS REPORTS 

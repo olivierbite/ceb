@@ -359,4 +359,34 @@ class ReportController extends Controller {
 		}
     	return view('layouts.printing', compact('report'));
     }
+
+    /**
+     * Piece Disbursed Saving Report 
+     * @param  string $value [description]
+     * @return [type]        [description]
+     */
+    public function pieceDisbursedSaving()
+    {
+    	return 'We are still working on the piece disbursed saving';
+    }
+
+     /**
+     * Piece Disbursed Account Report 
+     * @param  string $value [description]
+     * @return [type]        [description]
+     */
+    public function pieceDisbursedAccount()
+    {
+    	return 'We are still working on the piece disbursed account';
+    }
+
+     /**
+     * Piece Disbursed Loan Report 
+     * @param  string $value [description]
+     * @return [type]        [description]
+     */
+    public function pieceDisbursedLoan()
+    {
+    	return 'We are still working on the piece disbursed loan';
+    }
 }

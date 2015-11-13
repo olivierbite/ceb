@@ -1,8 +1,10 @@
 @extends('layouts.default')
-
+@section('content_title')
+	{{ trans('loan.process_pending_loans') }}
+@endsection
 @section('content')
 {!! method_exists(get_class($loans),'render') ? $loans->render() : null !!}
-<table class="table table-bordered">
+<table class="table table-bordered table-striped">
 	<thead>
 		<th>{{ trans('member.names') }} </th>
 		<th>{{ trans('member.institution') }}</th>
