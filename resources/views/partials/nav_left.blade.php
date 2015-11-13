@@ -81,7 +81,7 @@
 
             <li class="{{ (Request::is('accounting*') ? 'active' : '') }} ">
               <a href="{{ route('accounting.index') }}">
-                <i class="fa fa-money"></i>
+                <i class="fa fa-briefcase"></i>
                 <span>{{ trans('navigations.accounting') }}</span>
                 </a>
 
@@ -89,6 +89,11 @@
             <li class="{{ (Request::is('leave*') ? 'active' : '') }} ">
               <a href="{!! route('leaves.index') !!}">
                 <i class="fa fa-calendar"></i> <span>{{ trans('navigations.leaves') }}</span>
+              </a>
+            </li>
+            <li class="{{ (Request::is('items*') ? 'active' : '') }} ">
+              <a href="{!! route('items.index') !!}">
+               <i class="fa fa-shopping-cart"></i></i> <span>{{ trans('navigations.items_inventory') }}</span>
               </a>
             </li>
             <li class="{{ (Request::is('report*') ? 'active' : '') }} ">

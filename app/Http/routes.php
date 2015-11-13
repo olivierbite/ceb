@@ -67,18 +67,15 @@ Route::resource('loans', 'LoanController');
 
 	/** regularisation */
 	$regularisationsTypes = (new Ceb\ViewComposers\RegularisactionViewComposer)->getRegularisationTypes();
-
 	foreach ($regularisationsTypes as $key => $value) {
 	 Route::get('regularisation/type/'.$key, ['as'=>'regularisation.type.'.$key,'uses'=>'RegularisationController@index']);
 	}
 	
 	Route::post('regularisation/regulate', ['as'=>'regularisation.regulate','uses'=>'RegularisationController@regulate']);
 	Route::get('regularisation/types', ['as'=>'regularisation.types','uses'=>'RegularisationController@regurationTypes']);
-
 	Route::resource('regularisation', 'RegularisationController');
 
 /** Refunds routes */
-// Route::get('/refunds/complete', ['as' => 'refunds.complete', 'uses' => 'RefundController@complete']);
 Route::post('/refunds/complete', ['as' => 'refunds.complete', 'uses' => 'RefundController@complete']);
 Route::get('/refunds/cancel', ['as' => 'refunds.cancel', 'uses' => 'RefundController@cancel']);
 Route::resource('refunds', 'RefundController');
@@ -124,16 +121,10 @@ Route::group(['prefix'=>'reports'], function(){
 		Route::get('/{startDate}/{endDate}/{status}/{export_excel?}', ['as'=>'reports.loans','uses'=>'ReportController@loans']);
 	});
 	
-
-
-
 });
 
-/**
- * LEAVES ROUTES
- */
-	Route::group(array('prefix' => 'leaves'), function() {
-
+	/**LEAVES ROUTES*/
+Route::group(array('prefix' => 'leaves'), function() {
 	    Route::get('/request', array('as' => 'leaves.request', 'uses' => 'LeaveController@create'));
 	    Route::get('/show', array('as' => 'leaves.show', 'uses' => 'LeaveController@show'));
 	    Route::get('/pending', array('as' => 'leaves.pending', 'uses' => 'LeaveController@index'));
@@ -152,7 +143,6 @@ Route::group(['prefix'=>'settings'], function(){
 /** Ajax routes */
 Route::group(['prefix' => 'ajax'], function () {
 	Route::get('/loans', 'loanController@ajaxFieldUpdate');
-
 	Route::post('/loans/accounting', ['as' => 'ajax.accounting', 'uses' => 'LoanController@ajaxAccountingFeilds']);
 });
 
@@ -167,26 +157,18 @@ Route::post('files/add', [
 /** SENTINEL ROUTES */
 Route::get('settings/users', ['as' => 'ceb.settings.users.index', 'uses' => 'UserController@index']);
 
-
 /** UTILITY ROUTES */
 $router->get('/utility/backup',['as'=>'utility.backup','uses'=>'UtilityController@backup']);
 
+/**  ITEMS INVENTORY management group */
+Route::group(array('prefix' => '/items'), function() {
+    Route::get('/', ['as' => 'items.index','uses'=>'ItemsController@index']);
+    Route::any('/add', ['as' => 'items.add','uses'=>'ItemsController@add']);
+    Route::any('/edit/{id}', ['as' => 'items.edit','uses'=>'ItemsController@edit'])->where('id', '[0-9]+');
+    Route::get('/delete/{id}', ['as' => 'items.delete','uses'=>'ItemsController@delete'])->where('id', '[0-9]+');
+});
+
 $router->get('/test/{start?}/{end?}',function($start=1,$end=12)
 	{
-		$dbhost = env('DB_HOST');
-		$dbuser = env('DB_USERNAME');
-		$dbpass = env('DB_PASSWORD');
-		$dbname = env('DB_DATABASE');
-		$fileName = $dbname.'_backup_'.date('Y-M-d').'.gz';
-		$pathToFile = storage_path('app').'/'.$fileName;
-
-		$mysqldump=exec('which mysqldump');
-		$path = exec('pwd');
-
-		$command = "$mysqldump --opt -h $dbhost --user='$dbuser' --password='$dbpass'  $dbname |gzip > $pathToFile.gz";
-
-		return response()->download($fileName);
-
-		return response()->download($pathToFile, $name, $headers);
-		dd($path,$command,exec($command),exec($dbpass));
+	
    });
