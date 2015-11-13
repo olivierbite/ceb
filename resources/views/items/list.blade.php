@@ -4,32 +4,32 @@
     @endsection
 @section('content')
 <div class="col-sm-12">
+    <a class="btn btn-success" href="{!! route('items.add') !!}">
+      <i class="fa fa-plus"></i>
+        {!! trans('item.add') !!}
+    </a>
+
     @if( isset( $items ) & !empty( $items ) )
-
     {!! $items->render() !!}
-
-    <div class="col-sm-12">
-        {!! link_to(route('items.add'), trans('item.add'), $attributes = array('class' => 'btn btn-success')) !!}
-    </div>
 
     <table class="table table-bordered table-striped table-hover ">
         <thead>
-        <th>{{ trans('item.id') }}</th>
-        <th>{{ trans('item.name') }}</th>
-        <th>{{ trans('item.price') }}</th>
-        <th>{{ trans('item.quantity') }}</th>
-        <th>{{ trans('item.description') }}</th>
-        <th>{{ trans('general.action') }}</th>
-
+            <th>{{ trans('item.id') }}</th>
+            <th>{{ trans('item.name') }}</th>
+            <th>{{ trans('item.price') }}</th>
+            <th>{{ trans('item.quantity') }}</th>
+            <th>{{ trans('item.description') }}</th>
+            <th><i class="fa fa-gear"></i> {{ trans('general.actions') }}</th>
         </thead>
         <tbody>
           @each ('items.item', $items, 'item', 'partials.no-item')
         </tbody>
     </table>
     @endif
-</div>
-<div class="col-sm-12">
-    {!! link_to(route('items.add'), trans('item.add'), $attributes = array('class' => 'btn btn-success')) !!}
+    <a class="btn btn-success" href="{!! route('items.add') !!}">
+      <i class="fa fa-plus"></i>
+        {!! trans('item.add') !!}
+    </a>
 </div>
 
 @endsection

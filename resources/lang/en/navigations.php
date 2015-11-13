@@ -29,7 +29,7 @@ return array (
   'regularisation'=>'Regularisation',
   'refunds' => 'Remboursements',
   'leaves'  => 'Leaves management',
-  'items'   => 'Inventory',
+  'items'   => 'Inventory management',
   'regularisation' => 'Regularisation',
   'installments' =>'Installments',
   'amount' =>'Amount',
