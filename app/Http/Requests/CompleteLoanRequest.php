@@ -46,7 +46,7 @@ class CompleteLoanRequest extends Request
         $member = $this->member->findByAdhersion($attributes['adhersion_id']);
 
         if (!is_null($member)) {
-          $rightToLoan = $member->right_to_loan;
+          $rightToLoan = (int) round($member->right_to_loan);
         }
 
         // Validate the right to loan
@@ -66,6 +66,11 @@ class CompleteLoanRequest extends Request
           'cautionneur'       =>  'confirmed',
           'accounts'          =>  'confirmed',
         ];
+
+      // If it is umergency loan then verify 1 cautionneur
+      if ($attributes['operation_type'] == 'emergency_loan') {
+        $validations['cautionneur1']    =  'required';
+      }
 
       // if this loan is social loan, make sure the user has selected a reason
       if (strtolower($attributes['operation_type']) == 'social_loan') {
@@ -128,6 +133,9 @@ class CompleteLoanRequest extends Request
         // If the amount to repay is higher than total contributions  
         // we need to have a cautionneur
         if (!empty($bondedAmount) && ($attributes['loan_to_repay'] > $contributions )) {
+            
+            if ($attributes['operation_type'] !== 'emergency_loan') {
+             
             // If we have bonded amount make sure we fail this transacation            
             $cautionneur = $this->loanFactory->getCautionneurs();
 
@@ -137,7 +145,10 @@ class CompleteLoanRequest extends Request
                  $attributes['cautionneur']                 = 'cautionneur';
                  $attributes['cautionneur_confirmation']    = 'cautionneur_to_faile';
             }
-        }else{
+          }
+        }
+        else
+        {
           $attributes['amount_bonded'] = 0;
         }
         

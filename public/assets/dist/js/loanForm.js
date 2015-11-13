@@ -77,6 +77,8 @@ jQuery(document).ready(function($) {
 
 	// If loan to repay is less or equal to the total contribution 
 	// Then hide the caution form
+	console.log(parseInt(loanToRepay),parseInt(totalContributions));
+
   	if(parseInt(loanToRepay) <= parseInt(totalContributions)){
 		$('#cautionForm').css('display', 'none');
 	}else{
@@ -109,7 +111,7 @@ jQuery(document).ready(function($) {
 	calculateUrgentLoanFees();
 
 	function calculateLoanDetails(){
-		var loanToRepay = $('#loanToRepay').val();
+		var loanToRepay = $('#loanToRepay').val().replace(/,/g,''); // Remove any character that is not a number
 		var interestRate  = getInterestRate();
 		var totalContributions = $('#totalContributions').val().replace(/,/g,''); // Remove any character that is not a number
 		var numberOfInstallment = $('#numberOfInstallment').val();
@@ -157,8 +159,7 @@ jQuery(document).ready(function($) {
   		// If the amount to repay is less or equal to the 
   		// User total contributions then there is no 
   		// need to the caution then hide the form
-  		// 
-  	     console.log(parseInt(loanToRepay) <= parseInt(totalContributions));
+  		
   		if(parseInt(loanToRepay) <= parseInt(totalContributions)){
   			$('#cautionForm').css('display', 'none');
   		}else{

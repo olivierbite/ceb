@@ -6,13 +6,14 @@
 	<td colspan="3" >
 		{!! trans('loan.contract_number') !!} : {!! $loan->loan_contract !!}
 	</td>
+	
 	<td colspan="3" >
 	   @if (!is_null($loan->getCautionneur1))	   	
 		{!! trans('loan.cautionneur1') !!} : {!! $loan->getCautionneur1->first_name !!}
 	   @endif
 	</td>
     <td colspan="3" >
-	   @if (!is_null($loan->getCautionneur1))	   	
+	   @if (!is_null($loan->getCautionneur2))	   	
 		{!! trans('loan.cautionneur1') !!} : {!! $loan->getCautionneur2->first_name  !!}
 	   @endif
 	</td>

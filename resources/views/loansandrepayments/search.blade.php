@@ -3,7 +3,7 @@
     @if(is_null($cautionneur))
       <input type="text" class="form-control" placeholder="Search" name="{!! $fieldname !!}" id="srch-term">
       <div class="input-group-btn search-cautionneur" >
-          <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+          <button class="btn btn-default" type="submit"><i class="fa fa-plus"></i></button>
       </div>
     @else
 <div class="autocomplete-wrapper">
@@ -20,6 +20,7 @@
         	<br/>
         	{{ trans('member.nid') }} : {{ $cautionneur->member_nid }}
         </span>
+        {!! Form::hidden($fieldname, $member->adhersion_id,['class'=>'loan-input']) !!}
 <p>
 </div>
     @endif

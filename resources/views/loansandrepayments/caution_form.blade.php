@@ -24,15 +24,17 @@
               ]
             )
   </div>
-  <div class="col-md-3">
-    @include('loansandrepayments.search',
-              ['cautionneur'=>isset($cautionneurs['cautionneur2'])?$cautionneurs['cautionneur2']:null,
-              'label'=> trans('loan.cautionneur_number2'),
-              'fieldname' =>'cautionneur2'
-              ]
-            )
+  @if ($loanInputs['operation_type'] !== 'emergency_loan')
+    <div class="col-md-3">
+      @include('loansandrepayments.search',
+                ['cautionneur'=>isset($cautionneurs['cautionneur2'])?$cautionneurs['cautionneur2']:null,
+                'label'=> trans('loan.cautionneur_number2'),
+                'fieldname' =>'cautionneur2'
+                ]
+              )
 
-  </div>
+    </div>
+   @endif
   <div class="col-md-3">
   <div class="form-group">
    <label>{{ trans('loan.amount_bonded') }}</label>
