@@ -359,10 +359,17 @@ class LoanFactory {
                    ->from($this->user->id)
                    ->to($user->id)
                    ->url(route('loan.pending',['loanid'=>$saveLoan->id]))
-                   ->send();
+                   ->sendWithEmail();
            }
 		}
-
+        
+        /** Notify the requestor */
+        Notifynder::category('loan.request.received')
+                   ->from($this->user->id)
+                   ->to($this->getMember()->id)
+                   ->url(route('loan.pending',['loanid'=>$saveLoan->id]))
+                   ->sendWithEmail();
+        
 		// Since we are done let's make sure everything is cleaned fo
 		// the next transaction
 		$this->clearAll();
@@ -382,26 +389,8 @@ class LoanFactory {
 	    $loan = $this->loan->find($loan->id);	
 		$operation_type = $this->getOperationType();
 
-		switch ($operation_type) {
-			case (strpos($operation_type,'ordinary_loan') !== FALSE):
-			     // Ordinary loan
-				 $contract = view('reports.contracts_loan_ordinary', compact('member'))->render();
-				break;
-			case 'special_loan':
-				// Special loan	
-			    $contract = view('reports.contracts_loan_special', compact('member'))->render();
-				break;
-			case 'social_loan':
-				// Social loan.			
-			    $contract = view('reports.contracts_loan_social', compact('member'))->render();
-				break;
-			default:
-				// Could not detect the contract
-				$contracts = 'Unable to determine the contract type';
-				break;
-		}
+		$loan->contract = generateContract($member,strtolower($operation_type));
 
-		$loan->contract = $contract;
 		$loan->save();		
 		return $loan->id;
 	}

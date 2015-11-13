@@ -144,6 +144,7 @@ return [
 		Ceb\Providers\EventServiceProvider::class,
 		Ceb\Providers\RouteServiceProvider::class,
 		Ceb\Providers\ViewComposerServiceProvider::class,
+		Ceb\Providers\NotificationServiceProvider::class,
 
 		// Adding service provider for the authentication
 		Sentinel\SentinelServiceProvider::class,
@@ -152,6 +153,7 @@ return [
 		Spatie\Activitylog\ActivitylogServiceProvider::class,
 		Barryvdh\TranslationManager\ManagerServiceProvider::class,
 		Fenos\Notifynder\NotifynderServiceProvider::class,
+
 
 	],
 
