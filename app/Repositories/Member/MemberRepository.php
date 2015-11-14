@@ -274,7 +274,7 @@ class MemberRepository implements MemberRepositoryInterface {
 	 */
 	protected function generateAdhersionNumber() {
 		$countUsers = $this->user->count() + 1;
-		$newAdhersionNumber = date('Y') . sprintf("%05d", $countUsers);
+		$newAdhersionNumber = date('Y') . sprintf("%04d", $countUsers);
 
 		// if we have this adhersion number generate another
 		while ($this->user->where('adhersion_id', '=', $newAdhersionNumber)->first() != null) {

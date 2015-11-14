@@ -155,13 +155,29 @@ class User extends SentinelModel {
 	}
 
 	/**
-	 * Member refunds
+	 * Member CAUTIONS
 	 * @return Objects contains all refunds by this memebr
 	 */
 	public function cautions() {
 		return $this->hasMany('Ceb\Models\MemberLoanCautionneur', 'cautionneur_adhresion_id', 'adhersion_id');
 	}
     
+    /**
+	 * Member who cautioned this members
+	 * @return Objects contains all refunds by this memebr
+	 */
+	public function cautioned() {
+		return $this->hasMany('Ceb\Models\MemberLoanCautionneur', 'member_adhersion_id', 'adhersion_id');
+	}
+
+	/**
+	 * Member who cautioned this members
+	 * @return Objects contains all refunds by this memebr
+	 */
+	public function getCautionedMeAttribute() {
+		return $this->cautioned()->active()->get();
+	}
+
     /**
      * Get caution amount attributes
      * @return [type] [description]
@@ -267,6 +283,14 @@ class User extends SentinelModel {
 		return round($this->loanBalance() / $this->latestLoan()->monthly_fees);
 	}
 
+	/**
+	 * Get current active cautions
+	 * @return [type] [description]
+	 */
+	public function getCurrentCautionsAttribute()
+	{
+		return $this->cautions()->active()->get();
+	}
 	/**
 	 * Get the remaining tranches for this member
 	 * @return  number

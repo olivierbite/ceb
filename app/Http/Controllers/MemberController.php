@@ -316,6 +316,52 @@ class MemberController extends Controller {
 	}
 
 	/**
+	 * Get current member cautions
+	 * @param  numeric $id 
+	 * @return 
+	 */
+	public function currentCautions($id)
+	{
+		// First check if the user has the permission to do this
+		if (!$this->user->hasAccess('member.view.current.i.cautioned')) {
+			return trans('Sentinel::users.noaccess');
+		}
+
+		$title 	  = trans('member.i_have_cautionned');
+
+		$cautions = [];
+		$member = $this->member->find($id);
+		if (!is_null($member)) {
+			$cautions = $member->current_cautions;
+		}
+
+		return view('members.cautionneurs.list',compact('cautions','title'));
+	}
+
+	/**
+	 * Show members I am currently cautionning
+	 * @param  id $value 
+	 * @return 
+	 */
+	public function currentCautionedByMe($id)
+	{
+		// First check if the user has the permission to do this
+		if (!$this->user->hasAccess('member.view.current.cautioned.by.me')) {
+			return trans('Sentinel::users.noaccess');
+		}
+
+		$cautions = [];
+		$member = $this->member->find($id);
+		$title 	  = trans('member.member_who_cautionned_me');
+
+		if (!is_null($member)) {
+			$cautions = $member->cautioned_me;
+		}
+
+		return view('members.cautionneurs.list',compact('cautions','title'));
+	}
+
+	/**
 	 * Show current logged in member notifications
 	 * 		
 	 * @return view

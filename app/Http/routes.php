@@ -27,6 +27,9 @@ Route::group(['prefix'=>'members'], function(){
 	Route::get('/{memberId}/attornies',['as'=>'members.attornies','uses'=>'MemberController@attornies']);
 	Route::get('/loanrecords/{memberId}',['as'=>'members.loanrecords','uses'=>'MemberController@loanRecords']);
 	Route::get('/contributions/{memberId}',['as'=>'members.contributions','uses'=>'MemberController@contributions']);
+	Route::get('/cautions/{memberid}', ['as' => 'members.cautions.actives','uses' =>'MemberController@currentCautions']);
+	Route::get('/cautioned/{memberid}', ['as' => 'members.cautioned.actives','uses' =>'MemberController@currentCautionedByMe']);
+	
 });
 Route::resource('members', 'MemberController');
 
