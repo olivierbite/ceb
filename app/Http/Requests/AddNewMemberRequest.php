@@ -33,8 +33,8 @@ class AddNewMemberRequest extends Request {
         'sex'=>'required',
         'member_nid'=>'required|numeric',
         'nationality'=>'required',
-        'email'=>'required|email',
-        'telephone'=>'required',
+        'email'=>'required|email|unique:users',
+        'telephone'=>'required|min:9|max:12',
         'monthly_fee'=>'required',
         'photo'=>'required|image',
         'signature'=>'required|image'

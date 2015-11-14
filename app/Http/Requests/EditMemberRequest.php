@@ -20,8 +20,23 @@ class EditMemberRequest extends Request {
 	 * @return array
 	 */
 	public function rules() {
-		return [
-			//
-		];
+	return [
+		'names'   => 'required',
+        'district'=>'required',
+        'province'=>'required',
+        'institution_id'=>'required|numeric',
+        'service'=>'required',
+        // 'termination_date'=>'required',
+        // 'password'=>'required',
+        'date_of_birth'=>'required',
+        'sex'=>'required',
+        'member_nid'=>'required|numeric',
+        'nationality'=>'required',
+        'email'=>'required|email',
+        'telephone'=>'required|min:9|max:12',
+        'monthly_fee'=>'required',
+        'photo'=>'required|image',
+        'signature'=>'required|image'
+        ];
 	}
 }

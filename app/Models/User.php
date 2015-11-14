@@ -48,7 +48,7 @@ class User extends SentinelModel {
 	 *
 	 * @var array
 	 */
-	protected $fillable = [
+	public $fillable = [
 		'adhersion_id',
 		'district',
 		'province',
@@ -560,4 +560,40 @@ class User extends SentinelModel {
 		// Fail this query scope because this person does not have the right
 	    return $query->where(DB::raw('1=2'));
 	}
+
+
+
+	/**
+	 * Validates the user and throws a number of
+	 * Exceptions if validation fails.
+	 *
+	 * @return bool
+	 * @throws \Cartalyst\Sentry\Users\LoginRequiredException
+	 * @throws \Cartalyst\Sentry\Users\PasswordRequiredException
+	 * @throws \Cartalyst\Sentry\Users\UserExistsException
+	 */
+	public function validate()
+	{
+		if ( ! $login = $this->getLoginName() )
+		{
+			throw new LoginRequiredException("A login is required for a user, none given.");
+		}
+
+		if ( ! $password = $this->getPasswordName())
+		{
+			throw new PasswordRequiredException("A password is required for user [$login], none given.");
+		}
+
+		// Check if the user already exists
+		$query = $this->newQuery();
+		$persistedUser = $query->where($this->getLoginName(), '=', $login)->first();
+
+		if ($persistedUser and $persistedUser->getId() != $this->getId())
+		{
+			throw new UserExistsException("A user already exists with login [$login], logins must be unique for users.");
+		}
+
+		return true;
+	}
+
 }
