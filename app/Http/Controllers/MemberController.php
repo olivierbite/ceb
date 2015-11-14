@@ -272,27 +272,33 @@ class MemberController extends Controller {
 
 			return redirect()->back();
 		}
-		$users = $this->member->findOrfail($id);
+		$user = $this->member->findOrfail($id);
 		// 1. Check loans first
-		if ($users->haas_active_loan) {
+		if ($user->haas_active_loan) {
 			flash()->error(trans('member.this_member_still_has_active_loan_therefore_you_cannot_remove_him'));
 			return redirect()->back();
 		}
 		
 		// 2. Savings
-		if ($users->total_contribution) {
+		if ($user->total_contribution) {
 			flash()->error(trans('member.this_member_still_has_contribution_therefore_you_cannot_remove_him'));
 			return redirect()->back();
 		}
 
 		// 3. cautionneurs
-		if ($users->cautionBalance > 0) {
+		if ($user->cautionBalance > 0) {
 			flash()->error(trans('member.this_member_still_has_contribution_therefore_you_cannot_remove_him'));
 			return redirect()->back();
 		}
 
-		$message = $memberRepository->destroy($id);
-		flash()->success($message);
+		// Delete the user
+		if ($user->delete()) {
+			//Fire the sentinel.user.destroyed event
+			$this->dispatcher->fire('sentinel.user.destroyed', ['user' => $user]);
+
+			flash()->success(trans('Sentinel::users.notdestroyed'));
+		}
+
 		return Redirect::route('members.index', ['success' => $message]);
 	}
 
