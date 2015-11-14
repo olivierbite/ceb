@@ -11,12 +11,15 @@ use Vinkla\Hashids\Facades\Hashids;
 use Cartalyst\Sentry\Users\Eloquent\User as SentinelModel;
 use Ceb\Traits\LogsActivity;
 use Spatie\Activitylog\LogsActivityInterface;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends SentinelModel {
 
 	use Notifable;
 
 	use LogsActivity;
+
+	use SoftDeletes;
 
 	
 	/**
@@ -30,7 +33,7 @@ class User extends SentinelModel {
      *
      * @var array
      */
-	protected $dates = ['created_at']; //, 'date_of_birth', 'updated_at'
+	protected $dates = ['created_at','deleted_at']; //, 'date_of_birth', 'updated_at'
 
 	/**
 	 * Wished amount percentage
@@ -177,6 +180,12 @@ class User extends SentinelModel {
     	return $this->cautions->sum('refunded_amount');
     }
     
+    /** Get caution balance */
+    public function getCautionBalanceAttribute()
+    {
+    	return $this->caution_amount - $this->caution_refunded;
+    }
+
     /**
      * Relationship with leaves
      * @return  leave object
@@ -202,11 +211,12 @@ class User extends SentinelModel {
 	{
 		return $this->refunds()->sum('amount');
 	}
+
 	/**
 	 * Get the total amount of contribution
 	 */
 	public function totalContributions() {
-		return $this->contributions()->sum('amount');
+		return $this->contributions()->isSaving()->sum('amount') - $this->contributions()->isWithdrawal()->sum('amount');
 	}
 
 	/**
@@ -214,7 +224,7 @@ class User extends SentinelModel {
 	 * 
 	 */
 	public function getTotalContributionAttribute() {
-		return $this->contributions->sum('amount');
+		return $this->totalContributions();
 	}
 	/**
 	 * Get the loan balance
