@@ -15,7 +15,7 @@
   <div class="col-xs-8 col-md-8">{!! $members->render() !!}</div>
 </div>
   
-  <table class="table table-bordered">
+  <table class="table table-bordered table-striped">
   	 <thead>
   	 	<tr>
       <th>{{ trans('member.adhersion_number') }}</th>

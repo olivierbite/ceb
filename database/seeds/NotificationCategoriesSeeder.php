@@ -43,7 +43,7 @@ class NotificationCategoriesSeeder extends Seeder
 								  ]
 								  
 								];
-		DB::table('notification_categories')->truncate();
+		 DB::table('notification_categories')->truncate();
 		 DB::table('notification_categories')->insert($notificatCategories);
 
     }

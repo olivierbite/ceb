@@ -58,18 +58,18 @@
 <h4>{{ trans('report.the_disbursed_parts') }}</h4>
 <ul class="nav nav-list">
   <li>
-  		<a href="{{ route('reports.filter') }}/?reporturl=reports/accounting/accounting_dp&show_dates=true&show_exports=true" class="popdown">
-  			<i class="icon-chevron-right"></i> {{ trans('report.accounting_dp') }}
+  		<a href="{{ route('reports.filter') }}/?reporturl=reports/piece/disbursed/account&show_account=true&show_accounts=true&show_dates=true&show_exports=true" class="popdown">
+  			<i class="icon-chevron-right"></i> {{ trans('report.accounting_piece_disbursed') }}
   		</a>
   </li>
   <li>
-  		<a href="{{ route('reports.filter') }}/?reporturl=reports/accounting/saving_dp&show_dates=true&show_exports=true" class="popdown">
-  			<i class="icon-chevron-right"></i> {{ trans('report.saving_dp') }}
+  		<a href="{{ route('reports.filter') }}/?reporturl=reports/piece/disbursed/saving&show_dates=true&show_exports=true" class="popdown">
+  			<i class="icon-chevron-right"></i> {{ trans('report.saving_piece_disbursed') }}
   		</a>
   </li>
   <li>
-  		<a href="{{ route('reports.filter') }}/?reporturl=reports/accounting/loan_dp&show_dates=true&show_exports=true" class="popdown">
-  			<i class="icon-chevron-right"></i> {{ trans('report.loan_dp') }}
+  		<a href="{{ route('reports.filter') }}/?reporturl=reports/piece/disbursed/loan&show_dates=true&show_exports=true" class="popdown">
+  			<i class="icon-chevron-right"></i> {{ trans('report.loan_piece_disbursed') }}
   		</a>
   </li>
 </ul>   

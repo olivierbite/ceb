@@ -336,8 +336,6 @@ class LoanFactory {
 		// Lastly, Let's commit a transaction since we reached here
 		DB::commit();
         
-        // $contractId = $this->makeContract($saveLoan);
-
         // Notify all people who has right to approve loan 
             // Get all users who have the right to approve leave
         // if we found them then ilitirate them and 

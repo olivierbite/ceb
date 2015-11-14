@@ -56,7 +56,7 @@
             </li>
            <li class="{{ (Request::is('regularisation*') ? 'active' : '') }} ">
               <a href="{{ route('regularisation.index') }}">
-                <i class="fa fa-dashboard"></i>
+                <i class="fa fa-level-up"></i>
                 <span>{{ trans('navigations.regularisation') }}</span>
                <i class="fa fa-angle-left pull-right"></i>
               </a>
@@ -65,7 +65,7 @@
                 @foreach ($regularisations as $key=>$value)
                   <li>
                     <a href="{{ route('regularisation.type.'.$key) }}">
-                    <i class="fa fa-money"></i>{{ trans($value) }}
+                    <i class="fa fa-level-up"></i>{{ trans($value) }}
                     </a>
                   </li>
                 @endforeach
@@ -81,7 +81,7 @@
 
             <li class="{{ (Request::is('accounting*') ? 'active' : '') }} ">
               <a href="{{ route('accounting.index') }}">
-                <i class="fa fa-money"></i>
+                <i class="fa fa-briefcase"></i>
                 <span>{{ trans('navigations.accounting') }}</span>
                 </a>
 
@@ -91,9 +91,14 @@
                 <i class="fa fa-calendar"></i> <span>{{ trans('navigations.leaves') }}</span>
               </a>
             </li>
+            <li class="{{ (Request::is('items*') ? 'active' : '') }} ">
+              <a href="{!! route('items.index') !!}">
+               <i class="fa fa-tasks"></i></i> <span>{{ trans('navigations.items') }}</span>
+              </a>
+            </li>
             <li class="{{ (Request::is('report*') ? 'active' : '') }} ">
               <a href="{!! route('reports.index') !!}">
-                <i class="fa fa-table"></i> <span>{{ trans('navigations.reports') }}</span>
+                <i class="fa fa-bar-chart"></i> <span>{{ trans('navigations.reports') }}</span>
               </a>
             </li>
             <li class="treeview">

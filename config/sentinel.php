@@ -69,6 +69,7 @@ return [
 		'institutions.view',
 		'regularisation.view',
 		'leaves.view','leaves.approve','leaves.reject','leaves.view.my.leaves','leaves.request.leaves','leaves.view.leave.status',
+		'items.index','items.add','items.edit','items.edit','items.view',
 		'refund.index','refund.update','refund.complete','refund.cancel','refund.set.institution','refund.set.debit.account','refund.set.credit.account','refund.set.month',
 		'loan.index','loan.add.member.to.loan.form','loan.complete.loan.request','loan.cancel.loan.request','loan.set.loan.cautionneur','loan.remove.loan.cautionneur','loan.check.loan.status','loan.can.approve.loan',
 		'regularisation.index','regularisation.installments','regularisation.amount','regularisation.amount.installments',

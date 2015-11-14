@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>CEB EMAIL NOTIFICATION</title>
+<title>CEB NOTIFICATION</title>
 
 <style type="text/css">
   
@@ -29,7 +29,6 @@
 <![endif]-->
 </head>
 <body style="width:100%; margin:0; padding:0; -webkit-text-size-adjust:100%; -ms-text-size-adjust:100%;">
-
 <!-- body wrapper -->
 <table cellpadding="0" cellspacing="0" border="0" style="margin:0; padding:0; width:100%; line-height: 100% !important;">
   <tr>
@@ -42,30 +41,10 @@
             <table cellpadding="0" cellspacing="0" border="0" align="center" width="560" style="background: #cfcfcf;">
               <tr>
                 <td valign="top" style="vertical-align: top;">
-<!-- ///////////////////////////////////////////////////// -->
-
-<table cellpadding="0" cellspacing="0" border="0" align="center">
-  <tr>
-    <td valign="top" style="vertical-align: top;">
-      <span style="">CEB NOTIFICATIONS TEST</span>
-    </td>
-  </tr>
-</table>
-<table cellpadding="0" cellspacing="0" border="0" align="center">
-  <tr>
-    <td valign="top" style="vertical-align: top;">
-      <img src="full path to image" alt="alt text" title="title text" width="50" height="50" style="width: 50px; height: 50px;"/>
-    </td>
-  </tr>
-</table>
-<table cellpadding="0" cellspacing="0" border="0" align="center">
-  <tr height="30">
-    <td valign="top" style="vertical-align: top; background: #efefef;" width="600" >
-    </td>
-  </tr>
-</table>
-
-<!-- //////////// -->
+                <!-- ///////////////////////////////////////////////////// -->
+                <p>{{ trans('notification.hi') }} {!! $user['first_name'] !!}</p>
+                <p>{!! 'testing notification from ceb for the operation at your account' !!}</p>
+                <!-- //////////// -->
                 </td>
               </tr>
             </table>

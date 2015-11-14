@@ -14,6 +14,8 @@ class ReportFilterController extends Controller
         'show_dates'        => false,
         'show_exports'      => false,
         'show_loan_status'  => false,
+        'show_accounts'     => false,
+        'show_loan_types' => false,
     ];
 
     function __construct() {
@@ -31,28 +33,10 @@ class ReportFilterController extends Controller
     {  
          
          // If we have a show instition parameters, then make sure it is set here
-         if ($request->has('show_institution')) {
-             $this->filterOptions->show_institution = (bool) $request->get('show_institution');
-         }
-
-         // Do we need to show the search input for members?
-         if ($request->has('member_search')) {
-             $this->filterOptions->member_search    = (bool) $request->get('member_search');
-         }
-
-         // Do we need to show the dates
-         if ($request->has('show_dates')) {
-             $this->filterOptions->show_dates       = (bool) $request->get('show_dates');
-         }
-
-         // Should we show export options
-         if ($request->has('show_exports')) {
-            $this->filterOptions->show_exports      = (bool) $request->get('show_exports');
-         }
-
-         if ($request->has('show_loan_status')) {
-            $this->filterOptions->show_loan_status     = (bool) $request->get('show_loan_status');
-         }
+        $parameters = $request->all();
+        foreach ($parameters as $key => $value) {
+            $this->filterOptions->$key = (boolean) $value;
+        }
 
          $filterOptions = $this->filterOptions;
          $reportUrl = $request->get('reporturl');

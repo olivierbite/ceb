@@ -7,7 +7,7 @@
 	@include('members.search')
 @endif
 <br/>
-
+{{-- Only show this if the report require institition selection  --}}
 @if ($filterOptions->show_institution == true)
 <b>{{ trans('reports.select_institution') }}</b>	
 	<br/>
@@ -15,12 +15,33 @@
 	<br/>
 @endif
 
+{{-- Only show this if the report require loan status selection  --}}
+@if ($filterOptions->show_loan_status == true)
+<div>
+	<b>{!! trans('reports.select_loan_status') !!} :</b> 
+    {!! Form::select('loan_status', $loanStatuses, null , ['class' => 'loan_status']) !!}
+ </div>
+@endif	
+
+{{-- Only show this if the report require accounts selection  --}}
+@if ($filterOptions->show_accounts == true)
+	<b>{{ trans('reports.select_account') }}</b>
+	  {!! Form::select('account', $accounts,isset($accountId)?$accountId :null, ['class'=>'form-control'])!!}    
+@endif
+
+{{-- Only show this if the report require to show loan types selection  --}}
+@if ($filterOptions->show_accounts == true)
+  <b>{{ trans('reports.loan_type') }}</b>
+   {!! Form::select('loan_type',$loanTypes,null,['class'=>'form-control','id'=>'loan_type'])!!}
+@endif
+
+{{-- Only show this if the report require to show dates selection  --}}
 @if ($filterOptions->show_dates == true)
 <b>{{ trans('reports.report_range') }}</b>
 <br/>
 <div id="report_date_range_simple">
 	<input type="radio" name="report_type" id="simple_radio" value="simple" checked="checked">
-		{!! Form::select('report_date_range_simple', get_simple_date_ranges(),null, ['id'=>'report_date_range_simple']) !!}
+		{!! Form::select('report_date_range_simple', get_simple_date_ranges(),null, ['id'=>'report_date_range_simple',]) !!}
 </div>
 <br/>
 	<input type="radio" name="report_type" id="complex_radio" value="complex">
@@ -37,14 +58,7 @@
 <br/>
 @endif
 
-@if ($filterOptions->show_loan_status == true)
-<div>
-	<b>{!! trans('reports.loan_status') !!} :</b> 
-    {!! Form::select('loan_status', $loanStatuses, null , ['class' => 'loan_status']) !!}
- </div>
-@endif	
-
-
+{{-- Only show this if the report require to show export options selection  --}}
 @if ($filterOptions->show_exports == true)
 <div>
 	<b>{!! trans('reports.export_excel') !!} :</b> 
@@ -53,6 +67,7 @@
 	</div>
 <br/>
 @endif
+
 <button class="btn btn-success btn-lg btn-block generate_report" type="submit" >{{ trans('report.submit') }}</button>
 </div>
 

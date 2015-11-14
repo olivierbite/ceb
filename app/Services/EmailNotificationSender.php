@@ -30,11 +30,7 @@ class EmailNotificationSender implements Sender
 
             $view = 'emails.notification';
             $user = $notificationsSent->to;
-            $data['user'] = $user;
-            $data['notification'] = $notificationsSent;
-
-            $this->mailer->send($view, $data, function($message) use ($user) {
-
+            $this->mailer->queue($view, compact('user'), function($message) use ($user) {
                 return $message->to($user->email)
                     ->subject('Ceb Notification');
             });
