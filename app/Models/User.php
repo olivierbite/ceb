@@ -70,6 +70,7 @@ class User extends SentinelModel {
 		'monthly_fee',
 		'photo',
 		'signature',
+		'employee_id',
 	];
 
 	/**

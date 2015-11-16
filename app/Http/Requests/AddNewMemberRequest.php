@@ -28,6 +28,7 @@ class AddNewMemberRequest extends Request {
         'institution_id'=>'required|numeric',
         'service'=>'required',
         'termination_date'=>'date',
+        'employee_id' 	  =>'alpha_num',
         // 'password'=>'required',
         'date_of_birth'=>'required|date',
         'sex'=>'required',

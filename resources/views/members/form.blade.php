@@ -68,6 +68,13 @@
                           !!}
                        </dd>
 
+                    <dt>{{ trans('member.employee_id') }}
+                     {!! $errors->first('employee_id','<em class="has-error">(:message)</em>') !!}
+                    </dt>
+                    <dd class=" {{ ($errors->has('employee_id')) ? 'has-error' : '' }}">
+                        {!! Form::text('employee_id', $member->employee_id, ['class'=>'form-control',
+                       'placeholder'=>trans('member.employee_id') ]) !!}
+                    </dd>
                    <dt>{{ trans('member.termination_date') }}
                      {!! $errors->first('termination_date','<em class="has-error">(:message)</em>') !!}
                     </dt>
