@@ -5,6 +5,7 @@
 {{-- only show this search if it's a member reports --}}
 @if ($filterOptions->member_search == true)
 	@include('members.search')
+	{!!Form::hidden('adhersion_id',null,['class'=>'adhersion_id']) !!}
 @endif
 <br/>
 {{-- Only show this if the report require institition selection  --}}
@@ -117,7 +118,7 @@ $(document).ready(function()
 		if(baseUrl.indexOf('members') !== -1)
 		{
 			/** USER MUST SELECT A MEMBER FOR THIS REPORT */
-			if($('.member_id').val() == '')
+			if($('.adhersion_id').val() == '')
 			{ swal.setDefaults({ confirmButtonColor: '#d9534f' });
 				swal({
 			            title:"Please select a member for this report",
@@ -127,7 +128,7 @@ $(document).ready(function()
 				return exit;
 			}
 
-		    adhersion_id = $('.member_id').val();
+		    adhersion_id = $('.adhersion_id').val();
 			url = url +'/'+adhersion_id;
 		}
 

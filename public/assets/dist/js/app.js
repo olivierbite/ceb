@@ -731,7 +731,8 @@ $(document).on('change', '#upload-photo:file', function() {
     
     if (getUrlSegment(1)=='reports') 
       {
-        $('.member_id').val( user.adhersion_id);
+        $('.adhersion_id').val( user.adhersion_id);
+        $('#search-input').val(user.first_name+'(adhersion id:'+user.adhersion_id+')');
         return true;
         //  var url = window.location.protocol+'//'+window.location.host+'/'+$('.report-name').val() +'/'+ user.id;
         //  var win = window.open(url, '_blank');
