@@ -102,7 +102,9 @@ class MemberTransactionsFactory {
 			flash()->error(trans('member.member_transaction_data_not_provided'));
 			return false;
 		}
- 		  
+ 		
+ 		$wording = $data['wording'];
+
 		//Debiting....
 		$debits = $this->accountAmount($data['debit_accounts'], $data['debit_amounts']);
 
@@ -118,7 +120,7 @@ class MemberTransactionsFactory {
         // debiting accounts and amount
         
 		foreach ($debits as $accountId => $amount) {
-			$results = $this->savePosting($accountId, $amount, $transactionId, 'Debit', $journalId = 1);
+			$results = $this->savePosting($accountId, $amount, $transactionId, 'debit', $journalId = 1,$wording,$cheque_number=null,$bank=null,$status='approved');
 			if (!$results) {
 
 				return false;
@@ -129,7 +131,7 @@ class MemberTransactionsFactory {
 		// Let's attempt to save credit account
 		
 		foreach ($credits as $accountId => $amount) {
-			$results = $this->savePosting($accountId, $amount, $transactionId, 'Credit', $journalId = 1);
+			$results = $this->savePosting($accountId, $amount, $transactionId, 'credit', $journalId = 1,$wording,$cheque_number=null,$bank=null,$status='approved');
 			if (!$results) {
 				return false;
 			}

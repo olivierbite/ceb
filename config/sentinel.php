@@ -72,6 +72,7 @@ return [
 		'items.index','items.add','items.edit','items.edit','items.view',
 		'refund.index','refund.update','refund.complete','refund.cancel','refund.set.institution','refund.set.debit.account','refund.set.credit.account','refund.set.month',
 		'loan.index','loan.add.member.to.loan.form','loan.complete.loan.request','loan.cancel.loan.request','loan.set.loan.cautionneur','loan.remove.loan.cautionneur','loan.check.loan.status','loan.can.approve.loan',
+		'loan.can.unblock.loan',
 		'regularisation.index','regularisation.installments','regularisation.amount','regularisation.amount.installments',
 		'member.list', 'member.view', 'member.edit', 'member.create', 'member.delete', 
 		'member.view.current.i.cautioned','member.view.current.cautioned.by.me',

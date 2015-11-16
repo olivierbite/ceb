@@ -125,7 +125,7 @@ trait TransactionTrait {
 	 * @param  integer  $journalId
 	 * @return     bool
 	 */
-	public function savePosting($accountId, $amount, $transactionId, $transactionType, $journalId = 1,$wording=null,$cheque_number=null,$bank=null) {
+	public function savePosting($accountId, $amount, $transactionId, $transactionType, $journalId = 1,$wording=null,$cheque_number=null,$bank=null,$status='pending') {
 		// First prepare data to use for the debit account
 		// Once are have debited(deducted data) then we can
 		// Credit the account to be credited
@@ -140,6 +140,7 @@ trait TransactionTrait {
 		$posting['wording']				= $wording;
 		$posting['cheque_number']		= $cheque_number;
 		$posting['bank']				= $bank;
+		$posting['status']				= $status;
 
 		// Try to post the debit before crediting another account
 		return $this->posting->create($posting);

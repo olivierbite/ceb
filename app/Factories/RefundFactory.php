@@ -226,14 +226,16 @@ class RefundFactory {
 		$posting['amount'] = $this->getTotalRefunds();
 		$posting['user_id'] = Sentry::getUser()->id;
 		$posting['account_period'] = date('Y');
-		$posting['transaction_type'] = 'Debit';
+		$posting['transaction_type'] = 'debit';
+		$posting['wording']			 = $this->getWording();
+		$posting['status']			 = 'approved';
 
 		// Try to post the debit before crediting another account
 		$debiting = $this->posting->create($posting);
 
 		// Change few data for crediting
 		// Then try to credit the account too
-		$posting['transaction_type'] = 'Credit';
+		$posting['transaction_type'] = 'credit';
 		$posting['account_id'] = $this->getCreditAccount();
 
 		$crediting = $this->posting->create($posting);

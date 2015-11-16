@@ -73,7 +73,7 @@
                     </dt>
                     <dd class=" {{ ($errors->has('termination_date')) ? 'has-error' : '' }}">
                         {!! Form::text('termination_date', $member->termination_date, ['class'=>'form-control',
-                        'id'=>'date','placeholder'=>trans('member.termination_date') ]) !!}
+                        'id'=>'date1','placeholder'=>trans('member.termination_date') ]) !!}
                     </dd>
                   </dl>
                 </div>
