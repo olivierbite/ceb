@@ -8,6 +8,7 @@
 		<small><strong>{{trans('member.nid')}}:</strong></small><small>{!! $member->member_nid !!}</small>
 	 </td>
 	<td>{!! $member->institution?$member->institution->name:null !!}</td>
+	<td>{!! $member->employee_id!!}</td>
 	<td>{!! Form::text('monthly_fee',  $member->loanMonthlyFees() , ['class'=>'form-control','size'=>'2','disabled'])!!}</td>
 	<td>
 	<span>
