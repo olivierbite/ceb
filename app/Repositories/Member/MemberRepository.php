@@ -68,10 +68,17 @@ class MemberRepository implements MemberRepositoryInterface {
 			$data['photo'] = $this->addImage($formData['photo'], $filename . '-photo');
 			$data['signature'] = $this->addImage($formData['signature'], $filename . '-signature');
 
+			// Remove unnecessary information
+			$dataToInsert = [];
+			foreach ($this->user->fillable as $key => $value) {
+			 if (array_key_exists($value, $data)) {
+			      $dataToInsert[$value]  = $data[$value];
+				}
+			}
+			
 			// Attempt user registration
-			$userModel = $this->user->create($data);
-
-			$user = $this->sentry->getUserProvider()->findById($userModel->id);
+			$insertId = Db::table('users')->insertGetId($dataToInsert);
+			$user = $this->sentry->getUserProvider()->findById($insertId);
 
 			// If no group memberships were specified, use the default groups from config
 			if (array_key_exists('groups', $data)) {
@@ -267,7 +274,7 @@ class MemberRepository implements MemberRepositoryInterface {
 	 */
 	protected function generateAdhersionNumber() {
 		$countUsers = $this->user->count() + 1;
-		$newAdhersionNumber = date('Y') . sprintf("%05d", $countUsers);
+		$newAdhersionNumber = date('Y') . sprintf("%04d", $countUsers);
 
 		// if we have this adhersion number generate another
 		while ($this->user->where('adhersion_id', '=', $newAdhersionNumber)->first() != null) {

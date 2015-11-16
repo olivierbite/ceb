@@ -56,3 +56,16 @@
 <i class="fa fa-money"></i>
 {{ trans('member.do_a_transaction') }}
 </a>
+<a 	class="popdown btn btn-warning col-xs-12 col-md-12"
+	href="{{ route('members.cautions.actives',['memberId' => $member->id]) }}"
+>
+<i class="fa fa-users"></i>
+{{ trans('member.view_current_cautionneurs') }}
+</a>
+<a 	class="popdown btn btn-primary col-xs-12 col-md-12"
+	href="{{ route('members.cautioned.actives',['memberId' => $member->id]) }}"
+>
+<i class="fa fa-users"></i>
+{{ trans('member.view_member_cautioned_by_me') }}
+</a>
+

@@ -272,9 +272,33 @@ class MemberController extends Controller {
 
 			return redirect()->back();
 		}
+		$user = $this->member->findOrfail($id);
+		// 1. Check loans first
+		if ($user->haas_active_loan) {
+			flash()->error(trans('member.this_member_still_has_active_loan_therefore_you_cannot_remove_him'));
+			return redirect()->back();
+		}
+		
+		// 2. Savings
+		if ($user->total_contribution) {
+			flash()->error(trans('member.this_member_still_has_contribution_therefore_you_cannot_remove_him'));
+			return redirect()->back();
+		}
 
-		$message = $memberRepository->destroy($id);
-		flash()->success($message);
+		// 3. cautionneurs
+		if ($user->cautionBalance > 0) {
+			flash()->error(trans('member.this_member_still_has_contribution_therefore_you_cannot_remove_him'));
+			return redirect()->back();
+		}
+
+		// Delete the user
+		if ($user->delete()) {
+			//Fire the sentinel.user.destroyed event
+			$this->dispatcher->fire('sentinel.user.destroyed', ['user' => $user]);
+
+			flash()->success(trans('Sentinel::users.notdestroyed'));
+		}
+
 		return Redirect::route('members.index', ['success' => $message]);
 	}
 
@@ -289,6 +313,52 @@ class MemberController extends Controller {
 		$results = $member->search($request->input('query'));
       
 		return Response::json($results);
+	}
+
+	/**
+	 * Get current member cautions
+	 * @param  numeric $id 
+	 * @return 
+	 */
+	public function currentCautions($id)
+	{
+		// First check if the user has the permission to do this
+		if (!$this->user->hasAccess('member.view.current.i.cautioned')) {
+			return trans('Sentinel::users.noaccess');
+		}
+
+		$title 	  = trans('member.i_have_cautionned');
+
+		$cautions = [];
+		$member = $this->member->find($id);
+		if (!is_null($member)) {
+			$cautions = $member->current_cautions;
+		}
+
+		return view('members.cautionneurs.list',compact('cautions','title'));
+	}
+
+	/**
+	 * Show members I am currently cautionning
+	 * @param  id $value 
+	 * @return 
+	 */
+	public function currentCautionedByMe($id)
+	{
+		// First check if the user has the permission to do this
+		if (!$this->user->hasAccess('member.view.current.cautioned.by.me')) {
+			return trans('Sentinel::users.noaccess');
+		}
+
+		$cautions = [];
+		$member = $this->member->find($id);
+		$title 	  = trans('member.member_who_cautionned_me');
+
+		if (!is_null($member)) {
+			$cautions = $member->cautioned_me;
+		}
+
+		return view('members.cautionneurs.list',compact('cautions','title'));
 	}
 
 	/**

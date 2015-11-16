@@ -32,6 +32,40 @@ class Contribution extends Model {
 	}
 
 	/**
+     * Get transactionType
+     * @param  $query
+     * @param  $date 
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+	public function scopeOfTransactionType($query,$transactionType)
+	{
+		return $query->where('transaction_type',$transactionType);
+	}
+
+
+	/**
+     * Get transactionType of saving
+     * @param  $query
+     * @param  $date 
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+	public function scopeIsSaving($query)
+	{
+		return $query->where('transaction_type','saving');
+	}
+
+	/**
+     * Get transactionType of saving
+     * @param  $query
+     * @param  $date 
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+	public function scopeIsWithdrawal($query)
+	{
+		return $query->where('transaction_type','withdrawal');
+	}
+
+	/**
      * Get record after a given id
      * @param  $query
      * @param  $date 

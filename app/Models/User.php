@@ -11,12 +11,15 @@ use Vinkla\Hashids\Facades\Hashids;
 use Cartalyst\Sentry\Users\Eloquent\User as SentinelModel;
 use Ceb\Traits\LogsActivity;
 use Spatie\Activitylog\LogsActivityInterface;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends SentinelModel {
 
 	use Notifable;
 
 	use LogsActivity;
+
+	use SoftDeletes;
 
 	
 	/**
@@ -30,7 +33,7 @@ class User extends SentinelModel {
      *
      * @var array
      */
-	protected $dates = ['created_at']; //, 'date_of_birth', 'updated_at'
+	protected $dates = ['created_at','deleted_at']; //, 'date_of_birth', 'updated_at'
 
 	/**
 	 * Wished amount percentage
@@ -48,7 +51,7 @@ class User extends SentinelModel {
 	 *
 	 * @var array
 	 */
-	protected $fillable = [
+	public $fillable = [
 		'adhersion_id',
 		'district',
 		'province',
@@ -152,13 +155,29 @@ class User extends SentinelModel {
 	}
 
 	/**
-	 * Member refunds
+	 * Member CAUTIONS
 	 * @return Objects contains all refunds by this memebr
 	 */
 	public function cautions() {
 		return $this->hasMany('Ceb\Models\MemberLoanCautionneur', 'cautionneur_adhresion_id', 'adhersion_id');
 	}
     
+    /**
+	 * Member who cautioned this members
+	 * @return Objects contains all refunds by this memebr
+	 */
+	public function cautioned() {
+		return $this->hasMany('Ceb\Models\MemberLoanCautionneur', 'member_adhersion_id', 'adhersion_id');
+	}
+
+	/**
+	 * Member who cautioned this members
+	 * @return Objects contains all refunds by this memebr
+	 */
+	public function getCautionedMeAttribute() {
+		return $this->cautioned()->active()->get();
+	}
+
     /**
      * Get caution amount attributes
      * @return [type] [description]
@@ -177,6 +196,12 @@ class User extends SentinelModel {
     	return $this->cautions->sum('refunded_amount');
     }
     
+    /** Get caution balance */
+    public function getCautionBalanceAttribute()
+    {
+    	return $this->caution_amount - $this->caution_refunded;
+    }
+
     /**
      * Relationship with leaves
      * @return  leave object
@@ -202,11 +227,12 @@ class User extends SentinelModel {
 	{
 		return $this->refunds()->sum('amount');
 	}
+
 	/**
 	 * Get the total amount of contribution
 	 */
 	public function totalContributions() {
-		return $this->contributions()->sum('amount');
+		return $this->contributions()->isSaving()->sum('amount') - $this->contributions()->isWithdrawal()->sum('amount');
 	}
 
 	/**
@@ -214,7 +240,7 @@ class User extends SentinelModel {
 	 * 
 	 */
 	public function getTotalContributionAttribute() {
-		return $this->contributions->sum('amount');
+		return $this->totalContributions();
 	}
 	/**
 	 * Get the loan balance
@@ -257,6 +283,14 @@ class User extends SentinelModel {
 		return round($this->loanBalance() / $this->latestLoan()->monthly_fees);
 	}
 
+	/**
+	 * Get current active cautions
+	 * @return [type] [description]
+	 */
+	public function getCurrentCautionsAttribute()
+	{
+		return $this->cautions()->active()->get();
+	}
 	/**
 	 * Get the remaining tranches for this member
 	 * @return  number
@@ -560,4 +594,40 @@ class User extends SentinelModel {
 		// Fail this query scope because this person does not have the right
 	    return $query->where(DB::raw('1=2'));
 	}
+
+
+
+	/**
+	 * Validates the user and throws a number of
+	 * Exceptions if validation fails.
+	 *
+	 * @return bool
+	 * @throws \Cartalyst\Sentry\Users\LoginRequiredException
+	 * @throws \Cartalyst\Sentry\Users\PasswordRequiredException
+	 * @throws \Cartalyst\Sentry\Users\UserExistsException
+	 */
+	public function validate()
+	{
+		if ( ! $login = $this->getLoginName() )
+		{
+			throw new LoginRequiredException("A login is required for a user, none given.");
+		}
+
+		if ( ! $password = $this->getPasswordName())
+		{
+			throw new PasswordRequiredException("A password is required for user [$login], none given.");
+		}
+
+		// Check if the user already exists
+		$query = $this->newQuery();
+		$persistedUser = $query->where($this->getLoginName(), '=', $login)->first();
+
+		if ($persistedUser and $persistedUser->getId() != $this->getId())
+		{
+			throw new UserExistsException("A user already exists with login [$login], logins must be unique for users.");
+		}
+
+		return true;
+	}
+
 }
