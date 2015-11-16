@@ -76,9 +76,7 @@ class CompleteLoanRequest extends Request
         // Validate total amount vs Account amount   
         $attributes['loanaccountamount'] = $attributes['loan_to_repay'];
         $attributes['loanaccountamount_confirmation'] = $attributes['accounting_amount_confirmation'];
-        // Validate bank
-        $attributes['bank'] = $attributes['bank_id'];
-        
+          
         // Validate the input accounts 
         $accounts = array_intersect($attributes['credit_accounts'], $attributes['debit_accounts']);
         if (count($accounts) > 0) {    
