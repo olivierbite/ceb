@@ -1,83 +1,84 @@
-<p dir="ltr" style="line-height:1.2;margin-top:0pt;margin-bottom:0pt;text-align: center;"><span id="docs-internal-guid-825896ac-e47a-1d05-fca3-4128ce34b119"><span style="font-size: 17.3333px; font-family: Garamond; color: rgb(0, 0, 0); font-weight: 700; text-decoration: underline; vertical-align: baseline; white-space: pre-wrap; background-color: transparent;">CONTRAT DE PR&Ecirc;T SPECIAL N&deg; {!! $member->latestLoan()->loan_contract !!}</span></span></p>
-&nbsp;
+<style type="text/css" media="print">
+	/** @type {PRINT IN LANDSCAPE}  */
+ @media print{@page {size: portrait}}
+</style>
+<h3 style="text-align: center;text-decoration: underline">CONTRAT DE PRÊT A CARACTERE SPECIAL N° {contract_id}</h3>
 
-<p dir="ltr" style="line-height:1.2;margin-top:0pt;margin-bottom:0pt;"><span id="docs-internal-guid-825896ac-e47a-1d05-fca3-4128ce34b119"><span style="font-size: 14.6667px; font-family: Garamond; color: rgb(0, 0, 0); vertical-align: baseline; white-space: pre-wrap; background-color: transparent;">Entre &nbsp;&nbsp;</span><span style="font-size: 14.6667px; font-family: Garamond; color: rgb(0, 0, 0); font-weight: 700; vertical-align: baseline; white-space: pre-wrap; background-color: transparent;">{!! $member->first_name.' '.$member->last_name !!}</span></span></p>
+<p>
+Entre Mr /Madame/Mlle  <strong>{names}</strong>, ayant le Numéro d'adhésion <strong>{adhersion_id}</strong> Domicilié dans le District <strong>{district}</strong>  Province <strong>{province}</strong>. 
+Membre de la Caisse d’Entraide de Butare,  d’une part : <br/>
+Et le Conseil d’Administration de la Caisse d’Entraide de Butare représenté par son Président d’autre part.
+</p>
 
-<p dir="ltr" style="line-height:1.2;margin-top:0pt;margin-bottom:0pt;"><span id="docs-internal-guid-825896ac-e47a-1d05-fca3-4128ce34b119"><span style="font-size: 14.6667px; font-family: Garamond; color: rgb(0, 0, 0); vertical-align: baseline; white-space: pre-wrap; background-color: transparent;">Domicili&eacute; &nbsp;&lsquo;( &lsquo;District) </span><span style="font-size: 14.6667px; font-family: Garamond; color: rgb(0, 0, 0); font-weight: 700; vertical-align: baseline; white-space: pre-wrap; background-color: transparent;">{!! $member->district !!}</span><span style="font-size: 14.6667px; font-family: Garamond; color: rgb(0, 0, 0); vertical-align: baseline; white-space: pre-wrap; background-color: transparent;"> &nbsp;Province </span><span style="font-size: 14.6667px; font-family: Garamond; color: rgb(0, 0, 0); font-weight: 700; vertical-align: baseline; white-space: pre-wrap; background-color: transparent;">{!! $member->province !!}</span><span style="font-size: 14.6667px; font-family: Garamond; color: rgb(0, 0, 0); vertical-align: baseline; white-space: pre-wrap; background-color: transparent;"> </span></span></p>
+<p>
+IL EST LIBREMENT CONVENU CE QUI SUIT : <br/>
+<p>
+	<strong>Art 1.</strong> : Mr /Madame/Mlle<strong>{names}</strong>.employé (e) de <strong>{institution_name}</strong> reçoit un prêt de <strong>{loan_to_repay_word}</strong> Francs Rwandais, (<strong>{loan_to_repay}</strong> Frw) Par un Chèque N° <strong>{cheque_number}</strong>  remboursables en <strong>{tranches_number}</strong>. tranches de  <strong>{monthly_fees}</strong> Francs Rwandais par mois avec intérêts normaux de <strong>{interests}</strong> Francs et intérêts d’urgence de <strong>{urgent_loan_interests}</strong> Frw à déduire préalablement sur la somme 
+	prêtée.
+</p>
+<p>
+   <strong>Art 2 :</strong> Le débiteur  s’engage à payer ces tranches à partir du mois de <strong>{start_payment_month}</strong>. jusque <strong>{end_payment_month}</strong> étant 
+	entendu que l’échéance totale est de <strong>{tranches_number}</strong>.  mois. La tranche mensuelle de remboursement est déduite sur son salaire par l’employeur conformément à la demande de la CEB. 
+</p>
+<p>
+	<strong>Art 3 :</strong> Le débiteur s’engage à rembourser les dites tranches conformément aux clauses du règlement intérieur de la Caisse 
+	d’Entraide de Butare, les cautions étant soumises au même règlement. En outre,  le débiteur ne peut pas prétendre démissionner 
+	de la C.E.B. avant l’épuration de la dette.
+</p>
+<p>
+	<strong>Art 4 :</strong> Ce prêt est solidairement cautionné par deux personnes membres effectifs de la CEB qui s’engagent solidairement à 
+	rembourser en cas de défaillance du débiteur principal. 
+</p>
+<p>
+	<strong>Art 5 :</strong> En cas de perte de la qualité du membre avant l’apurement de la dette ou le retard de remboursement de trois mois, le 
+	débiteur accepte et autorise la CEB de se faire payer automatiquement par son épargne constituée à la CEB. 
+</p>
+<p>
+	<strong>Art 6 :</strong> Les cautionnaires acceptent solidairement que la CEB se fasse  payer automatiquement le solde du crédit par leurs 
+	épargnes à la CEB lorsque le débiteur défaillant totalise un retard de remboursement de 6 mois sans exiger préalablement de 
+	poursuivre le débiteur. Chaque cautionnaire consent et accepte de payer automatiquement tout solde du crédit du débiteur qu’il 
+	a cautionné même si l’épargne du débiteur et/ou du Co-cautionneur a été utilisée pour rembourser les autres crédits qu’ils ont 
+	cautionnés.
+</p> 
+<p>
+	Le cautionnaire ne peut pas prétendre démissionner de la CEB avant l’épuration par le débiteur de la dette qu’il a cautionnée, 
+	ou avant d’être remplacé par un autre cautionnaire par le débiteur.
+</p>
+<p>Chacun des cautionnaires confirme avoir une parfaite connaissance de l’étendu de l’engagement de ce contrat et signe le </p>
+<p>présent contrat en présence du membre du Conseil d’Administration de la CEB.</p>
 
-<p dir="ltr" style="line-height:1.2;margin-top:0pt;margin-bottom:0pt;"><span id="docs-internal-guid-825896ac-e47a-1d05-fca3-4128ce34b119"><span style="font-size: 14.6667px; font-family: Garamond; color: rgb(0, 0, 0); vertical-align: baseline; white-space: pre-wrap; background-color: transparent;">Membre de la Caisse d&rsquo;Entraide de Butare, d&rsquo;une part :</span></span></p>
+<p>
+	<strong>{cautionnaires_table}</strong>
+</p>
+<p>
+	<strong>Art 7 :</strong> Le débiteur accepte et autorise la CEB qu’en cas de cessation du contrat de travail, soit par démission volontaire, par suppression d’emploi ou par révocation, de demander à son profit à son employeur de transférer au compte de la Caisse d’Entraide de 
+	Butare le décompte final pour rembourser son crédit et/ou celui qu’il a cautionné. Le débiteur s’engage à remplacer chaque 
+	cautionnaire qui se trouve dans l’impossibilité de continuer à cautionner son prêt. 
+</p>
+<p>
+	<strong>Art 8 :</strong> Tout litige ou contestation résultant de l’application et de l’interprétation ou exécution du présent contrat sera réglé à l’amiable. A défaut  le litige sera soumis à la juridiction rwandaise compétente en la matière.
+</p>
+<p>
+	<strong>Art 9 :</strong> Ce contrat entre en vigueur le jour de sa signature par les parties contractantes. Signé en deux exemplaires ayant la valeur originale et constitue le document de complet de références des obligations réciproques entre les parties contractantes.
+</p>
 
-<p dir="ltr" style="line-height:1.2;margin-top:0pt;margin-bottom:0pt;"><span id="docs-internal-guid-825896ac-e47a-1d05-fca3-4128ce34b119"><span style="font-size: 14.6667px; font-family: Garamond; color: rgb(0, 0, 0); vertical-align: baseline; white-space: pre-wrap; background-color: transparent;">Et le Conseil d&rsquo;Administration de la Caisse d&rsquo;Entraide de Butare repr&eacute;sent&eacute; par son Pr&eacute;sident d&rsquo;autre part.</span></span></p>
-&nbsp;
+<p style="text-align: center">Fait à Huye, le <strong>{today_date}</strong>.</p>
+<div class="container">
+	<div class="left">
+	<h4 style="text-decoration: underline">L'emprunteur:</h4>
+	Nom & Prénom: {names} <br/>
+    District : {district}, Province {province} <br/>
+	Carte d’Identité N° : {member_nid} <br/>
+	Signature: ................................................................<br/>
+</div>
 
-<p dir="ltr" style="line-height:1.2;margin-top:0pt;margin-bottom:0pt;"><span id="docs-internal-guid-825896ac-e47a-1d05-fca3-4128ce34b119"><span style="font-size: 14.6667px; font-family: Garamond; color: rgb(0, 0, 0); vertical-align: baseline; white-space: pre-wrap; background-color: transparent;">IL EST CONVENU CE QUI SUIT :</span></span></p>
-&nbsp;
-
-<p dir="ltr" style="line-height:1.2;margin-top:0pt;margin-bottom:0pt;"><span id="docs-internal-guid-825896ac-e47a-1d05-fca3-4128ce34b119"><span style="font-size: 14.6667px; font-family: Garamond; color: rgb(0, 0, 0); text-decoration: underline; vertical-align: baseline; white-space: pre-wrap; background-color: transparent;">Art 1</span><span style="font-size: 14.6667px; font-family: Garamond; color: rgb(0, 0, 0); vertical-align: baseline; white-space: pre-wrap; background-color: transparent;"> : {!! $member->first_name.' '.$member->last_name !!} employ&eacute; (e) de </span><span style="font-size: 14.6667px; font-family: Garamond; color: rgb(0, 0, 0); font-weight: 700; vertical-align: baseline; white-space: pre-wrap; background-color: transparent;">{!! $member->institution->name !!}</span><span style="font-size: 14.6667px; font-family: Garamond; color: rgb(0, 0, 0); vertical-align: baseline; white-space: pre-wrap; background-color: transparent;">.</span></span></p>
-&nbsp;
-
-<p dir="ltr" style="line-height:1.2;margin-top:0pt;margin-bottom:0pt;"><span id="docs-internal-guid-825896ac-e47a-1d05-fca3-4128ce34b119"><span style="font-size: 14.6667px; font-family: Garamond; color: rgb(0, 0, 0); vertical-align: baseline; white-space: pre-wrap; background-color: transparent;">re&ccedil;oit un pr&ecirc;t special de &nbsp;</span><span style="font-size: 14.6667px; font-family: Garamond; color: rgb(0, 0, 0); font-weight: 700; vertical-align: baseline; white-space: pre-wrap; background-color: transparent;">{!! convert_number_to_words($member->latestLoan()->loan_to_repay) !!}</span><span style="font-size: 14.6667px; font-family: Garamond; color: rgb(0, 0, 0); vertical-align: baseline; white-space: pre-wrap; background-color: transparent;"> </span><span style="font-size: 14.6667px; font-family: Garamond; color: rgb(0, 0, 0); font-weight: 700; vertical-align: baseline; white-space: pre-wrap; background-color: transparent;">Rwandan Francs, ({!! $member->latestLoan()->loan_to_repay !!})</span></span></p>
-&nbsp;
-
-<p dir="ltr" style="line-height:1.2;margin-top:0pt;margin-bottom:0pt;"><span id="docs-internal-guid-825896ac-e47a-1d05-fca3-4128ce34b119"><span style="font-size: 14.6667px; font-family: Garamond; color: rgb(0, 0, 0); vertical-align: baseline; white-space: pre-wrap; background-color: transparent;">Ch&egrave;que N&deg; </span><span style="font-size: 14.6667px; font-family: Garamond; color: rgb(0, 0, 0); font-weight: 700; vertical-align: baseline; white-space: pre-wrap; background-color: transparent;">{!! $member->latestLoan()->cheque_number !!}</span><span style="font-size: 14.6667px; font-family: Garamond; color: rgb(0, 0, 0); vertical-align: baseline; white-space: pre-wrap; background-color: transparent;"> &nbsp;remboursables en </span><span style="font-size: 14.6667px; font-family: Garamond; color: rgb(0, 0, 0); font-weight: 700; vertical-align: baseline; white-space: pre-wrap; background-color: transparent;">{NbreTranches}</span><span style="font-size: 14.6667px; font-family: Garamond; color: rgb(0, 0, 0); vertical-align: baseline; white-space: pre-wrap; background-color: transparent;"> tranches &nbsp;de </span><span style="font-size: 14.6667px; font-family: Garamond; color: rgb(0, 0, 0); font-weight: 700; vertical-align: baseline; white-space: pre-wrap; background-color: transparent;">{!! $member->latestLoan()->tranches_number !!}</span><span style="font-size: 14.6667px; font-family: Garamond; color: rgb(0, 0, 0); vertical-align: baseline; white-space: pre-wrap; background-color: transparent;"> </span><span style="font-size: 14.6667px; font-family: Garamond; color: rgb(0, 0, 0); font-weight: 700; vertical-align: baseline; white-space: pre-wrap; background-color: transparent;">{!! $member->latestLoan()->monthly_fees !!}&nbsp;Francs Rwandais</span></span></p>
-
-<p dir="ltr" style="line-height:1.2;margin-top:0pt;margin-bottom:0pt;"><span id="docs-internal-guid-825896ac-e47a-1d05-fca3-4128ce34b119"><span style="font-size: 14.6667px; font-family: Garamond; color: rgb(0, 0, 0); vertical-align: baseline; white-space: pre-wrap; background-color: transparent;">par mois avec un int&eacute;r&ecirc;t de </span><span style="font-size: 14.6667px; font-family: Garamond; color: rgb(0, 0, 0); font-weight: 700; vertical-align: baseline; white-space: pre-wrap; background-color: transparent;">{!! $member->latestLoan()->interests !!}</span><span style="font-size: 14.6667px; font-family: Garamond; color: rgb(0, 0, 0); vertical-align: baseline; white-space: pre-wrap; background-color: transparent;"> </span><span style="font-size: 14.6667px; font-family: Garamond; color: rgb(0, 0, 0); font-weight: 700; vertical-align: baseline; white-space: pre-wrap; background-color: transparent;">Francs Rwandais</span><span style="font-size: 14.6667px; font-family: Garamond; color: rgb(0, 0, 0); vertical-align: baseline; white-space: pre-wrap; background-color: transparent;"> &nbsp;&agrave; d&eacute;duire sur la somme pr&ecirc;t&eacute;e.</span></span></p>
-&nbsp;
-
-<p dir="ltr" style="line-height:1.2;margin-top:0pt;margin-bottom:0pt;"><span id="docs-internal-guid-825896ac-e47a-1d05-fca3-4128ce34b119"><span style="font-size: 14.6667px; font-family: Garamond; color: rgb(0, 0, 0); text-decoration: underline; vertical-align: baseline; white-space: pre-wrap; background-color: transparent;">Art 2</span><span style="font-size: 14.6667px; font-family: Garamond; color: rgb(0, 0, 0); vertical-align: baseline; white-space: pre-wrap; background-color: transparent;"> : Le d&eacute;biteur &nbsp;s&rsquo;engage &agrave; payer ces tranches &agrave; partir du mois de </span><span style="font-size: 14.6667px; font-family: Garamond; color: rgb(0, 0, 0); font-weight: 700; vertical-align: baseline; white-space: pre-wrap; background-color: transparent;">&nbsp;{!! $member->latestLoan()->letter_date->addMonth(1)->Format('M-Y') !!} jusque </span><span style="font-size: 14.6667px; font-family: Garamond; color: rgb(0, 0, 0); font-weight: 700; vertical-align: baseline; white-space: pre-wrap; background-color: transparent;">{!! $member->latestLoan()->letter_date->addMonth($member->latestLoan()->tranches_number + 1)->Format('M-Y') !!}  </span><span style="font-size: 14.6667px; font-family: Garamond; color: rgb(0, 0, 0); vertical-align: baseline; white-space: pre-wrap; background-color: transparent;">&eacute;tant entendu que l&rsquo;&eacute;ch&egrave;ance totale est de &nbsp;</span><span style="font-size: 14.6667px; font-family: Garamond; color: rgb(0, 0, 0); font-weight: 700; vertical-align: baseline; white-space: pre-wrap; background-color: transparent;">{!! $member->latestLoan()->tranches_number !!}</span><span style="font-size: 14.6667px; font-family: Garamond; color: rgb(0, 0, 0); vertical-align: baseline; white-space: pre-wrap; background-color: transparent;"> &nbsp;mois.</span></span></p>
-&nbsp;
-
-<p dir="ltr" style="line-height:1.2;margin-top:0pt;margin-bottom:0pt;"><span id="docs-internal-guid-825896ac-e47a-1d05-fca3-4128ce34b119"><span style="font-size: 14.6667px; font-family: Garamond; color: rgb(0, 0, 0); text-decoration: underline; vertical-align: baseline; white-space: pre-wrap; background-color: transparent;">Art 3</span><span style="font-size: 14.6667px; font-family: Garamond; color: rgb(0, 0, 0); vertical-align: baseline; white-space: pre-wrap; background-color: transparent;"> : il s&rsquo;engage &agrave; rembourser les dites tranches conform&eacute;ment aux clauses du reglement int&eacute;rieur de la Caisse d&rsquo;Entraide de Butare, surtout en son article 54 (a-b-c-d-e-f-g), les cautions &eacute;tant soumises au m&ecirc;me r&eacute;glement. En outre, &nbsp;le d&eacute;biteur ne peut pas pr&eacute;tendre d&eacute;missionner de la C.E.B. avant l&rsquo;&eacute;puration de la dette.</span></span></p>
-&nbsp;
-
-<p dir="ltr" style="line-height:1.2;margin-top:0pt;margin-bottom:0pt;"><span id="docs-internal-guid-825896ac-e47a-1d05-fca3-4128ce34b119"><span style="font-size: 14.6667px; font-family: Garamond; color: rgb(0, 0, 0); text-decoration: underline; vertical-align: baseline; white-space: pre-wrap; background-color: transparent;">Art 4</span><span style="font-size: 14.6667px; font-family: Garamond; color: rgb(0, 0, 0); vertical-align: baseline; white-space: pre-wrap; background-color: transparent;"> : Dans le contrat de Pr&ecirc;t qu&rsquo;il signe, l&rsquo;emprunteur autorise la Caisse d&rsquo;Entraide de Butare de pr&eacute;l&egrave;ver sur son solde &agrave; l&rsquo;U.N.R., l&rsquo;I.R.S.T. ou le C.H.U. B (salaire, pr&eacute;avis, cong&eacute; pay&eacute;s, ect) le montant qui reste &agrave; payer dans le cas o&ugrave; il finit son contrat de travail avec l&rsquo;U.N.R., &nbsp;l&rsquo;I. R.S.T. ou le C.H.U. B.</span></span></p>
-&nbsp;
-
-<p dir="ltr" style="line-height:1.2;margin-top:0pt;margin-bottom:0pt;"><span id="docs-internal-guid-825896ac-e47a-1d05-fca3-4128ce34b119"><span style="font-size: 14.6667px; font-family: Garamond; color: rgb(0, 0, 0); text-decoration: underline; vertical-align: baseline; white-space: pre-wrap; background-color: transparent;">Art 5 </span><span style="font-size: 14.6667px; font-family: Garamond; color: rgb(0, 0, 0); vertical-align: baseline; white-space: pre-wrap; background-color: transparent;">: Le contrat de pr&ecirc;t et de remboursement autorise la Caisse d&rsquo;Entraide de Butare &agrave; bloquer, &agrave; son profit, les comptes de l&rsquo;emprunteur et des cautionnaires jusq&rsquo;&agrave; concurrence du montant d&ugrave; par l&rsquo;empruteur &agrave; la Caisse d&rsquo;Entraide de Butare. </span></span></p>
-&nbsp;
-
-<p dir="ltr" style="line-height:1.2;margin-top:0pt;margin-bottom:0pt;"><span id="docs-internal-guid-825896ac-e47a-1d05-fca3-4128ce34b119"><span style="font-size: 14.6667px; font-family: Garamond; color: rgb(0, 0, 0); text-decoration: underline; vertical-align: baseline; white-space: pre-wrap; background-color: transparent;">Art 6</span><span style="font-size: 14.6667px; font-family: Garamond; color: rgb(0, 0, 0); vertical-align: baseline; white-space: pre-wrap; background-color: transparent;"> : Tout litige ou contestation &nbsp;&nbsp;r&eacute;sultant de l&rsquo;application et de l&rsquo;interpr&eacute;tation du pr&eacute;sent contrat seront de la comp&eacute;tence exclusive des tribunaux rwandais comp&eacute;tents en la mati&egrave;re.</span></span></p>
-&nbsp;
-
-<p dir="ltr" style="line-height:1.2;margin-top:0pt;margin-bottom:0pt;"><span id="docs-internal-guid-825896ac-e47a-1d05-fca3-4128ce34b119"><span style="font-size: 14.6667px; font-family: Garamond; color: rgb(0, 0, 0); text-decoration: underline; vertical-align: baseline; white-space: pre-wrap; background-color: transparent;">Art 7</span><span style="font-size: 14.6667px; font-family: Garamond; color: rgb(0, 0, 0); vertical-align: baseline; white-space: pre-wrap; background-color: transparent;"> : Cet emprunt est cautionn&eacute; par l&#39; </span><span style="font-size: 14.6667px; font-family: Garamond; color: rgb(0, 0, 0); font-weight: 700; vertical-align: baseline; white-space: pre-wrap; background-color: transparent;">epargne</span></span></p>
-&nbsp;
-
-<p dir="ltr" style="line-height:1.2;margin-top:0pt;margin-bottom:0pt;"><span id="docs-internal-guid-825896ac-e47a-1d05-fca3-4128ce34b119"><span style="font-size: 14.6667px; font-family: Garamond; color: rgb(0, 0, 0); text-decoration: underline; vertical-align: baseline; white-space: pre-wrap; background-color: transparent;">Art 8</span><span style="font-size: 14.6667px; font-family: Garamond; color: rgb(0, 0, 0); vertical-align: baseline; white-space: pre-wrap; background-color: transparent;"> : Ce contrat est fait en deux exemplaires &agrave; distribuer entre les deux &nbsp;parties contractantes.</span></span></p>
-&nbsp;
-
-<p dir="ltr" style="line-height:1.2;margin-top:0pt;margin-bottom:0pt;"><span id="docs-internal-guid-825896ac-e47a-1d05-fca3-4128ce34b119"><span style="font-size: 14.6667px; font-family: Garamond; color: rgb(0, 0, 0); vertical-align: baseline; white-space: pre-wrap; background-color: transparent;">Fait &agrave; Huye le</span><span style="font-size: 14.6667px; font-family: Garamond; color: rgb(0, 0, 0); font-weight: 700; vertical-align: baseline; white-space: pre-wrap; background-color: transparent;">{Dated}</span></span></p>
-&nbsp;
-
-<p dir="ltr" style="line-height:1.2;margin-top:0pt;margin-bottom:0pt;"><span id="docs-internal-guid-825896ac-e47a-1d05-fca3-4128ce34b119"><span style="font-size: 14.6667px; font-family: Garamond; color: rgb(0, 0, 0); font-weight: 700; text-decoration: underline; vertical-align: baseline; white-space: pre-wrap; background-color: transparent;">L&#39;emprunteur: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></p>
-&nbsp;
-
-<p dir="ltr" style="line-height:1.2;margin-top:0pt;margin-bottom:0pt;"><span id="docs-internal-guid-825896ac-e47a-1d05-fca3-4128ce34b119"><span style="font-size: 14.6667px; font-family: Garamond; color: rgb(0, 0, 0); vertical-align: baseline; white-space: pre-wrap; background-color: transparent;">Nom &amp; Prenom: &nbsp;</span><span style="font-size: 14.6667px; font-family: Garamond; color: rgb(0, 0, 0); font-weight: 700; vertical-align: baseline; white-space: pre-wrap; background-color: transparent;">{!! $member->first_name.' '.$member->last_name !!}</span></span></p>
-
-<p dir="ltr" style="line-height:1.2;margin-top:0pt;margin-bottom:0pt;"><span id="docs-internal-guid-825896ac-e47a-1d05-fca3-4128ce34b119"><span style="font-size: 14.6667px; font-family: Garamond; color: rgb(0, 0, 0); vertical-align: baseline; white-space: pre-wrap; background-color: transparent;">District : </span><span style="font-size: 14.6667px; font-family: Garamond; color: rgb(0, 0, 0); font-weight: 700; vertical-align: baseline; white-space: pre-wrap; background-color: transparent;">{!! $member->district !!}</span></span></p>
-
-<p dir="ltr" style="line-height:1.2;margin-top:0pt;margin-bottom:0pt;"><span id="docs-internal-guid-825896ac-e47a-1d05-fca3-4128ce34b119"><span style="font-size: 14.6667px; font-family: Garamond; color: rgb(0, 0, 0); vertical-align: baseline; white-space: pre-wrap; background-color: transparent;">Province : &nbsp;</span><span style="font-size: 14.6667px; font-family: Garamond; color: rgb(0, 0, 0); font-weight: 700; vertical-align: baseline; white-space: pre-wrap; background-color: transparent;">{!! $member->province !!}</span></span></p>
-
-<p dir="ltr" style="line-height:1.2;margin-top:0pt;margin-bottom:0pt;"><span id="docs-internal-guid-825896ac-e47a-1d05-fca3-4128ce34b119"><span style="font-size: 14.6667px; font-family: Garamond; color: rgb(0, 0, 0); vertical-align: baseline; white-space: pre-wrap; background-color: transparent;">Carte d&rsquo;Identite N&deg; : </span><span style="font-size: 14.6667px; font-family: Garamond; color: rgb(0, 0, 0); font-weight: 700; vertical-align: baseline; white-space: pre-wrap; background-color: transparent;">{!! $member->member_nid !!}</span></span></p>
-
-<p dir="ltr" style="line-height:1.2;margin-top:0pt;margin-bottom:0pt;"><span id="docs-internal-guid-825896ac-e47a-1d05-fca3-4128ce34b119"><span style="font-size: 14.6667px; font-family: Garamond; color: rgb(0, 0, 0); vertical-align: baseline; white-space: pre-wrap; background-color: transparent;">Signature: .............................................................................</span></span></p>
-
-<p dir="ltr" style="line-height:1.2;margin-top:0pt;margin-bottom:0pt;"><span id="docs-internal-guid-825896ac-e47a-1d05-fca3-4128ce34b119"><span style="font-size: 14.6667px; font-family: Garamond; color: rgb(0, 0, 0); font-weight: 700; text-decoration: underline; vertical-align: baseline; white-space: pre-wrap; background-color: transparent;">Pour le Ccnseil d&rsquo;Administration de la CEB</span></span></p>
-&nbsp;
-
-<p dir="ltr" style="line-height:1.2;margin-top:0pt;margin-bottom:0pt;"><span id="docs-internal-guid-825896ac-e47a-1d05-fca3-4128ce34b119"><span style="font-size: 14.6667px; font-family: Garamond; color: rgb(0, 0, 0); font-weight: 700; text-decoration: underline; vertical-align: baseline; white-space: pre-wrap; background-color: transparent;">Pour le Ccnseil d&rsquo;Administration de la CEB</span></span></p>
-&nbsp;
-
-<p dir="ltr" style="line-height:1.2;margin-top:0pt;margin-bottom:0pt;"><span id="docs-internal-guid-825896ac-e47a-1d05-fca3-4128ce34b119"><span style="font-size: 14.6667px; font-family: Garamond; color: rgb(0, 0, 0); vertical-align: baseline; white-space: pre-wrap; background-color: transparent;">Pr&eacute;sident : &nbsp;</span><span style="font-size: 14.6667px; font-family: Garamond; color: rgb(0, 0, 0); font-weight: 700; vertical-align: baseline; white-space: pre-wrap; background-color: transparent;">{President}</span></span></p>
-
-<p dir="ltr" style="line-height:1.2;margin-top:0pt;margin-bottom:0pt;"><span id="docs-internal-guid-825896ac-e47a-1d05-fca3-4128ce34b119"><span style="font-size: 14.6667px; font-family: Garamond; color: rgb(0, 0, 0); vertical-align: baseline; white-space: pre-wrap; background-color: transparent;">Signature: ...............................................................................................</span></span></p>
-
-<p dir="ltr" style="line-height:1.2;margin-top:0pt;margin-bottom:0pt;"><span id="docs-internal-guid-825896ac-e47a-1d05-fca3-4128ce34b119"><span style="font-size: 14.6667px; font-family: Garamond; color: rgb(0, 0, 0); vertical-align: baseline; white-space: pre-wrap; background-color: transparent;">Tr&eacute;sorier : &nbsp;</span><span style="font-size: 14.6667px; font-family: Garamond; color: rgb(0, 0, 0); font-weight: 700; vertical-align: baseline; white-space: pre-wrap; background-color: transparent;">{Tresorier}</span></span></p>
-
-<p dir="ltr" style="line-height:1.2;margin-top:0pt;margin-bottom:0pt;"><span id="docs-internal-guid-825896ac-e47a-1d05-fca3-4128ce34b119"><span style="font-size: 14.6667px; font-family: Garamond; color: rgb(0, 0, 0); vertical-align: baseline; white-space: pre-wrap; background-color: transparent;">Signature: ...............................................................................................</span></span></p>
-
-<p dir="ltr" style="line-height:1.2;margin-top:0pt;margin-bottom:0pt;"><span id="docs-internal-guid-825896ac-e47a-1d05-fca3-4128ce34b119"><span style="font-size: 14.6667px; font-family: Garamond; color: rgb(0, 0, 0); vertical-align: baseline; white-space: pre-wrap; background-color: transparent;">Administrateur: </span><span style="font-size: 14.6667px; font-family: Garamond; color: rgb(0, 0, 0); font-weight: 700; vertical-align: baseline; white-space: pre-wrap; background-color: transparent;">{Administrateur}</span></span></p>
-
-<p dir="ltr" style="line-height:1.2;margin-top:0pt;margin-bottom:0pt;"><span id="docs-internal-guid-825896ac-e47a-1d05-fca3-4128ce34b119"><span style="font-size: 14.6667px; font-family: Garamond; color: rgb(0, 0, 0); vertical-align: baseline; white-space: pre-wrap; background-color: transparent;">Signature: ...............................................................................................</span></span></p>
-<br />
-<br />
-&nbsp;
+<div class="right">
+	<h4 style="text-decoration: underline">Pour le Conseil d’Administration de la CEB</h4>
+	Président : {president}<br/>
+	Signature: ...................................................................................<br/>
+	Trésorier: {treasurer} <br/>
+	Signature: .................................................................................<br/>
+	Administrateur:{administrator}<br/>
+	Signature: ....................................................................................<br/>.
+</div>
+</div>

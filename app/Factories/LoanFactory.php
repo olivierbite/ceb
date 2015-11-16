@@ -337,7 +337,7 @@ class LoanFactory {
 		DB::commit();
         
         // Notify all people who has right to approve loan 
-            // Get all users who have the right to approve leave
+        // Get all users who have the right to approve leave
         // if we found them then ilitirate them and 
         // make sure, we notify all of them
         $groups = UserGroup::with('users')->get();
@@ -347,7 +347,7 @@ class LoanFactory {
             // If this group doesn't have access then 
             // go to the next group
             
-            if (!$group->hasAccess('loan.can.approve.loan')) {
+            if (!$group->hasAccess('loan.can.unblock.loan')) {
                 continue;
             }
 
@@ -356,7 +356,7 @@ class LoanFactory {
                Notifynder::category('loan.approval')
                    ->from($this->user->id)
                    ->to($user->id)
-                   ->url(route('loan.pending',['loanid'=>$saveLoan->id]))
+                   ->url(route('loan.blocked',['loanid'=>$saveLoan->id]))
                    ->sendWithEmail();
            }
 		}

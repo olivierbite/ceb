@@ -8,6 +8,7 @@ use Ceb\Http\Requests\UnblockLoanRequest;
 use Ceb\Models\Loan;
 use Ceb\Models\User as Member;
 use Ceb\Models\User;
+use Ceb\Models\UserGroup;
 use Fenos\Notifynder\Facades\Notifynder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -461,6 +462,32 @@ class LoanController extends Controller {
 		// Lastly, Let's commit a transaction since we reached here //
 		//////////////////////////////////////////////////////////////
 		DB::commit();
+
+		 // Notify all people who has right to approve loan 
+        // Get all users who have the right to approve leave
+        // if we found them then ilitirate them and 
+        // make sure, we notify all of them
+        $groups = UserGroup::with('users')->get();
+
+        foreach ($groups as $group) {      
+            
+            // If this group doesn't have access then 
+            // go to the next group
+            
+            if (!$group->hasAccess('loan.can.approve.loan')) {
+                continue;
+            }
+
+            // Group has access let's notify them
+           foreach ($group->users as $user) {
+               Notifynder::category('loan.approval')
+                   ->from($this->user->id)
+                   ->to($user->id)
+                   ->url(route('loan.pending',['loanid'=>$loan->id]))
+                   ->sendWithEmail();
+           }
+		}
+
 		flash()->success(trans('loan.loan_successfully_unblocked'));
 
 		return redirect()->route('loan.blocked');

@@ -146,7 +146,7 @@ function generateContract($member,$contract_type)
 	switch ($contract_type) {
 			case (strpos($contract_type,'ordinary_loan') !== FALSE):
 			     // Ordinary loan
-				 $contract = view('reports.contracts_loan_ordinary', compact('member'))->render();
+				 $contract = view('reports.contracts_loan_ordinary')->render();
 				break;
 			case 'special_loan':
 				// Special loan	
@@ -160,6 +160,31 @@ function generateContract($member,$contract_type)
 				$contract = 'Unable to determine the contract type';
 				break;
 		}
+
+	    $loan   = $member->latestLoan();
+
+		$contract = str_replace('{contract_id}',$loan->loan_contract,$contract);
+		$contract = str_replace('{names}',$member->names,$contract);
+		$contract = str_replace('{adhersion_id}',$member->adhersion_id,$contract);
+		$contract = str_replace('{member_nid}',$member->member_nid,$contract);
+		$contract = str_replace('{district}',$member->district,$contract);
+		$contract = str_replace('{province}',$member->province,$contract);
+		$contract = str_replace('{names}',$member->names,$contract);
+		$contract = str_replace('{institution_name}',$member->institution_name,$contract);
+		$loan_to_repay = (int) $loan->loan_to_repay;
+		$contract = str_replace('{loan_to_repay_word}',convert_number_to_words($loan_to_repay),$contract);
+		$contract = str_replace('{loan_to_repay}',number_format($loan_to_repay),$contract);
+		$contract = str_replace('{cheque_number}',$loan->cheque_number,$contract);
+		$contract = str_replace('{tranches_number}',$loan->tranches_number,$contract);
+		$contract = str_replace('{monthly_fees}',number_format((int)$loan->monthly_fees),$contract);
+		$contract = str_replace('{interests}',number_format((int) $loan->interests),$contract);
+		$contract = str_replace('{urgent_loan_interests}',number_format((int)$loan->urgent_loan_interests),$contract);
+		$contract = str_replace('{start_payment_month}',$loan->letter_date->addMonth(1)->format('m-Y'),$contract);
+		$contract = str_replace('{end_payment_month}',$loan->letter_date->addMonth($member->latestLoan()->tranches_number + 1)->format('m-Y'),$contract);
+		$contract = str_replace('{tranches_number}',$loan->tranches_number,$contract);
+		$cautionnairesTable = view('reports.cautionneurs',compact('loan'));
+		$contract = str_replace('{cautionnaires_table}',$cautionnairesTable,$contract);
+		return $contract = str_replace('{today_date}',date('d-m-Y'),$contract);
 
 	return $contract;	
 }

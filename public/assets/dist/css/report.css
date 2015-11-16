@@ -145,5 +145,29 @@
 
  }
 
+ .container{
+    height:40px;
+    max-width:100%;
+    padding-top:5px;
+}
+
+ .left{
+    float:left;
+    max-width: 40%;
+    padding-left:10px;
+}
+.right{
+    float:right;
+    max-width: 40%;
+    padding-right:10px;
+}
+
 /** @type {PRINT IN LANDSCAPE}  */
- @media print{@page {size: landscape}}
+ @media print{
+  @page {size: landscape}
+
+  .no-print{
+    visibility: hidden;
+    display: none;
+  }
+}
