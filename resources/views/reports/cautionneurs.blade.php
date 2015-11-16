@@ -1,69 +1,47 @@
-@if(!is_null($member->latestLoan()->getCautionneur1) || !is_null($member->latestLoan()->getCautionneur2))
+{{-- @if($loan->cautions->isEmpty() == false) --}}
 
 <div dir="ltr" style="margin-left:-5.75pt;">
-<table style="border:none;border-collapse:collapse" class="table table-bordered">
+<table class="pure-table pure-table-bordered">
 	<tbody>
 		<tr style="height:0px">
 			<th>
-			Nr
+			Nr d'adhésion
 			</th>
 			<th>
-			Noms
+			 Noms 
 			</th>
 			<th>
-			Nr
+			Nr CI 
 			</th>
 			<th>
 			District
 			</th>
 			<th>
-			Signature
+			 Signature
 			</th>
 		</tr>
-		@if (!is_null($member->latestLoan()->getCautionneur1) && $member->latestLoan()->getCautionneur1->exists)
-	
-		<tr style="height:0px">
+		<?php $count = 1; ?>
+		@foreach ($loan->cautions as $caution)
+		<tr >
 			<td>
-			Cautionneur1</p>
+			Cautionneur.{!! $count!!}</p>
 			</td>
 			<td>
-			{!! $member->latestLoan()->getCautionneur1->first_name !!} {!! $member->latestLoan()->getCautionneur1->last_name !!}
+			{!! $caution->cauttionneur->names !!}
 			</td>
 			<td>
-			{!! $member->latestLoan()->getCautionneur1->member_nid !!}
+			{!! $caution->cauttionneur->member_nid !!}
 			</td>
 			<td>
-			{!! $member->latestLoan()->getCautionneur1->district !!}
+			{!! $caution->cauttionneur->district !!}
 			</td>
 			<td>
-			 <img src="{{route('files.get', $member->latestLoan()->getCautionneur1->sighnature)}}" alt="{!! $member->latestLoan()->getCautionneur2->first_name !!}" style="width:40px;height:40px;" />
-			</td>
-		</tr>
-				{{-- expr --}}
-		@endif
-	  @if (!is_null($member->latestLoan()->getCautionneur2) && $member->latestLoan()->getCautionneur2->exists)
-	
-		<tr style="height:0px">
-			<td>
-			Cautionneur2
-			</td>
-			<td>
-			{!! $member->latestLoan()->getCautionneur2->first_name !!} {!! $member->latestLoan()->getCautionneur2->last_name !!}
-			</td>
-			<td>
-			{!! $member->latestLoan()->getCautionneur2->member_nid !!}
-			</td>
-			<td>
-			{!! $member->latestLoan()->getCautionneur2->district !!}
-			</td>
-			<td>
-			 <img src="{{route('files.get', $member->latestLoan()->getCautionneur2->sighnature)}}" alt="{!! $member->latestLoan()->getCautionneur2->first_name !!}" style="width:40px;height:40px;" />
+			
 			</td>
 		</tr>
-				{{-- expr --}}
-		@endif
+		@endforeach
 	</tbody>
 </table>
 </div>
-	{{-- expr --}}
-@endif
+
+{{-- @endif --}}
