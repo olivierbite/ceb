@@ -420,7 +420,7 @@ class LoanFactory {
 		$data['transactionid'] = $transactionid;
 		$data['loan_contract'] = $this->getContributionContractNumber();
 		$data['adhersion_id'] = $member->adhersion_id;
-		$data['movement_nature'] = 'Giving out loan';
+		$data['movement_nature'] = $inputs['movement_nature'];
 		$data['operation_type'] = $this->getOperationType();
 		$data['letter_date'] = $this->getLetterDate();
 		$data['right_to_loan'] = $inputs['right_to_loan'];
@@ -431,8 +431,8 @@ class LoanFactory {
 		$data['amount_received'] = $inputs['amount_received'];
 		$data['tranches_number'] = $this->getTranschesNumber();
 		$data['monthly_fees'] = $inputs['monthly_fees'];
-		$data['cheque_number'] = $inputs['cheque_number'];
-		$data['bank_id'] = isset($inputs['bank_id']) ? $inputs['bank_id'] : 'BK';
+		$data['cheque_number'] = isset($inputs['cheque_number']) ? $inputs['cheque_number'] : '';
+		$data['bank_id'] = isset($inputs['bank_id']) ? $inputs['bank_id'] : '';
 		$data['security_type'] = 0;
 		$data['cautionneur1'] = isset($inputs['cautionneur1']) ? $inputs['cautionneur1'] : null;
 		$data['cautionneur2'] = isset($inputs['cautionneur2']) ? $inputs['cautionneur2'] : null;
