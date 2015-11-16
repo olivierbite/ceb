@@ -428,6 +428,13 @@ class LoanController extends Controller {
 		$loan->bank_id       = $request->get('bank_id');
 		$saveLoan = $loan->save();
 
+		// If we cannot save this posting then rollback transaction
+		if ($loan->postings->isEmpty()) {
+			flash()->warning(trans('loan.we_could_not_find_postings_that_are_related_to_this_loan_therefore_this_operation_did_not_take_effect'));
+				DB::rollBack();
+				return redirect()->route('loan.blocked');
+		}
+
 		// Update posting
 		foreach ($loan->postings as $posing) {
 			$posting->cheque_number = $loan->cheque_number;
