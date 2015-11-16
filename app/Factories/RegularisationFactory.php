@@ -147,9 +147,10 @@ class RegularisationFactory
 		$wording = $data['wording'];
 		$cheque_number=$data['cheque_number'];
 		$bank=$data['bank_id'];
+		$status = 'approved';
 
 		foreach ($debits as $accountId => $amount) {
-			$results = $this->savePosting($accountId, $amount, $transactionId, 'Debit', $journalId = 1,$wording,$cheque_number,$bank);
+			$results = $this->savePosting($accountId, $amount, $transactionId, 'Debit', $journalId = 1,$wording,$cheque_number,$bank,$status);
 			if (!$results) {
 				return false;
 			}
@@ -160,7 +161,7 @@ class RegularisationFactory
 
 		foreach ($credits as $accountId => $amount) {
 
-			$results = $this->savePosting($accountId, $amount, $transactionId, 'Credit', $journalId = 1,$wording,$cheque_number,$bank);
+			$results = $this->savePosting($accountId, $amount, $transactionId, 'Credit', $journalId = 1,$wording,$cheque_number,$bank,$status);
 			if (!$results) {
 				return false;
 			}

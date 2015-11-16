@@ -507,11 +507,12 @@ class LoanFactory {
 			return false;
 		}
 
+	    $inputs = $this->getLoanInputs();
 		//Debiting....
 		$debits = $this->getDebitAccounts();
 
 		foreach ($debits as $accountId => $amount) {
-			$results = $this->savePosting($accountId, $amount, $transactionId, 'Debit', $journalId = 1);
+			$results = $this->savePosting($accountId, $amount, $transactionId, 'debit', $journalId = 1,$inputs['wording'],$cheque_number=null,$bank=null,$status='pending');
 			if (!$results) {
 
 				return false;
@@ -521,7 +522,7 @@ class LoanFactory {
 		//Crediting
 		$credits = $this->getCreditAccounts();
 		foreach ($credits as $accountId => $amount) {
-			$results = $this->savePosting($accountId, $amount, $transactionId, 'Credit', $journalId = 1);
+			$results = $this->savePosting($accountId, $amount, $transactionId, 'credit', $journalId = 1,$inputs['wording'],$cheque_number=null,$bank=null,$status='pending');
 			if (!$results) {
 				return false;
 			}

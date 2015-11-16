@@ -142,6 +142,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
 			'regularisation.index',
 			'loansandrepayments.ordinary_loan_form',
 			'loansandrepayments.special_loan_form',
+			'loansandrepayments.unblock_form',
 		];
 
 		view()->composer($views,'\Ceb\ViewComposers\BanksViewComposer');

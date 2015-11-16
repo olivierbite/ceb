@@ -59,6 +59,14 @@ class Loan extends Model {
    	return $this->belongsTo('\Ceb\Models\User','adhersion_id','adhersion_id');
    }
 
+   /**
+    * Get loan postings
+    * @return  
+    */
+   public function postings()
+   {
+   	return $this->hasMany('\Ceb\Models\Posting','transactionid','transactionid');
+   }
 	/**
 	 * Cautionneur 1
 	 * @return Objects cautionneur 1
@@ -193,6 +201,32 @@ class Loan extends Model {
     public function scopeRejected($query)
     {
         return $query->where('status', '=','rejected');
+    }
+
+     /**
+     * Scope a query to only get blocked loans, which are considered if there is no bank or cheque.
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeBlocked($query)
+    {
+    	return $query->where('cheque_number','')
+    				 ->orWhereNull('cheque_number')
+    				 ->orWhereNull('bank_id')
+    				 ->orWhere('bank_id','');
+    }
+
+     /**
+     * Scope a query to only get unblocked loans, which are considered if there is no bank or cheque.
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeUnBlocked($query)
+    {
+    	return $query->where('cheque_number','<>','')
+    				 ->WhereIsNotNull('cheque_number')
+    				 ->WhereIsNotNull('bank_id')
+    				 ->Where('bank_id','<>','');
     }
 
     /**

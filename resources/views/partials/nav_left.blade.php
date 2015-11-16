@@ -46,7 +46,11 @@
                   <i class="fa fa-money"></i>{{ trans('navigations.give_loan') }}
                   </a>
                 </li>
-
+                 <li >
+                  <a href="{{ route('loan.blocked') }}">
+                  <i class="fa fa-unlock-alt"></i>{{ trans('navigations.unblock_loan') }}
+                  </a>
+                </li>
                 <li >
                   <a href="{{ route('loan.pending') }}">
                   <i class="fa fa-money"></i>{{ trans('navigations.pending_loans') }}
