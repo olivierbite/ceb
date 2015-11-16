@@ -12,4 +12,8 @@ return array (
  'reports_accounts_list'=>'accounts list',
  'reports_loans_records'=>'loans records',
  'reports_contributions'=>'contributions',
-  );
+  'report_range'=>'Report range',
+  'export_excel'=>'Export Excel',
+  'select_loan_status'=>'Select loan status',
+  
+    );

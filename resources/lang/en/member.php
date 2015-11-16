@@ -63,5 +63,7 @@ return array (
 'view_members'=>'View Members',
 'left_members'=>'Left Members',
 'active_members'=>'Active Members',
+'member_not_found'=>'Member not found',
+'this_member_still_has_contribution_therefore_you_cannot_remove_him'=>'This member still has contribution therefore you cannot remove him',
 
 );

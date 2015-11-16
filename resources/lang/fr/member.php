@@ -23,7 +23,7 @@ return array (
   'edit' => 'Modifier',
   'email' => 'Email',
   'exists' => 'Existant',
-  'letter_date' => 'Date Du Lettre',
+  'letter_date' => 'Date de la lettre',
   'logout' => 'Déconnecter ',
   'member_attornes' => 'Mandataire ',
   'nationality' => 'Nationalite',
@@ -45,7 +45,7 @@ return array (
   'contract_saving' => 'Contrat d\'Epargne',
   'contract_loan'    => 'Contrat de Pret',
   'loan_records'    => 'Fiche de Pret',
-  'refund_loan'     => 'Rembourse',
+  'refund_loan'     => 'Remboursement individuel',
   'do_a_transaction' => 'Faire une Transactions',
   'total_contribution'=>'Total Epargne',
   'loan_as_of_today'=>'Credit en cours',
@@ -69,4 +69,7 @@ return array (
 'view_members'=>'Vue Membres',
 'left_members'=>'Membres Retire',
 'active_members'=>'Membre Active',
+'member_not_found'=>'Membre n\'est pas  trouve',
+'this_member_still_has_contribution_therefore_you_cannot_remove_him'=>'Ce membre a toujours l\'eparge donc vous ne pouvez pas  la supprime avant d\'enlever son epargne',
+
 );

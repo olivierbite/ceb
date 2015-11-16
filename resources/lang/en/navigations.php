@@ -27,13 +27,14 @@ return array (
   'refunds' => 'Refunds',
   'reporting'=>'Reporting',
   'regularisation'=>'Regularisation',
-  'refunds' => 'Remboursements',
+  'refunds' => 'Refund',
   'leaves'  => 'Leaves management',
   'items'   => 'Inventory management',
   'regularisation' => 'Regularisation',
   'installments' =>'Installments',
   'amount' =>'Amount',
   'amount_installments' =>'Amount Installments',
+  'unblock_loan'=>'Prêts debroque',
 
 
 );

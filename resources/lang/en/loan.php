@@ -70,5 +70,12 @@ return [
   'administration_fees'=>'Administration fees',
    'remaining_installments'=>'Remaining Installments',
    'additional_amount_to_repay'=>'Montant additionel a payer',
-   
+   'withdrawal'=>'Withdrawal',
+     'summary'=>'Loans Summary',
+     'movement_total'=>'Movement Total',
+     'loan_balance'=>'Loan Balance',
+     'approved'=>'Approved',
+     'pending'=>'Pending',
+     'rejected'=>'Rejected',
+     'all'=>'All',
 ];

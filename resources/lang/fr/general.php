@@ -5,7 +5,7 @@ return array (
   'upload_photo' => 'Charge photo',
   'photo_selected' => 'Photo selectionne',
   'upload_signature' => 'Charge signature',
-  'signature_selected' => 'Signature ',
+  'signature_selected' => 'Signature selectionne',
   'are_you_sure_you_want_to_delete_this_item' => 'Êtes-vous sûr de bien vouloir supprimer cet élément?',
   'cancel' => 'Annuler',
   'saving' => 'Enrgistre',
@@ -17,6 +17,12 @@ return array (
   'write_your_wording'=>'libelle',
   'cheque_number'=>'Cheque numero',
     'view_full_lists'=>'Vue liste complet',
-
-
+    'yes'=>'OUI',
+    'no'=>'NON',
+    'make_database_backup'=>'Faire backup du Base de donnee',
+    'ceb_summary'=>'CEB Résumé',
+    'actions'=>'Actions',
+    'all'=>'Tous',
+    'between'=>'Entre',
+    'and'=>'Et',
 );

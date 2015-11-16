@@ -39,7 +39,7 @@ return array (
   'full_paid_loan' => 'Prêt Rembourse  ',
    'nature'=>'Nature',
   'wording'=>'Libelle',
-  'loan'=>'Prêt',
+  'loan'=>'Prêts',
   'installment_payments'=>'Tranche a payer',
   'installements'=>'Tranche ',
   'loan-icon' => 'fa fa-dashboard text-aqua',
@@ -72,6 +72,13 @@ return array (
   'administration_fees'=>'Frais d\'administration',
  'remaining_installments'=>'Tranches restant',
    'additional_amount_to_repay'=>'Montant add a payer',
-
+   'withdrawal'=>'Retire',
+   'summary'=>'Prêts Résumé',
+    'movement_total'=>'Movement Total',
+     'loan_balance'=>'Loan Balance',
+      'approved'=>'Approve',
+     'pending'=>'En attente',
+     'rejected'=>'Rejete',
+     
 );
 

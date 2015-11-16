@@ -224,9 +224,9 @@ class Loan extends Model {
     public function scopeUnBlocked($query)
     {
     	return $query->where('cheque_number','<>','')
-    				 ->WhereIsNotNull('cheque_number')
-    				 ->WhereIsNotNull('bank_id')
-    				 ->Where('bank_id','<>','');
+    				 ->whereNotNull('cheque_number')
+    				 ->whereNotNull('bank_id')
+    				 ->where('bank_id','<>','');
     }
 
     /**
