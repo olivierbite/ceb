@@ -31,6 +31,7 @@ return array (
   'installments' =>'Echeance',
   'amount' =>'Montant',
   'amount_installments' =>'Montant/Echeance',
+    'unblock_loan'=>'Prêts a debroque',
 
 
 );

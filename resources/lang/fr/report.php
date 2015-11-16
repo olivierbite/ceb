@@ -63,5 +63,10 @@ return array (
 'loan_piece_disbursed'=>'Piece debourse prêt',
 'saving_piece_disbursed'=>'Piece debourse epargne',
 'Bilan'=>'Bilan',
-
+'provide_bank_details_to_unblock_this_loan'=>'Fournir des détails bancaires pour débloquer ce prêt',
+'loan_successfully_unblocked'=>'Prêt débloqué avec succès',
+'reports_accounting_ledger'=>'Rapport Grand livre',
+'reports_accounting_journal'=>'Rapport comptable journal',
+'reports_piece_disbursed_account'=>'Reports piece disbursed account',
+ 
   );

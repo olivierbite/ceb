@@ -34,7 +34,7 @@ return array (
   'installments' =>'Installments',
   'amount' =>'Amount',
   'amount_installments' =>'Amount Installments',
-  'unblock_loan'=>'Prêts debroque',
+  'unblock_loan'=>'Unblock Loan',
 
 
 );

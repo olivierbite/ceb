@@ -61,5 +61,7 @@ return array (
 'accounting_piece_disbursed'=>'Accounting piece disbursed',
 'loan_piece_disbursed'=>'Loan piece disbursed',
 'saving_piece_disbursed'=>'Saving piece disbursed',
-
+'provide_bank_details_to_unblock_this_loan'=>'Provide bank details to unblock this loan',
+'loan_successfully_unblocked'=>'Loan successfully unblocked',
+'reports_accounting_journal'=>'Reports accounting journal'
   );

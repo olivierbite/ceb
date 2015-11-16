@@ -436,7 +436,7 @@ class LoanController extends Controller {
 		}
 
 		// Update posting
-		foreach ($loan->postings as $posing) {
+		foreach ($loan->postings as $posting) {
 			$posting->cheque_number = $loan->cheque_number;
 			$posting->bank 			= $loan->bank_id;
 
@@ -451,7 +451,7 @@ class LoanController extends Controller {
 		////////////////////////////////////////////////////////////////////////
 		// Did we update loan with the bank information ? if no then rollback //
 		////////////////////////////////////////////////////////////////////////
-		if ($savePosting == false) {
+		if ($saveLoan == false) {
 			flash()->error(trans('loan.we_could_not_unblock_the_loan_please_try_again'));
 			DB::rollBack();
 			return redirect()->route('loan.blocked');

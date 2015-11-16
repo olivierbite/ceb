@@ -79,6 +79,9 @@ return array (
       'approved'=>'Approve',
      'pending'=>'En attente',
      'rejected'=>'Rejete',
-     
+        'process_pending_loans'=>'Prêts en attente d\'être appouve',
+     'unblocking_loans'=>'Prêts a debroque',
+     'rate'=>'Taux',
+     'unblock'=>'Debroque',
 );
 

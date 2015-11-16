@@ -28,6 +28,10 @@ return array (
     'all'=>'All',
      'between'=>'Between',
      'and'=>'and',
+     'nothing_to_show_here'=>'Nothing to show here',
+     'view_all'=>'View all',
+     'your'=>'Your',
+     'notifications'=>'notification',
 
 
 );

@@ -25,4 +25,9 @@ return array (
     'all'=>'Tous',
     'between'=>'Entre',
     'and'=>'Et',
+  'nothing_to_show_here'=>'Rien à afficher ici',
+  'view_all'=>'Voir tous',
+    'your'=>'Votre',
+     'notifications'=>'notifications',
+
 );
