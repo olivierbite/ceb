@@ -67,7 +67,7 @@ class ReportController extends Controller {
 			 $contract = str_replace('{names}',$member->names,$contract);
 			 $contract = str_replace('{adhersion_id}',$member->adhersion_id,$contract);
 			 $contract = str_replace('{institution}',$member->institution_name,$contract);
-			 $monthly_fees =(int)  $member->monthly_fees;
+			 $monthly_fees =(int)  $member->monthly_fee;
 			 $contract = str_replace('{monthly_fee_in_words}',convert_number_to_words($monthly_fees),$contract);
 			 $contract = str_replace('{monthly_fee}',$monthly_fees,$contract);
 			 $contract = str_replace('{created_at}',$member->created_at->format('m-Y'),$contract);
