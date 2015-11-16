@@ -423,7 +423,6 @@ class LoanController extends Controller {
 	    // Start saving if something fails cancel everything
 		DB::beginTransaction();
 
-		dd($loan);
 		//  Update the loan
 		$loan->cheque_number = $request->get('cheque_number');
 		$loan->bank_id       = $request->get('bank_id');
