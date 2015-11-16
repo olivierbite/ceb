@@ -2,7 +2,7 @@
 	/** @type {PRINT IN LANDSCAPE}  */
  @media print{@page {size: portrait}}
 </style>
-<h3 style="text-align: center;text-decoration: underline">CONTRAT DE PRÊT ET DE CAUTIONNEMENT SOLIDAIRE {contract_id}</h3>
+<h3 style="text-align: center;text-decoration: underline">CONTRAT DE PRÊT ET DE CAUTIONNEMENT SOLIDAIRE N° {contract_id}</h3>
 
 <p>
 Entre Mr /Madame/Mlle  <strong>{names}</strong>, ayant le Numéro d'adhésion <strong>{adhersion_id}</strong> Domicilié dans le District <strong>{district}</strong>  Province <strong>{province}</strong>. 
