@@ -239,6 +239,7 @@ class MemberRepository implements MemberRepositoryInterface {
 		            ->orWhere(DB::raw('trim(last_name)'), 'LIKE', '%' . $keyword . '%')
 		            ->orWhere('member_nid', 'LIKE', '%' . $keyword . '%')
 		            ->orWhere('adhersion_id', 'LIKE', '%' . $keyword . '%')
+		            ->orWhere('employee_id', 'LIKE', '%' . $keyword . '%')
 		            ->take(5)
 		            ->get();
 
@@ -253,6 +254,7 @@ class MemberRepository implements MemberRepositoryInterface {
 					'member_nid' => $member->member_nid,
 					'service' => $member->service,
 					'institution' =>$member->institution_name,
+					'employee_id' =>$member->employee_id,
 				 ];
 	});
 		       
