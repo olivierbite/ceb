@@ -19,7 +19,8 @@
     <script src="{{Url()}}/assets/dist/js/jquery.popdown.js" type="text/javascript"></script>
     <script src="{{Url()}}/assets/dist/js/jquery.validate.min.js" type="text/javascript"></script>
     <script src="{{Url()}}/assets/dist/js/sweetalert.min.js" type="text/javascript"></script>
-    
+    <script src="http://ceb.app/assets/dist/js/datepickr.js" type="text/javascript"></script>
+
      <!-- CEB App -->
     <script src="{{Url()}}/assets/dist/js/app.js" type="text/javascript"></script>
     <script src="{{Url()}}/assets/dist/js/debitCreditAccounts.js" type="text/javascript"></script>

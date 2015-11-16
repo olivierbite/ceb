@@ -833,3 +833,14 @@ $(document).on('change', '#upload-photo:file', function() {
                     }
                    });
     });
+
+// Add date fields 
+ new datepickr('date',{
+      'dateFormat':'Y-m-d'
+    });
+ new datepickr('date1',{
+      'dateFormat':'Y-m-d'
+    });
+ new datepickr('date2',{
+      'dateFormat':'Y-m-d'
+    });
