@@ -56,7 +56,8 @@ class ReportController extends Controller {
 
         // First log 
         Log::info($this->user->email . ' is viewing report contract saving');
-
+    
+		$member = $this->getMember($memberId);
 
 		if ($member != false) {
 
