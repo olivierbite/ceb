@@ -5,7 +5,7 @@
               {{-- Request::is('regularisation/types') --}}
               @if ((Request::is('members*') || Request::is('loans*') || Request::is('regularisation*')) && !Request::is('loans/pending*') || Request::is('loans/complete'))
               
-              @if(!Request::is('regularisation/types') && !Request::is('regularisation/regulate') && !Request::isMethod('post') )
+              @if(!Request::is('regularisation/types') && !Request::is('regularisation/regulate') && !Request::isMethod('post') && !Request::is('loans/blocked'))
                  @include('members.search')
               @endif
 
