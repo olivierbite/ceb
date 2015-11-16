@@ -5,7 +5,7 @@
 @stop
 
 @section('content')
-{!! Form::open(array('route' => 'contributions.store','class'=>'ui form rahasi-form','files' => true )) !!}
+{!! Form::open(array('route' => 'contributions.store','class'=>'ui form','files' => true )) !!}
 	@include('contributionsandsavings.form',['button'=>trans('contribution.add_new')])
 {!! Form::close() !!}
 @stop

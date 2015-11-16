@@ -1,8 +1,7 @@
 @extends('layouts.default')
-
 @section('content_title')
   {{ trans('navigations.contributions') }}
-  <script language="JavaScript">
+<script language="JavaScript">
 function toggle(source) {
  checkboxes = document.getElementsByName('memberIds[]');
   for(var i=0, n=checkboxes.length;i<n;i++) {
@@ -18,10 +17,9 @@ function toggle(source) {
   @include('contributionsandsavings.form',['institutions'=>$institutions,'institutionId'=>$institutionId])
   @include('partials.batch_upload',['route'=>'contributions.batch'])
   @if(!$members->isEmpty())
-  
   {!! Form::open(array('route'=>'contributions.complete','method'=>'POST')) !!}
   <label>{{ trans('contribution.libelle') }}</label>
-  {!! Form::text('wording', $wording, ['class'=>'form-control','placeholder'=>'contibution for this month ....']) !!}
+  {!! Form::text('wording', $wording, ['class'=>'form-control wording','placeholder'=>'contibution for this month ....']) !!}
     @include('contributionsandsavings.buttons',['cancelRoute'=>'contributions.cancel'])
   {!! Form::close() !!}
 
@@ -35,6 +33,7 @@ function toggle(source) {
         <th> {{ trans('member.adhersion_number') }}</th>
         <th> {{ trans('member.names') }}</th>
         <th> {{ trans('member.institution') }}</th>
+        <th> {{ trans('member.employee_id') }}</th>
         <th> {{ trans('member.monthly_fee') }}</th>
   	 		<th><i class="fa fa-gear"></i></th>
   	 	</tr>
@@ -43,6 +42,18 @@ function toggle(source) {
    @each ('contributionsandsavings.item', $members, 'member', 'contributionsandsavings.no-items')
  </tbody>
   </table>
-
 @endif
-@stop
+@endsection
+
+@section('scripts')
+@if(!$members->isEmpty())
+  <script type="text/javascript">
+    $(document).ready(function(){
+     var today = new Date();
+ // 30-Dec-2011
+      console.log(today.format("m/dd/yy"));
+      $('.wording').val();
+    })
+  </script>
+@endif
+@endsection
