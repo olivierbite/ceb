@@ -1,10 +1,12 @@
 <?php namespace Ceb\Repositories\Member;
 
+use Cartalyst\Sentry\Facades\Laravel\Sentry as AuthenticatedUser;
 use Cartalyst\Sentry\Sentry;
 use Cartalyst\Sentry\Users\UserExistsException;
 use Cartalyst\Sentry\Users\UserNotFoundException;
 use Ceb\Models\User;
 use Ceb\Traits\FileTrait;
+use Ceb\Traits\TransactionTrait;
 use Illuminate\Config\Repository;
 use Illuminate\Contracts\Filesystem\Factory as Storage;
 use Illuminate\Events\Dispatcher;
@@ -16,6 +18,7 @@ use Str;
 class MemberRepository implements MemberRepositoryInterface {
 
 	use FileTrait;
+	use TransactionTrait;
 
 	protected $dispatcher;
 	protected $user;
@@ -48,6 +51,8 @@ class MemberRepository implements MemberRepositoryInterface {
 
 			// Get the unique adhersion number for this member
 			$data['adhersion_id'] = $this->generateAdhersionNumber();
+			$data['contract_id']  = 'CONTRACT' . date('YmdHis') . (string) AuthenticatedUser::getUser()->id;
+
 			// Setting default password
 			$data['password'] = e('Test1234');
 
@@ -131,6 +136,10 @@ class MemberRepository implements MemberRepositoryInterface {
 			// Extract First name and last name
 			$data['first_name'] = trim(substr($data['names'], 0, $endOfFirstName = strpos($data['names'], ' ')));
 			$data['last_name'] = trim(substr($data['names'], $endOfFirstName, strlen($data['names'])));
+
+			if (empty($user->contract_id)) {
+				$data['contract_id'] = 'CONTRACT' . date('YmdHis') . (string) AuthenticatedUser::getUser()->id;
+			}
 
 			// Trim any space
 			$data['first_name'] = trim($data['first_name']);

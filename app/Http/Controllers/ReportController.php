@@ -58,10 +58,27 @@ class ReportController extends Controller {
         Log::info($this->user->email . ' is viewing report contract saving');
     
 		$member = $this->getMember($memberId);
-		$report = $this->report;
-
+		
 		if ($member != false) {
-			$report = view('reports.contracts_saving', compact('member'))->render();
+
+			 $contract = view('reports.contracts_saving')->render();
+
+			 $contract = str_replace('{contract_id}',$member->contract_id,$contract);
+			 $contract = str_replace('{names}',$member->names,$contract);
+			 $contract = str_replace('{adhersion_id}',$member->adhersion_id,$contract);
+			 $contract = str_replace('{institution}',$member->institution_name,$contract);
+			 $monthly_fees =(int)  $member->monthly_fees;
+			 $contract = str_replace('{monthly_fee_in_words}',convert_number_to_words($monthly_fees),$contract);
+			 $contract = str_replace('{monthly_fee}',$monthly_fees,$contract);
+			 $contract = str_replace('{created_at}',$member->created_at->format('m-Y'),$contract);
+			 $contract = str_replace('{today_date}',date('d-m-Y'),$contract);
+			 $contract = str_replace('{names}',$member->names,$contract);
+			 $contract = str_replace('{district}',$member->district,$contract);
+			 $contract = str_replace('{province}',$member->province,$contract);
+			 $contract = str_replace('{member_nid}',$member->member_nid,$contract);
+			 $contract = str_replace('{President}',NULL,$contract);
+
+			 $report   = $contract;
 		}
 
 		return view('layouts.printing', compact('report'));
