@@ -19,7 +19,9 @@ function toggle(source) {
   @if(!$members->isEmpty())
   {!! Form::open(array('route'=>'contributions.complete','method'=>'POST')) !!}
   <label>{{ trans('contribution.libelle') }}</label>
-  {!! Form::text('wording', $wording, ['class'=>'form-control wording','placeholder'=>'contibution for this month ....']) !!}
+  {!! Form::text('wording', 
+        (!empty($wording)) ? $wording : trans('contributions.contribution_for_the_month_of').' '.$month.date('/Y'),
+        ['class'=>'form-control wording','placeholder'=>'contibution for this month ....']) !!}
     @include('contributionsandsavings.buttons',['cancelRoute'=>'contributions.cancel'])
   {!! Form::close() !!}
 
@@ -42,18 +44,5 @@ function toggle(source) {
    @each ('contributionsandsavings.item', $members, 'member', 'contributionsandsavings.no-items')
  </tbody>
   </table>
-@endif
-@endsection
-
-@section('scripts')
-@if(!$members->isEmpty())
-  <script type="text/javascript">
-    $(document).ready(function(){
-     var today = new Date();
- // 30-Dec-2011
-      console.log(today.format("m/dd/yy"));
-      $('.wording').val();
-    })
-  </script>
 @endif
 @endsection

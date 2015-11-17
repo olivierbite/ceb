@@ -6,7 +6,7 @@
 <div class="col-xs-1 col-sm-2 col-md-1 col-lg-2" >
 <label>{{ trans('contribution.month') }}</label>
 
-	{!! Form::select('month',$monthYear,$month,['class'=>'form-control','id'=>'month']) !!}
+	{!! Form::selectMonth('month',$month,['class'=>'form-control','id'=>'month']) !!}
 </div>
 
 <div class="col-xs-1 col-sm-2 col-md-1 col-lg-2" >

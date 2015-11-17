@@ -202,8 +202,6 @@ class RefundFactory {
             	}
 			}
 
-
-
 		}
 
 		return true;
@@ -292,7 +290,7 @@ class RefundFactory {
 	 * @return [type] [description]
 	 */
 	public function getMonth() {
-		return Session::get('refundMonth', date('mY'));
+		return Session::get('refundMonth');
 	}
 
 	/**
