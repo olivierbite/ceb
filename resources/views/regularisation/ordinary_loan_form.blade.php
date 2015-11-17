@@ -1,10 +1,11 @@
 <div class="box-body">
 <div class="box-header with-border">
-  <h3 class="box-title">{{ trans('loan.loan') }}</h3>
+  <h3 class="box-title">{{ trans('loan.regularisation') }}</h3>
   <div class="loan-notifications">
    </div>
 </div>
 <div class="row">
+ @if (strpos($loanInputs['operation_type'], 'installment') !== false)
 
   <div class="col-md-3">
   <div class="form-group">
@@ -15,9 +16,20 @@
     !!}
   </div>
   </div>
+ @endif
+ @if (strpos($loanInputs['operation_type'], 'amount') !== false)
   <div class="col-md-3">
   <div class="form-group">
-   <label>{{ trans('loan.operation_type') }}</label>
+   <label>{{ trans('loan.additional_amount') }}</label>
+  {!! Form::input('text', 'loan_to_repay',isset($loanInputs['loan_to_repay'])?$loanInputs['loan_to_repay']:null,
+                  ['class'=>'form-control loan-input','id'=>'loanToRepay'])
+    !!}
+  </div>
+  </div>
+  @endif
+  <div class="col-md-3">
+  <div class="form-group">
+   <label>{{ trans('loan.regularisation_type') }}</label>
    {!! Form::select('operation_type',
                    $regularisations,
                    isset($loanInputs['operation_type'])?$loanInputs['operation_type']:null,
@@ -37,14 +49,6 @@
   </div>
   </div>
   
-  <div class="col-md-3">
-  <div class="form-group">
-   <label>{{ trans('loan.loan_to_repay') }}</label>
-  {!! Form::input('text', 'loan_to_repay',isset($loanInputs['loan_to_repay'])?$loanInputs['loan_to_repay']:null,
-                  ['class'=>'form-control loan-input','id'=>'loanToRepay'])
-    !!}
-  </div>
-  </div>
   <div class="col-md-3">
   <div class="form-group">
    <label>{{ trans('loan.monthly_installments') }}</label>

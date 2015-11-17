@@ -36,7 +36,7 @@
 
 	@include('regularisation.caution_form')
 	
-	<?php $wording = isset($wording) ? $wording : trans('loan.giving_loan_to',['loantype'=>$loanInputs['operation_type'],'names'=>$member->names]) ?>
+	<?php $wording = isset($wording) ? $wording : trans('loan.regulating_loan_to',['loantype'=>$loanInputs['operation_type'],'names'=>$member->names]) ?>
 	@include('partials.wording')
 	@include('accounting.form')
 @stop
