@@ -184,11 +184,15 @@ jQuery(document).ready(function($) {
 	function calculateUrgentLoanFees(){
 		if ($('#operation_type').val()=='urgent_ordinary_loan') {
 
+            <?php $administration_fees=0;  ?>
+            @if((new Ceb\Models\Setting)->hasKey('loan.administration.fee'))
+            <?php $administration_fees =  \Ceb\Models\Setting::keyValue('loan.administration.fee'); ?>
+            @endif
+            console.log(loanToRepay );
 			if (loanToRepay > 0 ) {
-				$('#interest_on_urgently_loan').val(Math.round((loanToRepay*.02)) );
+				$('#interest_on_urgently_loan').val(Math.round(loanToRepay* {!! $administration_fees/100 !!}) );
 				return true;
 			};
-
 
 			$('#interest_on_urgently_loan').val(0);
 			return true;
@@ -197,20 +201,16 @@ jQuery(document).ready(function($) {
 	}
 	/**
 	 * De 1 à 12 mois le taux d’intérêt est de 3.4
-	 *De 13 à 24 mois le taux d’intérêt est de 3.6
-	 *De 25 à 36 mois le taux d’intérêt est de 4.1
-	 *De 37 à 48 mois le taux d’intérêts est de 4.3
+	 * De 13 à 24 mois le taux d’intérêt est de 3.6
+	 * De 25 à 36 mois le taux d’intérêt est de 4.1
+	 * De 37 à 48 mois le taux d’intérêts est de 4.3
 	 * @return {[type]} [description]
 	 */
 	function getInterestRate(){
 		var numberOfInstallment = $('#numberOfInstallment').val();
-
-		if (numberOfInstallment>0 && numberOfInstallment<=12) {return 3.4;};
-		if (numberOfInstallment>12 && numberOfInstallment<=24) {return 3.6;};
-		if (numberOfInstallment>24 && numberOfInstallment<=36) {return 4.1;};
-		if (numberOfInstallment>36 && numberOfInstallment<=48 ) {return 4.3;};
-		if (numberOfInstallment>48 && numberOfInstallment<=60 ) {return 4.8;};		
-		if (numberOfInstallment>60 && numberOfInstallment<=72 ) {return 5;};
+		@foreach ($loanRates as $loanRate)
+			if (numberOfInstallment>={!! $loanRate->start_month !!} && numberOfInstallment<={!! $loanRate->end_month !!}) {return {!! (float) $loanRate->rate !!};};
+		@endforeach
 	}
 	/**
 	 * If the wished amount is higher than the
