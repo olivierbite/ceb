@@ -70,4 +70,6 @@ return [
   'administration_fees'=>'Administration fees',
    'remaining_installments'=>'Remaining Installments',
    'additional_amount_to_repay'=>'Montant additionel a payer',
+   'giving_loan_to' => 'Giving :loantype to :names',
+   'charging_administration_fees' =>'charging :charges % of administration_fees',
 ];

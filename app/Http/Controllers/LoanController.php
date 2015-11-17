@@ -41,12 +41,15 @@ class LoanController extends Controller {
             flash()->error(trans('Sentinel::users.noaccess'));
             return redirect()->back();
         }
-
+        $inputs = Input::all();
         // First log 
-        Log::info($this->user->email . ' is viewing loan index');
+        Log::info($this->user->email . ' is viewing loan index',$inputs);
 		
-		if (Input::has('operation_type')) {
-			$this->loanFactory->addLoanInput(['operation_type' =>Input::get('operation_type')]);
+		// If we have anything in parameters to set, just set it
+		if (count($inputs) > 0) {
+			foreach ($inputs as $key => $value) {
+				$this->loanFactory->addLoanInput([$key =>$value]);
+			}
 		}
 		
 		return $this->reload();

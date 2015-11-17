@@ -44,16 +44,15 @@
   !!}
    </div>
   </div>
-
   @if (strtolower($loanInputs['operation_type']) == 'urgent_ordinary_loan')
+  <?php $administration_fees =  \Ceb\Models\Setting::keyValue('loan.administration.fee'); ?>
   <div class="col-md-3">
   <div class="form-group">
-    <div class="checkbox checkbox-warning">
-          <input id="checkbox2" class="styled administration_fees" checked type="checkbox" value="{!! Ceb\Models\Setting::keyValue('loan.administration.fee') !!}" name="administration_fees">
-          <label for="checkbox2" style="font-weight: 800;">
-             {{ trans('loan.administration_fees') }}
-          </label>
-      </div>
+   <label>{{ trans('loan.administration_fees') }}</label>
+     {!! Form::select('administration_fees',
+                       [$administration_fees=>trans('loan.charging_administration_fees',['charges'=>$administration_fees]),
+                        ],null,['class' => 'form-control']) 
+    !!} 
   </div>
   </div>
   @endif
@@ -67,9 +66,9 @@
   </div>
   </div>
   @endif
-</div>
+{{-- </div>
 
-<div class="row">
+<div class="row"> --}}
   <div class="col-md-3">
   <div class="form-group">
    <label>{{ trans('loan.loan_to_repay') }}</label>
@@ -104,14 +103,14 @@
   </div>
   </div>
     @endif
-</div>
+{{-- </div>
 
-<div class="row">
-  <div class="col-md-4">
+<div class="row"> --}}
+  <div class="col-md-3">
   <div class="form-group">
    <label>{{ trans('loan.net_to_receive') }}</label>
   {!! Form::input('text', 'amount_received',isset($loanInputs['net_to_receive'])?$loanInputs['net_to_receive']:null,
-                  ['class'=>'form-control loan-input','id'=>'netToReceive'])
+                  ['class'=>'form-control green-input dloan-input','id'=>'netToReceive'])
     !!}
   </div>
   </div>

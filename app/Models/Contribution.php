@@ -19,6 +19,8 @@ class Contribution extends Model {
 		'transaction_type',
 		'transaction_reason',
 		'wording',
+		'charged_amount',
+		'charged_percentage',
 	];
 
 

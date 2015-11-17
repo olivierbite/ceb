@@ -185,6 +185,10 @@ Route::group(array('prefix' => '/items'), function() {
     Route::get('/delete/{id}', ['as' => 'items.delete','uses'=>'ItemsController@delete'])->where('id', '[0-9]+');
 });
 
+/** DYNAMIC ASSETS ROUTES */
+$router->get('/js/loanform',['as'=>'assets.js.loanform','uses'=>function(){
+	return view('assets.js.loan_formjs');
+}]);
 $router->get('/test/{start?}/{end?}',function($start=1,$end=12)
 	{
 	

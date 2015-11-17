@@ -1,14 +1,16 @@
-
 <link href="{{Url()}}/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 <link href="{{Url()}}/assets/dist/css/modalPopup.css" rel="stylesheet" type="text/css" />
+
+<?php $initialOperation = []; ?>
+@foreach ($memberTransactions['saving'] as $element)
+  <?php $initialOperation[$element] = $element;  ?>
+@endforeach
 
 <div class="container">
     <div class="row">
         <!-- You can make it whatever width you want. I'm making it full width
              on <= small devices and 4/12 page width on >= medium devices -->
         <div class="col-xs-8 col-md-8 ModalPopup">
-        
-        
             <!-- CREDIT CARD FORM STARTS HERE -->
             <div class="panel panel-default credit-card-box">
             
@@ -57,7 +59,7 @@
                                     <label for="movement_type">
 	                                	 {{ trans('member.movement_type') }}
                                      </label>
-                                   	 {!! Form::select('movement_type', array_keys($memberTransactions), null, ['class'=>'form-control movement_type']) !!}
+                                   	 {!! Form::select('movement_type',$transactionTypes , null, ['class'=>'form-control movement_type']) !!}
                                 </div>
                             </div>
                            <div class="col-xs-4 col-md-4">
@@ -65,10 +67,10 @@
                                     <label for="operation_type">
 	                                	 {{ trans('member.operation_type') }}
                                      </label>
-                                   	 {!! Form::select('operation_type', [trans('member.select_movement_type_first')], null, ['class'=>'form-control operation_type']) !!}
+                                   	 {!! Form::select('operation_type', $initialOperation, null, ['class'=>'form-control operation_type']) !!}
                                 </div>
                             </div>
-                           <div class="col-xs-2 col-md-2">
+                           <div class="col-xs-4 col-md-4">
                                 <div class="form-group">
                                     <label for="amount">
 	                                	 {{ trans('member.amount') }}
@@ -76,47 +78,26 @@
                                    	 {!! Form::input('tel', 'amount', 0, ['class'=>'form-control']) !!}
                                 </div>
                             </div>
-                              <div class="col-xs-1 col-md-1">
+                              <div class="col-xs-4 col-md-4">
                                 <div class="form-group">
-                                <label></label>
-                                   {!! Form::checkbox('charge', 20, false,['style'=>'    position: absolute;
-                                                                  display: block;
-                                                                  width: 30%;
-                                                                  height: 30%;
-                                                                  margin: 0px;
-                                                                  padding: 0px;
-                                                                  border: 0px;'])
-                                    !!}
-                                    
-                                </div>
-                                2 %
+
+                                 <label>{{ trans('member.charges') }}</label>
+                                <?php $administration_fees=0;  ?>
+                                @if ((new Ceb\Models\Setting)->hasKey('loan.administration.fee'))
+                                <?php $administration_fees =  \Ceb\Models\Setting::keyValue('loan.administration.fee'); ?>
+                                @endif
+                                
+                                <?php $urgent_fees=0;  ?>
+                                @if ((new Ceb\Models\Setting)->hasKey('urgent.administration.fee'))
+                                <?php $urgent_fees =  \Ceb\Models\Setting::keyValue('urgent.administration.fee'); ?>
+                                @endif
+                                  {!! Form::select('charges',
+                                                  [ $urgent_fees => trans('general.urgent_administration_fee',['charges'=>$urgent_fees]),
+                                                    $administration_fees=>trans('loan.charging_administration_fees',
+                                                    ['charges'=>$administration_fees]),],null,['class' => 'form-control']) !!}                         
+
                              </div>
-                               <div class="col-xs-1 col-md-1">
-                               <label></label>
-                                <div class="form-group" >
-                                   {!! Form::checkbox('charge', 20, false,['style'=>'    position: absolute;
-                                                                  display: block;
-                                                                  width: 30%;
-                                                                  height: 30%;
-                                                                  margin: 0px;
-                                                                  padding: 0px;
-                                                                  border: 0px;'])
-                                    !!}
-                                    
-                                </div>
-                                10 %
                              </div>
-                          
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-4 col-md-4">
-                                <div class="form-group">
-                                    <label for="wording">
-	                                	 {{ trans('member.wording') }}
-                                     </label>
-                                   	 	 {!! Form::input('text', 'wording', null, ['class'=>'form-control','placeholder'=>trans('general.write_your_wording')]) !!}
-                                </div>
-                            </div>
                            <div class="col-xs-4 col-md-4">
                                 <div class="form-group">
                                     <label for="cheque_number">
@@ -133,11 +114,18 @@
                                    	 {!! Form::select('bank', $banks, null, ['class'=>'form-control']) !!}
                                 </div>
                             </div>
+                            <div class="col-xs-12 col-md-12">
+                                <div class="form-group">
+                                    <label for="wording">
+                                     {{ trans('member.wording') }}
+                                     </label>
+                                       {!! Form::input('text', 'wording', null, ['class'=>'form-control','placeholder'=>trans('general.write_your_wording')]) !!}
+                                </div>
+                            </div>
                         </div>
-                        <div class="row">
+                        
                          @include('accounting.form')
-                        </div>
-                        <div class="row">
+                         
                             <div class="col-xs-12">
                                 <button class="btn btn-success btn-lg btn-block submit-member-transaction-button" type="submit">{{ trans('general.save') }}</button>
                             </div>
@@ -161,7 +149,7 @@
     $(document).ready(function(){
     $('.movement_type').on('change',function(event) {
       /* Act on the event */
-      if($(this).val() == 1)
+      if($(this).val() == 'saving')
       {
         var options = '';
         $.each(savingsType, function(index, val) {
@@ -171,7 +159,7 @@
         return ;
       }
 
-      if($(this).val() == 2)
+      if($(this).val() == 'withdrawal')
       {
          var options = '';
         $.each(withdrawalType, function(index, val) {
@@ -227,8 +215,9 @@
                     amount: "Please enter a valid amount"
                 },
                 submitHandler: function(form) {
+                    $('.submit-member-transaction-button').attr('disabled', true);
+                    $('.submit-member-transaction-button').html('<img src="/assets/dist/img/loading.gif" />');
 
-                    $('.submit-member-transaction-button').html('<img src="/assets/dist/img/loading.gif" />')
                     //Submit form with Ajax
                     $.ajax({
                      type: "POST",
@@ -248,6 +237,8 @@
                       });
 
                       $('.submit-member-transaction-button').html("{{ trans('general.save') }}");
+                      $('.submit-member-transaction-button').removeAttr('disabled');
+                      $('#member-transaction-form :input').removeAttr('disabled');
                      },
                     error: function (error) {
                       var errorMessages = JSON.parse(error.responseText);
@@ -266,6 +257,8 @@
                       });
 
                       $('.submit-member-transaction-button').html("{{ trans('general.save') }}");
+                      $('.submit-member-transaction-button').removeAttr('disabled');
+                      $('#member-transaction-form :input').removeAttr('disabled');
                     }
                    });
                 }

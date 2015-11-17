@@ -223,7 +223,8 @@ class MemberController extends Controller {
 	public function transacts($memberId)
 	{
 		$member = $this->member->findOrfail($memberId);
-		return view('members.transactions',compact('member'));
+		$title  = trans('member.transaction');
+		return view('members.transactions',compact('member','title'));
 	}
 
 	/**

@@ -63,6 +63,11 @@ class settingTableSeeder extends Seeder
 	  	    'value' => 210000,
 	  	    'type'  => 'numeric',
 	  	   ],
+	  10 => [
+	  	    'key'=> 'urgent.administration.fee',
+	  	    'value' => 10,
+	  	    'type'  => 'percentage',
+	  	   ],
 	 ];
 
 	 DB::table('settings')->truncate();

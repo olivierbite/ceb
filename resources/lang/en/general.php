@@ -19,5 +19,5 @@ return array (
   'options'=>'Options',
   'write_your_wording'=>'Write your  wording',
   'cheque_number'=>'Cheque number',
-
+  'urgent_administration_fee' => 'Urgent fees (:charges %)',
 );

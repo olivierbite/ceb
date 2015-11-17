@@ -52,6 +52,7 @@
 
 	@include('loansandrepayments.caution_form')
 	
+	<?php $wording = isset($wording) ? $wording : trans('loan.giving_loan_to',['loantype'=>$loanInputs['operation_type'],'names'=>$member->names]) ?>
 	@include('partials.wording')
 
 	@include('accounting.form')
@@ -67,5 +68,6 @@
 
 @section('scripts')
 <script src="{{Url()}}/assets/dist/js/datepickr.js" type="text/javascript"></script>
-<script src="{{ Url()}}/assets/dist/js/loanForm.js"></script>
+  <!-- <script src="{{ Url()}}/assets/dist/js/loanForm.js"></script> -->
+  <script type="text/javascript" src="{{route('assets.js.loanform')}}"></script>
 @stop
