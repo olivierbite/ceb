@@ -246,7 +246,7 @@ jQuery(document).ready(function($) {
     	{
     		var segments = window.location.pathname.split( '/' );
     		console.log(segments);
-			window.location.href = window.location.protocol+'//'+window.location.host+'/loans/setcautionneur'+'?'+cautionneur.attr('name')+'='+cautionneur.val();		
+			window.location.href = window.location.protocol+'//'+window.location.host+'/regularisation/setcautionneur'+'?'+cautionneur.attr('name')+'='+cautionneur.val();		
     		return true;
     	}
 

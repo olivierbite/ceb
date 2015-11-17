@@ -1,10 +1,8 @@
 <?php
 namespace Ceb\Http\Controllers;
 
-use Ceb\Factories\LoanFactory;
+use Ceb\Factories\RegularisationFactory;
 use Ceb\Http\Controllers\Controller;
-use Ceb\Http\Requests\CompleteLoanRequest;
-use Ceb\Http\Requests\UnblockLoanRequest;
 use Ceb\Models\Loan;
 use Ceb\Models\User as Member;
 use Ceb\Models\User;
@@ -19,14 +17,14 @@ use Session;
 class RegularisationController extends Controller {
     protected $loanId = 0;
     protected $currentMember = null;
-    protected $loanFactory;
+    protected $regularisationFactory;
     protected $member;
     protected $loan;
 
-    function __construct(LoanFactory $loanFactory,Member $member,Loan $loan) {
+    function __construct(RegularisationFactory $regularisationFactory,Member $member,Loan $loan) {
     
         $this->member = $member;
-        $this->loanFactory = $loanFactory;
+        $this->regularisationFactory = $regularisationFactory;
         $this->loan = $loan;
         parent::__construct();
     }
@@ -48,7 +46,7 @@ class RegularisationController extends Controller {
         // If we have anything in parameters to set, just set it
         if (count($inputs) > 0) {
             foreach ($inputs as $key => $value) {
-                $this->loanFactory->addLoanInput([$key =>$value]);
+                $this->regularisationFactory->addLoanInput([$key =>$value]);
             }
         }
         
@@ -73,7 +71,7 @@ class RegularisationController extends Controller {
         Log::info($this->user->email . ' is adding member to loan form');
         
         // Add the select member to the session
-        $this->loanFactory->addMember($id);
+        $this->regularisationFactory->addMember($id);
         return $this->reload();
     }
 
@@ -91,10 +89,10 @@ class RegularisationController extends Controller {
         // First log 
         Log::info($this->user->email . ' is completing loan request');
     
-        $memberId = $this->loanFactory->getMember()->id;
+        $memberId = $this->regularisationFactory->getMember()->id;
 
         // Make sure we update with latest form inputs
-        $this->loanFactory->addLoanInput(Input::all());
+        $this->regularisationFactory->addLoanInput(Input::all());
 
         // Update accounting fields too
         $this->ajaxAccountingFeilds();
@@ -102,7 +100,7 @@ class RegularisationController extends Controller {
         // Only complete transaction when someone does a post request
         if ($request->isMethod('post')) {
             // Complete transaction
-            if ($loanId = $this->loanFactory->complete()) {
+            if ($loanId = $this->regularisationFactory->complete()) {
                 $message = trans('loan.loan_completed');
                 $this->loanId = $loanId;
                 flash()->success($message);
@@ -134,11 +132,11 @@ class RegularisationController extends Controller {
         // First log 
         Log::info($this->user->email . ' is cancelling loan request');
     
-        $this->loanFactory->cancel();
+        $this->regularisationFactory->cancel();
         $message = trans('loan.loan_cancelled');
         flash()->success($message);
 
-        return Redirect::route('loans.index');
+        return Redirect::route('regularisation.index');
     }
 
     /**
@@ -155,7 +153,7 @@ class RegularisationController extends Controller {
         // First log 
         Log::info($this->user->email . ' is setting loan cautionneur');
     
-        if($this->loanFactory->setCautionneur(Input::all()))
+        if($this->regularisationFactory->setCautionneur(Input::all()))
         {           
             flash()->success(trans('loan.cautionneur_has_been_added_successfully'));
         }
@@ -178,7 +176,7 @@ class RegularisationController extends Controller {
         // First log 
         Log::info($this->user->email . ' is setting loan cautionneur');
     
-        $this->loanFactory->removeCautionneur($cautionneur);
+        $this->regularisationFactory->removeCautionneur($cautionneur);
         return $this->reload();
     }
 
@@ -188,14 +186,14 @@ class RegularisationController extends Controller {
      */
     private function reload($loanId = 0) {
 
-        $member = $this->loanFactory->getMember();
-        $loanInputs = $this->loanFactory->getLoanInputs();
+        $member = $this->regularisationFactory->getMember();
+        $loanInputs = $this->regularisationFactory->getLoanInputs();
         $loanInputs['operation_type'] = isset($loanInputs['operation_type']) ? $loanInputs['operation_type'] : 'ordinary_loan';
 
-        $creditAccounts = $this->loanFactory->getCreditAccounts();
-        $debitAccounts = $this->loanFactory->getDebitAccounts();
-        $cautionneurs = $this->loanFactory->getCautionneurs();
-        $operationType = $this->loanFactory->getOperationType();
+        $creditAccounts = $this->regularisationFactory->getCreditAccounts();
+        $debitAccounts = $this->regularisationFactory->getDebitAccounts();
+        $cautionneurs = $this->regularisationFactory->getCautionneurs();
+        $operationType = $this->regularisationFactory->getOperationType();
         $currentMemberId = $this->currentMember;
         $activeLoan = $this->loan;
         $rightToLoan = 0;
@@ -226,9 +224,9 @@ class RegularisationController extends Controller {
      * @return  void
      */
     public function ajaxFieldUpdate() {
-        $this->loanFactory->addLoanInput(Input::all());
+        $this->regularisationFactory->addLoanInput(Input::all());
 
-        $this->loanFactory->calculateLoanDetails();
+        $this->regularisationFactory->calculateLoanDetails();
     }
 
     /**
@@ -241,72 +239,14 @@ class RegularisationController extends Controller {
         // If we have debit accounts in the submission
         // then try to set it in the session
         if (Input::has('debitAccounts')) {
-            $this->loanFactory->setDebitsAccounts(Input::get('debitAccounts'), Input::get('debitAmounts'));
+            $this->regularisationFactory->setDebitsAccounts(Input::get('debitAccounts'), Input::get('debitAmounts'));
         }
 
         if (Input::has('creditAccounts')) {
-            $this->loanFactory->setCreditAccounts(Input::get('creditAccounts'), Input::get('creditAmounts'));
+            $this->regularisationFactory->setCreditAccounts(Input::get('creditAccounts'), Input::get('creditAmounts'));
         }
 
-        $this->loanFactory->setBondedAmount();
+        $this->regularisationFactory->setBondedAmount();
     }
    
-
-    /**
-     * Get loan by transaction ID
-     * @param  Ceb\Models\loan   $loan          
-     * @param  $transactionId 
-     * @return 
-     */
-   public function process($loanId,$toSetstatus)
-   {
-        // First check if the user has the permission to do this
-        if (!$this->user->hasAccess('loan.check.loan.status')) {
-            flash()->error(trans('Sentinel::users.noaccess'));
-
-            return redirect()->back();
-        }
-
-        /** we can only allow to reject or approve a loan */
-        if ((strtolower($toSetstatus) !== 'rejected') && (strtolower($toSetstatus) !== 'approved')) {
-            flash()->error(trans('loan.loan_can_either_be_approved_or_rejected'));
-            return redirect()->back();
-        }
-
-        // First log 
-        Log::info($this->user->email . ' is checking loan status'); 
-
-        $loan = $this->loan->pending()->find($loanId);
-
-        if (is_null($loan)) {
-            flash()->warning(trans('loan.we_could_not_find_the_loan_you_are_looking_for'));
-            return redirect()->back();
-        }
-
-        $loan->status = strtolower($toSetstatus);
-        
-        $isWellUpdated = $loan->save();
-
-        flash()->success(trans('loan.loan_with_transaction_id_'.$loan->transactionid.'_has_been_'.$loan->status));
-
-        if(($isWellUpdated == true) && (strtolower($toSetstatus) === 'approved' ))
-        {
-            /**
-             * @todo add option to  mark notification as read
-             * 
-             */
-              /** Notify the requestor */
-        Notifynder::category('loan.approved')
-                   ->from($this->user->id)
-                   ->to($loan->member->id)
-                   ->url(route('members.show',['memberid'=>$loan->member->id]))
-                   ->sendWithEmail();
-                   
-            return redirect()->route('reports.members.contracts.loan',['loanId'=>$loan->member->id]);
-        }
-
-        return redirect()->route('loan.pending');
-        
-   }
-
 }

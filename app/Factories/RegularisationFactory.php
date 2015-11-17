@@ -306,7 +306,7 @@ class RegularisationFactory {
 	 * @return string the operation type of this loan
 	 */
 	public function getOperationType() {
-		return isset($this->getLoanInputs()['operation_type'])?$this->getLoanInputs()['operation_type']:'ordinary_loan';
+		return isset($this->getLoanInputs()['operation_type'])?$this->getLoanInputs()['operation_type']:'installments';
 	}
 
 	/**

@@ -5,7 +5,7 @@
    </div>
 </div>
 <div class="row">
- @if (strpos($loanInputs['operation_type'], 'installment') !== false)
+ @if ((strpos($loanInputs['operation_type'], 'installment') !== false) || empty($loanInputs['operation_type']))
 
   <div class="col-md-3">
   <div class="form-group">
