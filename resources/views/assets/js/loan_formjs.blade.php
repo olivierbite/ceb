@@ -242,7 +242,10 @@ jQuery(document).ready(function($) {
     	var cautionneur = $(this).parent().find('input');
     	
     	// Check if this input has at least some data
-    	if(cautionneur.val() !== ""){
+    	if(cautionneur.val() !== "")
+    	{
+    		var segments = window.location.pathname.split( '/' );
+    		console.log(segments);
 			window.location.href = window.location.protocol+'//'+window.location.host+'/loans/setcautionneur'+'?'+cautionneur.attr('name')+'='+cautionneur.val();		
     		return true;
     	}

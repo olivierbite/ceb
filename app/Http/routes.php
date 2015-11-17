@@ -62,7 +62,6 @@ Route::group(['prefix'=>'loans'], function(){
 	Route::post('/unlblock', ['as' => 'loan.unblock.store', 'uses' =>'LoanController@unblock']);
 	Route::get('/unblock/form/{loanId?}', ['as' => 'loan.unblock.form', 'uses' => 'LoanController@showUnblockingForm']);
 
-
 	Route::get('/remove/cautionneur/{cautionneur}',
 							  ['as'=> 'loan.remove.cautionneur',
 						       'uses' => 'loanController@removeCautionneur']
@@ -71,16 +70,6 @@ Route::group(['prefix'=>'loans'], function(){
 });
 Route::resource('loans', 'LoanController');
 
-	/** regularisation */
-	$regularisationsTypes = (new Ceb\ViewComposers\RegularisactionViewComposer)->getRegularisationTypes();
-	foreach ($regularisationsTypes as $key => $value) 
-	{
-	 Route::get('regularisation/type/'.$key, ['as'=>'regularisation.type.'.$key,'uses'=>'RegularisationController@index']);
-	}
-	Route::post('regularisation/regulate', ['as'=>'regularisation.regulate','uses'=>'RegularisationController@regulate']);
-	Route::get('regularisation/types', ['as'=>'regularisation.types','uses'=>'RegularisationController@regurationTypes']);
-	Route::get('regularisation/{param?}',['as'=>'regularisation.index','uses'=>'LoanController@index']);
-	Route::resource('regularisation', 'RegularisationController');
 
 	/** Refunds routes */
 	Route::post('/refunds/complete', ['as' => 'refunds.complete', 'uses' => 'RefundController@complete']);
