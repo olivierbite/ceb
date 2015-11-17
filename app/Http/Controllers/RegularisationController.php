@@ -188,7 +188,7 @@ class RegularisationController extends Controller {
 
         $member = $this->regularisationFactory->getMember();
         $loanInputs = $this->regularisationFactory->getLoanInputs();
-        $loanInputs['operation_type'] = isset($loanInputs['operation_type']) ? $loanInputs['operation_type'] : 'ordinary_loan';
+        $loanInputs['operation_type'] = isset($loanInputs['operation_type']) ? $loanInputs['operation_type'] : 'installments';
 
         $creditAccounts = $this->regularisationFactory->getCreditAccounts();
         $debitAccounts = $this->regularisationFactory->getDebitAccounts();
