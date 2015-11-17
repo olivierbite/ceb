@@ -65,20 +65,25 @@ class MemberTransactionsFactory {
 				flash()->error(trans('member.member_transaction_data_not_provided'));
 				return false;
 			}
-			$contribution['transactionid'] = $transactionId;
-			$contribution['month'] = date('Ym');
-			$contribution['institution_id'] = $data['member']->institution_id;
-			$contribution['amount'] = $data['amount'];
-			$contribution['state'] = 'Ancien';
-			$contribution['year'] = date('Y');
-			$contribution['contract_number'] = $this->getContributionContractNumber();
-			$contribution['transaction_type'] = $this->getTransactionType($data['movement_type']);
-			$contribution['transaction_reason'] = $data['operation_type'];
-			$contribution['wording']       = $data['wording'];
-			$contribution['adhersion_id']       = $data['member']->adhersion_id;
-
-
-
+			$charges = 0;
+			if (isset($data['charges'])) {
+				$charges = ($data['amount'] * (int) $data['charges']) / 100;
+			}
+			
+			$contribution['transactionid']		= $transactionId;
+			$contribution['month']				= date('Ym');
+			$contribution['institution_id']		= $data['member']->institution_id;
+			$contribution['amount']				= $data['amount'] - $charges;
+			$contribution['state']				= 'Ancien';
+			$contribution['year']				= date('Y');
+			$contribution['contract_number']	= $this->getContributionContractNumber();
+			$contribution['transaction_type']	= $this->getTransactionType($data['movement_type']);
+			$contribution['transaction_reason']	= $data['operation_type'];
+			$contribution['wording']			= $data['wording'];
+			$contribution['adhersion_id']		= $data['member']->adhersion_id;
+			$contribution['charged_amount']		= $charges;
+			$contribution['charged_percentage']	= $data['charges'];
+			
 			//Remove unwanted column
 			unset($contribution['id']);
 

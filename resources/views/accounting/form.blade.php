@@ -29,8 +29,9 @@
 
 @if (Request::is('loan*'))
   {{-- Loan below javascripts only when requests are for loan --}}
-  <script src="{{Url()}}/assets/dist/js/datepickr.js" type="text/javascript"></script>
-  <script src="{{ Url()}}/assets/dist/js/loanForm.js"></script>
+  <script src="{{Url()}}/assets/dist/js/datepickr.js" type="text/javasript"></script>
+  <!-- <script src="{{ Url()}}/assets/dist/js/loanForm.js"></script> -->
+  <script type="text/javascript" src="{{route('assets.js.loanform')}}"></script>
 
 @endif
 <script type="text/javascript">

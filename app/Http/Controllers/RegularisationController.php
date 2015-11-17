@@ -83,8 +83,10 @@ class RegularisationController extends Controller
 
         $member =  $this->member->findOrFail($id);
         $loan  = $member->latestLoan();
+          // dd($member);
         $rightToLoan = $member->more_right_to_loan_amount;
 
+ 
         if ($member->has_active_loan == false) {
             flash()->warning(trans('regularisation.this_member_doesnot_have_loan_to_regulate'));
             $member = null;
@@ -100,7 +102,6 @@ class RegularisationController extends Controller
             flash()->warning(trans('regularisation.this_member_has_0_remaining_right_to_loan'));
         }
        }
-
        return view('regularisation.index',compact('loan','member','regularisationType','rightToLoan'));
     }
 

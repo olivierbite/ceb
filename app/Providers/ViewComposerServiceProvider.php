@@ -28,6 +28,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
 		$this->composerSocialLoanReasons();
 		$this->composerRegularisactions();
 		$this->composerLoanStatus();
+		$this->composerLoanRate();
 	}
 
 	/**
@@ -215,4 +216,14 @@ class ViewComposerServiceProvider extends ServiceProvider {
 		];
 		view()->composer($views,'\Ceb\ViewComposers\LoanStatusViewComposer');
 	}
+
+	private function composerLoanRate()
+	{
+		
+		$views = [
+			'assets.js.loan_formjs',
+		];
+		view()->composer($views,'\Ceb\ViewComposers\LoanRateViewComposer');
+	}
+	
 }

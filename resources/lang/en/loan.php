@@ -70,6 +70,7 @@ return [
   'administration_fees'=>'Administration fees',
    'remaining_installments'=>'Remaining Installments',
    'additional_amount_to_repay'=>'Montant additionel a payer',
+
    'withdrawal'=>'Withdrawal',
      'summary'=>'Loans Summary',
      'movement_total'=>'Movement Total',
@@ -84,4 +85,8 @@ return [
      'unblock'=>'Unblock',
      'refund'=>'Refund',
      'social_loan_motives'=>'Social loan motives',
+
+   'giving_loan_to' => 'Giving :loantype to :names',
+   'charging_administration_fees' =>'charging :charges % of administration_fees',
+
 ];

@@ -23,10 +23,10 @@ class CompleteMemberTransactionRequest extends Request
      */
     public function rules()
     {
-     
+    
       //Continue with Rule validation
         return [
-          'movement_type'    =>  'required|numeric|min:1',
+          'movement_type'    =>  'required|min:1',
           'operation_type'   =>  'required|min:3',
           'amount'           =>  'required|numeric|min:5000',
           'wording'          =>  'required|min:6',
@@ -48,7 +48,6 @@ class CompleteMemberTransactionRequest extends Request
        
         // Modify or Add new array key/values
         // ==================================
-        
         // Make sure these fields are numeric
          $attributes['movement_type'] = intval($attributes['movement_type']);
          $attributes['amount']  = intval($attributes['amount']) ;

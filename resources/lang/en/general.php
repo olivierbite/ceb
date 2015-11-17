@@ -19,6 +19,7 @@ return array (
   'options'=>'Options',
   'write_your_wording'=>'Write your  wording',
   'cheque_number'=>'Cheque number',
+<<<<<<< HEAD
   'view_full_lists'=>'View full list',
   'yes'=>'OUI',
     'no'=>'NON',
@@ -39,4 +40,7 @@ return array (
       'select_reason'=>'Select reason',
 
 
+=======
+  'urgent_administration_fee' => 'Urgent fees (:charges %)',
+>>>>>>> 2573d3a5e49503292b33789a84efaf854a09189c
 );

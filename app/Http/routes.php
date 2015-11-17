@@ -79,6 +79,7 @@ Route::resource('loans', 'LoanController');
 	}
 	Route::post('regularisation/regulate', ['as'=>'regularisation.regulate','uses'=>'RegularisationController@regulate']);
 	Route::get('regularisation/types', ['as'=>'regularisation.types','uses'=>'RegularisationController@regurationTypes']);
+	Route::get('regularisation/{param?}',['as'=>'regularisation.index','uses'=>'LoanController@index']);
 	Route::resource('regularisation', 'RegularisationController');
 
 	/** Refunds routes */
@@ -185,6 +186,10 @@ Route::group(array('prefix' => '/items'), function() {
     Route::get('/delete/{id}', ['as' => 'items.delete','uses'=>'ItemsController@delete'])->where('id', '[0-9]+');
 });
 
+/** DYNAMIC ASSETS ROUTES */
+$router->get('/js/loanform',['as'=>'assets.js.loanform','uses'=>function(){
+	return view('assets.js.loan_formjs');
+}]);
 $router->get('/test/{start?}/{end?}',function($start=1,$end=12)
 	{
 	
