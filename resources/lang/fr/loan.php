@@ -83,5 +83,7 @@ return array (
      'unblocking_loans'=>'Prêts a debroque',
      'rate'=>'Taux',
      'unblock'=>'Debroque',
+       'refund'=>'Remboursement',
+     'social_loan_motives'=>'Motifs de prêt sociale',
 );
 

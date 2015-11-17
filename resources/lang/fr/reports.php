@@ -16,4 +16,6 @@ return array (
  'export_excel'=>'Export Excel',
    'select_loan_status'=>'Selectionne status du prêts',
    'all_loans'=>'All loans',
+   'member_loan_records_file'=>'Fiche de prêts',
+   'member_contribution_file'=>'Fiche de cotisations',
   );

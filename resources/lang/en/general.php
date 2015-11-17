@@ -32,6 +32,11 @@ return array (
      'view_all'=>'View all',
      'your'=>'Your',
      'notifications'=>'notification',
+     'sickness'=>'Sickness',
+     'accident'=>'Accident',
+     'death'=>'Death',
+     'other_reason'=>'Other reason',
+      'select_reason'=>'Select reason',
 
 
 );

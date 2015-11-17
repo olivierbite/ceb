@@ -82,4 +82,6 @@ return [
      'unblocking_loans'=>'uUblocking loans',
      'rate'=>'Rate',
      'unblock'=>'Unblock',
+     'refund'=>'Refund',
+     'social_loan_motives'=>'Social loan motives',
 ];

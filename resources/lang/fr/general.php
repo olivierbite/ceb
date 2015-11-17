@@ -29,5 +29,10 @@ return array (
   'view_all'=>'Voir tous',
     'your'=>'Votre',
      'notifications'=>'notifications',
+      'sickness'=>'Maladie',
+     'accident'=>'Accident',
+     'death'=>'Dece d\'un proche',
+     'other_reason'=>'Autre raison',
+     'select_reason'=>'Sélectionnez la raison',
 
 );

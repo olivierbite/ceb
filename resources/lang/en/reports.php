@@ -15,5 +15,8 @@ return array (
   'report_range'=>'Report range',
   'export_excel'=>'Export Excel',
   'select_loan_status'=>'Select loan status',
+   'all_loans'=>'All loans',
+   'member_loan_records_file'=>'Laon records file',
+   'member_contribution_file'=>'Contribution records file',
   
     );
