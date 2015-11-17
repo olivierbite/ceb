@@ -5,32 +5,13 @@
    </div>
 </div>
 <div class="row">
-  @if (isset($loanInputs['tranches_number']) && strpos($loanInputs['tranches_number'],'ordinary_loan'))
-    {{-- Show contract number when this one is not an ordinary loan --}}
-  
-  <div class="col-md-3">
-  <div class="form-group">
-   <label>{{ trans('loan.loan_contract_number') }}</label>
-  {!! Form::input('text', 'loan_contract',isset($loanInputs['loan_contract'])?$loanInputs['loan_contract']:null,
-                  ['class'=>'form-control loan-input'])
-    !!}
-  </div>
-  </div>
-@endif
+
   <div class="col-md-3">
   <div class="form-group">
    <label>{{ trans('loan.number_of_installments') }}</label>
   {!! Form::selectRange('tranches_number', 1, $setting->keyValue('loan.maximum.installments'),
                           isset($loanInputs['tranches_number'])?$loanInputs['tranches_number']:null,
                          ['class'=>'form-control loan-select','id'=>'numberOfInstallment'])
-    !!}
-  </div>
-  </div>
-  <div class="col-md-3">
-  <div class="form-group">
-   <label>{{ trans('loan.wished_amount') }}</label>
-    {!! Form::input('text', 'wished_amount',isset($loanInputs['wished_amount'])?$loanInputs['wished_amount']:null,
-                  ['class'=>'form-control loan-input','id'=>'wished_amount'])
     !!}
   </div>
   </div>
@@ -44,7 +25,7 @@
   !!}
    </div>
   </div>
-  @if (strtolower($loanInputs['operation_type']) == 'urgent_ordinary_loan')
+
   <?php $administration_fees =  \Ceb\Models\Setting::keyValue('loan.administration.fee'); ?>
   <div class="col-md-3">
   <div class="form-group">
@@ -55,20 +36,7 @@
     !!} 
   </div>
   </div>
-  @endif
   
-  {{-- If this loan is social loan make sure we ask the user to provider the reason  --}}
-  @if (strtolower($loanInputs['operation_type']) == 'social_loan')
-  <div class="col-md-3">
-  <div class="form-group">
-     <label> {{ trans('loan.social_loan_motives') }} </label>
-     {!! Form::select('reason', $socialLoanReasons, null, ['class' => 'form-control']) !!} 
-  </div>
-  </div>
-  @endif
-{{-- </div>
-
-<div class="row"> --}}
   <div class="col-md-3">
   <div class="form-group">
    <label>{{ trans('loan.loan_to_repay') }}</label>
@@ -93,7 +61,7 @@
     !!}
   </div>
   </div>
-  @if (strtolower($loanInputs['operation_type']) == 'urgent_ordinary_loan')
+
   <div class="col-md-3">
   <div class="form-group">
    <label>{{ trans('loan.interest_on_urgently_loan ') }}</label>
@@ -102,7 +70,7 @@
     !!}
   </div>
   </div>
-    @endif
+
 {{-- </div>
 
 <div class="row"> --}}
