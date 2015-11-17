@@ -12,6 +12,7 @@ return [
  'you_must_write_wording_for_this_transaction'=>'You must write wording for this transaction',   
   'libelle'=>'wording',
   'refun_transaction_sucessfully_registered'=>'Refun transaction sucessfully registered',
+    'refund_for_the_month_of'=>'Refund for the month of ',
 ];
 
 

@@ -68,5 +68,6 @@ return array (
 'reports_accounting_ledger'=>'Rapport Grand livre',
 'reports_accounting_journal'=>'Rapport comptable journal',
 'reports_piece_disbursed_account'=>'Reports piece disbursed account',
+
  
   );

@@ -65,5 +65,11 @@ return array (
 'active_members'=>'Active Members',
 'member_not_found'=>'Member not found',
 'this_member_still_has_contribution_therefore_you_cannot_remove_him'=>'This member still has contribution therefore you cannot remove him',
-
+'view_current_cautionneurs'=>'View currency cautionneurs',
+'view_member_cautioned_by_me'=>'View member cautioned by me',
+'employee_id'=>'Employee Id',
+'i_have_cautionned'=>'i have cautionned by ',
+'refunded_amount'=>'Refunded amount',
+'balance'=>'Balance',
+'member_who_cautionned_me'=>'Member who cautionned me',
 );

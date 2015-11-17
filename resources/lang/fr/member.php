@@ -71,5 +71,11 @@ return array (
 'active_members'=>'Membre Active',
 'member_not_found'=>'Membre n\'est pas  trouve',
 'this_member_still_has_contribution_therefore_you_cannot_remove_him'=>'Ce membre a toujours l\'eparge donc vous ne pouvez pas  la supprime avant d\'enlever son epargne',
-
+'view_current_cautionneurs'=>'Voir tes cautionneurs',
+'view_member_cautioned_by_me'=>'Voir les membres que vous avez cautionne',
+'employee_id'=>'Id employee',
+'i_have_cautionned'=>'J\'ai été  cautionne par',
+'refunded_amount'=>'Montant rembourse',
+'balance'=>'Reste',
+'member_who_cautionned_me'=>'Membres que vous avez cautionne',
 );
