@@ -19,7 +19,7 @@ jQuery(document).ready(function($) {
   	/** Set the new operation type */
   	$("#operation_type").change(function(event) {
   		var loanType = $(this);
-  		window.location.href = window.location.protocol+'//'+window.location.host+'/loans'+'?operation_type='+loanType.val();
+  		window.location.href = window.location.protocol+'//'+window.location.host+'/regularisation'+'?operation_type='+loanType.val();
   	});
 
 

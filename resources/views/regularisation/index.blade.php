@@ -42,6 +42,6 @@
 @stop
 
 @section('content_footer')
-    @include('partials.buttons',['completeRoute'=>'loan.complete','cancelRoute'=>'loan.cancel'])
+    @include('partials.buttons',['completeRoute'=>'regularisation.complete','cancelRoute'=>'regularisation.cancel'])
     {!! Form::close() !!}
 @stop
