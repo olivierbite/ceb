@@ -16,7 +16,7 @@ use Input;
 use Redirect;
 use Session;
 
-class RegularisactionController extends Controller {
+class RegularisationController extends Controller {
     protected $loanId = 0;
     protected $currentMember = null;
     protected $loanFactory;
@@ -214,7 +214,7 @@ class RegularisactionController extends Controller {
              $activeLoan = $member->latestLoan();
         }
 
-        return view('loansandrepayments.index', compact('member','loanId','rightToLoan','activeLoan', 'loanInputs','operationType', 'cautionneurs', 'debitAccounts', 'creditAccounts', 'currentMemberId'));
+        return view('regularisation.index', compact('member','loanId','rightToLoan','activeLoan', 'loanInputs','operationType', 'cautionneurs', 'debitAccounts', 'creditAccounts', 'currentMemberId'));
     }
 
     /**
@@ -309,190 +309,4 @@ class RegularisactionController extends Controller {
         
    }
 
-
-   /**
-    * Show pending loans 
-    * @param  numeric $loanId optional showing one loan id
-    * @return vie 
-    */
-   public function getPending($loanId = null)
-   {
-        // First check if the user has the permission to do this
-        if (!$this->user->hasAccess('loan.can.approve.loan')) {
-            flash()->error(trans('Sentinel::users.noaccess'));
-
-            return redirect()->back();
-        }
-
-        // First log 
-        Log::info($this->user->email . ' is viewing pending loan');
-
-        if (!is_null($loanId)) {
-            // we are looking for a special loan, let's grab it     
-            $loans = $this->loan->unBlocked()->pending()->where('id',$loanId)->paginate(20);;
-        }
-        else
-        {
-            $loans = $this->loan->with('member.institution')->unBlocked()->pending()->paginate(20);
-        }
-
-        return view('loansandrepayments.pending_loans',compact('loans'));
-   }
-
-   /**
-    * Show blocked loans 
-    * @param  numeric $loanId optional showing one loan id
-    * @return vie 
-    */
-   public function getBlocked($loanId = null)
-   {
-        // First check if the user has the permission to do this
-        if (!$this->user->hasAccess('loan.can.unblock.loan')) {
-            flash()->error(trans('Sentinel::users.noaccess'));
-
-            return redirect()->back();
-        }
-
-        // First log 
-        Log::info($this->user->email . ' is viewing blocked loan');
-
-        if (!is_null($loanId)) {
-            // we are looking for a special loan, let's grab it     
-            $loans = $this->loan->blocked()->pending()->where('id',$loanId)->paginate(20);
-        }
-        else
-        {
-            $loans = $this->loan->with('member.institution')->blocked()->pending()->paginate(20);
-        }
-
-        return view('loansandrepayments.blocked_loans',compact('loans'));
-
-   }
-
-   /**
-    * Show form to provide bank details of unblocking a loan
-    * @param  numeric $loanid 
-    * @return view       
-    */
-   public function showUnblockingForm($loanid)
-   {
-        // First check if the user has the permission to do this
-        if (!$this->user->hasAccess('loan.can.unblock.loan')) {
-            flash()->error(trans('Sentinel::users.noaccess'));
-
-            return redirect()->back();
-        }
-
-        // First log 
-        Log::info($this->user->email . ' is viewing blocking form loan with id'.$loanid);
-
-        $title = trans('loan.provide_bank_details_to_unblock_this_loan');
-        return view('loansandrepayments.unblock_form',compact('loanid','title'));
-
-   }
-
-   /**
-    * Unblock loan
-    * @return
-    */
-   public function unblock(UnblockLoanRequest $request)
-   {
-        // First check if the user has the permission to do this
-        if (!$this->user->hasAccess('loan.can.unblock.loan')) {
-            flash()->error(trans('Sentinel::users.noaccess'));
-
-            return redirect()->back();
-        }
-
-        // First log 
-        Log::info($this->user->email . ' is  blocking loan with details '.json_encode($request->all()));
-
-        /////////////////////////////////////
-        // Prepare the passed information  //
-        /////////////////////////////////////
-        $loanid =  $request->get('loanid');
-
-        $loan = $this->loan->find($loanid);
-
-        /** If we cannot find the loan we are trying to unblock then display error */
-        if (is_null($loan)) {
-            flash()->error(trans('loan.we_could_not_find_the_loan_you_are_trying_to_unlock'));
-            return redirect()->route('loan.blocked');
-        }
-
-        ////////////////////////////
-        // We are safe to go now  //
-        ////////////////////////////
-        
-        // Start saving if something fails cancel everything
-        DB::beginTransaction();
-
-        //  Update the loan
-        $loan->cheque_number = $request->get('cheque_number');
-        $loan->bank_id       = $request->get('bank_id');
-        $saveLoan = $loan->save();
-
-        // If we cannot save this posting then rollback transaction
-        if ($loan->postings->isEmpty()) {
-            flash()->warning(trans('loan.we_could_not_find_postings_that_are_related_to_this_loan_therefore_this_operation_did_not_take_effect'));
-                DB::rollBack();
-                return redirect()->route('loan.blocked');
-        }
-
-        // Update posting
-        foreach ($loan->postings as $posting) {
-            $posting->cheque_number = $loan->cheque_number;
-            $posting->bank          = $loan->bank_id;
-
-            // If we cannot save this posting then rollback transaction
-            if ($posting->save() == false ) {
-                flash()->warning(trans('loan.we_could_not_update_postings_that_are_related_to_this_loan_therefore_this_operation_did_not_take_effect'));
-                DB::rollBack();
-                return redirect()->route('loan.blocked');
-            }
-        }
-
-        ////////////////////////////////////////////////////////////////////////
-        // Did we update loan with the bank information ? if no then rollback //
-        ////////////////////////////////////////////////////////////////////////
-        if ($saveLoan == false) {
-            flash()->error(trans('loan.we_could_not_unblock_the_loan_please_try_again'));
-            DB::rollBack();
-            return redirect()->route('loan.blocked');
-        }
-
-        //////////////////////////////////////////////////////////////
-        // Lastly, Let's commit a transaction since we reached here //
-        //////////////////////////////////////////////////////////////
-        DB::commit();
-
-         // Notify all people who has right to approve loan 
-        // Get all users who have the right to approve leave
-        // if we found them then ilitirate them and 
-        // make sure, we notify all of them
-        $groups = UserGroup::with('users')->get();
-
-        foreach ($groups as $group) {      
-            
-            // If this group doesn't have access then 
-            // go to the next group
-            
-            if (!$group->hasAccess('loan.can.approve.loan')) {
-                continue;
-            }
-
-            // Group has access let's notify them
-           foreach ($group->users as $user) {
-               Notifynder::category('loan.approval')
-                   ->from($this->user->id)
-                   ->to($user->id)
-                   ->url(route('loan.pending',['loanid'=>$loan->id]))
-                   ->sendWithEmail();
-           }
-        }
-
-        flash()->success(trans('loan.loan_successfully_unblocked'));
-
-        return redirect()->route('loan.blocked');
-   }
 }

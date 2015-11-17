@@ -70,6 +70,13 @@ Route::group(['prefix'=>'loans'], function(){
 });
 Route::resource('loans', 'LoanController');
 
+	/** REGULARISATION ROUTES */
+	Route::group(['prefix'=>'regularisation'], function(){
+		Route::get('/', ['as' => 'regularisation.index', 'uses' => 'RegularisationController@index']);
+		Route::get('/{id}', ['as' => 'regularisation.setmember', 'uses' => 'RegularisationController@selectMember'])->where('id', '[0-9]+');
+		Route::get('/cancel', ['as' => 'regularisation.cancel', 'uses' => 'RegularisationController@cancel']);
+		Route::post('/complete', ['as' => 'regularisation.complete', 'uses' => 'RegularisationController@complete']);
+	});
 
 	/** Refunds routes */
 	Route::post('/refunds/complete', ['as' => 'refunds.complete', 'uses' => 'RefundController@complete']);
@@ -179,6 +186,10 @@ Route::group(array('prefix' => '/items'), function() {
 $router->get('/js/loanform',['as'=>'assets.js.loanform','uses'=>function(){
 	return view('assets.js.loan_formjs');
 }]);
+$router->get('/js/regularisationform',['as'=>'assets.js.regularisationform','uses'=>function(){
+	return view('assets.js.regularisation_formjs');
+}]);
+
 $router->get('/test/{start?}/{end?}',function($start=1,$end=12)
 	{
 	

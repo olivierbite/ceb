@@ -1,7 +1,6 @@
 @extends('layouts.default')
-
 @section('content_title')
-  {{ trans('navigations.loans_and_repayments') }}
+  {{ trans('navigations.regularisation') }}
 @stop
 
 @section('content')
@@ -18,9 +17,9 @@
 	</script>
 	@endif
 
-	{{-- @include('loansandrepayments.index_buttons') --}}
-   {!! Form::open(['method'=>'POST','url'=>route('loan.complete')]) !!}
-	@include('loansandrepayments.client_information_form')
+	{{-- @include('regularisation.index_buttons') --}}
+   {!! Form::open(['method'=>'POST','url'=>route('regularisation.complete')]) !!}
+	@include('regularisation.client_information_form')
     
 	{{-- 
 		If the member has been selected then check if he has 
@@ -29,19 +28,19 @@
 
 	@if (!empty($member))
 		@if ($member->has_active_loan == true)
-			@include('loansandrepayments.previous_loan_details',['member'=>$member])
+			@include('regularisation.previous_loan_details',['member'=>$member])
 		@endif
 	@endif
 
-    @include('loansandrepayments.ordinary_loan_form')
+    @include('regularisation.ordinary_loan_form')
 
-	@include('loansandrepayments.caution_form')
+	@include('regularisation.caution_form')
 	
 	<?php $wording = isset($wording) ? $wording : trans('loan.giving_loan_to',['loantype'=>$loanInputs['operation_type'],'names'=>$member->names]) ?>
 	@include('partials.wording')
-
 	@include('accounting.form')
 @stop
+
 @section('content_footer')
     @include('partials.buttons',['completeRoute'=>'loan.complete','cancelRoute'=>'loan.cancel'])
     {!! Form::close() !!}
