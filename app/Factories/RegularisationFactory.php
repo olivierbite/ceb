@@ -404,7 +404,7 @@ class RegularisationFactory {
 		if (!$this->calculateLoanDetails(true)) {
 			// We have nothing to do here, First return false with
 			// Error that says information provided is not correct
-			 flash()->error(trans('loan.loan_information_seem_not_to_be_correct').' because '.$this->errors);
+			 flash()->error(trans('loan.regularisation_information_seem_not_to_be_correct').' because '.$this->errors);
 			// dd($errors);
 
 			return false;

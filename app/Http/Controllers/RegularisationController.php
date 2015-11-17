@@ -101,7 +101,7 @@ class RegularisationController extends Controller {
         if ($request->isMethod('post')) {
             // Complete transaction
             if ($loanId = $this->regularisationFactory->complete()) {
-                $message = trans('loan.loan_completed');
+                $message = trans('loan.regularisation_completed');
                 $this->loanId = $loanId;
                 flash()->success($message);
                 $this->currentMember = $memberId;
@@ -109,7 +109,7 @@ class RegularisationController extends Controller {
                 // If this user doesn't have right to view the contract
                 // Then show him an error
                 if (!$this->user->hasAccess('reports.contract.loan')) {
-                    flash()->warning(trans('loan.loan_completed_but_we_didnot_show_you_contract_because_you_do_not_have_the_right_to_view_it'));
+                    flash()->warning(trans('loan.regularisation_completed_but_we_didnot_show_you_contract_because_you_do_not_have_the_right_to_view_it'));
                     $this->loanId = 0;
                 }
             }
@@ -133,7 +133,7 @@ class RegularisationController extends Controller {
         Log::info($this->user->email . ' is cancelling loan request');
     
         $this->regularisationFactory->cancel();
-        $message = trans('loan.loan_cancelled');
+        $message = trans('loan.regularisation_cancelled');
         flash()->success($message);
 
         return Redirect::route('regularisation.index');
