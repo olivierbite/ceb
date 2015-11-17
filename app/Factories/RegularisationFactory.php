@@ -58,7 +58,7 @@ class RegularisationFactory {
 			}
 	 	}
 		
-		Session::put('loan_member', $member);
+		Session::put('regulate_loan_member', $member);
 
 		$this->updateCautionneur();
 	}
@@ -68,7 +68,7 @@ class RegularisationFactory {
 	 * @return  get member information that are currently in the session
 	 */
 	function getMember() {
-		return Session::get('loan_member', new $this->member);
+		return Session::get('regulate_loan_member', new $this->member);
 	}
 
 	/**
@@ -92,7 +92,7 @@ class RegularisationFactory {
 		$this->setCreditAccounts($loanInputsData['credit_accounts'], $loanInputsData['credit_amounts']);
 		}
 
-		Session::put('loanInputs', $loanInputsData);
+		Session::put('regulate_loanInputs', $loanInputsData);
 	}
 
 	/**
@@ -111,7 +111,7 @@ class RegularisationFactory {
 			}
 		}
 
-		Session::put('loanInputs', $loanInputsData);
+		Session::put('regulate_loanInputs', $loanInputsData);
 	}
 
 	/**
@@ -122,7 +122,7 @@ class RegularisationFactory {
 	{
 		$bondedAmount = $this->getLoanInput('loan_to_repay') - $this->getMember()->totalContributions();
 		
-		Session::put('bonded_amount', $bondedAmount);
+		Session::put('regulate_bonded_amount', $bondedAmount);
 	}
 
 	/**
@@ -131,7 +131,7 @@ class RegularisationFactory {
 	 */
 	public function getBondedAmount()
 	{
-		return Session::get('bonded_amount', 0);
+		return Session::get('regulate_bonded_amount', 0);
 	}
 
 	/**
@@ -140,7 +140,7 @@ class RegularisationFactory {
 	 */
 	public function forgetBondedAmount()
 	{
-		Session::forget('bonded_amount');
+		Session::forget('regulate_bonded_amount');
 	}
 
 	/**
@@ -158,7 +158,7 @@ class RegularisationFactory {
 	 * @return array
 	 */
 	public function getLoanInputs() {
-		return Session::get('loanInputs', []);
+		return Session::get('regulate_loanInputs', []);
 	}
 	/**
 	 * Set new cautionneur
@@ -203,7 +203,7 @@ class RegularisationFactory {
 
 		// Add this to loan input
 		$this->addLoanInput([$arrayKey=>$newCautionneur->id]);
-		Session::put('cautionneurs', $cautionneurs);
+		Session::put('regulate_cautionneurs', $cautionneurs);
 
 		return true;
 	}
@@ -219,7 +219,7 @@ class RegularisationFactory {
 		unset($cautionneurs[$cautionneur]);
         $this->removeLoanInput($cautionneur);
 		flash()->success(trans('loan.cautionneur_removed_successfully'));
-		Session::put('cautionneurs', $cautionneurs);
+		Session::put('regulate_cautionneurs', $cautionneurs);
 	}
 
 	/**
@@ -234,7 +234,7 @@ class RegularisationFactory {
 				unset($cautionneurs[$key]);
 			}
 		}
-		Session::put('cautionneurs', $cautionneurs);
+		Session::put('regulate_cautionneurs', $cautionneurs);
 	}
 
 	/**
@@ -242,7 +242,7 @@ class RegularisationFactory {
 	 * @return  array of cautionneur
 	 */
 	public function getCautionneurs() {
-		return Session::get('cautionneurs',[]);
+		return Session::get('regulate_cautionneurs',[]);
 	}
     
 
@@ -252,7 +252,7 @@ class RegularisationFactory {
 	 * @param void
 	 */
 	public function setDebitsAccounts(array $debits, array $amounts) {
-		Session::put('debitaccounts', $this->accountAmount($debits, $amounts));
+		Session::put('regulate_debitaccounts', $this->accountAmount($debits, $amounts));
 	}
 
 	/**
@@ -260,7 +260,7 @@ class RegularisationFactory {
 	 * @return array of debit account and their amount
 	 */
 	public function getDebitAccounts() {
-		return Session::get('debitaccounts', []);
+		return Session::get('regulate_debitaccounts', []);
 	}
 
 	/**
@@ -271,7 +271,7 @@ class RegularisationFactory {
 	 * @return void
 	 */
 	public function setCreditAccounts(array $credits, array $amounts) {
-		Session::put('creditaccounts', $this->accountAmount($credits, $amounts));
+		Session::put('regulate_creditaccounts', $this->accountAmount($credits, $amounts));
 	}
 
 	/**
@@ -279,7 +279,7 @@ class RegularisationFactory {
 	 * @return array of the credit account and their correspondent amount
 	 */
 	public function getCreditAccounts() {
-		return Session::get('creditaccounts', []);
+		return Session::get('regulate_creditaccounts', []);
 	}
 
 	/**
@@ -287,19 +287,19 @@ class RegularisationFactory {
 	 * @return void
 	 */
 	public function removeCreditAccounts() {
-		Session::forget('creditaccounts');
+		Session::forget('regulate_creditaccounts');
 	}
 	/**
 	 * Remote debit accounts and their amount from the session
 	 * @return void
 	 */
 	public function removeDebitAccounts() {
-		Session::forget('debitaccounts');
+		Session::forget('regulate_debitaccounts');
 	}
 
 	public function setOperationType($operation_type)
 	{
-		return Session::set('operation_type', $operation_type);
+		return Session::set('regulate_operation_type', $operation_type);
 	}
 	/**
 	 * Get the operation type of this loan
@@ -672,7 +672,7 @@ class RegularisationFactory {
 	 * @return [type]
 	 */
 	public function clearMember() {
-		Session::forget('loan_member');
+		Session::forget('regulate_loan_member');
 	}
 	/**
 	 * Clear all things in the session that are related to the loan
@@ -680,10 +680,10 @@ class RegularisationFactory {
 	private function clearAll() {
 		$this->clearMember();
 		$this->forgetBondedAmount();
-		Session::forget('loanInputs');
-		Session::forget('cautionneurs');
-		Session::forget('creditaccounts');
-		Session::forget('debitaccounts');
-		Session::forget('completionStatus');
+		Session::forget('regulate_loanInputs');
+		Session::forget('regulate_cautionneurs');
+		Session::forget('regulate_creditaccounts');
+		Session::forget('regulate_debitaccounts');
+		Session::forget('regulate_completionStatus');
 	}
 }
