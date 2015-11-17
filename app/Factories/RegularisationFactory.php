@@ -19,14 +19,18 @@ use Illuminate\Support\Facades\DB;
 class RegularisationFactory
 {
 	use TransactionTrait;
+
 	
-	function __construct(User $member,Contribution $contribution, Loan $loan,LoanRate $loanRate,Posting $posting)
+	function __construct(User $member,Session $session,Setting $setting,Contribution $contribution, Loan $loan,LoanRate $loanRate,Posting $posting)
 	{
 		$this->member 		= $member;
 		$this->contribution = $contribution;
 		$this->loan			= $loan;
 		$this->loanRate     = $loanRate;
 		$this->posting 		= $posting;
+		$this->session 		= $session;
+		$this->setting 		= $setting;	
+	
 		$this->user 		= Sentry::getUser();
 	}
 

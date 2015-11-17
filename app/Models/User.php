@@ -397,12 +397,16 @@ class User extends SentinelModel {
 	public function getMoreRightToLoanAmountAttribute()
 	{
 		$latestLoan = $this->latestLoan();
+		// dd($latestLoan);
+		if (is_null($latestLoan)) {
+			return 0;
+		}
+
 	    $remainingAmount = $latestLoan->right_to_loan - $latestLoan->loan_to_repay;
 
 	    if ($remainingAmount < 0 ) {
 	    	return 0;
 	    }
-
 	    return $remainingAmount;
 	}
 

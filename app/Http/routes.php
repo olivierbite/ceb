@@ -79,6 +79,7 @@ Route::resource('loans', 'LoanController');
 	}
 	Route::post('regularisation/regulate', ['as'=>'regularisation.regulate','uses'=>'RegularisationController@regulate']);
 	Route::get('regularisation/types', ['as'=>'regularisation.types','uses'=>'RegularisationController@regurationTypes']);
+	Route::get('regularisation/{param?}',['as'=>'regularisation.index','uses'=>'LoanController@index']);
 	Route::resource('regularisation', 'RegularisationController');
 
 	/** Refunds routes */
