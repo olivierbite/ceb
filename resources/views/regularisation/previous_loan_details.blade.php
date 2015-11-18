@@ -19,7 +19,7 @@
   <div class="col-md-3">
   <div class="form-group">
    <label>{{ trans('loan.current_monthly_fees') }}</label>
-       {!! Form::input('text', 'current_monthly_fees',$loan->monthly_fees,
+       {!! Form::input('text', 'current_monthly_fees',(int) $loan->monthly_fees,
                   ['class'=>'form-control','disabled'=>true])
     !!}
    </div>
@@ -27,7 +27,7 @@
   <div class="col-md-3">
   <div class="form-group">
    <label>{{ trans('loan.previous_loan_balance') }}</label>
-       {!! Form::input('text', 'previous_loan_balance',$member->loan_balance,
+       {!! Form::input('text', 'previous_loan_balance',(int) $member->loan_balance,
                   ['class'=>'form-control previous_loan_balance','disabled'=>true])
     !!}
    </div>

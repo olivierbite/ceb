@@ -11,7 +11,7 @@
   <div class="form-group">
    <label>{{ trans('loan.number_of_installments') }}</label>
   {!! Form::selectRange('tranches_number', 1, $setting->keyValue('loan.maximum.installments'),
-                          isset($loanInputs['tranches_number'])?$loanInputs['tranches_number']:null,
+                          isset($loanInputs['tranches_number'])?$loanInputs['tranches_number']:0,
                          ['class'=>'form-control loan-select','id'=>'numberOfInstallment'])
     !!}
   </div>
@@ -21,7 +21,7 @@
   <div class="col-md-3">
   <div class="form-group">
    <label>{{ trans('loan.additional_amount') }}</label>
-  {!! Form::input('text', 'additional_amount',isset($loanInputs['additional_amount'])?$loanInputs['additional_amount']:null,
+  {!! Form::input('text', 'additional_amount',isset($loanInputs['additional_amount'])?$loanInputs['additional_amount']:0,
                   ['class'=>'form-control loan-input','id'=>'additional_amount'])
     !!}
   </div>
@@ -43,8 +43,9 @@
   <div class="form-group">
    <label>{{ trans('loan.charges_rate') }}</label>
      {!! Form::select('charges_rate',
-                       [$administration_fees=>trans('loan.charging_administration_fees',['charges'=>$administration_fees]),
-                        ],null,['class' => 'form-control additinal_charges_rate']) 
+                       [ 0 => trans('loan.charging_administration_fees',['charges'=>0]),
+                        $administration_fees=>trans('loan.charging_administration_fees',['charges'=>$administration_fees]),
+                        ],null,['class' => 'form-control loan-select additinal_charges_rate']) 
     !!} 
   </div>
   </div>
@@ -52,7 +53,7 @@
   <div class="col-md-3">
   <div class="form-group">
    <label>{{ trans('loan.monthly_installments') }}</label>
-  {!! Form::input('text', 'monthly_fees',isset($loanInputs['monthly_fees'])?$loanInputs['monthly_fees']:null,
+  {!! Form::input('text', 'monthly_fees',isset($loanInputs['monthly_fees'])?$loanInputs['monthly_fees']:0,
                   ['class'=>'form-control loan-input','id'=>'monthlyInstallments'])
     !!}
   </div>
@@ -60,7 +61,7 @@
   <div class="col-md-3">
   <div class="form-group">
    <label>{{ trans('loan.interests') }}</label>
-  {!! Form::input('text', 'interests',isset($loanInputs['interests'])?$loanInputs['interests']:null,
+  {!! Form::input('text', 'interests',isset($loanInputs['interests'])?$loanInputs['interests']:0,
                   ['class'=>'form-control loan-input','id'=>'interests'])
     !!}
   </div>
@@ -69,7 +70,7 @@
   <div class="col-md-3">
   <div class="form-group">
    <label>{{ trans('loan.additinal_charges ') }}</label>
-  {!! Form::input('text', 'additinal_charges',isset($loanInputs['additinal_charges'])?$loanInputs['additinal_charges']:null,
+  {!! Form::input('text', 'additinal_charges',isset($loanInputs['additinal_charges'])?$loanInputs['additinal_charges']:0,
                   ['class'=>'form-control loan-input','id'=>'additinal_charges','disabled'=>true])
     !!}
   </div>
@@ -81,7 +82,7 @@
   <div class="col-md-3">
   <div class="form-group">
    <label>{{ trans('loan.net_to_receive') }}</label>
-  {!! Form::input('text', 'amount_received',isset($loanInputs['net_to_receive'])?$loanInputs['net_to_receive']:null,
+  {!! Form::input('text', 'amount_received',isset($loanInputs['net_to_receive'])?$loanInputs['net_to_receive']:0,
                   ['class'=>'form-control green-input dloan-input','id'=>'netToReceive'])
     !!}
   </div>
