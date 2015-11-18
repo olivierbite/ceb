@@ -11,8 +11,8 @@
   <div class="col-md-3">
   <div class="form-group">
    <label>{{ trans('loan.remaining_installments') }}</label>
-    {!! Form::input('text', 'current_number_of_installments',$member->remaining_tranches,
-                  ['class'=>'form-control','disabled'=>true])
+    {!! Form::input('text', 'remaining_tranches',$member->remaining_tranches,
+                  ['class'=>'form-control remaining_tranches','disabled'=>true])
     !!}
   </div>
   </div>
@@ -27,7 +27,7 @@
   <div class="col-md-3">
   <div class="form-group">
    <label>{{ trans('loan.previous_loan_balance') }}</label>
-       {!! Form::input('text', 'current_monthly_fees',$member->loan_balance,
+       {!! Form::input('text', 'previous_loan_balance',$member->loan_balance,
                   ['class'=>'form-control','disabled'=>true])
     !!}
    </div>
@@ -35,7 +35,7 @@
   <div class="col-md-4">
   <div class="form-group">
    <label>{{ trans('loan.previous_loan_type') }}</label>
-       {!! Form::input('text', 'current_monthly_fees',$loan->operation_type ,
+       {!! Form::input('text', 'previous_loan_type',$loan->operation_type ,
                   ['class'=>'form-control','disabled'=>true])
     !!}
    </div>
@@ -43,7 +43,7 @@
     <div class="col-md-8">
   <div class="form-group">
    <label>{{ trans('loan.wording') }}</label>
-       {!! Form::input('text', 'current_monthly_fees',$loan->wording ,
+       {!! Form::input('text', 'previous_wording',$loan->comment ,
                   ['class'=>'form-control','disabled'=>true])
     !!}
    </div>

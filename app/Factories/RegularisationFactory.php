@@ -87,11 +87,9 @@ class RegularisationFactory {
 		}
 
 		if (isset($loanInputsData['debit_accounts']) && $loanInputsData['credit_accounts']) {
-			
-		$this->setDebitsAccounts($loanInputsData['debit_accounts'], $loanInputsData['debit_amounts']);
-		$this->setCreditAccounts($loanInputsData['credit_accounts'], $loanInputsData['credit_amounts']);
+			$this->setDebitsAccounts($loanInputsData['debit_accounts'], $loanInputsData['debit_amounts']);
+			$this->setCreditAccounts($loanInputsData['credit_accounts'], $loanInputsData['credit_amounts']);
 		}
-
 		Session::put('regulate_loanInputs', $loanInputsData);
 	}
 
@@ -595,13 +593,9 @@ class RegularisationFactory {
 		$this->addLoanInput(['adhersion_id' => $this->getMember()->adhersion_id]);
 		$this->addLoanInput(['rate' => $interestRate]);
 
-		// If this loan is urgent loan, then calculate administration fees
-		// And remove it from the net_to_receive
-		if (strtolower($loanDetails['operation_type']) == 'urgent_ordinary_loan') {
-		 $urgent_loan_interests = round($netToReceive, 0) * ($administration_fees / 100);
-		 $this->addLoanInput(['urgent_loan_interests' => $urgent_loan_interests]);
-		 $this->addLoanInput(['net_to_receive' =>  round($netToReceive, 0) - $urgent_loan_interests]);
-		}
+		$loanDetails['operation_type'] 	= isset($loanDetails['operation_type']) ? $loanDetails['operation_type'] : $this->getOperationType();
+		$this->addLoanInput(['operation_type' => $loanDetails['operation_type']]);
+
 
 		// Add cautionneur
 		foreach ($this->getCautionneurs() as $key => $value) {

@@ -158,6 +158,10 @@ Route::group(['prefix'=>'settings'], function(){
 Route::group(['prefix' => 'ajax'], function () {
 	Route::get('/loans', 'loanController@ajaxFieldUpdate');
 	Route::post('/loans/accounting', ['as' => 'ajax.accounting', 'uses' => 'LoanController@ajaxAccountingFeilds']);
+
+	Route::get('/regularisation', 'RegularisationController@ajaxFieldUpdate');
+	Route::post('/regularisation/accounting', ['as' => 'ajax.accounting', 'uses' => 'RegularisationController@ajaxAccountingFeilds']);
+
 });
 
 /** Files routes */

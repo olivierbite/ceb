@@ -224,6 +224,7 @@ class RegularisationController extends Controller {
      * @return  void
      */
     public function ajaxFieldUpdate() {
+        
         $this->regularisationFactory->addLoanInput(Input::all());
 
         $this->regularisationFactory->calculateLoanDetails();

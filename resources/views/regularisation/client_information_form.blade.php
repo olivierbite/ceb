@@ -46,7 +46,7 @@
   <div class="col-md-2">
   <div class="form-group">
    <label>{{ trans('member.balance_of_loan') }}</label>
-	{!! Form::input('text', 'member[balance_of_loan]',isset($member)?number_format((int)$member->loan_balance):0, ['class'=>'form-control orange-input']) !!}
+	{!! Form::input('text', 'member[balance_of_loan]',isset($member)?number_format((int)$member->loan_balance):0, ['class'=>'form-control orange-input','id'=>'loanBalance']) !!}
   </div>
   </div>
   <div class="col-md-2">

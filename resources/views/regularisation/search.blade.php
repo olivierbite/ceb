@@ -3,7 +3,7 @@
     @if(is_null($cautionneur))
       <input type="text" class="form-control" placeholder="Search" name="{!! $fieldname !!}" id="srch-term">
       <div class="input-group-btn search-cautionneur" >
-          <button class="btn btn-default" type="submit"><i class="fa fa-plus"></i></button>
+          <button class="btn btn-default" type="submit" onclick="alert('you clicked me')"><i class="fa fa-plus"></i></button>
       </div>
     @else
 <div class="autocomplete-wrapper">
@@ -11,7 +11,7 @@
     <img src="{{route('files.get', $cautionneur->photo)}}" align="left">
         <span class="adhersion_number">
     			{{ $cautionneur->adhersion_id}}
-       &nbsp; <a href="{{ route('loan.remove.cautionneur',$fieldname) }}" class="btn btn-warning">
+       &nbsp; <a href="{{ route('regularisation.remove.cautionneur',$fieldname) }}" class="btn btn-warning">
         	<i class="fa fa-remove"></i>
         </a>
         </span>

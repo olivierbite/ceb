@@ -16,8 +16,9 @@
 
   </div>
   </div>
+
   <div class="col-md-3">
-    @include('loansandrepayments.search',
+    @include('regularisation.search',
               ['cautionneur'=>isset($cautionneurs['cautionneur1'])?$cautionneurs['cautionneur1']:null,
               'label'=> trans('loan.cautionneur_number1'),
               'fieldname' =>'cautionneur1'
@@ -26,7 +27,7 @@
   </div>
   @if ($loanInputs['operation_type'] !== 'emergency_loan')
     <div class="col-md-3">
-      @include('loansandrepayments.search',
+      @include('regularisation.search',
                 ['cautionneur'=>isset($cautionneurs['cautionneur2'])?$cautionneurs['cautionneur2']:null,
                 'label'=> trans('loan.cautionneur_number2'),
                 'fieldname' =>'cautionneur2'

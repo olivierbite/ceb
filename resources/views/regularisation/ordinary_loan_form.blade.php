@@ -21,8 +21,8 @@
   <div class="col-md-3">
   <div class="form-group">
    <label>{{ trans('loan.additional_amount') }}</label>
-  {!! Form::input('text', 'loan_to_repay',isset($loanInputs['loan_to_repay'])?$loanInputs['loan_to_repay']:null,
-                  ['class'=>'form-control loan-input','id'=>'loanToRepay'])
+  {!! Form::input('text', 'additional_amount',isset($loanInputs['additional_amount'])?$loanInputs['additional_amount']:null,
+                  ['class'=>'form-control loan-input','id'=>'additional_amount'])
     !!}
   </div>
   </div>
@@ -41,10 +41,10 @@
   <?php $administration_fees =  \Ceb\Models\Setting::keyValue('loan.administration.fee'); ?>
   <div class="col-md-3">
   <div class="form-group">
-   <label>{{ trans('loan.administration_fees') }}</label>
-     {!! Form::select('administration_fees',
+   <label>{{ trans('loan.charges_rate') }}</label>
+     {!! Form::select('charges_rate',
                        [$administration_fees=>trans('loan.charging_administration_fees',['charges'=>$administration_fees]),
-                        ],null,['class' => 'form-control']) 
+                        ],null,['class' => 'form-control additinal_charges_rate']) 
     !!} 
   </div>
   </div>
@@ -68,9 +68,9 @@
 
   <div class="col-md-3">
   <div class="form-group">
-   <label>{{ trans('loan.interest_on_urgently_loan ') }}</label>
-  {!! Form::input('text', 'interest_on_urgently_loan',isset($loanInputs['interest_on_urgently_loan'])?$loanInputs['interest_on_urgently_loan']:null,
-                  ['class'=>'form-control loan-input','id'=>'interest_on_urgently_loan','disabled'=>true])
+   <label>{{ trans('loan.additinal_charges ') }}</label>
+  {!! Form::input('text', 'additinal_charges',isset($loanInputs['additinal_charges'])?$loanInputs['additinal_charges']:null,
+                  ['class'=>'form-control loan-input','id'=>'additinal_charges','disabled'=>true])
     !!}
   </div>
   </div>

@@ -32,7 +32,7 @@
 @endif
 @if (Request::is('regularisation*'))
   {{-- Loan below javascripts only when requests are for regularisation --}}
-  <script type="text/javascript" src="{{route('assets.js.regularisationform')}}"></script>
+  <script type="text/javascript" src="{!! url('assets/dist/js/regularisationform.js') !!}"></script>
 @endif
 <script type="text/javascript">
 
