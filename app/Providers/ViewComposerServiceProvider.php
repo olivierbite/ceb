@@ -120,8 +120,9 @@ class ViewComposerServiceProvider extends ServiceProvider {
 		$views = [
 			'regularisation.form',
 			'loansandrepayments.ordinary_loan_form',
-			'loansandrepayments.special_loan_form',
+			'regularisation.ordinary_loan_form',
 			'reports.filters.date_filter',
+			'regularisation.loanTypes',
 		];
 		view()->composer($views, '\Ceb\ViewComposers\LoanTypeViewComposer');
 	}
@@ -202,8 +203,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
 	{
 		
 		$views = [
-			'partials.nav_left',
-			'regularisation.regularisationstype',
+			'regularisation.ordinary_loan_form',
 		];
 		view()->composer($views,'\Ceb\ViewComposers\RegularisactionViewComposer');
 	}
@@ -222,6 +222,8 @@ class ViewComposerServiceProvider extends ServiceProvider {
 		
 		$views = [
 			'assets.js.loan_formjs',
+			'assets.js.regularisation_formjs',
+
 		];
 		view()->composer($views,'\Ceb\ViewComposers\LoanRateViewComposer');
 	}

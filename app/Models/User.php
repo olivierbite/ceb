@@ -433,6 +433,15 @@ class User extends SentinelModel {
 	public function latestLoan() {
 		return $this->loans()->approved()->orderBy('created_at', 'desc')->first();
 	}
+
+	/**
+	 * Get latest loan attribute
+	 * @return  
+	 */
+	public function getLatestLoanAttribute()
+	{
+		return $this->latestLoan();
+	}
 	/**
 	 * Find a member by his adhersion ID
 	 * @param  integer $adhersionId member adhersion number

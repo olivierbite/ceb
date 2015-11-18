@@ -62,19 +62,7 @@
               <a href="{{ route('regularisation.index') }}">
                 <i class="fa fa-level-up"></i>
                 <span>{{ trans('navigations.regularisation') }}</span>
-               <i class="fa fa-angle-left pull-right"></i>
               </a>
-                @if (count($regularisations) > 0 )
-                <ul class="treeview-menu {{ (Request::is('regularisation*') ? 'class="active"' : '') }}">
-                @foreach ($regularisations as $key=>$value)
-                  <li>
-                    <a href="{{ route('regularisation.type.'.$key) }}">
-                    <i class="fa fa-level-up"></i>{{ trans($value) }}
-                    </a>
-                  </li>
-                @endforeach
-                </ul>
-                @endif
             </li>
             <li class="{{ (Request::is('refund*') ? 'active' : '') }} ">
               <a href="{{ route('refunds.index') }}">

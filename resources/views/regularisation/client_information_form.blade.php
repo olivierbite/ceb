@@ -17,13 +17,13 @@
   <div class="col-md-3">
   <div class="form-group">
    <label>{{ trans('member.institution') }}</label>
-	{!! Form::input('text', 'member[institution]',isset($member->institution->name)?$member->institution->name:null, ['class'=>'form-control']) !!}
+	{!! Form::input('text', 'member[institution]',isset($member->institution->name)?$member->institution_name:null, ['class'=>'form-control']) !!}
   </div>
   </div>
   <div class="col-md-5">
   <div class="form-group">
    <label>{{ trans('member.names') }}</label>
-	{!! Form::input('text', 'member[names]',isset($member)?$member->names():null, ['class'=>'form-control']) !!}
+	{!! Form::input('text', 'member[names]',isset($member)?$member->names:null, ['class'=>'form-control']) !!}
   </div>
   </div>
 </div>
@@ -32,21 +32,21 @@
   <div class="col-md-2">
   <div class="form-group">
    <label>{{ trans('member.contributions') }}</label>
-	{!! Form::input('text', 'member[contributions]',isset($member)?number_format($member->totalContributions()):0,
+	{!! Form::input('text', 'member[contributions]',isset($member)?number_format((int)$member->total_contribution):0,
    ['class'=>'form-control green-input','id'=>'totalContributions']) !!}
   </div>
   </div>
   <div class="col-md-2">
   <div class="form-group">
    <label>{{ trans('member.right_to_loan') }}</label>
-	{!! Form::input('text', 'member[right_to_loan]',$member->rightToLoan(),
+	{!! Form::input('text', 'member[right_to_loan]',number_format((int) $rightToLoan),
              ['class'=>'form-control blue-input','id'=>'rightToLoan']) !!}
   </div>
   </div>
   <div class="col-md-2">
   <div class="form-group">
    <label>{{ trans('member.balance_of_loan') }}</label>
-	{!! Form::input('text', 'member[balance_of_loan]',isset($member)?number_format($member->totalLoans()):0, ['class'=>'form-control orange-input']) !!}
+	{!! Form::input('text', 'member[balance_of_loan]',isset($member)?number_format((int)$member->loan_balance):0, ['class'=>'form-control orange-input','id'=>'loanBalance']) !!}
   </div>
   </div>
   <div class="col-md-2">
@@ -64,7 +64,7 @@
   <div class="col-md-2">
   <div class="form-group">
    <label>{{ trans('member.date_of_today') }}</label>
-	{!! Form::input('text', 'date_of_today',date('Y-m-2'), ['class'=>'form-control loan-input','id'=>'today']) !!}
+	{!! Form::input('text', 'date_of_today',date('Y-m-d'), ['class'=>'form-control loan-input','id'=>'today']) !!}
   </div>
   </div>
 </div>

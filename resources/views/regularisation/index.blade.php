@@ -1,47 +1,45 @@
 @extends('layouts.default')
-
 @section('content_title')
-  {{ trans('navigations.regularisation') }} {{ trans('regularisation.'.$regularisationType) }}
+  {{ trans('navigations.regularisation') }}
 @stop
+
 @section('content')
 
-@if (!is_null($member))
-  {{-- @include('loansandrepayments.index_buttons') --}}
-   {!! Form::open(['method'=>'POST','url'=>route('regularisation.regulate')]) !!}
-    @include('regularisation.client_information_form')
-       {!! Form::hidden('regularisationType', $regularisationType) !!}
-       {!! Form::hidden('loan_id', $member->latestLoan()->id) !!}
-       {!! Form::hidden('member_id', $member->id) !!}
+	@if (!empty($loanId))
+    {{-- We have completed the transaction let's print the invoice --}}
+	<script type="text/javascript">
+	function print(url) {
+	  var win = window.open(url, '_blank');
+	  win.focus();
+	}
+	
+	 // print('{!! route('reports.members.contracts.loan',['loanId' => $loanId,'excel'=>0]) !!}');
+	</script>
+	@endif
 
-    @if (!empty($member))
-      @if ($member->has_active_loan == true)
-        @include('loansandrepayments.previous_loan_details',['member'=>$member])
-      @endif
-  @endif
-  
-    @include('regularisation.form')
-
-    @include('partials.wording')
+	{{-- @include('regularisation.index_buttons') --}}
+   {!! Form::open(['method'=>'POST','url'=>route('regularisation.complete')]) !!}
+	@include('regularisation.client_information_form')
     
-    @if (strpos($regularisationType, 'amount') !== false) 
-      @include('accounting.form')
-    @endif
+	{{-- 
+		If the member has been selected then check if he has 
+		 active loan if he does display active loans information
+	 --}}
 
-  @endif
+	@if (!empty($member))
+		@if ($member->has_active_loan == true)
+			@include('regularisation.previous_loan_details',['member'=>$member])
+		@endif
+	@endif
+    @include('regularisation.ordinary_loan_form')
+	@include('regularisation.caution_form')
+	
+	<?php $wording = isset($wording) ? $wording : trans('loan.regulating_loan_to',['loantype'=>$loanInputs['operation_type'],'names'=>$member->names]) ?>
+	@include('partials.wording')
+	@include('accounting.form')
+@stop
 
-@endsection
-
-  @section('content_footer')
-          @if (is_null($loan))
-            {{ trans('regularisation.please_search_for_a_member_in_the_above_search_box_before_you_continue') }}
-          @else
-               @include('partials.buttons',['cancelRoute'=>'regularisation.index'])
-          @endif
-        {!! Form::close() !!}
-  @endsection
-
-@section('scripts')
-  <script src="{{Url()}}/assets/dist/js/datepickr.js" type="text/javascript"></script>
-  <!-- <script src="{{ Url()}}/assets/dist/js/loanForm.js"></script> -->
-  <script type="text/javascript" src="{{route('assets.js.loanform')}}"></script>
-@endsection
+@section('content_footer')
+    @include('partials.buttons',['completeRoute'=>'regularisation.complete','cancelRoute'=>'regularisation.cancel'])
+    {!! Form::close() !!}
+@stop

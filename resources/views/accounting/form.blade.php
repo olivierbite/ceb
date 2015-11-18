@@ -26,13 +26,14 @@
 
 
 @section('scripts')
-
 @if (Request::is('loan*'))
-  {{-- Loan below javascripts only when requests are for loan --}}
-  <script src="{{Url()}}/assets/dist/js/datepickr.js" type="text/javasript"></script>
-  <!-- <script src="{{ Url()}}/assets/dist/js/loanForm.js"></script> -->
+  {{-- Loan below javascripts only when requests are for loan  --}}
   <script type="text/javascript" src="{{route('assets.js.loanform')}}"></script>
-
+@endif
+@if (Request::is('regularisation*'))
+  {{-- Loan below javascripts only when requests are for regularisation --}}
+  <script type="text/javascript" src="{!! url('assets/dist/js/regularisationform.js') !!}"></script>
+ <!-- <script type="text/javascript" src="{{route('assets.js.regularisationform')}}"></script> -->
 @endif
 <script type="text/javascript">
 
