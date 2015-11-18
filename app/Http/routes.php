@@ -77,6 +77,10 @@ Route::resource('loans', 'LoanController');
 		Route::get('/setcautionneur',['as' => 'regularisation.add.cautionneur', 'uses' => 'RegularisationController@setCautionneur']);
 		Route::get('/cancel'		,['as' => 'regularisation.cancel', 'uses' => 'RegularisationController@cancel']);
 		Route::post('/complete'		,['as' => 'regularisation.complete', 'uses' => 'RegularisationController@complete']);
+		Route::get('/remove/cautionneur/{cautionneur}',
+							  ['as'=> 'regularisation.remove.cautionneur',
+						       'uses' => 'RegularisationController@removeCautionneur']
+				)->where('cautionneur', '[A-Za-z0-9]+');
 	});
 
 	/** Refunds routes */
