@@ -3,6 +3,7 @@ namespace Ceb\Http\Controllers;
 
 use Ceb\Factories\RegularisationFactory;
 use Ceb\Http\Controllers\Controller;
+use Ceb\Http\Requests\RegularisationRequest;
 use Ceb\Models\Loan;
 use Ceb\Models\User as Member;
 use Ceb\Models\User;
@@ -79,13 +80,14 @@ class RegularisationController extends Controller {
      * Complete loan transaction
      * @return mixed
      */
-    public function complete(CompleteLoanRequest $request) {
+    public function complete(RegularisationRequest $request) {
         // First check if the user has the permission to do this
         if (!$this->user->hasAccess('loan.complete.loan.request')) {
             flash()->error(trans('Sentinel::users.noaccess'));
             return redirect()->back();
         }
 
+        dd($request->all());
         // First log 
         Log::info($this->user->email . ' is completing loan request');
     

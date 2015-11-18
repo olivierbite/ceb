@@ -75,16 +75,14 @@
     !!}
   </div>
   </div>
-
-  <div class="col-md-3">
+ <div class="col-md-3">
   <div class="form-group">
-   <label>{{ trans('loan.net_to_receive') }}</label>
-  {!! Form::input('text', 'amount_received',isset($loanInputs['net_to_receive'])?$loanInputs['net_to_receive']:0,
-                  ['class'=>'form-control green-input dloan-input','id'=>'netToReceive'])
+   <label>{{ trans('loan.new_installments') }}</label>
+  {!! Form::input('text', 'new_installments',isset($loanInputs['new_installments'])?$loanInputs['new_installments']:0,
+                  ['class'=>'form-control orange-input loan-input','id'=>'new_installments'])
     !!}
   </div>
   </div>
-
  <div class="col-md-4">
   <div class="form-group">
    <label>{{ trans('loan.loan_to_repay') }}</label>
@@ -93,7 +91,15 @@
     !!}
   </div>
   </div>
-  <div class="col-md-8">
+    <div class="col-md-4">
+  <div class="form-group">
+   <label>{{ trans('loan.net_to_receive') }}</label>
+  {!! Form::input('text', 'amount_received',isset($loanInputs['net_to_receive'])?$loanInputs['net_to_receive']:0,
+                  ['class'=>'form-control green-input dloan-input','id'=>'netToReceive'])
+    !!}
+  </div>
+  </div>
+  <div class="col-md-4">
   <div class="form-group">
    <label>{{ trans('loan.charges_payslip_reference_number') }}</label>
   {!! Form::input('text', 'reference_number',isset($loanInputs['reference_number'])?$loanInputs['reference_number']:null,

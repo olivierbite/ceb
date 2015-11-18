@@ -1,122 +1,52 @@
 jQuery(document).ready(function($) {
 
- 	 // Global variables
+	 // Global variables
  	var data = {};
-    var notification = '<div class="alert alert-danger">';
-    notification +='<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>';
-    notification +='message';
-    notification +='</div>';
-    
-  	// Set the letter date to be a date	
-  	new datepickr('letter_date', {
-                'dateFormat': 'Y-m-d'
-            });
+	/** START BY CALCULATING LOAN DETAILS */
+	calculateLoanDetails();
 
-  	new datepickr('today',{
-  		'dateFormat':'Y-m-d'
-  	});
-
-  	/** Set the new operation type */
+  	/** SET Operation type if it is changed */
   	$("#operation_type").change(function(event) {
   		var loanType = $(this);
   		window.location.href = window.location.protocol+'//'+window.location.host+'/regularisation'+'?operation_type='+loanType.val();
   	});
 
-
-	// Make sure that only number are entered in the box
-	$("input.loan-input").numeric();
-	$(".search-cautionneur").parent().find('input').numeric();
-
-	// Detect if an input has been written in 
-	$('.loan-input').keyup(function(event) {
-
-		/* First get current input data */
-		var fieldName = $(this).attr('name');
-        var fieldValue = $(this).val();
-      
-		// Validate if this input is wished amount
-		// wished amount should not be higher than right to loan
-		if(fieldName == 'wished_amount'){
-			isValidWishedAmount();
-		}
-		// Check this is empty then set it to sezo
-		if (fieldValue == "") {
-			$(this).val(0);
-		};
-		// Make sure you send request when 
-		// We only have something in the input
-		if ($(this).val()) {
-		    data[fieldName] = $(this).val();
-			setTimeout(updateField(data), 5000);
-		};
-        
-		// Update calculations
-		calculateLoanDetails();
-	});	
-
-	// Detect if an input has been written in 
-	$('.loan-select').change(function(event) {
-		/* First get current input data */
-		var data = {};	
-		// Make sure you send request when 
-		// We only have something in the input
-		if ($(this).val()) {
-			console.log($(this).attr('name'));
-		    data[$(this).attr('name')] = $(this).val();
-			setTimeout(updateField(data), 5000);
-		};
-		calculateUrgentLoanFees();
-	});				
-
-	isValidWishedAmount();
-
-	// If wished amount doesn't have anything
-	// then set the default to be the same as the 
-	// right to loan
-	if($('#wished_amount').val() == "" || $('#wished_amount').val() == "0"){
-	 $('#wished_amount').val($('#rightToLoan').val().replace(/,/g,''));
-	};
-
-	// If loan to repay is less or equal to the total contribution 
-	// Then hide the caution form
-	console.log(parseInt(loanToRepay),parseInt(totalContributions));
-
-  	if(parseInt(loanToRepay) <= parseInt(totalContributions)){
-		$('#cautionForm').css('display', 'none');
-	}else{
-		$('#cautionForm').css('display', 'show');;
-	};
-
-
-
-
-	// if the loan to pay amount is null or 
-	// doesn't have anything then set it to default
-	// which is equal to wished amount
-	if($('#loanToRepay').val()=="" || $('#loanToRepay').val()=="0"){
-	  $('#loanToRepay').val($('#wished_amount').val());
-	 };
-	 var loanToRepay =  parseFloat($('#loanToRepay').val());
-	 var totalContributions = parseFloat($('#totalContributions').val());
-
-	 $('#amount_bonded').val(loanToRepay - totalContributions);
-
-	// Amount bonded or cautionnee 
-	// the amount sanctioned is equal to the excess not guaranteed by
-	// saving the borrower shared equally between the two Cautionneurs.
-	if($('#amount_bonded').val() == ""){
-		$('#amount_bonded').val(parseInt($('#netToReceive').val())/2);
-	};
-
-
-	calculateLoanDetails();
-	calculateUrgentLoanFees();
-
+	
 	function calculateLoanDetails(){
-		var loanToRepay = $('#loanToRepay').val().replace(/,/g,''); // Remove any character that is not a number
-		var interestRate  = getInterestRate();
-		var totalContributions = $('#totalContributions').val().replace(/,/g,''); // Remove any character that is not a number
-		var numberOfInstallment = $('#numberOfInstallment').val();
+
+		// Remove any character that is not a number
+		var additional_amount		= 0;
+		var loanBalance				= 0;
+		var additional_installments	= 0;
+		var remaining_installments	= 0;
+		var totalContributions		= 0;
+		var additinal_charges_rate	= 0;
+		var additinal_charges		= 0;
+
+		if(typeof $('#additional_amount').val() !=='undefined'){
+	        additional_amount =$('#additional_amount').val().replace(/,/g,''); 
+	    }
+		if(typeof $('#loanBalance').val() !=='undefined'){
+	        loanBalance =$('#loanBalance').val().replace(/,/g,'');
+	    }
+		if(typeof $('#numberOfInstallment').val() !=='undefined'){
+	        additional_installments =$('#numberOfInstallment').val();
+	    }
+		if(typeof $('.remaining_tranches').val() !=='undefined'){
+	        remaining_installments =$('.remaining_tranches').val().replace(/,/g,'');
+	    }
+		// Remove any character that is not a number
+		if(typeof $('#totalContributions').val() !=='undefined'){
+	        totalContributions =$('#totalContributions').val().replace(/,/g,''); 
+	    }
+		if(typeof $('.additinal_charges_rate').val() !=='undefined'){
+	        additinal_charges_rate =$('.additinal_charges_rate').val().replace(/,/g,''); 
+	    }
+
+		loanToRepay				= parseInt(additional_amount) + parseInt(loanBalance);
+		numberOfInstallment		= parseInt(additional_installments) + parseInt(remaining_installments);
+		interestRate			= parseFloat(getInterestRate(numberOfInstallment));
+		additinal_charges_rate	= parseInt(additinal_charges_rate);
 
 		// Interest formular
 		// The formular to calculate interests at ceb is as following
@@ -131,31 +61,21 @@ jQuery(document).ready(function($) {
 		// LoanToRepay * (InterestRate*NumberOfInstallment) / 1200 +(InterestRate*NumberOfInstallment)
 		
 		var interests = (loanToRepay * (interestRate*numberOfInstallment)) / (1200 +(interestRate*numberOfInstallment));
-		var netToReceive = loanToRepay - interests;
-		var administration_fees = 2;
 		var operation_type  	= $('#operation_type').val();
-		var urgent_loan_interests = 0;
+		var additinal_charges   = loanToRepay * (additinal_charges_rate / 100);
+		var netToReceive = loanToRepay - interests - additinal_charges;
+		
+
 		// Update fields		
 		$('#interests').val(Math.round(interests) );
 		data[$('#interests').attr('name')] = $('#interests').val();
-        
     	$('#monthlyInstallments').val(Math.round((loanToRepay/numberOfInstallment)) );
 
-        // If this loan is urgent loan, then calculate administration fees
+        // If this regularisation has to pay additinal charges, then calculate administration fees
 		// And remove it from the net_to_receive
-		if (operation_type.toLowerCase() == 'urgent_ordinary_loan') {
-			
-			 urgent_loan_interests = loanToRepay * (administration_fees / 100);
-
-			$('#interest_on_urgently_loan').val(parseInt(urgent_loan_interests));
-			$('#netToReceive').val(parseInt(netToReceive - urgent_loan_interests ));
-			data[$('#netToReceive').attr('name')] = $('#netToReceive').val();
-		}
-		else{
-			$('.administration_fees').css('display', 'none');
-			$('#netToReceive').val(Math.round(netToReceive) );
-			data[$('#netToReceive').attr('name')] = $('#netToReceive').val();
-		};
+		$('#additinal_charges').val(parseInt(additinal_charges));
+		$('#netToReceive').val(parseInt(netToReceive - additinal_charges ));
+		$('#loanToRepay').val(loanToRepay);
 
   		
   		// If the amount to repay is less or equal to the 
@@ -181,62 +101,21 @@ jQuery(document).ready(function($) {
 
 	}
 
-	function calculateUrgentLoanFees(){
-		if ($('#operation_type').val()=='urgent_ordinary_loan') {
-
-            <?php $administration_fees=0;  ?>
-            @if((new Ceb\Models\Setting)->hasKey('loan.administration.fee'))
-            <?php $administration_fees =  \Ceb\Models\Setting::keyValue('loan.administration.fee'); ?>
-            @endif
-            console.log(loanToRepay );
-			if (loanToRepay > 0 ) {
-				$('#interest_on_urgently_loan').val(Math.round(loanToRepay* {!! $administration_fees/100 !!}) );
-				return true;
-			};
-
-			$('#interest_on_urgently_loan').val(0);
-			return true;
-		};
-		$('#interest_on_urgently_loan').val(0);
-	}
 	/**
 	 * De 1 à 12 mois le taux d’intérêt est de 3.4
 	 * De 13 à 24 mois le taux d’intérêt est de 3.6
 	 * De 25 à 36 mois le taux d’intérêt est de 4.1
 	 * De 37 à 48 mois le taux d’intérêts est de 4.3
-	 * @return {[type]} [description]
+	 * @return  {[type]} [description]
 	 */
-	function getInterestRate(){
-		var numberOfInstallment = $('#numberOfInstallment').val();
-		@foreach ($loanRates as $loanRate)
+	function getInterestRate(numberOfInstallment){
+
+			@foreach ($loanRates as $loanRate)
 			if (numberOfInstallment>={!! $loanRate->start_month !!} && numberOfInstallment<={!! $loanRate->end_month !!}) {return {!! (float) $loanRate->rate !!};};
-		@endforeach
+			@endforeach
 	}
-	/**
-	 * If the wished amount is higher than the
-	 * amount in the right to loan then dipsly error
-	 */
-    function isValidWishedAmount(){
-      var rightToLoanAmount = $('#rightToLoan').val().replace(/,/g,'');
-      rightToLoanAmount = parseInt(rightToLoanAmount);
 
-      var wishedAmount 	  = parseInt($('#wished_amount').val());
-      
-      if(wishedAmount > rightToLoanAmount){
-		    notification = notification.replace('message','Wished amount has to be less or equal to Right to loan');
-			$('.loan-notifications').html(notification);
-			$('#wished_amount').addClass('has-error');
-			// $('#wished_amount').val(rightToLoanAmount);
-			return false;
-		}
-		// For us to reach here
-		// All is good ! time to sleep
-		$('.loan-notifications').html('');
-		$('#wished_amount').removeClass('has-error');
-
-		return true;
-    }
-    $('.search-cautionneur').click(function(event) {
+   $('.search-cautionneur').click(function(event) {
     	// Prevent the default event action 
     	event.preventDefault();
     	var cautionneur = $(this).parent().find('input');
@@ -245,7 +124,7 @@ jQuery(document).ready(function($) {
     	if(cautionneur.val() !== "")
     	{
     		var segments = window.location.pathname.split( '/' );
-    		console.log(segments);
+
 			window.location.href = window.location.protocol+'//'+window.location.host+'/regularisation/setcautionneur'+'?'+cautionneur.attr('name')+'='+cautionneur.val();		
     		return true;
     	}
@@ -254,47 +133,60 @@ jQuery(document).ready(function($) {
     	return false;
       });
 
-     //If the letter date is determined
-     //Let's check if this loan is oridinary loan
-     //or a loan with ordinary urgent loan
-     //Oridinary loan is detected when someone's letter date is after 15 of each month
-     
-   	 $("input[name='letter_date']").on('click keyup keydown keypress change',function(event) {
-   	 	event.preventDefault();
-   	   	validateOrdinaryLoan($(this));
-   	   });
-   	 $('html').click(function(e) {
-  //if clicked element is not your element and parents aren't your div
-		  if (e.target.id != 'date' && $(e.target).parents('#date').length == 0) {
-		  validateOrdinaryLoan($("input[name='letter_date']"));
 
-		  }
-	 });
-	
-	/**
-   	  * Determine if this loan is urgent or not
-   	  * @param  letterdate object this 
-   	  * @return mixed    
-   	  */
-   	function validateOrdinaryLoan(element){
-   		var letterDate = new Date(element.val());
-   		// calculateUrgentLoanFees();
-   	   	// if (letterDate.getDate() > 15) {
-   	   	// 	$('#operation_type').val('urgent_ordinary_loan');
-   	   	// 	return ;
-   	   	// };
-   	   	// $('#operation_type').val('ordinary_loan');
-   	}
+	// Detect if an input has been written in 
+	$('.loan-input').keyup(function(event) {
+		updateInput($(this));
+	});	
+
+	// Detect if an input has been written in 
+	$('.loan-select').change(function(event) {
+		/* First get current input data */
+		var data = {};	
+		// Make sure you send request when 
+		// We only have something in the input
+		if ($(this).val()) {
+			console.log($(this).attr('name'));
+		    data[$(this).attr('name')] = $(this).val();
+			setTimeout(updateField(data), 5000);
+		};
+		calculateLoanDetails();
+	});		
+
+	function updateInput (element) {
+		/* First get current input data */
+		var fieldName = element.attr('name');
+        var fieldValue = element.val();
+      
+		// Validate if this input is wished amount
+		// wished amount should not be higher than right to loan
+		if(fieldName == 'wished_amount'){
+			isValidWishedAmount();
+		}
+		// Check this is empty then set it to sezo
+		if (fieldValue == "") {
+			element.val(0);
+		};
+		// Make sure you send request when 
+		// We only have something in the input
+		if (element.val()) {
+		    data[fieldName] = element.val();
+			setTimeout(updateField(data), 5000);
+		};
+        
+		// Update calculations
+		calculateLoanDetails();
+	}
    	/**
 	 * Update loan input field on the server side
-	 * @param  json array data data to be sent to the server
+	 * @param    json array data data to be sent to the server
 	*/
 	function updateField(formData,requestUrl){
 
 		/** first calculate existings fields */
 		calculateLoanDetails();
 		/** If the requestUrl was not initialized then set default to ajax/loan */
-		requestUrl = typeof requestUrl!=='undefined' ? requestUrl :'/ajax/loans';
+		requestUrl = typeof requestUrl!=='undefined' ? requestUrl :'/ajax/regularisation';
 
 		$.ajax({
 			url: requestUrl,
