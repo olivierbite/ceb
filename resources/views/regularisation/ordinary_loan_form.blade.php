@@ -76,14 +76,28 @@
   </div>
   </div>
 
-{{-- </div>
-
-<div class="row"> --}}
   <div class="col-md-3">
   <div class="form-group">
    <label>{{ trans('loan.net_to_receive') }}</label>
   {!! Form::input('text', 'amount_received',isset($loanInputs['net_to_receive'])?$loanInputs['net_to_receive']:0,
                   ['class'=>'form-control green-input dloan-input','id'=>'netToReceive'])
+    !!}
+  </div>
+  </div>
+
+ <div class="col-md-4">
+  <div class="form-group">
+   <label>{{ trans('loan.loan_to_repay') }}</label>
+  {!! Form::input('text', 'loan_to_repay',isset($loanInputs['loan_to_repay'])?$loanInputs['loan_to_repay']:0,
+                  ['class'=>'form-control orange-input loan-input','id'=>'loanToRepay'])
+    !!}
+  </div>
+  </div>
+  <div class="col-md-8">
+  <div class="form-group">
+   <label>{{ trans('loan.charges_payslip_reference_number') }}</label>
+  {!! Form::input('text', 'reference_number',isset($loanInputs['reference_number'])?$loanInputs['reference_number']:null,
+                  ['class'=>'form-control yellow-input loan-input','id'=>'referenceRumber'])
     !!}
   </div>
   </div>
