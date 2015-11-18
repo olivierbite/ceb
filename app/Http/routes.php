@@ -20,15 +20,15 @@ Route::get('notifications',['as'=>'notificatons','uses'=>'MemberController@notif
 /** Members routes */
 Route::group(['prefix'=>'members'], function(){
 	Route::get('/search', 'MemberController@search');
-	Route::get('/{memberId}/refund',['as' => 'members.refund' , 'uses'=> 'MemberController@refund']);
-	Route::get('/{memberId}/contribute',['as' => 'members.contribute' , 'uses'=> 'MemberController@contribute']);
-	Route::get('/{memberId}/transacts',['as'=>'members.transacts','uses'=>'MemberController@transacts']);
-	Route::post('/{memberId}/completetransaction',['as'=>'members.completetransaction','uses'=>'MemberController@completeTransaction']);
-	Route::get('/{memberId}/attornies',['as'=>'members.attornies','uses'=>'MemberController@attornies']);
-	Route::get('/loanrecords/{memberId}',['as'=>'members.loanrecords','uses'=>'MemberController@loanRecords']);
-	Route::get('/contributions/{memberId}',['as'=>'members.contributions','uses'=>'MemberController@contributions']);
-	Route::get('/cautions/{memberid}', ['as' => 'members.cautions.actives','uses' =>'MemberController@currentCautions']);
-	Route::get('/cautioned/{memberid}', ['as' => 'members.cautioned.actives','uses' =>'MemberController@currentCautionedByMe']);
+	Route::get('/{memberId}/refund'					,['as'=>'members.refund' , 'uses'=>'MemberController@refund']);
+	Route::get('/{memberId}/contribute'				,['as'=>'members.contribute' , 'uses'=>'MemberController@contribute']);
+	Route::get('/{memberId}/transacts'				,['as'=>'members.transacts','uses'=>'MemberController@transacts']);
+	Route::post('/{memberId}/completetransaction'	,['as'=>'members.completetransaction','uses'=>'MemberController@completeTransaction']);
+	Route::get('/{memberId}/attornies'				,['as'=>'members.attornies','uses'=>'MemberController@attornies']);
+	Route::get('/loanrecords/{memberId}'			,['as'=>'members.loanrecords','uses'=>'MemberController@loanRecords']);
+	Route::get('/contributions/{memberId}'			,['as'=>'members.contributions','uses'=>'MemberController@contributions']);
+	Route::get('/cautions/{memberid}'				,['as'=>'members.cautions.actives','uses'=>'MemberController@currentCautions']);
+	Route::get('/cautioned/{memberid}'				,['as'=>'members.cautioned.actives','uses'=>'MemberController@currentCautionedByMe']);
 	
 });
 Route::resource('members', 'MemberController');
@@ -38,11 +38,11 @@ Route::resource('attornies','AttorneyController');
 
 /** Contribution routes */
 Route::group(['prefix'=>'contributions'], function(){
-	Route::post('complete', ['as' => 'contributions.complete', 'uses' => 'ContributionAndSavingsController@complete']);
-	Route::get('cancel', ['as' => 'contributions.cancel', 'uses' => 'ContributionAndSavingsController@cancel']);	
-	Route::post('batch', ['as' => 'contributions.batch', 'uses' => 'ContributionAndSavingsController@batch']);
-	Route::get('{adhersion_id}/remove',['as'=>'contributions.remove.member','uses'=>'ContributionAndSavingsController@removeMember']);
-	Route::get('samplecsv',['as'=>'contributions.sample.csv','uses'=>'ContributionAndSavingsController@downloadSample']);
+	Route::post('complete'				,['as'=>'contributions.complete', 'uses'=>'ContributionAndSavingsController@complete']);
+	Route::get('cancel'					,['as'=>'contributions.cancel', 'uses'=>'ContributionAndSavingsController@cancel']);	
+	Route::post('batch'					,['as'=>'contributions.batch', 'uses'=>'ContributionAndSavingsController@batch']);
+	Route::get('{adhersion_id}/remove'	,['as'=>'contributions.remove.member','uses'=>'ContributionAndSavingsController@removeMember']);
+	Route::get('samplecsv'				,['as'=>'contributions.sample.csv','uses'=>'ContributionAndSavingsController@downloadSample']);
 });
 
 Route::resource('contributions', 'ContributionAndSavingsController');
@@ -52,15 +52,15 @@ Route::resource('contributions', 'ContributionAndSavingsController');
 Route::group(['prefix'=>'loans'], function(){
 
 	Route::get('/{id}', 'LoanController@selectMember')->where('id', '[0-9]+');
-	Route::get('/cancel', ['as' => 'loan.cancel', 'uses' => 'LoanController@cancel']);
-	Route::get('/complete', ['as' => 'loan.complete', 'uses' => 'LoanController@complete']);
-	Route::post('/complete', ['as' => 'loan.complete', 'uses' => 'LoanController@complete']);
-	Route::get('/setcautionneur', ['as' => 'loan.add.cautionneur', 'uses' => 'LoanController@setCautionneur']);
-	Route::get('/pending/{loanId?}', ['as' => 'loan.pending', 'uses' => 'LoanController@getPending']);
-	Route::get('/blocked/{loanId?}', ['as' => 'loan.blocked', 'uses' => 'LoanController@getBlocked']);
-	Route::get('/process/{loanId}/{status}', ['as' => 'loan.process', 'uses' => 'LoanController@process']);
-	Route::post('/unlblock', ['as' => 'loan.unblock.store', 'uses' =>'LoanController@unblock']);
-	Route::get('/unblock/form/{loanId?}', ['as' => 'loan.unblock.form', 'uses' => 'LoanController@showUnblockingForm']);
+	Route::get('/cancel', ['as'						=>'loan.cancel', 'uses' => 'LoanController@cancel']);
+	Route::get('/complete', ['as'					=> 'loan.complete', 'uses' => 'LoanController@complete']);
+	Route::post('/complete', ['as'					=> 'loan.complete', 'uses' => 'LoanController@complete']);
+	Route::get('/setcautionneur', ['as'				=> 'loan.add.cautionneur', 'uses' => 'LoanController@setCautionneur']);
+	Route::get('/pending/{loanId?}', ['as'			=> 'loan.pending', 'uses' => 'LoanController@getPending']);
+	Route::get('/blocked/{loanId?}', ['as'			=> 'loan.blocked', 'uses' => 'LoanController@getBlocked']);
+	Route::get('/process/{loanId}/{status}', ['as'	=> 'loan.process', 'uses' => 'LoanController@process']);
+	Route::post('/unlblock', ['as'					=> 'loan.unblock.store', 'uses' =>'LoanController@unblock']);
+	Route::get('/unblock/form/{loanId?}', ['as'		=> 'loan.unblock.form', 'uses' => 'LoanController@showUnblockingForm']);
 
 	Route::get('/remove/cautionneur/{cautionneur}',
 							  ['as'=> 'loan.remove.cautionneur',
@@ -72,10 +72,11 @@ Route::resource('loans', 'LoanController');
 
 	/** REGULARISATION ROUTES */
 	Route::group(['prefix'=>'regularisation'], function(){
-		Route::get('/', ['as' => 'regularisation.index', 'uses' => 'RegularisationController@index']);
-		Route::get('/{id}', ['as' => 'regularisation.setmember', 'uses' => 'RegularisationController@selectMember'])->where('id', '[0-9]+');
-		Route::get('/cancel', ['as' => 'regularisation.cancel', 'uses' => 'RegularisationController@cancel']);
-		Route::post('/complete', ['as' => 'regularisation.complete', 'uses' => 'RegularisationController@complete']);
+		Route::get('/'				,['as' => 'regularisation.index', 'uses' => 'RegularisationController@index']);
+		Route::get('/{id}'			,['as' => 'regularisation.setmember', 'uses' => 'RegularisationController@selectMember'])->where('id', '[0-9]+');
+		Route::get('/setcautionneur',['as' => 'regularisation.add.cautionneur', 'uses' => 'RegularisationController@setCautionneur']);
+		Route::get('/cancel'		,['as' => 'regularisation.cancel', 'uses' => 'RegularisationController@cancel']);
+		Route::post('/complete'		,['as' => 'regularisation.complete', 'uses' => 'RegularisationController@complete']);
 	});
 
 	/** Refunds routes */
