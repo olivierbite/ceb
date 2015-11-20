@@ -41,7 +41,7 @@ class RegularisationFactory {
 	 */
 	function addMember($memberId) {
 		$member = $this->member->eligible($memberId)->find($memberId);
-
+      
 		// Detect if this member is not more than 6 months
 		// as per de definition of CEB
 		if (is_null($member)) {
@@ -49,14 +49,11 @@ class RegularisationFactory {
 			return false;
 		}
 
-		/** If we are allowed to provide loan to people with negative right to loan */
-	 	if ($this->setting->keyValue('loan.allow.member.with.negative.right.to.loan') == 0) {
-	 		if ($member->right_to_loan < 1) {
-				flash()->error(trans('loan.this_member_doesnot_have_enough_right_to_loan_because_he_has_pending_loans'));
-				$this->cancel();
-				return false;
-			}
-	 	}
+		/** We only allow people to regulate if they have active loan */
+		if ($member->has_active_loan == false) {
+			flash()->error(trans('loan.does_not_have_active_right_to_regulate',['names'=>$member->names]));
+			return false;
+		}
 		
 		Session::put('regulate_loan_member', $member);
 

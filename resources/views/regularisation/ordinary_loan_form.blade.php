@@ -38,6 +38,7 @@
    </div>
   </div>
 
+ @if (strpos($loanInputs['operation_type'], 'amount') !== false)
   <?php $administration_fees =  \Ceb\Models\Setting::keyValue('loan.administration.fee'); ?>
   <div class="col-md-3">
   <div class="form-group">
@@ -49,7 +50,8 @@
     !!} 
   </div>
   </div>
-  
+  @endif
+
   <div class="col-md-3">
   <div class="form-group">
    <label>{{ trans('loan.monthly_installments') }}</label>
@@ -66,7 +68,7 @@
     !!}
   </div>
   </div>
-
+ @if (strpos($loanInputs['operation_type'], 'amount') !== false)
   <div class="col-md-3">
   <div class="form-group">
    <label>{{ trans('loan.additinal_charges ') }}</label>
@@ -75,6 +77,7 @@
     !!}
   </div>
   </div>
+ @endif
  <div class="col-md-3">
   <div class="form-group">
    <label>{{ trans('loan.new_installments') }}</label>
@@ -83,15 +86,18 @@
     !!}
   </div>
   </div>
+
  <div class="col-md-4">
   <div class="form-group">
-   <label>{{ trans('loan.loan_to_repay') }}</label>
+   <label>{{ trans('loan.new_balance') }}</label>
   {!! Form::input('text', 'loan_to_repay',isset($loanInputs['loan_to_repay'])?$loanInputs['loan_to_repay']:0,
                   ['class'=>'form-control orange-input loan-input','id'=>'loanToRepay'])
     !!}
   </div>
   </div>
-    <div class="col-md-4">
+  
+ @if (strpos($loanInputs['operation_type'], 'amount') !== false)
+  <div class="col-md-4">
   <div class="form-group">
    <label>{{ trans('loan.net_to_receive') }}</label>
   {!! Form::input('text', 'amount_received',isset($loanInputs['net_to_receive'])?$loanInputs['net_to_receive']:0,
@@ -107,5 +113,6 @@
     !!}
   </div>
   </div>
+   @endif
 </div>
 </div>
