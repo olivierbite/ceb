@@ -35,7 +35,10 @@ class RegularisationRequest extends Request
            return [];
         }
         $attributes = parent::all();
-        $rightToLoan = $this->member->findByAdhersion($attributes['adhersion_id'])->right_to_loan;
+        $rightToLoan = 5000;
+        if (!is_null($attributes['adhersion_id']) && !empty($attributes['adhersion_id'])) {
+          $rightToLoan = $this->member->findByAdhersion($attributes['adhersion_id'])->right_to_loan;
+        }
         // Validate the right to loan
         $settingKey = strtolower($attributes['operation_type']).'.amount';
         if ($this->setting->hasKey($settingKey) !== false) {
@@ -64,6 +67,10 @@ class RegularisationRequest extends Request
         // Continue only if the method is get 
          if ($this->isMethod('get')) {
            return $attributes;
+        }
+
+        if (is_null($attributes['adhersion_id']) || empty($attributes['adhersion_id'])) {
+          return $attributes;
         }
         // Set the member by his adhersion ID
         $memberId = $this->member->findByAdhersion($attributes['adhersion_id'])->id;
