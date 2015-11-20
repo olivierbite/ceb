@@ -87,11 +87,8 @@ class RegularisationController extends Controller {
             return redirect()->back();
         }
 
-        dd($request->all());
         // First log 
         Log::info($this->user->email . ' is completing loan request');
-    
-        $memberId = $this->regularisationFactory->getMember()->id;
 
         // Make sure we update with latest form inputs
         $this->regularisationFactory->addLoanInput(Input::all());
@@ -106,7 +103,6 @@ class RegularisationController extends Controller {
                 $message = trans('loan.regularisation_completed');
                 $this->loanId = $loanId;
                 flash()->success($message);
-                $this->currentMember = $memberId;
 
                 // If this user doesn't have right to view the contract
                 // Then show him an error

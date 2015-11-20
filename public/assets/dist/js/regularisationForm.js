@@ -22,7 +22,8 @@ jQuery(document).ready(function($) {
 		var totalContributions		= 0;
 		var additinal_charges_rate	= 0;
 		var additinal_charges		= 0;
-
+		var operation_type          = $('#operation_type').val();
+		
 		if(typeof $('#additional_amount').val() !=='undefined'){
 	        additional_amount =$('#additional_amount').val().replace(/,/g,''); 
 	    }
@@ -49,7 +50,7 @@ jQuery(document).ready(function($) {
 		interestRate			= parseFloat(getInterestRate(numberOfInstallment));
 		additinal_charges_rate	= parseInt(additinal_charges_rate);
 
-		if (loanToRepay == 0) {
+		if (operation_type.indexOf("amount") > -1) {
 			loanToRepay +=parseInt(loanBalance);
 		};
 
@@ -75,7 +76,7 @@ jQuery(document).ready(function($) {
 		// Update fields		
 		$('#interests').val(Math.round(interests) );
 		data[$('#interests').attr('name')] = $('#interests').val();
-    	$('#monthlyInstallments').val(Math.round((loanToRepay/numberOfInstallment)) );
+    	$('#new_monthly_fees').val(Math.round((loanToRepay/numberOfInstallment)) );
 
         // If this regularisation has to pay additinal charges, then calculate administration fees
 		// And remove it from the net_to_receive

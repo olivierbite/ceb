@@ -54,9 +54,9 @@
 
   <div class="col-md-3">
   <div class="form-group">
-   <label>{{ trans('loan.monthly_installments') }}</label>
+   <label>{{ trans('loan.monthly_fees') }}</label>
   {!! Form::input('text', 'monthly_fees',isset($loanInputs['monthly_fees'])?$loanInputs['monthly_fees']:0,
-                  ['class'=>'form-control loan-input','id'=>'monthlyInstallments'])
+                  ['class'=>'form-control loan-input','id'=>'new_monthly_fees'])
     !!}
   </div>
   </div>
@@ -64,7 +64,7 @@
   <div class="form-group">
    <label>{{ trans('loan.interests') }}</label>
   {!! Form::input('text', 'interests',isset($loanInputs['interests'])?$loanInputs['interests']:0,
-                  ['class'=>'form-control loan-input','id'=>'interests'])
+                  ['class'=>'form-control loan-input','id'=>'interests','readonly'=>true])
     !!}
   </div>
   </div>
@@ -73,7 +73,7 @@
   <div class="form-group">
    <label>{{ trans('loan.additinal_charges ') }}</label>
   {!! Form::input('text', 'additinal_charges',isset($loanInputs['additinal_charges'])?$loanInputs['additinal_charges']:0,
-                  ['class'=>'form-control loan-input','id'=>'additinal_charges','disabled'=>true])
+                  ['class'=>'form-control loan-input','id'=>'additinal_charges','readonly'=>true])
     !!}
   </div>
   </div>
@@ -82,7 +82,7 @@
   <div class="form-group">
    <label>{{ trans('loan.new_installments') }}</label>
   {!! Form::input('text', 'new_installments',isset($loanInputs['new_installments'])?$loanInputs['new_installments']:0,
-                  ['class'=>'form-control orange-input loan-input','id'=>'new_installments'])
+                  ['class'=>'form-control orange-input loan-input','id'=>'new_installments','readonly'=>true])
     !!}
   </div>
   </div>
@@ -91,7 +91,7 @@
   <div class="form-group">
    <label>{{ trans('loan.new_balance') }}</label>
   {!! Form::input('text', 'loan_to_repay',isset($loanInputs['loan_to_repay'])?$loanInputs['loan_to_repay']:0,
-                  ['class'=>'form-control orange-input loan-input','id'=>'loanToRepay'])
+                  ['class'=>'form-control orange-input loan-input','id'=>'loanToRepay','readonly'=>true])
     !!}
   </div>
   </div>
@@ -101,7 +101,7 @@
   <div class="form-group">
    <label>{{ trans('loan.net_to_receive') }}</label>
   {!! Form::input('text', 'amount_received',isset($loanInputs['net_to_receive'])?$loanInputs['net_to_receive']:0,
-                  ['class'=>'form-control green-input dloan-input','id'=>'netToReceive'])
+                  ['class'=>'form-control green-input dloan-input','id'=>'netToReceive','readonly'=>true])
     !!}
   </div>
   </div>
