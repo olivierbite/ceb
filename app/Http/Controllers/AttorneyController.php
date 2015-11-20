@@ -34,7 +34,8 @@ class AttorneyController  extends Controller
         // First log
         Log::info($this->user->email . ' started to add attornies');
         $member = $request->get('member');
-        return view('attornies.create',compact('member'));
+        $title = trans('member.transactions_and_other_withdrawals_on_savings');
+        return view('attornies.create',compact('member','title'));
     }
 
     /**
