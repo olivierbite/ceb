@@ -1,7 +1,7 @@
 <?php
 
 return [
-<<<<<<< HEAD
+
   'adhersion_number_you_are_looking_for_cannot_be_found' => 'Adhersion number you are looking for cannot be found',
   'cautionneur_should_not_be_the_same_as_the_member_requesting_loan' => 'Cautionneur should not be the same as the member requesting  loan',
   'cautionneur_has_been_added_successfully' => 'Cautionneur  has  been added  succesfully',
@@ -90,7 +90,7 @@ return [
    'giving_loan_to' => 'Giving :loantype to :names',
    'charging_administration_fees' =>'charging :charges % of administration_fees',
 
-=======
+
    'adhersion_number_you_are_looking_for_cannot_be_found'                            => 'Adhersion number you are looking for cannot be found',
    'cautionneur_should_not_be_the_same_as_the_member_requesting_loan'                => 'Cautionneur should not be the same as the member requesting  loan',
    'cautionneur_has_been_added_successfully'                                         => 'Cautionneur  has  been added  succesfully',
@@ -163,5 +163,5 @@ return [
    'giving_loan_to'                                                                  =>'Giving :loantype to :names',
    'regulating_loan_to'                                                              =>'Regulating :loantype of :names',
    'charging_administration_fees'                                                    =>'charging :charges % of administration_fees',
->>>>>>> 7665cf4f73d63789c4c68603c85e068d01050bcf
+
 ];
