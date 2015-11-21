@@ -26,6 +26,7 @@ class AttorneyRequest extends Request
         return [
             'names'=> 'required',
             'photo'=> 'required',
+            'nid'   => 'required',
             'signature' => 'required'
         ];
     }

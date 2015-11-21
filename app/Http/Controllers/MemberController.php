@@ -257,7 +257,8 @@ class MemberController extends Controller {
 	public function attornies($memberId)
 	{
 		$member = $this->member->findOrfail($memberId);
-		return view('members.attornies',compact('member'));
+		$title = trans('member.member_attornies_list') ;
+		return view('members.attornies',compact('member','title'));
 	}
 	
 	/**

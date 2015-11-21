@@ -11,7 +11,7 @@ class Attorney extends Model {
 	 */
 	protected $table = 'attorney';
 
-	protected $fillable =['names','photo','signature'];
+	protected $fillable =['names','photo','signature','nid'];
 
 	/**
 	 * Relationship with Users

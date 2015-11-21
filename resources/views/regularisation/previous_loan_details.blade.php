@@ -4,7 +4,7 @@
   <div class="form-group">
    <label>{{ trans('loan.previous_loan_contract_number') }}</label>
     {!! Form::input('text', 'current_loan_contract',$loan->loan_contract,
-                  ['class'=>'form-control','disabled'=>true])
+                  ['class'=>'form-control','readonly'=>true])
     !!}
   </div>
   </div>
@@ -12,7 +12,7 @@
   <div class="form-group">
    <label>{{ trans('loan.remaining_installments') }}</label>
     {!! Form::input('text', 'current_number_of_installments',$member->remaining_tranches,
-                  ['class'=>'form-control remaining_tranches','disabled'=>true])
+                  ['class'=>'form-control remaining_tranches','readonly'=>true])
     !!}
   </div>
   </div>
@@ -20,7 +20,7 @@
   <div class="form-group">
    <label>{{ trans('loan.current_monthly_fees') }}</label>
        {!! Form::input('text', 'current_monthly_fees',(int) $loan->monthly_fees,
-                  ['class'=>'form-control','disabled'=>true])
+                  ['class'=>'form-control','readonly'=>true])
     !!}
    </div>
   </div>
@@ -28,7 +28,7 @@
   <div class="form-group">
    <label>{{ trans('loan.previous_loan_balance') }}</label>
        {!! Form::input('text', 'previous_loan_balance',(int) $member->loan_balance,
-                  ['class'=>'form-control previous_loan_balance','disabled'=>true])
+                  ['class'=>'form-control previous_loan_balance','readonly'=>true])
     !!}
    </div>
   </div>
@@ -36,7 +36,7 @@
   <div class="form-group">
    <label>{{ trans('loan.previous_loan_type') }}</label>
        {!! Form::input('text', 'previous_loan_type',$loan->operation_type ,
-                  ['class'=>'form-control','disabled'=>true])
+                  ['class'=>'form-control','readonly'=>true])
     !!}
    </div>
   </div>
@@ -44,7 +44,7 @@
   <div class="form-group">
    <label>{{ trans('loan.wording') }}</label>
        {!! Form::input('text', 'prvious_wording',$loan->comment ,
-                  ['class'=>'form-control','disabled'=>true])
+                  ['class'=>'form-control','readonly'=>true])
     !!}
    </div>
   </div>

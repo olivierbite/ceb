@@ -8,16 +8,13 @@
  {{ trans('member.add_attornies') }}
 </a>
 
-@if(count($member->contributions) > 0)
-
 <a 	class="col-xs-5 col-md-5 btn btn-success btn-box green"
-	href="{{ route('reports.members.contracts.saving',['memberId' => $member->id]) }}"
+	href="{{ route('reports.members.contracts.saving',['memberId' => $member->adhersion_id]) }}"
 	target="_blank"
 >
 	<i class="fa fa-newspaper-o"></i>
 	{{ trans('member.contract_saving') }}
 </a>
-@endif
 
 @if(count($member->loans) > 0)
 <a 	class="col-xs-5 col-md-5 btn btn-success btn-box green"

@@ -56,7 +56,7 @@ class ReportController extends Controller {
 
         // First log 
         Log::info($this->user->email . ' is viewing report contract saving');
-    
+    	
 		$member = $this->member->byAdhersion($memberId)->first();
 
 		if (is_null($member)) {

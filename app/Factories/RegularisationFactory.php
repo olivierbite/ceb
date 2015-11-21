@@ -41,7 +41,7 @@ class RegularisationFactory {
 	 */
 	function addMember($memberId) {
 		$member = $this->member->eligible($memberId)->find($memberId);
-
+      
 		// Detect if this member is not more than 6 months
 		// as per de definition of CEB
 		if (is_null($member)) {
@@ -49,14 +49,11 @@ class RegularisationFactory {
 			return false;
 		}
 
-		/** If we are allowed to provide loan to people with negative right to loan */
-	 	if ($this->setting->keyValue('loan.allow.member.with.negative.right.to.loan') == 0) {
-	 		if ($member->right_to_loan < 1) {
-				flash()->error(trans('loan.this_member_doesnot_have_enough_right_to_loan_because_he_has_pending_loans'));
-				$this->cancel();
-				return false;
-			}
-	 	}
+		/** We only allow people to regulate if they have active loan */
+		if ($member->has_active_loan == false) {
+			flash()->error(trans('loan.does_not_have_active_right_to_regulate',['names'=>$member->names]));
+			return false;
+		}
 		
 		Session::put('regulate_loan_member', $member);
 
@@ -397,6 +394,7 @@ class RegularisationFactory {
 	 * @return bool
 	 */
 	public function saveLoan($transactionid) {
+		
 		// First refresh the data and validate them
 		// if the data are not validated we will recieve false
 		if (!$this->calculateLoanDetails(true)) {
@@ -407,7 +405,6 @@ class RegularisationFactory {
 
 			return false;
 		}
-
 		// If we reach here it means data are valid, therefore let's try
 		// to continue processing the saving activity
 		$inputs = $this->getLoanInputs();
@@ -422,12 +419,12 @@ class RegularisationFactory {
 		$data['operation_type'] = $this->getOperationType();
 		$data['letter_date'] = $this->getLetterDate();
 		$data['right_to_loan'] = $inputs['right_to_loan'];
-		$data['wished_amount'] = $inputs['wished_amount'];
+		$data['wished_amount'] = isset($inputs['additional_amount']) ? $inputs['additional_amount'] : 0;
 		$data['loan_to_repay'] = $inputs['loan_to_repay'];
 		$data['interests'] = $inputs['interests'];
 		$data['InteretsPU'] = 0;
-		$data['amount_received'] = $inputs['amount_received'];
-		$data['tranches_number'] = $this->getTranschesNumber();
+		$data['amount_received'] = isset($inputs['additional_amount']) ? $inputs['additional_amount'] : 0;
+		$data['tranches_number'] = $inputs['new_installments'];
 		$data['monthly_fees'] = $inputs['monthly_fees'];
 		$data['cheque_number'] = isset($inputs['cheque_number']) ? $inputs['cheque_number'] : '';
 		$data['bank_id'] = isset($inputs['bank_id']) ? $inputs['bank_id'] : '';
@@ -438,13 +435,13 @@ class RegularisationFactory {
 		$data['amount_refounded'] = 0;
 		$data['comment'] = $inputs['wording'];
 		$data['special_loan_contract_number'] = 0;
-		$data['remaining_tranches'] = isset($inputs['tranches_number']) ? $inputs['tranches_number'] : 1;
+		$data['remaining_tranches'] = isset($inputs['new_installments']) ? $inputs['new_installments'] : 1;
 		$data['special_loan_tranches'] = 0;
 		$data['special_loan_interests'] = 0;
 		$data['special_loan_amount_to_receive'] = 0;
-		$data['rate'] = $this->getInterestRate();
-		$data['reason'] = isset($inputs['reason']) ? $inputs['reason'] : null;
-		$data['urgent_loan_interests']  = $inputs['urgent_loan_interests'];
+		$data['rate'] = $this->loanRate->rate($inputs['new_installments']);
+		$data['reason'] = isset($inputs['wording']) ? $inputs['wording'] : null;
+		$data['urgent_loan_interests']  = isset($inputs['additinal_charges'])?$inputs['additinal_charges']:0;
 		$data['user_id'] = Sentry::getUser()->id;
 
         $newLoan = $this->loan->create($data);

@@ -164,4 +164,8 @@ return [
    'regulating_loan_to'                                                              =>'Regulating :loantype of :names',
    'charging_administration_fees'                                                    =>'charging :charges % of administration_fees',
 
+
+
+   'does_not_have_active_right_to_regulate'                                          =>':names does not have active loan to regulate, please use loan module if you want to give him a loan',
+
 ];

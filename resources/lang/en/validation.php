@@ -86,38 +86,41 @@ return [
     */
 
     'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
+        'attribute-name'             => [
+        'rule-name'                  => 'custom-message',
         ],
-        'accounting_amount' => [
-            'confirmed' => 'Debit and Credit account must be equal',
+        'accounting_amount'          => [
+        'confirmed'                  => 'Debit and Credit account must be equal',
         ],
-        'transactionamount'=> [
-            'confirmed' => 'Amount must equal to debit / credit amount.',
+        'transactionamount'          => [
+        'confirmed'                  => 'Amount must equal to debit / credit amount.',
         ],
-        'loanaccountamount'=> [
-            'confirmed' => 'Loan to repay amount must equal to debit / credit amount.',
+        'loanaccountamount'          => [
+        'confirmed'                  => 'Loan to repay amount must equal to debit / credit amount.',
         ],
-        'accounts'     => [
-            'confirmed' => 'You cannot debit and debit same accounts, check if one or more accounts are not present in both debit and credit.',
+        'ragularisationccountamount' =>[
+        'confirmed'                  => 'Amount to debit / credit must equal to additional amount + interest + adminstion fees.',
         ],
-        'cautionneur'     => [
-            'confirmed' => 'You have to provide two cautionneurs when there is amount to bond.',
+        'accounts'                   => [
+        'confirmed'                  => 'You cannot debit and debit same accounts, check if one or more accounts are not present in both debit and credit.',
         ],
-        'movement_type'=> [
-            'min' => 'Please select movement type.',
+        'cautionneur'                => [
+        'confirmed'                  => 'You have to provide two cautionneurs when there is amount to bond.',
         ],
-        'operation_type' =>[
-            'min' => 'Please select operation_type',
+        'movement_type'              => [
+        'min'                        => 'Please select movement type.',
         ],
-        'inputaccounts' =>[
-            'max' => 'It is not allowed to credit and debit same account, Please correct input and try again.',
+        'operation_type'             =>[
+        'min'                        => 'Please select operation_type',
+        ],
+        'inputaccounts'              =>[
+        'max'                        => 'It is not allowed to credit and debit same account, Please correct input and try again.',
         ],    
-        'reason' =>[
-            'min' => 'Please choose the reason for this social loan before you continue',
+        'reason'                     =>[
+        'min'                        => 'Please choose the reason for this social loan before you continue',
         ],
-        'cautionneur1'=>[
-            'required' => 'Please select a cautionneur for this loan',
+        'cautionneur1'               =>[
+        'required'                   => 'Please select a cautionneur for this loan',
         ],
     ],
 
