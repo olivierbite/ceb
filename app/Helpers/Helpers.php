@@ -143,6 +143,7 @@ function random_color()
  */
 function generateContract($member,$contract_type)
 {
+
 	switch ($contract_type) {
 			case (strpos($contract_type,'ordinary_loan') !== FALSE):
 			     // Ordinary loan
@@ -155,6 +156,18 @@ function generateContract($member,$contract_type)
 			case 'social_loan':
 				// Social loan.			
 			    $contract = view('reports.contracts_loan_social', compact('member'))->render();
+				break;
+			case 'installments':
+				// Regularisation installments
+				$contract = view('reports.contracts_regularisation_installment',compact('member'))->render();
+				break;
+			case 'amount':
+				// Regularisation installments
+				$contract = view('reports.contracts_regularisation_installment',compact('member'))->render();
+				break;
+			case 'amount_installments':
+				// Regularisation installments
+				$contract = view('reports.contracts_regularisation_amount_installments',compact('member'))->render();
 				break;
 			default: // Could not detect the contract
 				$contract = 'Unable to determine the contract type';
@@ -182,7 +195,9 @@ function generateContract($member,$contract_type)
 		$contract = str_replace('{start_payment_month}',$loan->letter_date->addMonth(1)->format('m-Y'),$contract);
 		$contract = str_replace('{end_payment_month}',$loan->letter_date->addMonth($member->latestLoan()->tranches_number + 1)->format('m-Y'),$contract);
 		$contract = str_replace('{tranches_number}',$loan->tranches_number,$contract);
-		$cautionnairesTable = view('reports.cautionneurs',compact('loan'));
+
+		$cautionnairesTable = view('reports.cautionneurs',compact('loan'))->render();
+		
 		$contract = str_replace('{cautionnaires_table}',$cautionnairesTable,$contract);
 		return $contract = str_replace('{today_date}',date('d-m-Y'),$contract);
 
