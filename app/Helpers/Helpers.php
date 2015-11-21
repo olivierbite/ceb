@@ -195,7 +195,9 @@ function generateContract($member,$contract_type)
 		$contract = str_replace('{start_payment_month}',$loan->letter_date->addMonth(1)->format('m-Y'),$contract);
 		$contract = str_replace('{end_payment_month}',$loan->letter_date->addMonth($member->latestLoan()->tranches_number + 1)->format('m-Y'),$contract);
 		$contract = str_replace('{tranches_number}',$loan->tranches_number,$contract);
-		$cautionnairesTable = view('reports.cautionneurs',compact('loan'));
+
+		$cautionnairesTable = view('reports.cautionneurs',compact('loan'))->render();
+		
 		$contract = str_replace('{cautionnaires_table}',$cautionnairesTable,$contract);
 		return $contract = str_replace('{today_date}',date('d-m-Y'),$contract);
 

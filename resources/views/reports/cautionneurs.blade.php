@@ -1,5 +1,4 @@
 {{-- @if($loan->cautions->isEmpty() == false) --}}
-
 <div dir="ltr" style="margin-left:-5.75pt;">
 <table class="pure-table pure-table-bordered">
 	<tbody>
