@@ -143,6 +143,7 @@ function random_color()
  */
 function generateContract($member,$contract_type)
 {
+
 	switch ($contract_type) {
 			case (strpos($contract_type,'ordinary_loan') !== FALSE):
 			     // Ordinary loan
@@ -155,6 +156,18 @@ function generateContract($member,$contract_type)
 			case 'social_loan':
 				// Social loan.			
 			    $contract = view('reports.contracts_loan_social', compact('member'))->render();
+				break;
+			case 'installments':
+				// Regularisation installments
+				$contract = view('reports.contracts_regularisation_installment',compact('member'))->render();
+				break;
+			case 'amount':
+				// Regularisation installments
+				$contract = view('reports.contracts_regularisation_installment',compact('member'))->render();
+				break;
+			case 'amount_installments':
+				// Regularisation installments
+				$contract = view('reports.contracts_regularisation_amount_installments',compact('member'))->render();
 				break;
 			default: // Could not detect the contract
 				$contract = 'Unable to determine the contract type';
