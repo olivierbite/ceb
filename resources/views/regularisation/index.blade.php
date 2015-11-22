@@ -18,7 +18,7 @@
 	@endif
 
 	{{-- @include('regularisation.index_buttons') --}}
-   {!! Form::open(['method'=>'POST','url'=>route('regularisation.complete')]) !!}
+   {!! Form::open(['method'=>'POST','url'=>route('regularisation.complete'),'id'=>'regularisationForm']) !!}
 	@include('regularisation.client_information_form')
     
 	{{-- 

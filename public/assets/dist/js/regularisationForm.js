@@ -24,9 +24,12 @@ jQuery(document).ready(function($) {
 		var additinal_charges			= 0;
 		var remaining_interest			= 0;
 		var totalInstallement_interests	= 0;
-		var recalculated_interest		= 0;
+		var interest_on_installements	= 0;
+		var interest_on_amount 			= 0;
 		var interests_to_pay			= 0; 
+		var total_interests 			= 0;
 		var new_monthly_fees 			= 0;
+		var netToReceive 				= 0;
 		var operation_type				= $('#operation_type').val();
 		
 		if(typeof $('#additional_amount').val() !=='undefined'){
@@ -37,8 +40,8 @@ jQuery(document).ready(function($) {
 	        loanBalance =$('#loanBalance').val().replace(/,/g,'');
 	    }
 		
-		if(typeof $('#numberOfInstallment').val() !=='undefined'){
-	        additional_installments =$('#numberOfInstallment').val();
+		if(typeof $('#additional_installments').val() !=='undefined'){
+	        additional_installments =$('#additional_installments').val();
 	    }
 		
 		if(typeof $('.remaining_tranches').val() !=='undefined'){
@@ -64,29 +67,60 @@ jQuery(document).ready(function($) {
 
 		// Calculate remaining interest
 		interestRate				= parseFloat(getInterestRate(remaining_installments));
-		var remaining_interest		= parseFloat(getInterest(loanBalance,interestRate,remaining_installments));
-		var interestRate			= parseFloat(getInterestRate(numberOfInstallment));
-		totalInstallement_interests	= parseFloat(getInterest(loanBalance,interestRate,numberOfInstallment));
-		recalculated_interest		= parseFloat(totalInstallement_interests - remaining_interest);
+		remaining_interest			= parseFloat(getInterest(loanBalance,interestRate,remaining_installments));
+		interestRate				= parseFloat(getInterestRate(numberOfInstallment));
 
-		console.log(loanBalance/numberOfInstallment);
-		// if (operation_type.indexOf("amount") > -1) {
-		additinal_charges	= loanBalance / numberOfInstallment;
-		// }
+		// Do this only when this is regularisation echeance/installments
+		if (operation_type.indexOf("installment") > -1 && operation_type.indexOf("amount") == -1) {		
+			totalInstallement_interests	= parseFloat(getInterest(loanBalance,interestRate,numberOfInstallment));
+			interest_on_installements	= parseFloat(totalInstallement_interests - remaining_interest);
+			new_monthly_fees			= parseInt(Math.round(loanBalance/numberOfInstallment));
+		};
 
-		var netToReceive	= additional_amount - additinal_charges;
-		// loanToRepay			= loanToRepay + interests + additinal_charges;
+		// Do this only when this is regularisation montant/amount
+		if (operation_type.indexOf("amount") > -1 && operation_type.indexOf("installment") == -1) {
+			totalInstallement_interests = parseFloat(getInterest(parseFloat(loanBalance) + parseFloat(additional_amount),interestRate,numberOfInstallment));
+			interest_on_amount			= parseFloat(totalInstallement_interests - remaining_interest);
+
+			if (additinal_charges_rate > 0) {
+				additinal_charges	= parseFloat((additional_amount * additinal_charges_rate)/  100);
+			};
+
+			total_interests		= parseFloat(interest_on_amount + interest_on_installements);
+			netToReceive		= additional_amount - interest_on_amount- additinal_charges;
+			new_monthly_fees	= parseInt(Math.round((parseFloat(loanBalance)+parseFloat(additional_amount))/parseFloat(numberOfInstallment)));
+			
+		}
+
+		// Do this only when this is regularisation montant/amount  and installment
+		if (operation_type.indexOf("installment") > -1 && operation_type.indexOf("amount") > -1) {		
+			totalInstallement_interests	= parseFloat(getInterest(loanBalance,interestRate,numberOfInstallment));
+			interest_on_installements	= parseFloat(totalInstallement_interests - remaining_interest);
+	
+			totalInstallement_interests = parseFloat(getInterest(parseFloat(loanBalance) + parseFloat(additional_amount),interestRate,numberOfInstallment));
+			interest_on_amount			= parseFloat(totalInstallement_interests - remaining_interest);
+
+			if (additinal_charges_rate > 0) {
+				additinal_charges	= parseFloat((additional_amount * additinal_charges_rate)/  100);
+			};
+
+			total_interests		= parseFloat(interest_on_amount + interest_on_installements);
+			netToReceive		= additional_amount - interest_on_installements - interest_on_amount- additinal_charges;
+			new_monthly_fees	= parseInt(Math.round((parseFloat(loanBalance)+parseFloat(additional_amount))/parseFloat(numberOfInstallment)));
+		}
+
 
 		// Update fields		
-		$('#interests_to_pay').val(Math.round(recalculated_interest) );
+		$('#interests_to_pay').val(Math.round(interest_on_installements) );
+
 		data[$('#interests_to_pay').attr('name')] = $('#interests_to_pay').val();
-    	$('#new_monthly_fees').val(Math.round(loanBalance/numberOfInstallment) );
+    	$('#new_monthly_fees').val(new_monthly_fees);
     	$('#remaining_interest').val(Math.round(remaining_interest));
 
         // If this regularisation has to pay additinal charges, then calculate administration fees
 		// And remove it from the net_to_receive
 		$('#additinal_charges').val(parseInt(additinal_charges));
-		$('#netToReceive').val(parseInt(netToReceive - additinal_charges ));
+		$('#netToReceive').val(parseInt(netToReceive ));
 		$('#loanToRepay').val(parseInt(loanToRepay));
 		$('#new_installments').val(numberOfInstallment);
   		
@@ -94,7 +128,7 @@ jQuery(document).ready(function($) {
   		// User total contributions then there is no 
   		// need to the caution then hide the form
   		
-  		if(parseInt(loanToRepay) <= parseInt(totalContributions)){
+  		if(parseInt(additional_amount) <= parseInt(totalContributions)){
   			$('#cautionForm').css('display', 'none');
   		}else{
   			$('#cautionForm').css('display','block');
@@ -134,7 +168,7 @@ jQuery(document).ready(function($) {
 		//           P : Amount to Repay
 		//           TI: Interest Rate
 		//           N : Montly payment
-		// LoanToRepay * (InterestRate*NumberOfInstallment) / 1200 +(InterestRate*NumberOfInstallment)
+		// amount * (rate*installments) / 1200 +(rate*installments)
 		return (amount * (rate*installments)) / (1200 +(rate*installments));
 	}
 
@@ -242,4 +276,21 @@ jQuery(document).ready(function($) {
 		.always(function() {
 		});			
 	}
+
+	$('#regularisationForm').submit(function(event) {
+		var netToReceive = parseInt($('#netToReceive').val());
+		// We cannot allow negative net to recieve
+		if (netToReceive < 1) {
+		event.preventDefault();
+		errorNotifications = '<div data-alert class="alert alert-error radius">Sorry, this regulation is not possible because net to receive is negative</div>';
+                  swal.setDefaults({ confirmButtonColor: '#d9534f' });
+                  swal({
+                    title:"Unable to validate this regulation",
+                    text : errorNotifications,
+                    type :"error",
+                    html :true
+                  });
+           return false;
+		};
+	});
 });

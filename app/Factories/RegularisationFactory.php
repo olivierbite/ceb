@@ -115,8 +115,11 @@ class RegularisationFactory {
 	 */		
 	public function setBondedAmount()
 	{
-		$bondedAmount = $this->getLoanInput('loan_to_repay') - $this->getMember()->totalContributions();
-		
+		$bondedAmount = 0;
+		if($this->getLoanInput('additional_amount') > $this->getLoanInput('right_to_loan'))
+		{
+			$bondedAmount = $this->getLoanInput('additional_amount') - $this->getLoanInput('right_to_loan');
+		}
 		Session::put('regulate_bonded_amount', $bondedAmount);
 	}
 
@@ -312,8 +315,8 @@ class RegularisationFactory {
 
 		// 1. First record the loan
 		$transactionId = $this->getTransactionId();
-		$this->setBondedAmount();
 		$this->calculateLoanDetails();
+		$this->setBondedAmount();
 
 		// Start saving if something fails cancel everything
 		Db::beginTransaction();
@@ -401,7 +404,6 @@ class RegularisationFactory {
 			// We have nothing to do here, First return false with
 			// Error that says information provided is not correct
 			 flash()->error(trans('loan.regularisation_information_seem_not_to_be_correct').' because '.$this->errors);
-			// dd($errors);
 
 			return false;
 		}
@@ -410,50 +412,49 @@ class RegularisationFactory {
 		$inputs = $this->getLoanInputs();
 
 		$member = $this->getMember();
+		$loan = $member->loan_to_regulate;
+		// Prepare information to be saved in the database by refereing to previous ordinary loan
+		if (!$loan->exists) {
+			flash()->error(trans('loan.this_member_does_not_have_loan_to_regulate'));
+			return false;
+		}
 
-		// Prepare information to be saved in the database
-		$data['transactionid'] = $transactionid;
-		$data['loan_contract'] = $this->getContributionContractNumber();
-		$data['adhersion_id'] = $member->adhersion_id;
-		$data['movement_nature'] = $inputs['movement_nature'];
-		$data['operation_type'] = $this->getOperationType();
-		$data['letter_date'] = $this->getLetterDate();
-		$data['right_to_loan'] = $inputs['right_to_loan'];
-		$data['wished_amount'] = isset($inputs['additional_amount']) ? $inputs['additional_amount'] : 0;
-		$data['loan_to_repay'] = $inputs['loan_to_repay'];
-		$data['interests'] = $inputs['interests'];
-		$data['InteretsPU'] = 0;
-		$data['amount_received'] = isset($inputs['additional_amount']) ? $inputs['additional_amount'] : 0;
-		$data['tranches_number'] = $inputs['new_installments'];
-		$data['monthly_fees'] = $inputs['monthly_fees'];
-		$data['cheque_number'] = isset($inputs['cheque_number']) ? $inputs['cheque_number'] : '';
-		$data['bank_id'] = isset($inputs['bank_id']) ? $inputs['bank_id'] : '';
-		$data['security_type'] = 0;
-		$data['cautionneur1'] = isset($inputs['cautionneur1']) ? $inputs['cautionneur1'] : null;
-		$data['cautionneur2'] = isset($inputs['cautionneur2']) ? $inputs['cautionneur2'] : null;
-		$data['average_refund'] = 0;
-		$data['amount_refounded'] = 0;
-		$data['comment'] = $inputs['wording'];
-		$data['special_loan_contract_number'] = 0;
-		$data['remaining_tranches'] = isset($inputs['new_installments']) ? $inputs['new_installments'] : 1;
-		$data['special_loan_tranches'] = 0;
-		$data['special_loan_interests'] = 0;
-		$data['special_loan_amount_to_receive'] = 0;
-		$data['rate'] = $this->loanRate->rate($inputs['new_installments']);
-		$data['reason'] = isset($inputs['wording']) ? $inputs['wording'] : null;
-		$data['urgent_loan_interests']  = isset($inputs['additinal_charges'])?$inputs['additinal_charges']:0;
-		$data['user_id'] = Sentry::getUser()->id;
+		$loanToRegulate = $loan->replicate();
+		
+		$loanToRegulate->transactionid			= $transactionid;
+		$loanToRegulate->loan_contract			= $loanToRegulate->loan_contract.'200';
+		$loanToRegulate->right_to_loan			= (int) round($inputs['right_to_loan'] - $inputs['additional_amount']);
+		$loanToRegulate->wished_amount			= round($inputs['additional_amount'],0);
+		$loanToRegulate->loan_to_repay			= round($inputs['additional_amount'],0);
+		$loanToRegulate->interests				= round($inputs['total_interests'], 0);
+		$loanToRegulate->amount_received		= round($inputs['netToReceive'],0);
+		$loanToRegulate->monthly_fees			= round($inputs['new_monthly_fees'],0);
+		$loanToRegulate->tranches_number		= $inputs['new_installments'];
+		$loanToRegulate->cheque_number			= '';
+		$loanToRegulate->bank_id				= '';
+		$loanToRegulate->cautionneur1			= '';
+		$loanToRegulate->cautionneur2			= '';
+		$loanToRegulate->contract				= '';
+		$loanToRegulate->operation_type			= $inputs['operation_type'];
+		$loanToRegulate->comment				= $inputs['wording'];
+		$loanToRegulate->status					= 'pending';
+		$loanToRegulate->security_type			= isset($inputs['movement_nature']) ? $inputs['movement_nature'] : 'saving';
+		$loanToRegulate->urgent_loan_interests	= round($inputs['additinal_charges']);
+		$loanToRegulate->user_id				= Sentry::getUser()->id;
 
-        $newLoan = $this->loan->create($data);
+
+        if ($loanToRegulate->save() == false) {
+        	return false;
+        }
 	    // If we have bond then save cautionneurs in also in the database
-		if ($inputs['amount_bonded'] > 0 && ($inputs['loan_to_repay'] > $member->totalContributions())) {
+		if ($inputs['amount_bonded'] > 0 && ($inputs['additional_amount'] > $inputs['right_to_loan'])) {
 			// Attempt to record the loan
-			if ($this->recordCautionneurs($transactionid, $newLoan->id) == false) {
+			if ($this->recordCautionneurs($transactionid, $loanToRegulate->id) == false) {
 				return false;
 			}
 		}
 		// if we reach here it means that we didn't have bond therefore let's continue
-		return $newLoan;
+		return $loanToRegulate;
 	}
 
 	/**
@@ -509,7 +510,6 @@ class RegularisationFactory {
 		foreach ($debits as $accountId => $amount) {
 			$results = $this->savePosting($accountId, $amount, $transactionId, 'debit', $journalId = 1,$inputs['wording'],$cheque_number=null,$bank=null,$status='pending');
 			if (!$results) {
-
 				return false;
 			}
 		}
@@ -535,6 +535,7 @@ class RegularisationFactory {
 		return $numberOfInstallment = isset($loanInputs['tranches_number']) ? $loanInputs['tranches_number'] : 1;
 
 	}
+
 	/**
 	 * Get the letter date
 	 * @return date if it's not available we assume today was the letter day
@@ -542,6 +543,7 @@ class RegularisationFactory {
 	private function getLetterDate() {
 		return isset($inputs['letter_date']) ? $inputs['letter_date'] : date('Y-m-d');
 	}
+
 	/**
 	 * Get loan interest
 	 * @return float
@@ -550,56 +552,86 @@ class RegularisationFactory {
 		$numberOfInstallment = $this->getTranschesNumber();
 		return $this->loanRate->rate($numberOfInstallment,$numberOfInstallment);
 	}
+
 	/**
 	 * Calculate loan details
 	 * @return mixed
 	 */
-	public function calculateLoanDetails($validation = false) {
-
+	public function calculateLoanDetails() {
 		$loanDetails = $this->getLoanInputs();
-      
-		$loanToRepay = isset($loanDetails['loan_to_repay'])?$loanDetails['loan_to_repay']:0;
-		$wishedAmount = isset($loanDetails['wished_amount']) ?  $loanDetails['wished_amount'] : round(($loanToRepay * $this->wishedAmountPercentage), 0);
-		$interestRate = $this->getInterestRate();
-		$administration_fees = (int) $this->setting->keyValue('loan.administration.fee');
-		$numberOfInstallment = $this->getTranschesNumber();
+
+		$additional_amount				= isset($loanDetails['additional_amount']) ? (int) $loanDetails['additional_amount'] : 0;				
+		$loanBalance					= (int) $loanDetails['previous_loan_balance'];
+		$additional_installments		= isset($loanDetails['additional_installments']) ? (int) $loanDetails['additional_installments'] : 0;
+		$remaining_installments			= (int) $loanDetails['current_number_of_installments'];				
+		$totalContributions				= 0;				
+		$additinal_charges_rate			= isset($loanDetails['additinal_charges_rate']) ? (int) $loanDetails['additinal_charges_rate'] : 0;				
+		$additinal_charges				= 0;				
+		$remaining_interest				= 0;				
+		$totalInstallement_interests	= 0;
+		$interest_on_installements		= 0;				
+		$interest_on_amount				= 0;
+		$interests_to_pay				= 0;				 
+		$total_interests				= 0;				
+		$new_monthly_fees				= 0;				
+		$netToReceive					= 0;	
+		$numberOfInstallment 			= $remaining_installments + $additional_installments;
+
+		// Calculate remaining interests
+		$interestRate		= (float) $this->getInterestRate($remaining_installments);
+		$remaining_interest	= (int) calculateInterest($loanBalance,$interestRate,$remaining_installments);
+		$interestRate		= (float) $this->getInterestRate($numberOfInstallment);
 		
-		// Interest formular
-		// The formular to calculate interests at ceb is as following
-		// I =  P *(TI * N)
-		//     ------------
-		//     1200 + (TI*N)
-		//
-		// Where :   I : Interest
-		//           P : Amount to Repay
-		//           TI: Interest Rate
-		//           N : Montly payment
-		// LoanToRepay * (InterestRate*NumberOfInstallment) / 1200 +(InterestRate*NumberOfInstallment)
+      	switch (strtolower($loanDetails['operation_type'])) {
+      		case 'installments': // THIS IS A INSTALLMENT REGULATION 
 
-		$interests = ($loanToRepay * ($interestRate * $numberOfInstallment)) / (1200 + ($interestRate * $numberOfInstallment));
+				$loanDetails['totalInstallement_interests']	= calculateInterest($loanBalance,$interestRate,$numberOfInstallment);
+				$loanDetails['interest_on_installements']	= $totalInstallement_interests - $remaining_interest;
+				$loanDetails['new_monthly_fees']			= $loanBalance / $numberOfInstallment;
+      			break;
 
-		$netToReceive = $loanToRepay - $interests;
+      		case 'amount':     // THIS IS A AMOUNT REGULATION 
 
-		// Update fields
-		$this->addLoanInput(['right_to_loan' => round(($loanToRepay * $this->wishedAmountPercentage), 0)]);
-		$this->addLoanInput(['wished_amount' => $wishedAmount]);
-		$this->addLoanInput(['interests' => round($interests, 0)]);
-		$this->addLoanInput(['net_to_receive' => round($netToReceive, 0)]);
-	    $this->addLoanInput(['urgent_loan_interests' => 0]);
-		$this->addLoanInput(['monthly_fees' => round(($loanToRepay / $numberOfInstallment), 0)]);
-		$this->addLoanInput(['adhersion_id' => $this->getMember()->adhersion_id]);
-		$this->addLoanInput(['rate' => $interestRate]);
+				$loanDetails['totalInstallement_interests']	= calculateInterest($loanBalance + $additional_amount,$interestRate,$numberOfInstallment);
+				$loanDetails['interest_on_amount']			= $totalInstallement_interests - $remaining_interest;
+				$loanDetails['new_monthly_fees']			= $loanBalance / $numberOfInstallment;
+				// If we have additiona charges such as administration fees
+				// Then charge them here
+				if ($additinal_charges_rate > 0) 
+				{
+					$loanDetails['additinal_charges']    = ($additional_amount * $additinal_charges_rate)/  100;
+				};
 
-		$loanDetails['operation_type'] 	= isset($loanDetails['operation_type']) ? $loanDetails['operation_type'] : $this->getOperationType();
-		$this->addLoanInput(['operation_type' => $loanDetails['operation_type']]);
+				$loanDetails['total_interests']		= $total_interests	= $interest_on_amount + $interest_on_installements;
+				$loanDetails['netToReceive']		= $netToReceive		= $additional_amount - $interest_on_installements - $interest_on_amount- $additinal_charges;
+				$loanDetails['new_monthly_fees']	= $new_monthly_fees	= ($loanBalance + $additional_amount )/$numberOfInstallment;
 
+      			break;
 
-		// Add cautionneur
-		foreach ($this->getCautionneurs() as $key => $value) {
-			$this->addLoanInput([$key => $value->id]);
-		}
-        
-		return true;
+      		case 'amount_installments': // THIS IS A AMOUNT AND INSTALLMENT REGULATION 
+
+				$loanDetails['totalInstallement_interests']	= $totalInstallement_interests	= calculateInterest($loanBalance,$interestRate,$numberOfInstallment);
+				$loanDetails['interest_on_installements']	= $interest_on_installements	= $totalInstallement_interests - $remaining_interest;
+				$loanDetails['totalInstallement_interests']	= $totalInstallement_interests	= calculateInterest($loanBalance + $additional_amount,$interestRate,$numberOfInstallment);
+				$loanDetails['interest_on_amount']			= $interest_on_amount			= $totalInstallement_interests - $remaining_interest;
+
+				// If we have additiona charges such as administration fees
+				// Then charge them here
+				if ($additinal_charges_rate > 0) {
+					$loanDetails['additinal_charges'] = $additinal_charges	= ($additional_amount * $additinal_charges_rate)/  100;
+				};
+				$loanDetails['total_interests']		= $total_interests		= $interest_on_amount + $interest_on_installements;
+				$loanDetails['netToReceive']		= $netToReceive		= $additional_amount - $interest_on_installements - $interest_on_amount- $additinal_charges;
+				$loanDetails['new_monthly_fees']	= $new_monthly_fees	= ($loanBalance + $additional_amount )/$numberOfInstallment;
+				break;
+      		default:
+      			// We cannot determine which regulation is this....
+      			return false;
+      			break;
+      	}
+
+	    $this->addLoanInput($loanDetails);
+	    return $loanDetails;	
 	}
 
 	/**
