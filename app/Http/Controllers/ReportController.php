@@ -128,6 +128,7 @@ class ReportController extends Controller {
         		
         		return redirect()->back();
         }
+        
 		// if the contract is empty, we assume it is not generated, let's try to generate it and save it
 		if (empty($loan->contract)) {
 			$loan->contract = generateContract($foundUser,strtolower($loan->operation_type));

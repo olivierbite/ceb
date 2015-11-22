@@ -50,7 +50,7 @@ class RegularisationFactory {
 		}
 
 		/** We only allow people to regulate if they have active loan */
-		if ($member->has_active_loan == false) {
+		if ($member->loan_to_regulate->exists == false) {
 			flash()->error(trans('loan.does_not_have_active_right_to_regulate',['names'=>$member->names]));
 			return false;
 		}

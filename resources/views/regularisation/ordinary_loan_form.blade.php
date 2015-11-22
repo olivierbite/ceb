@@ -62,9 +62,9 @@
   </div>
   <div class="col-md-3">
   <div class="form-group">
-   <label>{{ trans('loan.interests') }}</label>
-  {!! Form::input('text', 'interests',isset($loanInputs['interests'])?$loanInputs['interests']:0,
-                  ['class'=>'form-control loan-input','id'=>'interests','readonly'=>true])
+   <label>{{ trans('loan.interests_to_pay') }}</label>
+  {!! Form::input('text', 'interests_to_pay',isset($loanInputs['interests_to_pay'])?$loanInputs['interests_to_pay']:0,
+                  ['class'=>'form-control blue-input loan-input','id'=>'interests_to_pay','readonly'=>true])
     !!}
   </div>
   </div>
@@ -87,15 +87,15 @@
   </div>
   </div>
 
- <div class="col-md-4">
+ <div class="col-md-3">
   <div class="form-group">
-   <label>{{ trans('loan.new_balance') }}</label>
-  {!! Form::input('text', 'loan_to_repay',isset($loanInputs['loan_to_repay'])?$loanInputs['loan_to_repay']:0,
-                  ['class'=>'form-control orange-input loan-input','id'=>'loanToRepay','readonly'=>true])
+   <label>{{ trans('loan.remaining_interest') }}</label>
+  {!! Form::input('text', 'remaining_interest',isset($loanInputs['remaining_interest'])?$loanInputs['remaining_interest']:0,
+                  ['class'=>'form-control orange-input loan-input','id'=>'remaining_interest','readonly'=>true])
     !!}
   </div>
-  </div>
-  
+  </div>  
+
  @if (strpos($loanInputs['operation_type'], 'amount') !== false)
   <div class="col-md-4">
   <div class="form-group">

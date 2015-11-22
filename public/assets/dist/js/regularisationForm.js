@@ -15,24 +15,32 @@ jQuery(document).ready(function($) {
 	function calculateLoanDetails(){
 
 		// Remove any character that is not a number
-		var additional_amount		= 0;
-		var loanBalance				= 0;
-		var additional_installments	= 0;
-		var remaining_installments	= 0;
-		var totalContributions		= 0;
-		var additinal_charges_rate	= 0;
-		var additinal_charges		= 0;
-		var operation_type          = $('#operation_type').val();
+		var additional_amount			= 0;
+		var loanBalance					= 0;
+		var additional_installments		= 0;
+		var remaining_installments		= 0;
+		var totalContributions			= 0;
+		var additinal_charges_rate		= 0;
+		var additinal_charges			= 0;
+		var remaining_interest			= 0;
+		var totalInstallement_interests	= 0;
+		var recalculated_interest		= 0;
+		var interests_to_pay			= 0; 
+		var new_monthly_fees 			= 0;
+		var operation_type				= $('#operation_type').val();
 		
 		if(typeof $('#additional_amount').val() !=='undefined'){
 	        additional_amount =$('#additional_amount').val().replace(/,/g,''); 
 	    }
+		
 		if(typeof $('#loanBalance').val() !=='undefined'){
 	        loanBalance =$('#loanBalance').val().replace(/,/g,'');
 	    }
+		
 		if(typeof $('#numberOfInstallment').val() !=='undefined'){
 	        additional_installments =$('#numberOfInstallment').val();
 	    }
+		
 		if(typeof $('.remaining_tranches').val() !=='undefined'){
 	        remaining_installments =$('.remaining_tranches').val().replace(/,/g,'');
 	    }
@@ -40,6 +48,7 @@ jQuery(document).ready(function($) {
 		if(typeof $('#totalContributions').val() !=='undefined'){
 	        totalContributions =$('#totalContributions').val().replace(/,/g,''); 
 	    }
+		
 		if(typeof $('.additinal_charges_rate').val() !=='undefined'){
 	        additinal_charges_rate =$('.additinal_charges_rate').val().replace(/,/g,''); 
 	    }
@@ -47,36 +56,32 @@ jQuery(document).ready(function($) {
 	    additional_amount 		= parseInt(additional_amount);
 		loanToRepay				= parseInt(additional_amount);
 		numberOfInstallment		= parseInt(additional_installments) + parseInt(remaining_installments);
-		interestRate			= parseFloat(getInterestRate(numberOfInstallment));
 		additinal_charges_rate	= parseInt(additinal_charges_rate);
 
 		if (operation_type.indexOf("amount") > -1) {
 			loanToRepay +=parseInt(loanBalance);
 		};
 
-		// Interest formular
-		// =================
-		// The formular to calculate interests at ceb is as following
-		// I =  P *(TI * N)
-		//     ------------
-		//     1200 + (TI*N)
-		//
-		// Where :   I : Interest 
-		//           P : Amount to Repay
-		//           TI: Interest Rate
-		//           N : Montly payment
-		// LoanToRepay * (InterestRate*NumberOfInstallment) / 1200 +(InterestRate*NumberOfInstallment)
-		
-		var interests = (loanToRepay * (interestRate*numberOfInstallment)) / (1200 +(interestRate*numberOfInstallment));
-		var operation_type  	= $('#operation_type').val();
-		var additinal_charges	= additional_amount * (additinal_charges_rate / 100);
-		var netToReceive		= additional_amount - additinal_charges;
-		loanToRepay				= loanToRepay + interests + additinal_charges;
+		// Calculate remaining interest
+		interestRate				= parseFloat(getInterestRate(remaining_installments));
+		var remaining_interest		= parseFloat(getInterest(loanBalance,interestRate,remaining_installments));
+		var interestRate			= parseFloat(getInterestRate(numberOfInstallment));
+		totalInstallement_interests	= parseFloat(getInterest(loanBalance,interestRate,numberOfInstallment));
+		recalculated_interest		= parseFloat(totalInstallement_interests - remaining_interest);
+
+		console.log(loanBalance/numberOfInstallment);
+		// if (operation_type.indexOf("amount") > -1) {
+		additinal_charges	= loanBalance / numberOfInstallment;
+		// }
+
+		var netToReceive	= additional_amount - additinal_charges;
+		// loanToRepay			= loanToRepay + interests + additinal_charges;
 
 		// Update fields		
-		$('#interests').val(Math.round(interests) );
-		data[$('#interests').attr('name')] = $('#interests').val();
-    	$('#new_monthly_fees').val(Math.round((loanToRepay/numberOfInstallment)) );
+		$('#interests_to_pay').val(Math.round(recalculated_interest) );
+		data[$('#interests_to_pay').attr('name')] = $('#interests_to_pay').val();
+    	$('#new_monthly_fees').val(Math.round(loanBalance/numberOfInstallment) );
+    	$('#remaining_interest').val(Math.round(remaining_interest));
 
         // If this regularisation has to pay additinal charges, then calculate administration fees
 		// And remove it from the net_to_receive
@@ -106,6 +111,31 @@ jQuery(document).ready(function($) {
 
   		}
 
+	}
+
+	/**
+	 * Get loan interests
+	 * ===================
+	 * @param  amount 
+	 * @param  rate         	
+	 * @param  installments
+	 * @return calculated interests
+	 */
+	function getInterest (amount,rate,installments) {
+
+		// Interest formular
+		// =================
+		// The formular to calculate interests at ceb is as following
+		// I =  P *(TI * N)
+		//     ------------
+		//     1200 + (TI*N)
+		//
+		// Where :   I : Interest 
+		//           P : Amount to Repay
+		//           TI: Interest Rate
+		//           N : Montly payment
+		// LoanToRepay * (InterestRate*NumberOfInstallment) / 1200 +(InterestRate*NumberOfInstallment)
+		return (amount * (rate*installments)) / (1200 +(rate*installments));
 	}
 
 	/**
