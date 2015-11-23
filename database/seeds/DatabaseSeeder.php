@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             $this->call(LoanRateSeeder::class);
             $this->call(settingTableSeeder::class);
             $this->call(NotificationCategoriesSeeder::class);
+            $this->call(DefaultAccountsSeeder::class);
         DB::statement('SET FOREIGN_KEY_CHECKS =1;');
         Model::reguard();
     }
