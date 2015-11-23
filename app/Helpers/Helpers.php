@@ -188,7 +188,7 @@ function generateContract($member,$contract_type)
 				break;
 			case 'amount':
 				// Regularisation installments
-				$contract = view('reports.contracts_regularisation_installment',compact('member'))->render();
+				$contract = view('reports.contracts_regularisation_amount',compact('member'))->render();
 				break;
 			case 'amount_installments':
 				// Regularisation installments
