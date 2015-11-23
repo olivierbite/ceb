@@ -91,7 +91,7 @@ class RegularisationController extends Controller {
         Log::info($this->user->email . ' is completing loan request');
 
         // Make sure we update with latest form inputs
-        $this->regularisationFactory->addLoanInput(Input::all());
+        $this->regularisationFactory->addLoanInput($request->all());
 
         // Update accounting fields too
         $this->ajaxAccountingFeilds();

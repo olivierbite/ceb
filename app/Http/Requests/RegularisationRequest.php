@@ -36,15 +36,14 @@ class RegularisationRequest extends Request
         }
         $attributes = $this->all();
 
-       //Continue with Rule validation
+      //Continue with Rule validation
       $rules = [
           'adhersion_id'               =>  'required|numeric',
           'operation_type'             =>  'required|min:3',
-          'loan_to_repay'              =>  'required|numeric|max:'.$attributes['right_to_loan'],
           'right_to_loan'              =>  'required|numeric',
           'contributions'              =>  'required|numeric',
           'balance_of_loan'            =>  'required|numeric',
-          'interests'                  =>  'required|numeric',
+          'interests_to_pay'           =>  'required|numeric',
           'wording'                    =>  'required|min:6',
           'movement_nature'            =>  'required',
           'debit_accounts'             =>  'required',
@@ -58,15 +57,20 @@ class RegularisationRequest extends Request
         ];
 
       if (strpos($attributes['operation_type'],'installment') !== false) {
-        $rules['new_installments'] = 'required|numeric';
+        $rules['new_installments']        = 'required|numeric';
+        $rules['additional_installments'] = 'required|numeric';
       }
 
       if (strpos($attributes['operation_type'],'amount') !== false) {
-        $rules['amount_received']   = 'required|numeric';
-        $rules['additional_amount'] = 'required|numeric';
-        $rules['reference_number']  = 'required';
+
+        $rules['additional_amount' ] = 'required|numeric|max:'.$attributes['right_to_loan'];
+        $rules['amount_received']    = 'required|numeric';
+        $rules['additional_amount']  = 'required|numeric';
       }
 
+       if (strtolower($attributes['operation_type']) == 'installment') {
+          $rules['reference_number']   = 'required';
+        }       
       return $rules;
     }
     /**
@@ -86,19 +90,26 @@ class RegularisationRequest extends Request
         }
 
 
-        // Set the member by his adhersion ID
+          // Set the member by his adhersion ID
           $memberId = $this->member->findByAdhersion($attributes['adhersion_id'])->id;
           $this->regularisationFactory->addMember($memberId);
 
            // Modify or Add new array key/values
-           //                                            ==================================
+           // Make sure these fields are numeric
+           // ==================================
            $attributes['right_to_loan']                  = (int)  str_replace(',','',$attributes['member']['right_to_loan']);
            $attributes['contributions']                  = (int) str_replace(',', '', $attributes['member']['contributions']);
            $attributes['balance_of_loan']                = (int) str_replace(',', '', $attributes['member']['balance_of_loan']);
-           // Make sure these fields are numeric
-           $attributes['loan_to_repay']                  = intval($attributes['loan_to_repay']) ;
-           $attributes['accounting_amount']              = intval($attributes['additional_amount'] + $attributes['interests'] +$attributes['additinal_charges'] );
-           // Validating account amount
+
+           // If the operation type is installement then record interests only as the accounting amount
+           if (strtolower($attributes['operation_type']) == 'installments') {
+              $attributes['accounting_amount']              = intval($attributes['interests_to_pay']);
+           }
+           else // This is another type of regulation and it has additional amount, let's record addition amount in accounting
+           {
+              $attributes['accounting_amount']              = intval($attributes['additional_amount']);
+           }
+            // Validating account amount
            $attributes['accounting_amount']              = array_sum($attributes['debit_amounts']);
            $attributes['accounting_amount_confirmation'] = array_sum($attributes['credit_amounts']);
            
@@ -119,7 +130,7 @@ class RegularisationRequest extends Request
            // If we have bonded amount then check if we have cautionneur
            // If the amount to repay is higher than total contributions  
            // we need to have a cautionneur
-           if (!empty($bondedAmount) && ($attributes['loan_to_repay'] > $attributes['right_to_loan']  )) {
+           if (!empty($bondedAmount) && ($attributes['additional_amount'] > $attributes['right_to_loan']  )) {
            // If we have bonded amount make sure we fail this transacation            
            $cautionneur                                  = $this->regularisationFactory->getCautionneurs();
            //  We can only allow two cautionneurs if they are not set 
@@ -134,7 +145,7 @@ class RegularisationRequest extends Request
          {
          $attributes['amount_bonded']                  = 0;
          }
-
+          
         // Format/sanitize data here
         return $attributes;
     }

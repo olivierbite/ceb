@@ -199,7 +199,8 @@ $router->get('/js/regularisationform',['as'=>'assets.js.regularisationform','use
 	return view('assets.js.regularisation_formjs');
 }]);
 
-$router->get('/test/{start?}/{end?}',function($start=1,$end=12)
+$router->get('/test',function()
 	{
-	
+	 $member = (new \Ceb\Models\User)->byAdhersion('20070018')->first();
+		 dd($member->total_contribution);
    });

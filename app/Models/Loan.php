@@ -171,6 +171,35 @@ class Loan extends Model {
         return $query->where('operation_type', $type);
     }
 
+    /**
+     * Get ordinary loan
+     * @param  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeIsOrdinary($query)
+    {
+    	return $query->where('operation_type','LIKE','%ordinary_loan');
+    }
+
+    /**
+     * Get loan, that still has more right to loan
+     * @param  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeHasMoreRightToLoan($query)
+    {
+    	return $query->where('loan_to_repay','<','right_to_loan');
+    }
+
+    /**
+     * Get right to loan attribute
+     * @return  
+     */
+    public function getRemainingRightToLoanAttribute()
+    {
+    	return $this->right_to_loan - $this->loan_to_repay;
+    }
+    
 	/**
      * Scope a query to only include loans of a given status.
      *

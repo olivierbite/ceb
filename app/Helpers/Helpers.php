@@ -136,6 +136,31 @@ function random_color()
 }
 
 /**
+ * Calcuate interest loan interest
+ *
+ * @param numeric amount
+ * @param numeric rate
+ * @param integer installments
+ *
+ * @return float
+ */
+function calculateInterest($amount,$rate,$installments)
+{
+		// Interest formular
+		// =================
+		// The formular to calculate interests at ceb is as following
+		// I =  P *(TI * N)
+		//     ------------
+		//     1200 + (TI*N)
+		//
+		// Where :   I : Interest
+		//           P : Amount to Repay
+		//           TI: Interest Rate
+		//           N : Montly payment
+	return ($amount * ($rate * $installments)) / (1200 + ($rate * $installments));
+}
+
+/**
  * This method helps to generate a written contrat
  * @param  Ceb\Models\User $member who has the contratc
  * @param  string $contract_type  type of the contrac that helps to know which letter to use (social_loan,special_loan,ordinary_loan)

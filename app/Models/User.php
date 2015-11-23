@@ -3,15 +3,16 @@
 namespace Ceb\Models;
 
 use Cartalyst\Sentry\Groups\GroupInterface;
-use Ceb\Models\Contribution;
-use Ceb\Models\Setting;
-use Fenos\Notifynder\Notifable;
-use Illuminate\Support\Facades\DB;
-use Vinkla\Hashids\Facades\Hashids;
 use Cartalyst\Sentry\Users\Eloquent\User as SentinelModel;
+use Ceb\Models\Contribution;
+use Ceb\Models\Loan;
+use Ceb\Models\Setting;
 use Ceb\Traits\LogsActivity;
-use Spatie\Activitylog\LogsActivityInterface;
+use Fenos\Notifynder\Notifable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
+use Spatie\Activitylog\LogsActivityInterface;
+use Vinkla\Hashids\Facades\Hashids;
 
 class User extends SentinelModel {
 
@@ -114,10 +115,34 @@ class User extends SentinelModel {
 		            ->orWhere('member_nid', 'LIKE', '%' . $keyword . '%')
 		            ->orWhere('adhersion_id', 'LIKE', '%' . $keyword . '%');
 	}
-	/** Get member names */
+
+	/** 
+	 * Get member names
+	 * @return string 
+	 */
 	public function names() {
 		return $this->first_name . ' ' . $this->last_name;
 	}
+
+	/**
+	 * Get latest ordinary loan for this member
+	 * @return Ceb\Model\Loan
+	 */
+	public function getLoanToRegulateAttribute()
+	{
+		$loan = $this->latest_ordinary_loan;
+		// dd($loan->loan_to_repay >= $loan->right_to_loan);
+		if (is_null($loan) || ($loan->loan_to_repay >= $loan->right_to_loan) ) {
+			return new loan;
+		}
+
+		if ($loan->loan_to_repay < $loan->right_to_loan) {
+			return $loan;
+		}
+
+		return new loan;
+	}	
+
 	/**
 	 * Member institution
 	 * @return Ceb\Models\Institution
@@ -233,7 +258,7 @@ class User extends SentinelModel {
 	 * Get the total amount of contribution
 	 */
 	public function totalContributions() {
-		return $this->contributions()->isSaving()->sum('amount') - $this->contributions()->isWithdrawal()->sum('amount');
+		return (int)$this->contributions()->isSaving()->sum('amount');
 	}
 
 	/**
@@ -346,28 +371,18 @@ class User extends SentinelModel {
 		// Amount to loan that he is eligeable for we 
 		// need to consider right to loan a member
 		// had before we give him this loan
-		
-		if (($generalRightToLoan = $this->generalRightToLoan()) <= 0) {
-			return 0;
+		$latestLoan = $this->loan_to_regulate;
+		if ($this->loan_to_regulate->exists) {
+			return $latestLoan->right_to_loan - $latestLoan->loan_to_repay;
 		}
 
-		$latestLoan 		= $this->latestLoan();
 		$contributions 		= $this->contributions();
 
 		// Since this member has active loan, let's determine
 		// what is his right loan as of previous loan
 		// Then deduct the loan he was given
 
-		if ($this->hasActiveLoan()) {	
-
-			$generalRightToLoan = $contributions->before($latestLoan->created_at)->sum('amount') * $this->rightToLoanPercentage;
-			$rightToLoan = $generalRightToLoan - $latestLoan->loan_to_repay;
-
-
-			return  ($rightToLoan > 0 ) ? $rightToLoan : 0;
-		}
-
-		return $generalRightToLoan;
+		return $contributions->isSaving()->sum('amount') * $this->rightToLoanPercentage;
 	}
 
 	/**
@@ -379,7 +394,11 @@ class User extends SentinelModel {
 
 		return $this->rightToLoan();
 	}
-
+    
+    public function getLatestOrdinaryLoanAttribute()
+    {
+    	return $this->loans()->isOrdinary()->orderBy('id','DESC')->first();
+    }
 	/**
 	 * Determine if this member still have right to loan
 	 * 
@@ -387,27 +406,24 @@ class User extends SentinelModel {
 	 */
 	public function getHasMoreRightToLoanAttribute()
 	{
-		return $this->more_right_to_loan_amount > 0;
+		$loan = $this->latest_ordinary_loan;
+		
+		if (is_null($loan)) {
+			return false;
+		}
+
+		return $loan->loan_to_repay < $loan->right_to_loan;
 	}
 
 	/**
 	 * Get remaining amount right to loan attribute
 	 * @return numeric
 	 */
-	public function getMoreRightToLoanAmountAttribute()
+	public function getRemainingRightToLoanAttribute()
 	{
-		$latestLoan = $this->latestLoan();
-		// dd($latestLoan);
-		if (is_null($latestLoan)) {
-			return 0;
-		}
-
-	    $remainingAmount = $latestLoan->right_to_loan - $latestLoan->loan_to_repay;
-
-	    if ($remainingAmount < 0 ) {
-	    	return 0;
-	    }
-	    return $remainingAmount;
+	  	// Get latest ordinary loan
+	  	$loan = $this->latest_ordinary_loan;
+	  	return $loan->right_to_loan - $loan->right_to_loan;
 	}
 
 	/**

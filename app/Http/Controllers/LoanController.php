@@ -283,14 +283,33 @@ class LoanController extends Controller {
    			return redirect()->back();
    		}
 
+		// Start saving if something fails cancel everything
+		Db::beginTransaction();
   		$loan->status = strtolower($toSetstatus);
   		
   		$isWellUpdated = $loan->save();
+  		if ($isWellUpdated == false) {
+				flash()->warning(trans('loan.error_occured_while_trying_to_approve_this_loan'));
+				DB::rollBack();
+				return redirect()->back();
+			}
+  		// Do also update all the postings
+		foreach ($loan->postings as $posting) {
+			$posting->status = strtolower($toSetstatus);
+			if ($posting->save() == false) {
+				flash()->warning(trans('loan.error_occured_while_trying_to_update_postings_related_to_this_loan'));
+				DB::rollBack();
+				return redirect()->back();
+			}
+		}
 
+		// Lastly, Let's commit a transaction since we reached here
+		DB::commit();
 	  	flash()->success(trans('loan.loan_with_transaction_id_'.$loan->transactionid.'_has_been_'.$loan->status));
 
   		if(($isWellUpdated == true) && (strtolower($toSetstatus) === 'approved' ))
   		{
+  			
 	  		/**
 	   	     * @todo add option to  mark notification as read
 	   	     * 

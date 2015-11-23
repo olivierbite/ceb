@@ -32,7 +32,15 @@
     !!}
    </div>
   </div>
-  <div class="col-md-4">
+  <div class="col-md-3">
+  <div class="form-group">
+   <label>{{ trans('loan.previous_loan_to_repay') }}</label>
+       {!! Form::input('text', 'previous_loan_to_repay',(int) $loan->loan_to_repay,
+                  ['class'=>'form-control previous_loan_to_repay','readonly'=>true])
+    !!}
+   </div>
+  </div>
+  <div class="col-md-3">
   <div class="form-group">
    <label>{{ trans('loan.previous_loan_type') }}</label>
        {!! Form::input('text', 'previous_loan_type',$loan->operation_type ,
@@ -40,7 +48,7 @@
     !!}
    </div>
   </div>
-    <div class="col-md-8">
+    <div class="col-md-6">
   <div class="form-group">
    <label>{{ trans('loan.wording') }}</label>
        {!! Form::input('text', 'prvious_wording',$loan->comment ,
