@@ -560,22 +560,22 @@ class RegularisationFactory {
 	public function calculateLoanDetails() {
 		$loanDetails = $this->getLoanInputs();
 
-		$additional_amount				= isset($loanDetails['additional_amount']) ? (int) $loanDetails['additional_amount'] : 0;				
-		$loanBalance					= (int) $loanDetails['previous_loan_balance'];
-		$additional_installments		= isset($loanDetails['additional_installments']) ? (int) $loanDetails['additional_installments'] : 0;
-		$remaining_installments			= (int) $loanDetails['current_number_of_installments'];				
-		$totalContributions				= 0;				
-		$additinal_charges_rate			= isset($loanDetails['additinal_charges_rate']) ? (int) $loanDetails['additinal_charges_rate'] : 0;				
-		$additinal_charges				= 0;				
-		$remaining_interest				= 0;				
-		$totalInstallement_interests	= 0;
-		$interest_on_installements		= 0;				
-		$interest_on_amount				= 0;
-		$interests_to_pay				= 0;				 
-		$total_interests				= 0;				
-		$new_monthly_fees				= 0;				
-		$netToReceive					= 0;	
-		$numberOfInstallment 			= $remaining_installments + $additional_installments;
+		$loanDetails['additional_amount']			=$additional_amount				= isset($loanDetails['additional_amount']) ? (int) $loanDetails['additional_amount'] : 0;				
+		$loanDetails['loanBalance']					=$loanBalance					= (int) $loanDetails['previous_loan_balance'];
+		$loanDetails['additional_installments']		=$additional_installments		= isset($loanDetails['additional_installments']) ? (int) $loanDetails['additional_installments'] : 0;
+		$loanDetails['remaining_installments']		=$remaining_installments		= (int) $loanDetails['current_number_of_installments'];				
+		$loanDetails['totalContributions']			=$totalContributions			= 0;				
+		$loanDetails['additinal_charges_rate']		=$additinal_charges_rate		= isset($loanDetails['additinal_charges_rate']) ? (int) $loanDetails['additinal_charges_rate'] : 0;				
+		$loanDetails['additinal_charges']			=$additinal_charges				= 0;				
+		$loanDetails['remaining_interest']			=$remaining_interest			= 0;				
+		$loanDetails['totalInstallement_interests']	=$totalInstallement_interests	= 0;
+		$loanDetails['interest_on_installements']	=$interest_on_installements		= 0;				
+		$loanDetails['interest_on_amount']			=$interest_on_amount			= 0;
+		$loanDetails['interests_to_pay']			=$interests_to_pay				= 0;				 
+		$loanDetails['total_interests']				=$total_interests				= 0;				
+		$loanDetails['new_monthly_fees']			=$new_monthly_fees				= 0;				
+		$loanDetails['netToReceive']				=$netToReceive					= 0;	
+		$loanDetails['numberOfInstallment']			=$numberOfInstallment 			= $remaining_installments + $additional_installments;
 
 		// Calculate remaining interests
 		$interestRate		= (float) $this->getInterestRate($remaining_installments);
