@@ -43,4 +43,19 @@ function toggle(source) {
 </table>
   @endif
  {!! Form::close() !!}
-@stop
+@endsection
+
+@section('scripts')
+
+<script type="text/javascript">
+  jQuery(document).ready(function($) {
+    $('#refundType').change(function(event) {
+      /* Act on the event */    
+      var refundType = $(this);
+  
+      window.location.href = window.location.protocol+'//'+window.location.host+window.location.pathname+'?refund_type='+refundType.val();
+
+    });
+  });
+</script>
+@endsection

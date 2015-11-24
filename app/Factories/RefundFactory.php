@@ -141,16 +141,17 @@ class RefundFactory {
 			
 			$loan  = $refundMember->latestLoan();
 
-			$refund['adhersion_id'] = $refundMember->adhersion_id;
-			$refund['contract_number'] = $loan->loan_contract;
-			$refund['month'] = $this->getMonth();
-			$refund['amount'] = $refundMember->loanMonthlyFees();
-			$refund['tranche_number'] = $loan->tranches_number;
-			$refund['transaction_id'] = $transactionId;
-			$refund['member_id'] = $refundMember->id;
-			$refund['user_id'] = Sentry::getUser()->id;
-			$refund['loan_id'] = $loan->id;
-			$refund['wording'] = $this->getWording();
+			$refund['adhersion_id']		= $refundMember->adhersion_id;
+			$refund['contract_number']	= $loan->loan_contract;
+			$refund['month']			= $this->getMonth();
+			$refund['amount']			= $refundMember->loanMonthlyFees();
+			$refund['tranche_number']	= $loan->tranches_number;
+			$refund['transaction_id']	= $transactionId;
+			$refund['member_id']		= $refundMember->id;
+			$refund['user_id']			= Sentry::getUser()->id;
+			$refund['loan_id']			= $loan->id;
+			$refund['wording']			= $this->getWording();
+			$refund['refund_type']		= $this->getRefundType();
 
 			# try to save if it doesn't work then
 			# exist the loop
@@ -305,6 +306,21 @@ class RefundFactory {
 	public function removeRefundMembers() {
 		Session::forget('refundMembers');
 	}
+
+	public function setRefundType($refundType)
+	{
+		Session::put('refundType', $refundType);
+	}
+
+	public function getRefundType()
+	{
+		return Session::get('refundType',null);
+	}
+
+	public function removeRefundType()
+	{
+		Session::forget('refundType');
+	}
 	/**
 	 * Set Month of transactions
 	 * @param string composed by  $month and Year
@@ -454,6 +470,7 @@ class RefundFactory {
 		$this->removeDebitAccount();
 		$this->removeCreditAccount();
 		$this->forgetWording();
+		$this->removeRefundType();
 	}
 
 }
