@@ -260,7 +260,6 @@ class MemberController extends Controller {
 
         }
         
-        
         $debitsAccounts = [];
         $creditsAccounts = [];
 
@@ -268,6 +267,7 @@ class MemberController extends Controller {
 		{
 			foreach ($defaultDebitAccount->accounts as $account) 
 			{
+
 				$debitsAccounts[$account->id]	= $account->account_number.' '. $account->entitled;
 			}
 		}
@@ -286,6 +286,7 @@ class MemberController extends Controller {
             'debits' => (object) $debitsAccounts,
             'credits' => (object) $creditsAccounts
         ];
+
     }
 
 	/**
