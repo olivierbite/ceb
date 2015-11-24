@@ -15,6 +15,7 @@ use Ceb\Models\Loan;
 use Ceb\Models\User;
 use Ceb\Repositories\Member\MemberRepositoryInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Redirect;
@@ -223,8 +224,15 @@ class MemberController extends Controller {
 	public function transacts($memberId)
 	{
 		$member = $this->member->findOrfail($memberId);
-		$title  = trans('member.transaction');
-		return view('members.transactions',compact('member','title'));
+
+		$movement_type = 'saving';
+
+		if (Input::has('movement_type')) 	
+		{
+			$movement_type  = Input::get('movement_type');
+		}
+
+		return view('members.transactions',compact('member','movement_type'));
 	}
 
 	/**

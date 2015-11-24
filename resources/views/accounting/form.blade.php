@@ -35,6 +35,11 @@
   <script type="text/javascript" src="{!! url('assets/dist/js/regularisationform.js') !!}"></script>
  <!-- <script type="text/javascript" src="{{route('assets.js.regularisationform')}}"></script> -->
 @endif
+@if (Request::is('members*transacts'))
+  {{-- Loan below javascripts only when requests are for regularisation --}}
+  <script type="text/javascript" src="{!! url('assets/dist/js/memberTransaction.js') !!}"></script>
+ <!-- <script type="text/javascript" src="{{route('assets.js.regularisationform')}}"></script> -->
+@endif
 <script type="text/javascript">
 
     (function($){    
