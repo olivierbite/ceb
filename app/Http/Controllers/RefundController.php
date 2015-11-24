@@ -207,4 +207,26 @@ class RefundController extends Controller {
 			$this->refundFactory->setMonth(Input::get('month'));
 		}
 	}
+
+	/**
+	 * Remove a member from the current contribution session
+	 * 
+	 * @param   $adhersion_id 
+	 * @return  mixed
+	 */
+	public function removeMember($adhersion_id)
+	{
+
+	   // First check if the user has the permission to do this
+        if (!$this->user->hasAccess('refund.remove.member')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
+            return redirect()->back();
+        }
+
+        // First log
+        Log::info($this->user->email . ' removed member contribution');
+    	
+		$this->refundFactory->removeMember($adhersion_id);
+		return $this->reload();
+	}
 }

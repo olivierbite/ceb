@@ -84,8 +84,12 @@ Route::resource('loans', 'LoanController');
 	});
 
 	/** Refunds routes */
-	Route::post('/refunds/complete', ['as' => 'refunds.complete', 'uses' => 'RefundController@complete']);
-	Route::get('/refunds/cancel', ['as' => 'refunds.cancel', 'uses' => 'RefundController@cancel']);
+	Route::group(['prefix'=>'refunds'], function()
+	{
+		Route::post('/complete', ['as'	=> 'refunds.complete', 'uses' => 'RefundController@complete']);
+		Route::get('/cancel', ['as'		=> 'refunds.cancel', 'uses' => 'RefundController@cancel']);
+		Route::get('{adhersion_id}/remove'	,['as'=>'refunds.remove.member','uses'=>'RefundController@removeMember']);
+	});
 	Route::resource('refunds', 'RefundController');
 
 	/** Accounting routes */
@@ -102,25 +106,25 @@ Route::resource('loans', 'LoanController');
 	Route::group(['prefix'=>'members'], function()
 	{
 		// CONTRACTS
-		Route::get('contracts/saving/{memberId}/{export_excel?}', ['as' => 'reports.members.contracts.saving', 'uses' => 'ReportController@contractSaving']);
-		Route::get('contracts/loan/{loanId}/{export_excel?}', ['as' => 'reports.members.contracts.loan', 'uses' => 'ReportController@contractLoan']);
-		Route::get('contracts/ordinaryloan/{export_excel?}', ['as' => 'reports.members.contracts.ordinaryloan', 'uses' => 'ReportController@ordinaryloan']);
-		Route::get('contracts/socialloan/{export_excel?}', ['as' => 'reports.members.contracts.socialloan', 'uses' => 'ReportController@socialloan']);
+		Route::get('contracts/saving/{memberId}/{export_excel?}', ['as'				=> 'reports.members.contracts.saving', 'uses' => 'ReportController@contractSaving']);
+		Route::get('contracts/loan/{loanId}/{export_excel?}', ['as'					=> 'reports.members.contracts.loan', 'uses' => 'ReportController@contractLoan']);
+		Route::get('contracts/ordinaryloan/{export_excel?}', ['as'					=> 'reports.members.contracts.ordinaryloan', 'uses' => 'ReportController@ordinaryloan']);
+		Route::get('contracts/socialloan/{export_excel?}', ['as'					=> 'reports.members.contracts.socialloan', 'uses' => 'ReportController@socialloan']);
 		
 		// FILES
-		Route::get('loanrecords/{startDate}/{endDate}/{export_excel?}/{memberId}',['as'=>'reports.members.loanrecords','uses'=>'ReportController@loanRecords']);
-		Route::get('contributions/{startDate}/{endDate}/{export_excel?}/{memberId}',['as'=>'reports.members.contributions','uses'=>'ReportController@contributions']);
+		Route::get('loanrecords/{startDate}/{endDate}/{export_excel?}/{memberId}'	,['as'=>'reports.members.loanrecords','uses'=>'ReportController@loanRecords']);
+		Route::get('contributions/{startDate}/{endDate}/{export_excel?}/{memberId}'	,['as'=>'reports.members.contributions','uses'=>'ReportController@contributions']);
 
 	});
 
 	// ACOUNTING REPORTS 
 	Route::group(['prefix'=>'accounting'], function()
 	{
-		Route::get('piece/{startDate}/{endDate}/{export_excel?}',['as' => 'reports.accounting.piece', 'uses' => 'ReportController@accountingPiece']);
-		Route::get('ledger/{startDate}/{endDate}/{export_excel?}',['as'=>'reports.accounting.ledger','uses'=>'ReportController@ledger']);
-		Route::get('bilan/{startDate}/{endDate}/{export_excel?}',['as'=>'reports.accounting.bilan','uses'=>'ReportController@bilan']);
-		Route::get('journal/{startDate}/{endDate}/{export_excel?}',['as'=>'reports.accounting.journal','uses'=>'ReportController@journal']);
-		Route::get('accounts/{export_excel?}',['as'=>'reports.accounting.accounts','uses'=>'ReportController@accountsList']);
+		Route::get('piece/{startDate}/{endDate}/{export_excel?}'	,['as' => 'reports.accounting.piece', 'uses' => 'ReportController@accountingPiece']);
+		Route::get('ledger/{startDate}/{endDate}/{export_excel?}'	,['as'=>'reports.accounting.ledger','uses'=>'ReportController@ledger']);
+		Route::get('bilan/{startDate}/{endDate}/{export_excel?}'	,['as'=>'reports.accounting.bilan','uses'=>'ReportController@bilan']);
+		Route::get('journal/{startDate}/{endDate}/{export_excel?}'	,['as'=>'reports.accounting.journal','uses'=>'ReportController@journal']);
+		Route::get('accounts/{export_excel?}'						,['as'=>'reports.accounting.accounts','uses'=>'ReportController@accountsList']);
 	});
 
 	// PIECES REPORTS 
@@ -184,11 +188,11 @@ Route::get('settings/users', ['as' => 'ceb.settings.users.index', 'uses' => 'Use
 $router->get('/utility/backup',['as'=>'utility.backup','uses'=>'UtilityController@backup']);
 
 /**  ITEMS INVENTORY management group */
-Route::group(array('prefix' => '/items'), function() {
-    Route::get('/', ['as' => 'items.index','uses'=>'ItemsController@index']);
-    Route::any('/add', ['as' => 'items.add','uses'=>'ItemsController@add']);
-    Route::any('/edit/{id}', ['as' => 'items.edit','uses'=>'ItemsController@edit'])->where('id', '[0-9]+');
-    Route::get('/delete/{id}', ['as' => 'items.delete','uses'=>'ItemsController@delete'])->where('id', '[0-9]+');
+Route::group(array('prefix'	=> '/items'), function() {
+	Route::get('/', ['as'				=> 'items.index','uses'=>'ItemsController@index']);
+	Route::any('/add', ['as'			=> 'items.add','uses'=>'ItemsController@add']);
+	Route::any('/edit/{id}', ['as'		=> 'items.edit','uses'=>'ItemsController@edit'])->where('id', '[0-9]+');
+	Route::get('/delete/{id}', ['as'	=> 'items.delete','uses'=>'ItemsController@delete'])->where('id', '[0-9]+');
 });
 
 /** DYNAMIC ASSETS ROUTES */

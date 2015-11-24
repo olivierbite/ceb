@@ -48,7 +48,7 @@ class Institution extends Model {
 		/** Make sure we only get member with loan */
 		foreach ($this->members as $member) {
 
-			if ($member->hasActiveLoan()) {
+			if ($member->has_active_loan == true) {
 				$membersWithLoans[] = $member;
 			}
 		}

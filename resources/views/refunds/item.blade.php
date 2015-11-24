@@ -11,9 +11,10 @@
 	<td>{!! $member->employee_id!!}</td>
 	<td>{!! Form::text('monthly_fee',  $member->loanMonthlyFees() , ['class'=>'form-control','size'=>'2','disabled'])!!}</td>
 	<td>
-	<span>
-	 	<i class="ion ion-ios-cart-outline"></i>
-	</span>
+	<a  class="btn btn-danger" href="{!! route('refunds.remove.member',$member['adhersion_id']) !!}"
+		 onclick="return confirm('{{ trans('general.are_you_sure_you_want_to_remove_this_item') }}');">
+			<i class="fa fa-times"></i>
+		</a>
 	</td>
 </tr>
 {{-- {!! Form::close() !!} --}}

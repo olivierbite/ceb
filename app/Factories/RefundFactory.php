@@ -10,6 +10,7 @@ use Ceb\Models\Refund;
 use Ceb\Models\User;
 use Ceb\Traits\TransactionTrait;
 use DB;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Session;
 use Sentry;
 
@@ -42,7 +43,7 @@ class RefundFactory {
 			$this->clearAll();
 		}
 		// Get the institution by its id
-		$members = $this->institution->find((int) $institutionId)->membersWithLoan();
+		$members = $this->institution->with('members')->find((int) $institutionId)->membersWithLoan();
 		if (!is_array($members)) {
 			$members = [];
 		}
@@ -151,7 +152,6 @@ class RefundFactory {
 			$refund['loan_id'] = $loan->id;
 			$refund['wording'] = $this->getWording();
 
-			// dd($refund);
 			# try to save if it doesn't work then
 			# exist the loop
 			$newRefund = $this->refund->create($refund);
@@ -253,10 +253,36 @@ class RefundFactory {
 		$sum = 0;
 		$members = $this->getRefundMembers();
 		foreach ($members as $member) {
-			$sum += $member->loanMonthlyFees();
+			$sum += $member->loan_montly_fee;
 		}
 		return $sum;
 	}
+
+	/**
+	 * Remove one member from current contribution session
+	 * 
+	 * @param  numeric $memberId
+	 * @return void
+	 */
+	public function removeMember($adhersion_number)
+	{
+      $adhersion_number = (int) $adhersion_number;
+
+      $members = $this->getRefundMembers();
+
+      $filtered = array_filter($members, function($member) use($adhersion_number){
+      	 if ($member['adhersion_id'] == $adhersion_number) {
+	  	  	 flash()->warning($member['first_name'].' '.$member['last_name'].'('.$adhersion_number.')'.trans('refund.has_been_removed_from_current_contribution_session'));
+	  	  	return false;
+	  	  }
+
+	  	  return $member;
+      });
+
+
+	  $this->setRefundMembers($filtered);	
+	}
+
 	/**
 	 * Set members who are about to refund
 	 * @param array $members
