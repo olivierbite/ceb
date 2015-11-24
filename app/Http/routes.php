@@ -201,7 +201,22 @@ $router->get('/js/regularisationform',['as'=>'assets.js.regularisationform','use
 
 $router->get('/test',function()
 	{
-	 $member =(array) DB::table('default_accounts')->get(["module","function","account_id","entitled","type" ]);
+		$defaultDebitsAccounts = Ceb\Models\DefaultAccount::ofType('debit')->regularisationAmount()->get();
+		
+		$debitsAccounts = [];
+		$creditsAccounts = [];
+		foreach ($defaultDebitsAccounts as $defaultDebitAccount) {
+			foreach ($defaultDebitAccount->accounts as $account) {
+				$debitsAccounts[$account->id] = $account->entitled;
+			}
+		}
 
-	 dd(json_decode(json_encode($member), true));
+		$defaultCreditsAccounts = Ceb\Models\DefaultAccount::with('accounts')->credit()->regularisationAmount()->get();
+		foreach ($defaultCreditsAccounts as $defaultCreditAccount) {
+			foreach ($defaultCreditAccount->accounts as $account) {
+				$creditsAccounts[$account->id] = $account->entitled;
+			}
+		}
+
+		dd($debitsAccounts,$creditsAccounts);
    });

@@ -11,7 +11,30 @@
            <div class="col-xs-2">
            </div>
       </div>
-       <div class="form-group" >
+      @if (!isset($defaultAccounts['credits']))   
+        <?php $defaultAccounts['credits']=[]; ?>
+      @endif
+      @forelse ($defaultAccounts['credits'] as $id=>$account)
+        
+        <div class="form-group" >
+          <div id="credit-accounts-container">
+            <div class="form-group account-row" >
+              <div class="col-xs-6">
+                {!! Form::select('credit_accounts[]', $accounts,$id, ['class'=>'form-control account'])!!}
+              </div>
+              <div class="col-xs-4">
+                <input class="form-control credit-amount" name="credit_amounts[0]" type="numeric" value="{{isset($amount)?$amount:0}}">
+              </div>
+              <div class="col-xs-2">
+                <div class='btn btn-danger'><i class='fa fa-times'></i></div> 
+              </div>
+            </div>
+          </div>       
+      </div>
+
+      @empty
+
+          <div class="form-group" >
           <div id="credit-accounts-container">
             <div class="form-group account-row" >
               <div class="col-xs-6">
@@ -26,4 +49,6 @@
             </div>
           </div>       
       </div>
+      @endforelse
+ 
 </div>

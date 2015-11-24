@@ -4,6 +4,7 @@ namespace Ceb\Http\Controllers;
 use Ceb\Factories\RegularisationFactory;
 use Ceb\Http\Controllers\Controller;
 use Ceb\Http\Requests\RegularisationRequest;
+use Ceb\Models\DefaultAccount;
 use Ceb\Models\Loan;
 use Ceb\Models\User as Member;
 use Ceb\Models\User;
@@ -200,19 +201,79 @@ class RegularisationController extends Controller {
             $rightToLoan = $member->right_to_loan;
         }
 
+        $operation_type = strtolower($loanInputs['operation_type']);
         /**
          * Get what the user is allowed to have if configured 
          */
-        $settingKey = strtolower($loanInputs['operation_type']).'.amount';
+        $settingKey = $operation_type.'.amount';
 
         if ($this->setting->hasKey($settingKey) !== false) {
              $rightToLoan = $this->setting->keyValue($settingKey);
              $activeLoan = $member->latestLoan();
         }
 
-        return view('regularisation.index', compact('member','loanId','rightToLoan','activeLoan', 'loanInputs','operationType', 'cautionneurs', 'debitAccounts', 'creditAccounts', 'currentMemberId'));
+        /** DETERMINE WHICH DEFAULT ACCOUNTS TO SET */
+        
+        $defaultAccounts = $this->getDefaultAccounts($operation_type);
+
+        return view('regularisation.index', compact('member','loanId','defaultAccounts','rightToLoan','activeLoan', 'loanInputs','operationType', 'cautionneurs', 'debitAccounts', 'creditAccounts', 'currentMemberId'));
     }
 
+    /**
+     * Get default accounts for this modules
+     * @return array 
+     */
+    public function getDefaultAccounts($operation_type)
+    {
+        switch ($operation_type) {
+            case 'installments':
+                $defaultDebitsAccounts =  DefaultAccount::with('accounts')->debit()->regularisationInstallments()->get();
+                $defaultCreditsAccounts = DefaultAccount::with('accounts')->credit()->regularisationInstallments()->get();
+                break;
+            case 'amount':
+                $defaultDebitsAccounts =  DefaultAccount::with('accounts')->debit()->regularisationAmount()->get();
+                $defaultCreditsAccounts = DefaultAccount::with('accounts')->credit()->regularisationAmount()->get();
+                break; 
+            case 'amount_installments':
+                $defaultDebitsAccounts =  DefaultAccount::with('accounts')->debit()->regularisationMountInstallments()->get();
+                $defaultCreditsAccounts = DefaultAccount::with('accounts')->credit()->regularisationMountInstallments()->get();
+                break;   
+            default:
+             return [
+                    'debits' => [],
+                    'credits' => [],
+                ];
+            break;
+
+        }
+        
+        
+        $debitsAccounts = [];
+        $creditsAccounts = [];
+
+        foreach ($defaultDebitsAccounts as $defaultDebitAccount) 
+        {
+            foreach ($defaultDebitAccount->accounts as $account) 
+            {
+                $debitsAccounts[$account->id]   = $account->entitled;
+            }
+        }
+    
+
+        foreach ($defaultCreditsAccounts as $defaultCreditAccount) 
+        {
+            foreach ($defaultCreditAccount->accounts as $account) 
+            {
+                $creditsAccounts[$account->id] = $account->entitled;
+            }
+        }
+        
+
+        return [
+            'debits' => (object) $debitsAccounts,
+            'credits' => (object) $creditsAccounts
+        ];
+    }
     /**
      * THIS SECTION HAS THE AJAX FUNCTIONS THAT ARE CALLED BY THE
      * AJAX API ONLY
