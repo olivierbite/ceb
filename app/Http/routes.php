@@ -201,6 +201,7 @@ $router->get('/js/regularisationform',['as'=>'assets.js.regularisationform','use
 
 $router->get('/test',function()
 	{
-	 $member = (new \Ceb\Models\User)->byAdhersion('20070018')->first();
-		 dd($member->total_contribution);
+	 $member =(array) DB::table('default_accounts')->get(["module","function","account_id","entitled","type" ]);
+
+	 dd(json_decode(json_encode($member), true));
    });
