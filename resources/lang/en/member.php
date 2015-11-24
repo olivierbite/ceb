@@ -44,7 +44,7 @@ return array (
   'loan_as_of_today'                              =>'Loan As Of Today',
   'remaining_installments'                        =>'Remaining Installments',
   'member_attornies_list'                         =>'Member attonies List',
-  'transactions_and_other_withdrawals_on_savings' =>'Transactions and  other Withdrawals on Saving',
+  'transactions_and_other_withdrawals_on_savings' =>'Transactions and  other Withdrawals or Saving',
   'movement_type'                                 =>'Mouvement Type',
   'operation_type'                                =>'Operation Type',
   'amount'                                        =>'Amount',
