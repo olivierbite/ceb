@@ -2,6 +2,7 @@
 
 namespace Ceb\Factories;
 
+use Ceb\Models\DefaultAccount;
 use Ceb\Models\Institution;
 use Ceb\Models\MemberLoanCautionneur;
 use Ceb\Models\Posting;
@@ -319,14 +320,31 @@ class RefundFactory {
 	 * @return numeric account ID
 	 */
 	public function getDebitAccount() {
-		return Session::get('refundDebitAccount', 1);
+
+		$defaultDebitAccount	=  DefaultAccount::with('accounts')->debit()->refundsIndividual()->first()->accounts->first();
+
+		// If we have many members then it's not individual refund
+		// Let's change the default account
+		if (count($this->getRefundMembers()) > 1) {
+			$defaultDebitAccount	=  DefaultAccount::with('accounts')->debit()->RefundsBatch()->first()->accounts->first();
+		}
+
+		return Session::get('refundDebitAccount', $defaultDebitAccount->id);
 	}
 	/**
 	 * Get Credit Account
 	 * @return numeric unique
 	 */
 	public function getCreditAccount() {
-		return Session::get('refundCreditAccount', 2);
+
+		$defaultCreditAccount	=  DefaultAccount::with('accounts')->credit()->refundsIndividual()->first()->accounts->first();
+		// If we have many members then it's not individual refund
+		// Let's change the default account
+		if (count($this->getRefundMembers()) > 1) {
+			$defaultDebitAccount	=  DefaultAccount::with('accounts')->credit()->refundsBatch()->first()->accounts->first();
+		}
+
+		return Session::get('refundCreditAccount', $defaultCreditAccount->id);
 	}
 	/**
 	 * Remove debit account

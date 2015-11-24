@@ -1,10 +1,11 @@
 <?php
 namespace Ceb\Factories;
+use Ceb\Models\DefaultAccount;
 use Ceb\Models\Institution;
-use Ceb\Traits\TransactionTrait;
 use Ceb\Models\User;
-use Illuminate\Support\Facades\Session;
+use Ceb\Traits\TransactionTrait;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Session;
 
 /**
  * This factory helps Contribution
@@ -238,7 +239,9 @@ class ContributionFactory {
 	 * @return Integer
 	 */
 	public function getDebitAccount() {
-		return Session::get('debit_account', 0);
+
+		$defaultDebitAccount	=  DefaultAccount::with('accounts')->debit()->batchContribution()->first()->accounts->first();
+		return Session::get('debit_account', $defaultDebitAccount->id);
 	}
 	/**
 	 * Set credit account in the session
@@ -252,6 +255,8 @@ class ContributionFactory {
 	 * @return [type] [description]
 	 */
 	public function getCreditAccount() {
+		
+		$defaultCreditAccount	=  DefaultAccount::with('accounts')->credit()->batchContribution()->first()->accounts->first();
 		return Session::get('credit_account', 0); // Here we assume the account with id 26 is default
 	}
 
