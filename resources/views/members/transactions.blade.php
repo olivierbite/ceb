@@ -4,11 +4,6 @@
 {{ trans('member.transactions_and_other_withdrawals_on_savings') }}
 @endsection
 @section('content')
-<?php $initialOperation = []; ?>
-@foreach ($memberTransactions[$movement_type] as $element)
-  <?php $initialOperation[$element] = $element;  ?>
-@endforeach
-
             <!-- CREDIT CARD FORM STARTS HERE -->
             <div class="panel panel-default credit-card-box">
             
@@ -30,19 +25,15 @@
                                       <div class="form-group">
                                        <label>{{ trans('member.names') }}</label>
                                        <br/>
-                                        {!! $member->first_name.' '.$member->last_name !!}
+                                        {!! $member->names !!}
                                       </div>
                                   </div>
                                 <div class="col-md-3">
                                   <div class="form-group">
                                    <label>{{ trans('member.institution') }}</label>
                                    <br/>
-                                    {!! isset($member->institution()->name) ? $member->institution()->name : null !!}
+                                    {!! $member->institution_name !!}
                                   </div>
-                                  </div>
-
-                                  <div class="col-md-2">
-                                    <a href="#" class="btn btn-danger close-popdown"><i class="fa fa-times"></i></a>
                                   </div>
                             </div>
                         </div>        
@@ -56,15 +47,15 @@
                                     <label for="movement_type">
 	                                	 {{ trans('member.movement_type') }}
                                      </label>
-                                   	 {!! Form::select('movement_type',$transactionTypes , null, ['class'=>'form-control movement_type']) !!}
+                                   	 {!! Form::select('movement_type',$transactionTypes , $movement_type, ['class'=>'form-control movement_type']) !!}
                                 </div>
                             </div>
                            <div class="col-xs-4 col-md-4">
                                 <div class="form-group">
-                                    <label for="operation_type">
-	                                	 {{ trans('member.operation_type') }}
+                                    <label for="movement_type">
+	                                	 {{ trans('member.movement_type') }}
                                      </label>
-                                   	 {!! Form::select('operation_type', $initialOperation, null, ['class'=>'form-control operation_type']) !!}
+                                   	 {!! Form::select('movement_type', $memberTransactions[$movement_type], null, ['class'=>'form-control movement_type']) !!}
                                 </div>
                             </div>
                            <div class="col-xs-4 col-md-4">

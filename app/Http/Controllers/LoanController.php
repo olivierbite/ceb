@@ -221,7 +221,7 @@ class LoanController extends Controller {
 		return view('loansandrepayments.index', compact('member','loanId','defaultAccounts','rightToLoan','activeLoan', 'loanInputs','operationType', 'cautionneurs', 'debitAccounts', 'creditAccounts', 'currentMemberId'));
 	}
 
-	   /**
+	/**
      * Get default accounts for this modules
      * @return array 
      */

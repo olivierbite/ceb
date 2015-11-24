@@ -3,7 +3,7 @@ jQuery(document).ready(function($) {
     $(".movement_type").change(function(event) {
       var loanType = $(this);
   
-      window.location.href = window.location.protocol+'//'+window.location.host+window.location.pathname+'?operation_type='+loanType.val();
+      window.location.href = window.location.protocol+'//'+window.location.host+window.location.pathname+'?movement_type='+loanType.val();
     });
 
   });
