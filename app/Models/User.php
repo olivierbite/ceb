@@ -442,6 +442,11 @@ class User extends SentinelModel {
 	public function loanMonthlyFees() {
 		return $this->latestLoan()->monthly_fees;
 	}
+
+	public function getLoanMontlyFeeAttribute()
+	{
+		return $this->loanMonthlyFees();
+	}
 	/**
 	 * Get latest Loan that this member has gotten
 	 * @return user Object

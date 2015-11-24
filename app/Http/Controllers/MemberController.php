@@ -101,7 +101,7 @@ class MemberController extends Controller {
 			return redirect()->back();
 		}
 
-		$member = $this->member->findOrfail($id);
+		$member = $this->member->with(['loans','contributions','refunds','cautions','cautioned','attornies','institution'])->findOrfail($id);
 
 		// If this user is ceb member then we only show his profile
 		if ($this->user->hasAccess('ceb.member')) {
@@ -224,7 +224,7 @@ class MemberController extends Controller {
 	 */
 	public function transacts($memberId)
 	{
-		$member = $this->member->findOrfail($memberId);
+		$member = $this->member->with(['loans','contributions','refunds','cautions','cautioned','attornies','institution'])->findOrfail($memberId);
 
 		$movement_type = 'saving';
 
