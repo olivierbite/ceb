@@ -31,7 +31,8 @@ class CompleteLoanRequest extends Request
         if ($this->isMethod('get')) {
            return [];
         }
-        $attributes = parent::all();
+        $attributes = $this->all();
+        
         $rightToLoan = $this->member->findByAdhersion($attributes['adhersion_id'])->right_to_loan;
         // Validate the right to loan
         $settingKey = strtolower($attributes['operation_type']).'.amount';
