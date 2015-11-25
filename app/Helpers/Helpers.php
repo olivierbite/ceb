@@ -168,6 +168,11 @@ function calculateInterest($amount,$rate,$installments)
  */
 function generateContract($member,$contract_type)
 {
+	 $loan   = $member->latestLoan();
+	
+	if ($loan->is_regulation) {
+		$contract_type = $loan->regulation_type;
+	}
 
 	switch ($contract_type) {
 			case (strpos($contract_type,'ordinary_loan') !== FALSE):
@@ -199,7 +204,7 @@ function generateContract($member,$contract_type)
 				break;
 		}
 
-	    $loan   = $member->latestLoan();
+	   
 
 		$contract = str_replace('{contract_id}',$loan->loan_contract,$contract);
 		$contract = str_replace('{names}',$member->names,$contract);

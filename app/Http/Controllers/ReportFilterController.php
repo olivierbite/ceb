@@ -40,7 +40,9 @@ class ReportFilterController extends Controller
 
          $filterOptions = $this->filterOptions;
          $reportUrl = $request->get('reporturl');
+         
          $title     = trans('report.'.str_replace('/','.',$reportUrl));
+         
          return view('reports.filters.date_filter',compact('reportUrl','title','filterOptions'));
     }
 }

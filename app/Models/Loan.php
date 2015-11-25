@@ -192,6 +192,15 @@ class Loan extends Model {
     }
 
     /**
+     * Determine if a loan is regulation type
+     * @return  
+     */
+    public function getIsRegulationAttribute()
+    {
+        return $this->is_regulation == 1;
+    }
+
+    /**
      * Get right to loan attribute
      * @return  
      */
