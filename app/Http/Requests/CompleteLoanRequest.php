@@ -69,7 +69,12 @@ class CompleteLoanRequest extends Request
         // Modify or Add new array key/values
         // ==================================
         // Make sure these fields are numeric
-         $attributes['loan_to_repay']  = intval($attributes['loan_to_repay']) ;
+      
+       $attributes['right_to_loan']                  = (int)  str_replace(',','',$attributes['member']['right_to_loan']);
+       $attributes['contributions']                  = (int) str_replace(',', '', $attributes['member']['contributions']);
+       $attributes['balance_of_loan']                = (int) str_replace(',', '', $attributes['member']['balance_of_loan']);
+
+        $attributes['loan_to_repay']  = intval($attributes['loan_to_repay']) ;
         // Validating account amount
         $attributes['accounting_amount'] = array_sum($attributes['debit_amounts']);
         $attributes['accounting_amount_confirmation'] = array_sum($attributes['credit_amounts']);

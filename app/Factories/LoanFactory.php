@@ -563,7 +563,7 @@ class LoanFactory {
 	public function calculateLoanDetails($validation = false) {
 
 		$loanDetails = $this->getLoanInputs();
-      
+      	
 		$loanToRepay = isset($loanDetails['loan_to_repay'])?$loanDetails['loan_to_repay']:0;
 		$wishedAmount = isset($loanDetails['wished_amount']) ?  $loanDetails['wished_amount'] : round(($loanToRepay * $this->wishedAmountPercentage), 0);
 		$interestRate = $this->getInterestRate();
@@ -587,7 +587,7 @@ class LoanFactory {
 		$netToReceive = $loanToRepay - $interests;
 
 		// Update fields
-		$this->addLoanInput(['right_to_loan' => round(($loanToRepay * $this->wishedAmountPercentage), 0)]);
+	
 		$this->addLoanInput(['wished_amount' => $wishedAmount]);
 		$this->addLoanInput(['interests' => round($interests, 0)]);
 		$this->addLoanInput(['net_to_receive' => round($netToReceive, 0)]);

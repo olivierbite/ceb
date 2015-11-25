@@ -21,7 +21,9 @@ class UnblockLoanRequest extends Request
      */
     public function rules()
     {
-
+      if ($this->isMethod('get')) {
+           return [];
+        }
       return [
               'cheque_number'     =>  'required|alpha_dash|min:5',
               'bank_id'           =>  'required|min:1',
@@ -31,4 +33,8 @@ class UnblockLoanRequest extends Request
     }
 
    
+    public function all()
+    {
+      return  array_change_key_case(parent::all(),CASE_LOWER);
+    }
 }
