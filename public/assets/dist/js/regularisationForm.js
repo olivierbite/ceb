@@ -66,52 +66,55 @@ jQuery(document).ready(function($) {
 		};
 
 		// Calculate remaining interest
-		interestRate				= parseFloat(getInterestRate(remaining_installments));
-		remaining_interest			= parseFloat(getInterest(loanBalance,interestRate,remaining_installments));
-		interestRate				= parseFloat(getInterestRate(numberOfInstallment));
+		interestRate				= Math.round(getInterestRate(remaining_installments));
+		remaining_interest			= Math.round(getInterest(loanBalance,interestRate,remaining_installments));
+		interestRate				= Math.round(getInterestRate(numberOfInstallment));
 
 		// Do this only when this is regularisation echeance/installments
 		if (operation_type.indexOf("installment") > -1 && operation_type.indexOf("amount") == -1) {		
-			totalInstallement_interests	= parseFloat(getInterest(loanBalance,interestRate,numberOfInstallment));
-			interest_on_installements	= parseFloat(totalInstallement_interests - remaining_interest);
+			totalInstallement_interests	= Math.round(getInterest(loanBalance,interestRate,numberOfInstallment));
+			interest_on_installements	= Math.round(totalInstallement_interests - remaining_interest);
 			new_monthly_fees			= parseInt(Math.round(loanBalance/numberOfInstallment));
+			total_interests  = interest_on_installements;
 		};
 
 		// Do this only when this is regularisation montant/amount
 		if (operation_type.indexOf("amount") > -1 && operation_type.indexOf("installment") == -1) {
-			totalInstallement_interests = parseFloat(getInterest(parseFloat(loanBalance) + parseFloat(additional_amount),interestRate,numberOfInstallment));
-			interest_on_amount			= parseFloat(totalInstallement_interests - remaining_interest);
+			totalInstallement_interests = Math.round(getInterest(Math.round(loanBalance) + Math.round(additional_amount),interestRate,numberOfInstallment));
+			interest_on_amount			= Math.round(totalInstallement_interests - remaining_interest);
+
+			
 
 			if (additinal_charges_rate > 0) {
-				additinal_charges	= parseFloat((additional_amount * additinal_charges_rate)/  100);
+				additinal_charges	= Math.round((additional_amount * additinal_charges_rate)/  100);
 			};
 
-			total_interests		= parseFloat(interest_on_amount + interest_on_installements);
+			total_interests		= Math.round(interest_on_amount );
 			netToReceive		= additional_amount - interest_on_amount- additinal_charges;
-			new_monthly_fees	= parseInt(Math.round((parseFloat(loanBalance)+parseFloat(additional_amount))/parseFloat(numberOfInstallment)));
+			new_monthly_fees	= parseInt(Math.round((Math.round(loanBalance)+Math.round(additional_amount))/Math.round(numberOfInstallment)));
 			
 		}
 
 		// Do this only when this is regularisation montant/amount  and installment
 		if (operation_type.indexOf("installment") > -1 && operation_type.indexOf("amount") > -1) {		
-			totalInstallement_interests	= parseFloat(getInterest(loanBalance,interestRate,numberOfInstallment));
-			interest_on_installements	= parseFloat(totalInstallement_interests - remaining_interest);
+			totalInstallement_interests	= Math.round(getInterest(loanBalance,interestRate,numberOfInstallment));
+			interest_on_installements	= Math.round(totalInstallement_interests - remaining_interest);
 	
-			totalInstallement_interests = parseFloat(getInterest(parseFloat(loanBalance) + parseFloat(additional_amount),interestRate,numberOfInstallment));
-			interest_on_amount			= parseFloat(totalInstallement_interests - remaining_interest);
+			totalInstallement_interests = Math.round(getInterest(Math.round(loanBalance) + Math.round(additional_amount),interestRate,numberOfInstallment));
+			interest_on_amount			= Math.round(totalInstallement_interests - remaining_interest);
 
 			if (additinal_charges_rate > 0) {
-				additinal_charges	= parseFloat((additional_amount * additinal_charges_rate)/  100);
+				additinal_charges	= Math.round((additional_amount * additinal_charges_rate)/  100);
 			};
 
-			total_interests		= parseFloat(interest_on_amount + interest_on_installements);
+			total_interests		= Math.round(interest_on_amount + interest_on_installements);
 			netToReceive		= additional_amount - interest_on_installements - interest_on_amount- additinal_charges;
-			new_monthly_fees	= parseInt(Math.round((parseFloat(loanBalance)+parseFloat(additional_amount))/parseFloat(numberOfInstallment)));
+			new_monthly_fees	= parseInt(Math.round((Math.round(loanBalance)+Math.round(additional_amount))/Math.round(numberOfInstallment)));
 		}
 
 
 		// Update fields		
-		$('#interests_to_pay').val(Math.round(interest_on_installements) );
+		$('#interests_to_pay').val(Math.round(total_interests) );
 
 		data[$('#interests_to_pay').attr('name')] = $('#interests_to_pay').val();
     	$('#new_monthly_fees').val(new_monthly_fees);

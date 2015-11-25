@@ -16,7 +16,9 @@
     !!}
   </div>
   </div>
-@endif
+ @endif
+
+  @if (strpos($loanInputs['operation_type'],'ordinary_loan') !== false)
   <div class="col-md-3">
   <div class="form-group">
    <label>{{ trans('loan.number_of_installments') }}</label>
@@ -26,6 +28,9 @@
     !!}
   </div>
   </div>
+  @else
+   {!! Form::hidden('tranches_number', $member->remaining_tranches,['class'=>'form-control loan-select','id'=>'numberOfInstallment']) !!}
+  @endif
   <div class="col-md-3">
   <div class="form-group">
    <label>{{ trans('loan.wished_amount') }}</label>

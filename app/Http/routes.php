@@ -59,7 +59,7 @@ Route::group(['prefix'=>'loans'], function(){
 	Route::get('/pending/{loanId?}', ['as'			=> 'loan.pending', 'uses' => 'LoanController@getPending']);
 	Route::get('/blocked/{loanId?}', ['as'			=> 'loan.blocked', 'uses' => 'LoanController@getBlocked']);
 	Route::get('/process/{loanId}/{status}', ['as'	=> 'loan.process', 'uses' => 'LoanController@process']);
-	Route::post('/unlblock', ['as'					=> 'loan.unblock.store', 'uses' =>'LoanController@unblock']);
+	Route::any('/unlblock', ['as'					=> 'loan.unblock.store', 'uses' =>'LoanController@unblock']);
 	Route::get('/unblock/form/{loanId?}', ['as'		=> 'loan.unblock.form', 'uses' => 'LoanController@showUnblockingForm']);
 
 	Route::get('/remove/cautionneur/{cautionneur}',

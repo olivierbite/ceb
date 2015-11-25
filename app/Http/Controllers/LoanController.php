@@ -95,7 +95,7 @@ class LoanController extends Controller {
 		$memberId = $this->loanFactory->getMember()->id;
 
 		// Make sure we update with latest form inputs
-		$this->loanFactory->addLoanInput(Input::all());
+		$this->loanFactory->addLoanInput($request->all());
 
         // Update accounting fields too
         $this->ajaxAccountingFeilds();
@@ -492,8 +492,9 @@ class LoanController extends Controller {
 	    /////////////////////////////////////
 	    // Prepare the passed information  //
 	    /////////////////////////////////////
-	  	$loanid =  $request->get('loanid');
-
+	    $requestData = $request->all();
+	  	$loanid = is_array($request->all()) ? $requestData['loanid'] : $request->get('loanid');
+	  	
 	    $loan = $this->loan->find($loanid);
 
 	    /** If we cannot find the loan we are trying to unblock then display error */
@@ -509,7 +510,7 @@ class LoanController extends Controller {
 	    // Start saving if something fails cancel everything
 		DB::beginTransaction();
 
-		//  Update the loan
+		//  Update the loan only if the loan
 		$loan->cheque_number = $request->get('cheque_number');
 		$loan->bank_id       = $request->get('bank_id');
 		$saveLoan = $loan->save();

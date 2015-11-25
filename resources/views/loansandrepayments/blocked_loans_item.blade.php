@@ -4,7 +4,7 @@
 	<td>{{ $member->institution->name }} </td>
 	<td>{{ $member->adhersion_id }}  </td>
 	<td>{{ $member->Loan_balance }} </td>
-	<td>{{ $member->right_to_loan }} </td>
+	<td>{{ $loan->right_to_loan }} </td>
 	<td>{{ $loan->wished_amount }} </td>
 	<td>{{ $loan->rate }}</td>
 	<td>{{ $loan->tranches_number }}</td>
@@ -12,7 +12,10 @@
 	<td>{{ $loan->loan_to_repay }}</td>
 	<td>{{ $loan->interests }}</td>
 	<td>
-		<a href="{!! route('loan.unblock.form',['loanId'=> $loan->id]) !!}" class="btn btn-success popdown">
+	<?php $popdown = ($loan->is_regulation == true && $loan->regulation_type == 'installments') ? null : 'popdown' ;?>
+	<?php $route = ($loan->is_regulation == true && $loan->regulation_type == 'installments') ? 'loan.unblock.store' : 'loan.unblock.form' ;?>
+
+		<a href="{!! route($route,['loanId'=> $loan->id]) !!}" class="btn btn-success {!! $popdown !!}">
 			<i class="fa fa-unlock-alt"></i> {{ trans('loan.unblock') }}
 		</a>
 	</td>

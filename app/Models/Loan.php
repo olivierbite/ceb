@@ -255,10 +255,14 @@ class Loan extends Model {
      */
     public function scopeBlocked($query)
     {
-    	return $query->where('cheque_number','')
-    				 ->orWhereNull('cheque_number')
-    				 ->orWhereNull('bank_id')
-    				 ->orWhere('bank_id','');
+    	return $query->where(function($query)
+    				{
+    				 return $query->where('cheque_number','')
+				    				 ->orWhereNull('cheque_number')
+				    				 ->orWhereNull('bank_id')
+				    				 ->orWhere('bank_id','');
+    				})
+    				 ->where('regulation_type','<>','installments');
     }
 
      /**
@@ -268,10 +272,20 @@ class Loan extends Model {
      */
     public function scopeUnBlocked($query)
     {
-    	return $query->where('cheque_number','<>','')
-    				 ->whereNotNull('cheque_number')
-    				 ->whereNotNull('bank_id')
-    				 ->where('bank_id','<>','');
+    	return $query->where(function($query)
+							{
+								return $query->where(function($query){
+													return $query->where('cheque_number','<>','')
+																->whereNotNull('cheque_number')
+																->whereNotNull('bank_id')
+																->where('bank_id','<>','');
+							})
+							->orWhere(function($query)
+									{
+									return $query->where('regulation_type','=','installments')
+												->where('is_regulation',1);
+									});
+							});
     }
 
     /**

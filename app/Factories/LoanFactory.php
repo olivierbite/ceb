@@ -537,6 +537,7 @@ class LoanFactory {
 	 */
 	private function getTranschesNumber() {
 		$loanInputs = $this->getLoanInputs();
+		
 		return $numberOfInstallment = isset($loanInputs['tranches_number']) ? $loanInputs['tranches_number'] : 1;
 
 	}
@@ -562,12 +563,17 @@ class LoanFactory {
 	public function calculateLoanDetails($validation = false) {
 
 		$loanDetails = $this->getLoanInputs();
-      
+      	
 		$loanToRepay = isset($loanDetails['loan_to_repay'])?$loanDetails['loan_to_repay']:0;
 		$wishedAmount = isset($loanDetails['wished_amount']) ?  $loanDetails['wished_amount'] : round(($loanToRepay * $this->wishedAmountPercentage), 0);
 		$interestRate = $this->getInterestRate();
 		$administration_fees = (int) $this->setting->keyValue('loan.administration.fee');
 		$numberOfInstallment = $this->getTranschesNumber();
+
+		dd($loanDetails['operation_type'] );
+		if ($loanDetails['operation_type'] !=='ordinary_loan' && $loanDetails['operation_type'] != 'urgent_ordinary_loan') {
+			$loanToRepay+=$loanDetails['previous_loan_to_repay'];
+		}
 		
 		// Interest formular
 		// The formular to calculate interests at ceb is as following
@@ -586,7 +592,7 @@ class LoanFactory {
 		$netToReceive = $loanToRepay - $interests;
 
 		// Update fields
-		$this->addLoanInput(['right_to_loan' => round(($loanToRepay * $this->wishedAmountPercentage), 0)]);
+	
 		$this->addLoanInput(['wished_amount' => $wishedAmount]);
 		$this->addLoanInput(['interests' => round($interests, 0)]);
 		$this->addLoanInput(['net_to_receive' => round($netToReceive, 0)]);
