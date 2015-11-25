@@ -1,7 +1,7 @@
 <?php
 
 return array (
-<<<<<<< HEAD
+
   'institutions' => 'Institutions',
   'month' => 'Month',
   'date' => 'Date',
@@ -31,7 +31,7 @@ return array (
 'contribution_set_by_institution'=>'set by institution',
 'contribution_add'=>'add',
 'contribution_remove_contribution_with_differences'=>'contribution remove contribution with differences',
-=======
+
   'institutions'                                      => 'Institutions',
   'month'                                             => 'Month',
   'date'                                              => 'Date',
@@ -61,5 +61,5 @@ return array (
   'contribution_set_by_institution'                   =>'set by institution',
   'contribution_add'                                  =>'add',
   'contribution_remove_contribution_with_differences' =>'contribution remove contribution with differences',
->>>>>>> d75749bae7a36c6ed73f35564b871a2e46a69ed9
+
 );

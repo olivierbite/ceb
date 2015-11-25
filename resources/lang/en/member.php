@@ -133,5 +133,6 @@ return array (
   'member_delete'                                 =>'delete',
   'select_movement_type_first'                    =>'Select movement type first',
   'total_cautions_amount'                         =>'Total cautions amount',
+  'active_loan_monthly_fees_payments'=>'Active loan monthly fees payments',
 
 );

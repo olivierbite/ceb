@@ -78,4 +78,5 @@ return array (
 'refunded_amount'=>'Montant rembourse',
 'balance'=>'Reste',
 'member_who_cautionned_me'=>'Membres que vous avez cautionne',
+'active_loan_monthly_fees_payments'=>'Paiement tranche mensuels',
 );

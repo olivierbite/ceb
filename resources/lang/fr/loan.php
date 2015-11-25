@@ -88,5 +88,14 @@ return array (
 'we_could_not_find_the_loan_you_are_looking_for'=>'Nous ne pouvions pas trouver le prêt que vous cherchez',
 'loan_successfully_unblocked'=>'Loan successfully unbocked',
 'regularisation_cancelled'=>'Regularisation annuler',
+'regularisation'=>'Regularisation',
+'regularisation_type'=>'Type de regularisation',
+'new_monthly_fees'=>'Nouvelle tranche mensuels',
+'interests_to_pay_at_the_bank'=>'Intérêts à payer à la banque',
+'new_installments'=>'Nouvelle echeance',
+'charges_payslip_reference_number'=>'Numéro de référence piece debourse',
+'additional_amount'=>'Montant additionnel',
+'charges_rate'=>'Taux du frais administratif',
+'additinal_charges'=>'Frais administratif',
 );
 

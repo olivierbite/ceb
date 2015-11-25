@@ -170,4 +170,13 @@ return [
 'we_could_not_find_the_loan_you_are_looking_for'=>'We could not find the loan you are looking for',
 'loan_successfully_unblocked'=>'Loan successfully unbocked',
 'regularisation_cancelled'=>'Regularisation cancelled',
+'regularisation'=>'Regularisation',
+'regularisation_type'=>'Regularisation type',
+'new_monthly_fees'=>'New monthly fees',
+'interests_to_pay_at_the_bank'=>'Interests to pay at the bank',
+'new_installments'=>'New installments',
+'charges_payslip_reference_number'=>'Charges payslip reference number',
+'additional_amount'=>'additional amount',
+'charges_rate'=>'Charges rate',
+'additinal_charges'=>'additional charges',
 ];
