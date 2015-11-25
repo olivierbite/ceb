@@ -12,7 +12,14 @@ class Loan extends Model {
      * @var array
      */
 	protected $dates = ['created_at', 'updated_at', 'letter_date'];
-	
+	/**
+	 * The attributes that should be casted to native types.
+	 *
+	 * @var array
+	 */
+	protected $casts = [
+	    'is_regulation' => 'boolean',
+	];
 	// fillable
 	protected $fillable = [
 		'transactionid',
@@ -189,15 +196,6 @@ class Loan extends Model {
     public function scopeHasMoreRightToLoan($query)
     {
     	return $query->where('loan_to_repay','<','right_to_loan');
-    }
-
-    /**
-     * Determine if a loan is regulation type
-     * @return  
-     */
-    public function getIsRegulationAttribute()
-    {
-        return $this->is_regulation == 1;
     }
 
     /**

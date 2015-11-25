@@ -168,8 +168,8 @@ function calculateInterest($amount,$rate,$installments)
  */
 function generateContract($member,$contract_type)
 {
-	 $loan   = $member->latestLoan();
-	
+	$loan   = $member->latestLoan();
+
 	if ($loan->is_regulation) {
 		$contract_type = $loan->regulation_type;
 	}
