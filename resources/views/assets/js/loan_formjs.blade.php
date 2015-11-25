@@ -114,9 +114,16 @@ jQuery(document).ready(function($) {
 
 	function calculateLoanDetails(){
 		var loanToRepay = $('#loanToRepay').val().replace(/,/g,''); // Remove any character that is not a number
+		loanToRepay = parseInt(loanToRepay);
 		var interestRate  = getInterestRate();
 		var totalContributions = $('#totalContributions').val().replace(/,/g,''); // Remove any character that is not a number
 		var numberOfInstallment = $('#numberOfInstallment').val();
+		var previous_loan_balance = 0;
+
+		if(typeof $('.previous_loan_balance').val() !=='undefined'){
+	        previous_loan_balance =$('.previous_loan_balance').val().replace(/,/g,''); 
+	    }
+		
 
 		// Interest formular
 		// The formular to calculate interests at ceb is as following
@@ -139,8 +146,12 @@ jQuery(document).ready(function($) {
 		$('#interests').val(Math.round(interests) );
 		data[$('#interests').attr('name')] = $('#interests').val();
         
-    	$('#monthlyInstallments').val(Math.round((loanToRepay/numberOfInstallment)) );
-
+        if(operation_type != 'ordinary_loan' && operation_type != 'urgent_ordinary_loan' )
+        {
+    	  loanToRepay+=parseInt(previous_loan_balance); 
+        }
+		
+		$('#monthlyInstallments').val(Math.round((loanToRepay/numberOfInstallment)) );
         // If this loan is urgent loan, then calculate administration fees
 		// And remove it from the net_to_receive
 		if (operation_type.toLowerCase() == 'urgent_ordinary_loan') {

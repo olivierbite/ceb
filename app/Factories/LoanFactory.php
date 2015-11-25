@@ -569,6 +569,11 @@ class LoanFactory {
 		$interestRate = $this->getInterestRate();
 		$administration_fees = (int) $this->setting->keyValue('loan.administration.fee');
 		$numberOfInstallment = $this->getTranschesNumber();
+
+		dd($loanDetails['operation_type'] );
+		if ($loanDetails['operation_type'] !=='ordinary_loan' && $loanDetails['operation_type'] != 'urgent_ordinary_loan') {
+			$loanToRepay+=$loanDetails['previous_loan_to_repay'];
+		}
 		
 		// Interest formular
 		// The formular to calculate interests at ceb is as following
