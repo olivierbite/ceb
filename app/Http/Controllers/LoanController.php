@@ -335,7 +335,7 @@ class LoanController extends Controller {
         // First log 
         Log::info($this->user->email . ' is checking loan status');	
 
-   		$loan = $this->loan->pending()->find($loanId);
+   		$loan = $this->loan->with('member')->pending()->find($loanId);
 
    		if (is_null($loan)) {
    			flash()->warning(trans('loan.we_could_not_find_the_loan_you_are_looking_for'));

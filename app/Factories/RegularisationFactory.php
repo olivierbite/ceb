@@ -435,7 +435,6 @@ class RegularisationFactory {
 		$loanToRegulate->cautionneur1			= '';
 		$loanToRegulate->cautionneur2			= '';
 		$loanToRegulate->contract				= '';
-		$loanToRegulate->operation_type			= $inputs['operation_type'];
 		$loanToRegulate->comment				= $inputs['wording'];
 		$loanToRegulate->status					= 'pending';
 		$loanToRegulate->security_type			= isset($inputs['movement_nature']) ? $inputs['movement_nature'] : 'saving';
@@ -562,6 +561,7 @@ class RegularisationFactory {
 	public function calculateLoanDetails() {
 		$loanDetails = $this->getLoanInputs();
 
+	
 		$loanDetails['additional_amount']			=$additional_amount				= isset($loanDetails['additional_amount']) ? (int) $loanDetails['additional_amount'] : 0;				
 		$loanDetails['loanBalance']					=$loanBalance					= (int) $loanDetails['previous_loan_balance'];
 		$loanDetails['additional_installments']		=$additional_installments		= isset($loanDetails['additional_installments']) ? (int) $loanDetails['additional_installments'] : 0;
@@ -573,7 +573,7 @@ class RegularisationFactory {
 		$loanDetails['totalInstallement_interests']	=$totalInstallement_interests	= 0;
 		$loanDetails['interest_on_installements']	=$interest_on_installements		= 0;				
 		$loanDetails['interest_on_amount']			=$interest_on_amount			= 0;
-		$loanDetails['interests_to_pay']			=$interests_to_pay				= 0;				 
+	    $interests_to_pay							= 0;				 
 		$loanDetails['total_interests']				=$total_interests				= 0;				
 		$loanDetails['new_monthly_fees']			=$new_monthly_fees				= 0;				
 		$loanDetails['netToReceive']				=$netToReceive					= 0;	
@@ -590,6 +590,7 @@ class RegularisationFactory {
 				$loanDetails['totalInstallement_interests']	= calculateInterest($loanBalance,$interestRate,$numberOfInstallment);
 				$loanDetails['interest_on_installements']	= $totalInstallement_interests - $remaining_interest;
 				$loanDetails['new_monthly_fees']			= $loanBalance / $numberOfInstallment;
+				$loanDetails['total_interests']				= (int) $loanDetails['interests_to_pay'];
       			break;
 
       		case 'amount':     // THIS IS A AMOUNT REGULATION 
@@ -604,7 +605,7 @@ class RegularisationFactory {
 					$loanDetails['additinal_charges']    = ($additional_amount * $additinal_charges_rate)/  100;
 				};
 
-				$loanDetails['total_interests']		= $total_interests	= $interest_on_amount + $interest_on_installements;
+				$loanDetails['total_interests']		= $total_interests	= $interest_on_amount;
 				$loanDetails['netToReceive']		= $netToReceive		= $additional_amount - $interest_on_installements - $interest_on_amount- $additinal_charges;
 				$loanDetails['new_monthly_fees']	= $new_monthly_fees	= ($loanBalance + $additional_amount )/$numberOfInstallment;
 
