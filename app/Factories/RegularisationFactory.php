@@ -441,6 +441,8 @@ class RegularisationFactory {
 		$loanToRegulate->security_type			= isset($inputs['movement_nature']) ? $inputs['movement_nature'] : 'saving';
 		$loanToRegulate->urgent_loan_interests	= round($inputs['additinal_charges']);
 		$loanToRegulate->user_id				= Sentry::getUser()->id;
+		$loanToRegulate->is_regulation			= true;
+		$loanToRegulate->regulation_type		= $inputs['operation_type'];
 
 
         if ($loanToRegulate->save() == false) {
