@@ -9,10 +9,9 @@
 	{!! Form::selectMonth('month',$month,['class'=>'form-control','id'=>'month']) !!}
 </div>
 
-<div class="col-xs-1 col-sm-2 col-md-1 col-lg-2" >
-<label>{{ trans('contribution.date') }}</label>
-
-	{!! Form::input('text', 'date', date('Y-m-d'), ['class'=>'form-control','disabled']) !!}
+<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" >
+<label>{{ trans('refund.refund_type') }}</label>
+	{!! Form::select('refund_type', $refundTypes, $refundType, ['class'=>'form-control','id'=>'refundType']) !!}
 </div>
 <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" >
 <label>{{ trans('contribution.totalAmount') }}</label>

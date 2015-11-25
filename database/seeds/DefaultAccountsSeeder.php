@@ -212,21 +212,21 @@ $accounts =[
 			28				=>[
 			"module"		=> "member_transactions"
 			,"function"		=> "member_transaction_saving"
-			,"account_id"	=> "Case Interets annuels 8700"
+			,"account_id"	=> "8700"
 			,"entitled"		=> "Resultats"
 			,"type"			=> "debit"
 			],
 			29				=>[
 			"module"		=> "member_transactions"
 			,"function"		=> "member_transaction_saving"
-			,"account_id"	=> "Case Interets retournes 6702"
+			,"account_id"	=> "6702"
 			,"entitled"		=> "Interets retournes"
 			,"type"			=> "debit"
 			],
 			30				=>[
 			"module"		=>"member_transactions"
 			,"function"		=>"member_transaction_saving"
-			,"account_id"	=>"Case Relicats 4110 "
+			,"account_id"	=>"4110 "
 			,"entitled"		=>"Prets aux membres"
 			,"type"			=>"debit"
 			],

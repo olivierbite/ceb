@@ -5,6 +5,7 @@ use Ceb\Factories\LoanFactory;
 use Ceb\Http\Controllers\Controller;
 use Ceb\Http\Requests\CompleteLoanRequest;
 use Ceb\Http\Requests\UnblockLoanRequest;
+use Ceb\Models\DefaultAccount;
 use Ceb\Models\Loan;
 use Ceb\Models\User as Member;
 use Ceb\Models\User;
@@ -203,20 +204,78 @@ class LoanController extends Controller {
 		if ($member->exists) {
 			$rightToLoan = $member->right_to_loan;
 		}
-
+		$operation_type = strtolower($loanInputs['operation_type']);
 		/**
 		 * Get what the user is allowed to have if configured 
 		 */
-		$settingKey = strtolower($loanInputs['operation_type']).'.amount';
+		$settingKey = $operation_type.'.amount';
 
 		if ($this->setting->hasKey($settingKey) !== false) {
 			 $rightToLoan = $this->setting->keyValue($settingKey);
 			 $activeLoan = $member->latestLoan();
 		}
 
-		return view('loansandrepayments.index', compact('member','loanId','rightToLoan','activeLoan', 'loanInputs','operationType', 'cautionneurs', 'debitAccounts', 'creditAccounts', 'currentMemberId'));
+        /** DETERMINE WHICH DEFAULT ACCOUNTS TO SET */
+        
+        $defaultAccounts = $this->getDefaultAccounts($operation_type);
+		return view('loansandrepayments.index', compact('member','loanId','defaultAccounts','rightToLoan','activeLoan', 'loanInputs','operationType', 'cautionneurs', 'debitAccounts', 'creditAccounts', 'currentMemberId'));
 	}
 
+	/**
+     * Get default accounts for this modules
+     * @return array 
+     */
+    public function getDefaultAccounts($operation_type)
+    {
+        switch ($operation_type) {
+            case 'ordinary_loan':
+				$defaultDebitsAccounts	=  DefaultAccount::with('accounts')->debit()->ordinaryLoan()->get();
+				$defaultCreditsAccounts	= DefaultAccount::with('accounts')->credit()->ordinaryLoan()->get();
+                break;
+            case 'special_loan':
+				$defaultDebitsAccounts	=  DefaultAccount::with('accounts')->debit()->specialLoan()->get();
+				$defaultCreditsAccounts	= DefaultAccount::with('accounts')->credit()->specialLoan()->get();
+                break; 
+            case 'social_loan':
+				$defaultDebitsAccounts	=  DefaultAccount::with('accounts')->debit()->socialLoan()->get();
+				$defaultCreditsAccounts	= DefaultAccount::with('accounts')->credit()->socialLoan()->get();
+                break;   
+            default:
+             return [
+		            'debits' => [],
+		            'credits' => [],
+		        ];
+			break;
+
+        }
+        
+        
+        $debitsAccounts = [];
+        $creditsAccounts = [];
+
+		foreach ($defaultDebitsAccounts as $defaultDebitAccount) 
+		{
+			foreach ($defaultDebitAccount->accounts as $account) 
+			{
+				$debitsAccounts[$account->id]	= $account->entitled;
+			}
+		}
+	
+
+		foreach ($defaultCreditsAccounts as $defaultCreditAccount) 
+		{
+            foreach ($defaultCreditAccount->accounts as $account) 
+            {
+                $creditsAccounts[$account->id] = $account->entitled;
+            }
+        }
+        
+
+        return [
+            'debits' => (object) $debitsAccounts,
+            'credits' => (object) $creditsAccounts
+        ];
+    }
 	/**
 	 * THIS SECTION HAS THE AJAX FUNCTIONS THAT ARE CALLED BY THE
 	 * AJAX API ONLY

@@ -15,25 +15,25 @@ class MemberTransactionsViewComposer {
 	 */
 	private $transactions = [
 							 'saving' =>[
-							             'individual_monthly_contribution',
-							             'annual_interest',
-							             'returned_interest',
-							             'remainders',
-							             'repayments_of_third_party_debt_payment',
-							             'regularization',
-							             'other_savings',
+											'individual_monthly_contribution'			=>'individual_monthly_contribution',
+											'annual_interest'							=>'annual_interest',
+											'returned_interest'							=>'returned_interest',
+											'remainders'								=>'remainders',
+											'repayments_of_third_party_debt_payment'	=>'repayments_of_third_party_debt_payment',
+											'regularization'							=>'regularization',
+											'other_savings'								=>'other_savings',
 							 			],
 
 							 'withdrawal'=>[
-							 			  'withdrawal_a_third',
-							 			  'full_withdrawal_savings',
-							 			  'withdrawal_social_portion',
-							 			  'release_social_portion',
-							 			  'annual_interest_withdrawal',
-							 			  'withdrawal_returned_interests',
-							 			  'withdrawal_remaining_balances',
-							 			  'regularization',
-							 			  'other_withdrawals',
+											'withdrawal_a_third'			=>'withdrawal_a_third',
+											'full_withdrawal_savings'		=>'full_withdrawal_savings',
+											'withdrawal_social_portion'		=>'withdrawal_social_portion',
+											'release_social_portion'		=>'release_social_portion',
+											'annual_interest_withdrawal'	=>'annual_interest_withdrawal',
+											'withdrawal_returned_interests'	=>'withdrawal_returned_interests',
+											'withdrawal_remaining_balances'	=>'withdrawal_remaining_balances',
+											'regularization'				=>'regularization',
+											'other_withdrawals'				=>'other_withdrawals',
 							 			],
 							];
 

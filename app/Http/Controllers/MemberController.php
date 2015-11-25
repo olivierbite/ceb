@@ -10,11 +10,13 @@ use Ceb\Http\Requests\AddNewMemberRequest;
 use Ceb\Http\Requests\CompleteMemberTransactionRequest;
 use Ceb\Http\Requests\EditMemberRequest;
 use Ceb\Models\Contribution;
+use Ceb\Models\DefaultAccount;
 use Ceb\Models\Institution;
 use Ceb\Models\Loan;
 use Ceb\Models\User;
 use Ceb\Repositories\Member\MemberRepositoryInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Redirect;
@@ -99,7 +101,7 @@ class MemberController extends Controller {
 			return redirect()->back();
 		}
 
-		$member = $this->member->findOrfail($id);
+		$member = $this->member->with(['loans','contributions','refunds','cautions','cautioned','attornies','institution'])->findOrfail($id);
 
 		// If this user is ceb member then we only show his profile
 		if ($this->user->hasAccess('ceb.member')) {
@@ -222,10 +224,70 @@ class MemberController extends Controller {
 	 */
 	public function transacts($memberId)
 	{
-		$member = $this->member->findOrfail($memberId);
-		$title  = trans('member.transaction');
-		return view('members.transactions',compact('member','title'));
+		$member = $this->member->with(['loans','contributions','refunds','cautions','cautioned','attornies','institution'])->findOrfail($memberId);
+
+		$movement_type = 'saving';
+
+		if (Input::has('movement_type')) 	
+		{
+			$movement_type  = Input::get('movement_type');
+		}
+
+        $defaultAccounts = $this->getDefaultAccounts($movement_type);
+		return view('members.transactions',compact('member','movement_type','defaultAccounts'));
 	}
+	/**
+     * Get default accounts for this modules
+     * @return array 
+     */
+    public function getDefaultAccounts($movement_type)
+    {
+        switch ($movement_type) {
+            case 'saving':
+				$defaultDebitsAccounts	=  DefaultAccount::with('accounts')->debit()->memberTransactionSaving()->get();
+				$defaultCreditsAccounts	=  DefaultAccount::with('accounts')->credit()->memberTransactionSaving()->get();
+                break;
+            case 'withdrawal':
+				$defaultDebitsAccounts	=  DefaultAccount::with('accounts')->debit()->memberTransactionWithdraw()->get();
+				$defaultCreditsAccounts	=  DefaultAccount::with('accounts')->credit()->memberTransactionWithdraw()->get();
+                break;   
+            default:
+             return [
+		            'debits' => [],
+		            'credits' => [],
+		        ];
+			break;
+
+        }
+        
+        $debitsAccounts = [];
+        $creditsAccounts = [];
+
+		foreach ($defaultDebitsAccounts as $defaultDebitAccount) 
+		{
+			foreach ($defaultDebitAccount->accounts as $account) 
+			{
+
+				$debitsAccounts[$account->id]	= $account->account_number.' '. $account->entitled;
+			}
+		}
+	
+
+		foreach ($defaultCreditsAccounts as $defaultCreditAccount) 
+		{
+            foreach ($defaultCreditAccount->accounts as $account) 
+            {
+                $creditsAccounts[$account->id] = $account->entitled;
+            }
+        }
+        
+
+        return [
+            'debits' => (object) $debitsAccounts,
+            'credits' => (object) $creditsAccounts
+        ];
+
+    }
 
 	/**
 	 * This method complete transaction

@@ -29,6 +29,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
 		$this->composerRegularisactions();
 		$this->composerLoanStatus();
 		$this->composerLoanRate();
+		$this->compserRefundTypes();
 	}
 
 	/**
@@ -226,6 +227,15 @@ class ViewComposerServiceProvider extends ServiceProvider {
 
 		];
 		view()->composer($views,'\Ceb\ViewComposers\LoanRateViewComposer');
+	}
+
+	private function compserRefundTypes()
+	{
+		$views = [
+		     'refunds.form',
+
+		];
+		view()->composer($views,'\Ceb\ViewComposers\RefundTypesViewComposer');
 	}
 	
 }

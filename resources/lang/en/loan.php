@@ -167,5 +167,7 @@ return [
 
 
    'does_not_have_active_right_to_regulate'                                          =>':names does not have active loan to regulate, please use loan module if you want to give him a loan',
-
+'we_could_not_find_the_loan_you_are_looking_for'=>'We could not find the loan you are looking for',
+'loan_successfully_unblocked'=>'Loan successfully unbocked',
+'regularisation_cancelled'=>'Regularisation cancelled',
 ];

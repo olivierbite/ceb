@@ -47,7 +47,7 @@
 {{ trans('member.contributions') }}
 </a>
 
-<a 	class="popdown col-xs-5 col-md-5 btn btn-warning  btn-box orange"
+<a 	class="col-xs-5 col-md-5 btn btn-warning  btn-box orange"
 	href="{{ route('members.transacts',['memberId' => $member->id]) }}"
 >
 <i class="fa fa-money"></i>

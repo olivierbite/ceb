@@ -3,9 +3,9 @@
               <h3 class="box-title">@yield('content_title')</h3>
               <div class="box-tools">
               {{-- Request::is('regularisation/types') --}}
-              @if ((Request::is('members*') || Request::is('loans*') || Request::is('regularisation*')) && !Request::is('loans/pending*') || Request::is('loans/complete'))
+              @if ((request()->is('members*') || request()->is('loans*') || request()->is('regularisation*')) && !request()->is('loans/pending*') || request()->is('loans/complete'))
               
-              @if(!Request::is('regularisation/types') && !Request::is('regularisation/regulate') && !Request::isMethod('post') && !Request::is('loans/blocked'))
+              @if(!request()->is('regularisation/types') && !request()->is('regularisation/regulate') && !request()->isMethod('post') && !request()->is('loans/blocked') && !request()->is('members*transacts'))
                  @include('members.search')
               @endif
 

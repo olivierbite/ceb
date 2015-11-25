@@ -85,5 +85,8 @@ return array (
      'unblock'=>'Debroque',
        'refund'=>'Remboursement',
      'social_loan_motives'=>'Motifs de prêt sociale',
+'we_could_not_find_the_loan_you_are_looking_for'=>'Nous ne pouvions pas trouver le prêt que vous cherchez',
+'loan_successfully_unblocked'=>'Loan successfully unbocked',
+'regularisation_cancelled'=>'Regularisation annuler',
 );
 

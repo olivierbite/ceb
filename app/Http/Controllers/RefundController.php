@@ -116,22 +116,25 @@ class RefundController extends Controller {
 		$institution = $this->refundFactory->getInstitution();
 
 
-		$debitAccount = $this->refundFactory->getDebitAccount();
-		$creditAccount = $this->refundFactory->getCreditAccount();
-		$members = $this->refundFactory->getRefundMembers();
-		$totalRefunds = $this->refundFactory->getTotalRefunds();
+		$debitAccount	= $this->refundFactory->getDebitAccount();
+		$creditAccount	= $this->refundFactory->getCreditAccount();
+		$members		= $this->refundFactory->getRefundMembers();
+		$totalRefunds	= $this->refundFactory->getTotalRefunds();
+		$refundType		= $this->refundFactory->getRefundType();
 
-		return view('refunds.list', compact('members','institution', 'month', 'totalRefunds', 'creditAccount', 'debitAccount'));
+		return view('refunds.list', compact('members','institution','refundType', 'month', 'totalRefunds', 'creditAccount', 'debitAccount'));
 	}
 
 	/**
 	 * Set anything that may have been passed
 	 */
-	private function setAnyThing() {
+	private function setAnyThing() 
+	{
 		$this->setInstitution();
 		$this->setMonth();
 		$this->setDebitAccount();
 		$this->setCreditAccount();
+		$this->setRefundType();
 	}
 	/**
 	 * Set institution
@@ -153,6 +156,14 @@ class RefundController extends Controller {
 			$this->refundFactory->setByInsitution(Input::get('institution'));
 		}
 	}
+
+	
+	public function setRefundType()
+	{
+		if (Input::has('refund_type')) {
+			$this->refundFactory->setRefundType(Input::get('refund_type'));
+		}
+	}	
 	/**
 	 * Set Debit account
 	 */
@@ -206,5 +217,27 @@ class RefundController extends Controller {
 		if (Input::has('month')) {
 			$this->refundFactory->setMonth(Input::get('month'));
 		}
+	}
+
+	/**
+	 * Remove a member from the current contribution session
+	 * 
+	 * @param   $adhersion_id 
+	 * @return  mixed
+	 */
+	public function removeMember($adhersion_id)
+	{
+
+	   // First check if the user has the permission to do this
+        if (!$this->user->hasAccess('refund.remove.member')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
+            return redirect()->back();
+        }
+
+        // First log
+        Log::info($this->user->email . ' removed member contribution');
+    	
+		$this->refundFactory->removeMember($adhersion_id);
+		return $this->reload();
 	}
 }

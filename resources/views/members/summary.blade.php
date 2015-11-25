@@ -6,10 +6,17 @@
     <div class="icon"><i class="ion ion-heart"></i></div>
 </div>
 
-<div class="small-box bg-yellow">
+<div class="small-box bg-red">
     <div class="inner">
         <h3>{!! number_format($member->loanBalance(), 0, null, ",") !!} Rwf</h3> 
         <p>{{ trans('member.loan_as_of_today') }}</p>
+    </div>
+    <div class="icon"><i class="ion ion-edit"></i></div>
+</div>
+<div class="small-box bg-yellow">
+    <div class="inner">
+        <h3>{!! $member->has_active_loan ? number_format($member->loan_montly_fee, 0, null, ",") : 0 !!} Rwf</h3> 
+        <p>{{ trans('member.active_loan_monthly_fees_payments') }}</p>
     </div>
     <div class="icon"><i class="ion ion-edit"></i></div>
 </div>
