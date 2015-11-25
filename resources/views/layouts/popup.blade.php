@@ -61,6 +61,7 @@
 <div class="header">
 <div class="block title">
 @if (strpos($title , '.') === false)
+
     {!! 'report.'.$title !!}
 @else 
     <?php $title = explode('.',$title); ?>

@@ -61,11 +61,11 @@
 <div class="header">
 <div class="block title">
 @if (strpos($title , '.') === false)
-    {!! 'report.'.$title !!}
+    {!! trans('report.'.$title)  !!}
 @else 
     <?php $title = explode('.',$title); ?>
     <?php unset($title[0]) ?>
-    {!!  'report.'. implode('_', $title) !!}
+    {!!  trans('report.'. implode('_', $title)) !!}
 @endif
     
 </div>
