@@ -7,7 +7,18 @@ use Illuminate\Contracts\View\View;
  * AccountViewComposer
  */
 class RefundTypesViewComposer {
-	public $refundTypes = [
+	protected $refundTypes; 
+
+	function __construct( ) {
+		$this->setRefundTypes();
+	}
+	public function compose(View $view) {
+		$view->with('refundTypes',$this->refundTypes);
+	}
+
+	public function setRefundTypes()
+	{
+	 $this->refundTypes= [
 					'refund_by_banque'				=> trans('refund.refund_by_banque'),
 					'refund_by_salaire'				=> trans('refund.refund_by_salaire'),
 					'refund_by_epargne'				=> trans('refund.refund_by_epargne'),
@@ -17,8 +28,5 @@ class RefundTypesViewComposer {
 					'refund_by_interets_retournes'	=> trans('refund.refund_by_interets_retournes'),
 					'refund_by_interets_annuels'	=> trans('refund.refund_by_interets_annuels'),
 					];
-
-	public function compose(View $view) {
-		$view->with('refundTypes',$this->refundTypes);
 	}
 }
