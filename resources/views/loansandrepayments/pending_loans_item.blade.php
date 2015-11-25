@@ -3,8 +3,8 @@
 	<td>{{ $member->first_name.' '.$member->last_name }}</td>
 	<td>{{ $member->institution->name }} </td>
 	<td>{{ $member->adhersion_id }}  </td>
-	<td>{{ $member->Loan_balance }} </td>
-	<td>{{ $member->right_to_loan }} </td>
+	<td>{{ $member->loan_balance }} </td>
+	<td>{{ $loan->right_to_loan }} </td>
 	<td>{{ $loan->wished_amount }} </td>
 	<td>{{ $loan->rate }}</td>
 	<td>{{ $loan->tranches_number }}</td>

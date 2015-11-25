@@ -429,7 +429,7 @@ class RegularisationFactory {
 		$loanToRegulate->interests				= round($inputs['total_interests'], 0);
 		$loanToRegulate->amount_received		= round($inputs['netToReceive'],0);
 		$loanToRegulate->monthly_fees			= round($inputs['new_monthly_fees'],0);
-		$loanToRegulate->tranches_number		= $inputs['new_installments'];
+		$loanToRegulate->tranches_number		= isset($inputs['new_installments']) ? $inputs['new_installments'] : 0;
 		$loanToRegulate->cheque_number			= '';
 		$loanToRegulate->bank_id				= '';
 		$loanToRegulate->cautionneur1			= '';

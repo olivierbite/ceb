@@ -282,7 +282,7 @@ class Loan extends Model {
 							})
 							->orWhere(function($query)
 									{
-									return $query->where('regulation_type','	=','installments')
+									return $query->where('regulation_type','=','installments')
 												->where('is_regulation',1);
 									});
 							});

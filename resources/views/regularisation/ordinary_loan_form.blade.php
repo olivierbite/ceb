@@ -61,16 +61,14 @@
   </div>
   </div>
 
- @if (strpos($loanInputs['operation_type'], 'installment') !== false)
   <div class="col-md-3">
   <div class="form-group">
-   <label>{{ trans('loan.interests_to_pay_at_the_bank') }}</label>
+   <label>{{ trans('loan.interests') }}</label>
   {!! Form::input('text', 'interests_to_pay',isset($loanInputs['interests_to_pay'])?$loanInputs['interests_to_pay']:0,
                   ['class'=>'form-control blue-input loan-input','id'=>'interests_to_pay','readonly'=>true])
     !!}
   </div>
   </div>
-  @endif
  @if (strpos($loanInputs['operation_type'], 'amount') !== false)
   <div class="col-md-3">
   <div class="form-group">
