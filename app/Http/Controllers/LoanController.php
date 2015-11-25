@@ -232,6 +232,10 @@ class LoanController extends Controller {
 				$defaultDebitsAccounts	=  DefaultAccount::with('accounts')->debit()->ordinaryLoan()->get();
 				$defaultCreditsAccounts	= DefaultAccount::with('accounts')->credit()->ordinaryLoan()->get();
                 break;
+            case 'urgent_ordinary_loan':
+				$defaultDebitsAccounts	=  DefaultAccount::with('accounts')->debit()->ordinaryLoan()->get();
+				$defaultCreditsAccounts	= DefaultAccount::with('accounts')->credit()->ordinaryLoan()->get();
+                break;
             case 'special_loan':
 				$defaultDebitsAccounts	=  DefaultAccount::with('accounts')->debit()->specialLoan()->get();
 				$defaultCreditsAccounts	= DefaultAccount::with('accounts')->credit()->specialLoan()->get();
