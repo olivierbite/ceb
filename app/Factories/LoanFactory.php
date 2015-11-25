@@ -537,6 +537,7 @@ class LoanFactory {
 	 */
 	private function getTranschesNumber() {
 		$loanInputs = $this->getLoanInputs();
+		
 		return $numberOfInstallment = isset($loanInputs['tranches_number']) ? $loanInputs['tranches_number'] : 1;
 
 	}
