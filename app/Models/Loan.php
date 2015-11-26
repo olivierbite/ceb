@@ -81,7 +81,7 @@ class Loan extends Model {
     */
    public function cautions()
    {
-   		return $this->hasMany('Ceb\Models\MemberLoanCautionneur', 'transaction_id', 'transaction_id');
+   		return $this->hasMany('Ceb\Models\MemberLoanCautionneur', 'transaction_id', 'transactionid');
    }
 	/**
 	 * Cautionneur 1
