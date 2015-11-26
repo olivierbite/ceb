@@ -98,9 +98,9 @@ jQuery(document).ready(function($) {
 	 };
 	 var loanToRepay =  parseFloat($('#loanToRepay').val());
 	 var totalContributions = parseFloat($('#totalContributions').val());
+	
 
-	 $('#amount_bonded').val(loanToRepay - totalContributions);
-
+	 $('#amount_bonded').val(parseInt(loanToRepay) - parseInt(totalContributions));
 	// Amount bonded or cautionnee 
 	// the amount sanctioned is equal to the excess not guaranteed by
 	// saving the borrower shared equally between the two Cautionneurs.
@@ -172,8 +172,11 @@ jQuery(document).ready(function($) {
   		// If the amount to repay is less or equal to the 
   		// User total contributions then there is no 
   		// need to the caution then hide the form
-  		
-  		if(parseInt(loanToRepay) <= parseInt(totalContributions)){
+  		loanToRepay  = $('#loanToRepay').val();
+  		loanToRepay  = parseInt(loanToRepay);
+
+  		console.log(parseInt(totalContributions) < loanToRepay);
+  		if(parseInt(totalContributions) > parseInt(loanToRepay)){
   			$('#cautionForm').css('display', 'none');
   		}else{
   			$('#cautionForm').css('display','block');

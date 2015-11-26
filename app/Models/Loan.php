@@ -257,12 +257,19 @@ class Loan extends Model {
     {
     	return $query->where(function($query)
     				{
-    				 return $query->where('cheque_number','')
-				    				 ->orWhereNull('cheque_number')
-				    				 ->orWhereNull('bank_id')
-				    				 ->orWhere('bank_id','');
-    				})
-    				 ->where('regulation_type','<>','installments');
+    				 return $query->where(function($query)
+				    				 {
+				    				 	return	$query->where('cheque_number','')
+								    				 ->orWhereNull('cheque_number')
+								    				 ->orWhereNull('bank_id')
+								    				 ->orWhere('bank_id','');
+				    				 })
+    				 ->orWhere(function($query)
+    				 	{
+    				 		return $query->where('regulation_type','<>','installments')
+    				 					 ->where('is_regulation',1);
+    				 });
+    				});
     }
 
      /**
