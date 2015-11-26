@@ -185,7 +185,8 @@ class Loan extends Model {
      */
     public function scopeIsOrdinary($query)
     {
-    	return $query->where('operation_type','LIKE','%ordinary_loan');
+    	return $query->where('operation_type','LIKE','%ordinary_loan')
+    				 ->where('status','approved');
     }
 
     /**
