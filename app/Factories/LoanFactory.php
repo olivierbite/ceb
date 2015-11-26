@@ -570,11 +570,10 @@ class LoanFactory {
 		$administration_fees = (int) $this->setting->keyValue('loan.administration.fee');
 		$numberOfInstallment = $this->getTranschesNumber();
 
-		dd($loanDetails['operation_type'] );
-		if ($loanDetails['operation_type'] !=='ordinary_loan' && $loanDetails['operation_type'] != 'urgent_ordinary_loan') {
-			$loanToRepay+=$loanDetails['previous_loan_to_repay'];
-		}
 		
+		if (strpos(strtolower($loanDetails['operation_type']), 'ordinary_loan') === false) {
+			$loanToRepay+=(int) $loanDetails['previous_loan_balance'];
+		}
 		// Interest formular
 		// The formular to calculate interests at ceb is as following
 		// I =  P *(TI * N)
@@ -587,7 +586,7 @@ class LoanFactory {
 		//           N : Montly payment
 		// LoanToRepay * (InterestRate*NumberOfInstallment) / 1200 +(InterestRate*NumberOfInstallment)
 
-		$interests = ($loanToRepay * ($interestRate * $numberOfInstallment)) / (1200 + ($interestRate * $numberOfInstallment));
+		$interests = calculateInterest($loanToRepay,$interestRate,$numberOfInstallment);
 
 		$netToReceive = $loanToRepay - $interests;
 
@@ -600,7 +599,7 @@ class LoanFactory {
 		$this->addLoanInput(['monthly_fees' => round(($loanToRepay / $numberOfInstallment), 0)]);
 		$this->addLoanInput(['adhersion_id' => $this->getMember()->adhersion_id]);
 		$this->addLoanInput(['rate' => $interestRate]);
-
+		
 		// If this loan is urgent loan, then calculate administration fees
 		// And remove it from the net_to_receive
 		if (strtolower($loanDetails['operation_type']) == 'urgent_ordinary_loan') {

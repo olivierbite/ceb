@@ -99,7 +99,7 @@ class ReportController extends Controller {
 
         // First log 
         Log::info($this->user->email . ' is viewing report contract loan');
-
+       
         // Try to find this user by his id, if it fails then 
         // Try to look for him using his adhersion number
         if(is_null($foundUser = $user->with('loans')->find($identifier)))
@@ -117,6 +117,7 @@ class ReportController extends Controller {
         		return redirect()->back();
         	}
         }
+         
 
         // now we have found the member, let's try get his loan, otherwise we 
         // will display an error
@@ -128,7 +129,7 @@ class ReportController extends Controller {
         		
         		return redirect()->back();
         }
-        
+
 		// if the contract is empty, we assume it is not generated, let's try to generate it and save it
 		if (empty($loan->contract)) {
 			$loan->contract = generateContract($foundUser,strtolower($loan->operation_type));
