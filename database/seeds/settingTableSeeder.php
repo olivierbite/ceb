@@ -68,6 +68,11 @@ class settingTableSeeder extends Seeder
 	  	    'value' => 10,
 	  	    'type'  => 'percentage',
 	  	   ],
+	  11 =>[
+		  	'key' => 'loan.allow.one.ordinary.loan.only',
+		   'value' => 1,
+	  	   'type'  => 'boolean',
+	  	   ],
 	 ];
 
 	 DB::table('settings')->truncate();

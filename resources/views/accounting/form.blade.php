@@ -47,6 +47,18 @@
         $countFormsDebits = 1;
         $countFormsCredits = 1;
 
+        @if (isset($defaultAccounts['debits']))
+          @if (count($defaultAccounts['debits']) > 1)
+            $countFormsDebits = {!! count($defaultAccounts['debits']) !!};
+          @endif
+        @endif
+
+         @if (isset($defaultAccounts['credits']))
+          @if (count($defaultAccounts['credits']) > 1)
+            $countFormsCredits = {!! count($defaultAccounts['credits']) !!};
+          @endif
+        @endif
+
         $debitAmountSum = 0;
         $creditAmountSum = 0;
 
