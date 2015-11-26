@@ -198,7 +198,7 @@ class MemberController extends Controller {
  		$startDate = date('Y-m-d', 0);
  		$endDate   = date('Y-m-d');
  		
-    	$loans = $loan->with('member')->betweenDates($startDate,$endDate)->where('adhersion_id',$adhersionId)->get();
+    	$loans = $loan->with('member')->betweenDates($startDate,$endDate)->approved()->where('adhersion_id',$adhersionId)->get();
 	    $report = view('reports.member.loan_records',compact('loans'))->render();
 		return view('layouts.printing', compact('report'));
     }
