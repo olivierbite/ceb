@@ -191,7 +191,14 @@ class LoanController extends Controller {
 
 		$member = $this->loanFactory->getMember();
 		$loanInputs = $this->loanFactory->getLoanInputs();
-		$loanInputs['operation_type'] = isset($loanInputs['operation_type']) ? $loanInputs['operation_type'] : 'ordinary_loan';
+
+		if (isset($loanInputs['operation_type']) == false) {
+			$loanInputs['operation_type'] =  'ordinary_loan';
+
+			if ($member->has_active_loan) {
+				$loanInputs['operation_type'] = 'special_loan';
+			}
+		}
 
 		$creditAccounts = $this->loanFactory->getCreditAccounts();
 		$debitAccounts = $this->loanFactory->getDebitAccounts();
@@ -204,6 +211,7 @@ class LoanController extends Controller {
 		if ($member->exists) {
 			$rightToLoan = $member->right_to_loan;
 		}
+
 		$operation_type = strtolower($loanInputs['operation_type']);
 		/**
 		 * Get what the user is allowed to have if configured 

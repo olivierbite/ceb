@@ -57,6 +57,18 @@ class LoanFactory {
 				return false;
 			}
 	 	}
+
+	 	if ($this->setting->keyValue('loan.allow.one.ordinary.loan.only') == 1) {
+	 		if ($member->has_active_loan) {
+	 			flash()->warning(trans('loan.this_member_has_active_ordinary_loan'));
+
+	 			// Change operation type to default if the member still has ordinary 
+	 			// loan to pay back
+	 			if (strpos($this->getLoanInput('operation_type'), 'ordinary_loan') !== false) {
+					$this->addLoanInput(['operation_type'=>'special_loan']);
+	 			}
+	 		}
+	 	}
 		
 		Session::put('loan_member', $member);
 
