@@ -214,17 +214,28 @@ function generateContract($member,$contract_type)
 		$contract = str_replace('{province}',$member->province,$contract);
 		$contract = str_replace('{names}',$member->names,$contract);
 		$contract = str_replace('{institution_name}',$member->institution_name,$contract);
+
 		$loan_to_repay = (int) $loan->loan_to_repay;
+
 		$contract = str_replace('{loan_to_repay_word}',convert_number_to_words($loan_to_repay),$contract);
 		$contract = str_replace('{loan_to_repay}',number_format($loan_to_repay),$contract);
 		$contract = str_replace('{cheque_number}',$loan->cheque_number,$contract);
-		$contract = str_replace('{tranches_number}',$loan->tranches_number,$contract);
+
+		$tranches =  $loan->tranches_number;
+		$letter_date = $loan->letter_date;
+		// If the loan is regulated then use the total amount
+		if ($loan->is_regulation == 1) {
+			$tranches = $member->remaining_tranches;
+			$letter_date = $loan->created_at;
+		}
+
+		$contract = str_replace('{tranches_number}',$tranches,$contract);
 		$contract = str_replace('{monthly_fees}',number_format((int)$loan->monthly_fees),$contract);
 		$contract = str_replace('{interests}',number_format((int) $loan->interests),$contract);
 		$contract = str_replace('{urgent_loan_interests}',number_format((int)$loan->urgent_loan_interests),$contract);
-		$contract = str_replace('{start_payment_month}',$loan->letter_date->addMonth(1)->format('m-Y'),$contract);
-		$contract = str_replace('{end_payment_month}',$loan->letter_date->addMonth($member->latestLoan()->tranches_number + 1)->format('m-Y'),$contract);
-		$contract = str_replace('{tranches_number}',$loan->tranches_number,$contract);
+		$contract = str_replace('{start_payment_month}',$letter_date->addMonth(1)->format('m-Y'),$contract);
+		$contract = str_replace('{end_payment_month}',$letter_date->addMonth($tranches + 1)->format('m-Y'),$contract);
+		$contract = str_replace('{tranches_number}',$tranches,$contract);
 
 		$cautionnairesTable = view('reports.cautionneurs',compact('loan'))->render();
 		

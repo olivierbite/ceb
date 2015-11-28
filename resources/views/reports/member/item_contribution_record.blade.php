@@ -1,5 +1,5 @@
 <tr>
- 	<td>{{ $contribution->created_at->format('d/M/Y') }}</td>
+ 	<td>{{ $contribution->created_at->format('Y-m-d') }}</td>
  	<td>{{ $contribution->transaction_type }}</td>
 	<td>{{ $contribution->transaction_reason }}</td>
 	<td>{{ $contribution->wording }}</td>
