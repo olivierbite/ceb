@@ -96,27 +96,22 @@ class ReportController extends Controller {
             flash()->error(trans('Sentinel::users.noaccess'));
             return redirect()->back();
         }
-
+        
         // First log 
         Log::info($this->user->email . ' is viewing report contract loan');
        
-        // Try to find this user by his id, if it fails then 
-        // Try to look for him using his adhersion number
-        if(is_null($foundUser = $user->with('loans')->find($identifier)))
-        {
-        	// We could not find the user using his Id, we assume, the 
-        	// the provided identifier is a adhersion id  let's try 
-        	// to look for him/her using his adhersion number
-        	
-        	if (is_null($foundUser = $user->with('loans')->byAdhersion($identifier)->first())) {
+        // We could not find the user using his Id, we assume, the 
+    	// the provided identifier is a adhersion id  let's try 
+    	// to look for him/her using his adhersion number
+    	
+    	if (is_null($foundUser = $user->with('loans')->byAdhersion($identifier)->first())) {
 
-        		flash()->error(trans('member.we_could_not_find_the_member_you_are_looking_for'));
+    		flash()->error(trans('member.we_could_not_find_the_member_you_are_looking_for'));
 
-        		Log::error('Unable to find a member with identifier'.$identifier);
-        		
-        		return redirect()->back();
-        	}
-        }
+    		Log::error('Unable to find a member with identifier'.$identifier);
+    		
+    		return redirect()->back();
+    	}
          
 
         // now we have found the member, let's try get his loan, otherwise we 
