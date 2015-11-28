@@ -390,8 +390,9 @@ class ReportController extends Controller {
      * @param  string $value [description]
      * @return [type]        [description]
      */
-    public function pieceDisbursedAccount()
+    public function pieceDisbursedAccount(Posting $posting,$startDate,$endDate,$excel=0)
     {
+    	dd($posting->betweenDates($startDate,$endDate)->get());
     	return 'We are still working on the piece disbursed account';
     }
 

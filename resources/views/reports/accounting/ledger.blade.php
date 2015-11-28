@@ -11,7 +11,7 @@
 	<tbody>
 	@forelse ($postings as $posting)
 	<tr>
-		<td>{!! $posting->created_at->format('d/M/Y') !!}</td>
+		<td>{!! $posting->created_at->format('Y-m-d') !!}</td>
 		<td>{!! $posting->wording !!}</td>
 		<td>{!! $posting->debit_amount !!}</td>
 		<td>{!! $posting->credit_amount !!}</td>

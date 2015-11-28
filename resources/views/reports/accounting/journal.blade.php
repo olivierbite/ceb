@@ -29,8 +29,8 @@
 	<?php $rowspan = 0; ?>
 	@forelse ($postings as $posting)
 
-		@if ($date != $posting->created_at->format('d/M/Y'))
-		<?php $date = $posting->created_at->format('d/M/Y'); ?>
+		@if ($date != $posting->created_at->format('Y-m-d'))
+		<?php $date = $posting->created_at->format('Y-m-d'); ?>
 		<tr>
 			<td colspan="6">{!! $date !!}</td>
 		</tr>
@@ -43,8 +43,12 @@
 				{{-- detrmine how many rows do we have to span as per affected account for this transaction --}}
 				<?php $rowspan = $postings->where('transactionid',$transactionid)->count(); ?>
 
-				<td class="posting-details" rowspan="{!! $rowspan !!}">{!! $posting->transactionid !!}</td>
-				<td class="posting-details" rowspan="{!! $rowspan !!}">{!! $posting->created_at->format('d/M/Y') !!}</td>
+				<td class="posting-details" rowspan="{!! $rowspan !!}">
+				    {!! $posting->transactionid !!}
+				 </td>
+				<td class="posting-details" rowspan="{!! $rowspan !!}">
+				    {!! $posting->created_at->format('Y-m-d') !!}
+				</td>
 				<td class="posting-details" rowspan="{!! $rowspan !!}">{!! $posting->wording !!}</td>
 			@endif
 				<td class="account-details">{!! $posting->account->account_number !!}</td>

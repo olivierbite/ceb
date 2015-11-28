@@ -48,6 +48,27 @@ class Posting extends Model {
 	}
 
 	/**
+	 * Get posting by transaction ID
+	 * @param  $query         
+	 * @param  $transactionId 
+	 * @return mixed
+	 */	
+	public function scopeByTransactionId($query,$transactionId)
+	{
+		return $query->where('transactionid',$transactionid);
+	}
+
+	/**
+	 * Get posting by account
+	 * @param  $query     
+	 * @param  $account_id 
+	 * @return  
+	 */
+	public function scopeByAccount($query,$account_id)
+	{
+		return $query->where('account_id',$account_id);
+	}
+	/**
 	 * Sum amount
 	 * 
 	 * @return numeric
