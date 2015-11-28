@@ -309,7 +309,7 @@ class ReportController extends Controller {
   	 * @param  numeric $memberId the ID of the member
   	 * @return view    
   	 */
-    public function loanRecords(Loan $loan, $startDate=null,$endDate=null,$excel=0,$adhersionId,$excel=0)
+    public function loanRecords(Loan $loan, $startDate=null,$endDate=null,$excel=0,$adhersionId)
     { 
 	    // First check if the user has the permission to do this
         if (!$this->user->hasAccess('reports.loans.records')) {
@@ -334,7 +334,7 @@ class ReportController extends Controller {
      * @param  numeric $memberId [description]
      * @return view       
      */
-    public function contributions(Contribution $contribution,$startDate=null,$endDate=null,$excel=0,$adhersionId,$excel=0)
+    public function contributions(Contribution $contribution,$startDate=null,$endDate=null,$excel=0,$adhersionId)
     {
     	 // First check if the user has the permission to do this
         if (!$this->user->hasAccess('reports.contributions')) {
