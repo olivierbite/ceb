@@ -19,7 +19,7 @@
 	</td>
 </tr>
 <tr>
-	<td>{!! $loan->letter_date !!}</td>
+	<td>{!! $loan->letter_date->format('Y-m-d') !!}</td>
  	<td>{{  trans('loan.loan') }}</td>
 	<td>{!! $loan->operation_type !!}</td>
 	<td>{!! $loan->comment !!} </td>
@@ -35,7 +35,7 @@
 
 @foreach ($loan->refunds as $refund)
 <tr>
-	<td>{!! $refund->created_at !!}</td>
+	<td>{!! $refund->created_at->format('Y-m-d') !!}</td>
  	<td>{{ trans('loan.refund') }}</td>
 	<td>{{ trans('loan.refund') }}</td>
 	<td>{{ $refund->wording }} </td>
