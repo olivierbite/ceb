@@ -5,7 +5,7 @@ return array (
   'ordinary_loan_contract' => 'Contrat prêt Ordinaire',
   'special_loan_contract' => 'Contract prêt Special',
   'loan_regularisation_contract' => 'Contract Regularisation prêt',
-  'social_loan_contract' => 'Contract Prest Social',
+  'social_loan_contract' => 'Contract prêt  Social',
   'savings_file' => 'Fiche de cotisation',
   'loans_file' => 'Fiche de prêts',
   'accounting_dp'=>'Comptable PD',
@@ -67,7 +67,11 @@ return array (
 'loan_successfully_unblocked'=>'Prêt débloqué avec succès',
 'reports_accounting_ledger'=>'Rapport Grand livre',
 'reports_accounting_journal'=>'Rapport comptable journal',
-'reports_piece_disbursed_account'=>'Reports piece disbursed account',
+'reports_piece_disbursed_account'=>'Reports piece debourse compte',
+'reports_members_loanrecords'=>'Rapport fiche de prêt',
+'reports_members_contracts_saving'=>'Contract d\'epargne',
+'reports_members_contracts_loan'=>'Contract de prêt',
+'provide_bank_details_to_unblock_this_loan'=>'veillez insere le numero du cheque',
 
  
   );

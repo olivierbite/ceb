@@ -179,4 +179,8 @@ return [
 'additional_amount'=>'additional amount',
 'charges_rate'=>'Charges rate',
 'additinal_charges'=>'additional charges',
+'regularisation_completed'=>'Regularisation completed',
+'loan_with_transaction_id_2015112615281547_has_been_rejected'=>'loan with_transaction id has been rejected',
+'this_member_has_active_ordinary_loan'=>'This member has active ordinary loan',
+
 ];

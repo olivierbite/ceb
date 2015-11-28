@@ -4,7 +4,7 @@ return array (
   'dashboard' => 'Dashboard',
   'members' => 'Members',
   'contributions_and_savings' => 'Contributions & savings',
-  'loans_and_repayments' => 'Loans & repayments',
+  'loans_and_repayments' => 'Loans',
   'accounting' => 'Accounting',
   'reports' => 'Reports',
   'settings' => 'Settings',

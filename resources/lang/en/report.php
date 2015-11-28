@@ -1,7 +1,7 @@
 <?php
 
 return array (
-<<<<<<< HEAD
+
   'savings_contract' => 'Savings Contract',
   'ordinary_loan_contract' => 'Ordinary Loan Contract',
   'special_loan_contract' => 'Special Loan Contract',
@@ -64,8 +64,7 @@ return array (
 'saving_piece_disbursed'=>'Saving piece disbursed',
 'provide_bank_details_to_unblock_this_loan'=>'Provide bank details to unblock this loan',
 'loan_successfully_unblocked'=>'Loan successfully unblocked',
-'reports_accounting_journal'=>'Reports accounting journal'
-=======
+'reports_accounting_journal'=>'Reports accounting journal',
    'savings_contract'             => 'Savings Contract',
    'ordinary_loan_contract'       => 'Ordinary Loan Contract',
    'special_loan_contract'        => 'Special Loan Contract',
@@ -109,6 +108,4 @@ return array (
    'members'                      =>'Members',
    'various_withdrawal'           =>'Various Withdrawal',
    'reports_members_contributions' => 'Members contributions',
-
->>>>>>> 40f2ad021b5f0c1d0cd43c1e0b4dd214d1d0f504
   );

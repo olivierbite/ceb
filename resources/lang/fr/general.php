@@ -32,7 +32,7 @@ return array (
       'sickness'=>'Maladie',
      'accident'=>'Accident',
      'death'=>'Dece d\'un proche',
-     'other_reason'=>'Autre raison',
+     'other_reasons'=>'Autre raisons',
      'select_reason'=>'Sélectionnez la raison',
        'are_you_sure_you_want_to_this_this_action_cannot_be_reverted'=>'Etes-vous sûr que vous voulez que cette action \ cette action ne peut pas être inversée',
 

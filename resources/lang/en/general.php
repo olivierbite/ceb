@@ -35,7 +35,7 @@ return array (
      'sickness'=>'Sickness',
      'accident'=>'Accident',
      'death'=>'Death',
-     'other_reason'=>'Other reason',
+     'other_reasons'=>'Other reasons',
       'select_reason'=>'Select reason',
   'urgent_administration_fee' => 'Urgent fees (:charges %)',
   'are_you_sure_you_want_this_this_action_cannot_be_reverted'=>'Are you sure you want this \ this action cannot be reverted',
