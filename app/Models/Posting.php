@@ -64,7 +64,7 @@ class Posting extends Model {
 	 * @param  $account_id 
 	 * @return  
 	 */
-	public function scopeByAccount($query,$account_id)
+	public function scopeForAccount($query,$account_id)
 	{
 		return $query->where('account_id',$account_id);
 	}

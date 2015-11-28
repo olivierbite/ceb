@@ -58,12 +58,12 @@
 <h4>{{ trans('report.the_disbursed_parts') }}</h4>
 <ul class="nav nav-list">
   <li>
-  		<a href="{{ route('reports.filter') }}/?reporturl=reports/piece/disbursed/account&show_account=true&show_accounts=true&show_dates=true&show_exports=true" class="popdown">
+  		<a href="{{ route('reports.filter') }}/?reporturl=reports/piece/disbursed/account&show_accounts=true&show_dates=true&show_exports=true" class="popdown">
   			<i class="icon-chevron-right"></i> {{ trans('report.accounting_piece_disbursed') }}
   		</a>
   </li>
   <li>
-  		<a href="{{ route('reports.filter') }}/?reporturl=reports/piece/disbursed/saving&show_dates=true&show_exports=true" class="popdown">
+  		<a href="{{ route('reports.filter') }}/?reporturl=reports/piece/disbursed/saving&show_accounts=true&show_dates=true&show_exports=true" class="popdown">
   			<i class="icon-chevron-right"></i> {{ trans('report.saving_piece_disbursed') }}
   		</a>
   </li>

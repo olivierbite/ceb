@@ -132,8 +132,8 @@ Route::resource('loans', 'LoanController');
 	{
 			Route::group(['prefix'=>'disbursed'], function()
 			{
-				Route::get('saving/{startDate}/{endDate}/{export_excel?}',['as'=>'piece.disbursed.saving','uses'=>'ReportController@pieceDisbursedSaving']);
-				Route::get('account/{startDate}/{endDate}/{account}/{loan_type}/{export_excel?}',['as'=>'piece.disbursed.account','uses'=>'ReportController@pieceDisbursedAccount']);
+				Route::get('saving/{startDate}/{endDate}/{account}/{export_excel?}',['as'=>'piece.disbursed.saving','uses'=>'ReportController@pieceDisbursedSaving']);
+				Route::get('account/{startDate}/{endDate}/{account}/{export_excel?}',['as'=>'piece.disbursed.account','uses'=>'ReportController@pieceDisbursedAccount']);
 				Route::get('loan/{startDate}/{endDate}/{export_excel?}',['as'=>'piece.disbursed.account','uses'=>'ReportController@pieceDisbursedLoan']);
 			});
 	});

@@ -9,6 +9,6 @@
 	  	</tr>
    	 </thead>
  <tbody>
-   @each('reports.member.item_piece_debourse', $loans, 'loan', 'members.no-items')
+   @each('reports.member.item_piece_debourse', $postings, 'posting', 'members.no-items')
  </tbody>
 </table>

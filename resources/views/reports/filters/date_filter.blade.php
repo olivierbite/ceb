@@ -31,7 +31,7 @@
 @endif
 
 {{-- Only show this if the report require to show loan types selection  --}}
-@if ($filterOptions->show_accounts == true)
+@if ($filterOptions->show_loan_types == true)
   <b>{{ trans('reports.loan_type') }}</b>
    {!! Form::select('loan_type',$loanTypes,null,['class'=>'form-control','id'=>'loan_type'])!!}
 @endif

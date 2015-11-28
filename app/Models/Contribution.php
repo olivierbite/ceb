@@ -33,6 +33,14 @@ class Contribution extends Model {
 		return $this->belongsTo('Ceb\Models\User','adhersion_id','adhersion_id');
 	}
 
+	 /**
+    * Get loan postings
+    * @return  
+    */
+   public function postings()
+   {
+   	return $this->hasMany('\Ceb\Models\Posting','transactionid','transactionid');
+   }
 	/**
      * Get transactionType
      * @param  $query

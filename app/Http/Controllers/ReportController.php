@@ -380,8 +380,16 @@ class ReportController extends Controller {
      * @param  string $value [description]
      * @return [type]        [description]
      */
-    public function pieceDisbursedSaving()
+    public function pieceDisbursedSaving(Contribution $contribution,$startDate,$endDate,$excel=0)
     {
+    	/** @todo finish pierce debourse */
+    	$contribution = $contribution->with('postings.account')->betweenDates($startDate,$endDate)->get();
+    	$report =  view('reports.postings.piece_debourse',compact('postings'))->render();
+
+    	if ($excel==1) {
+			 toExcel($report,$status.'_between_'.request()->segment(3).'_and_'.request()->segment(4));
+		}
+    
     	return 'We are still working on the piece disbursed saving';
     }
 
@@ -390,10 +398,15 @@ class ReportController extends Controller {
      * @param  string $value [description]
      * @return [type]        [description]
      */
-    public function pieceDisbursedAccount(Posting $posting,$startDate,$endDate,$excel=0)
+    public function pieceDisbursedAccount(Posting $posting,$startDate,$endDate,$account,$excel=0)
     {
-    	dd($posting->betweenDates($startDate,$endDate)->get());
-    	return 'We are still working on the piece disbursed account';
+    	$postings = $posting->with('account')->betweenDates($startDate,$endDate)->forAccount($account)->get();
+    	$report =  view('reports.postings.piece_debourse',compact('postings'))->render();
+
+    	if ($excel==1) {
+			 toExcel($report,$status.'_between_'.request()->segment(3).'_and_'.request()->segment(4));
+		}
+    	return view('layouts.printing', compact('report'));
     }
 
      /**
