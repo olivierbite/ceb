@@ -9,13 +9,14 @@ use Illuminate\Http\Request;
 class ReportFilterController extends Controller
 {
     public $filterOptions = [
-        'member_search'    => false,
-        'show_institution' => false,
-        'show_dates'       => false,
-        'show_exports'     => false,
-        'show_loan_status' => false,
-        'show_accounts'    => false,
-        'show_loan_types'  => false,
+        'member_search'         => false,
+        'show_institution'      => false,
+        'show_dates'            => false,
+        'show_exports'          => false,
+        'show_loan_status'      => false,
+        'show_accounts'         => false,
+        'show_loan_types'       => false,
+        'show_transaction_type' => false,
     ];
 
     function __construct() {

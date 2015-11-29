@@ -12,7 +12,14 @@
 @if ($filterOptions->show_institution == true)
 <b>{{ trans('reports.select_institution') }}</b>	
 	<br/>
-	  {!! Form::select('institution', $institutions, null, ['class'=>'form-control']) !!}
+	  {!! Form::select('institution', $institutions, null, ['class'=>'form-control','id'=>'institition']) !!}
+	<br/>
+@endif
+{{-- Only show this if the report require institition selection  --}}
+@if ($filterOptions->show_transaction_type == true)
+<b>{{ trans('reports.show_transaction_type') }}</b>	
+	<br/>
+	  {!! Form::select('transaction_type', $institutions, null, ['class'=>'form-control','id'=>'transaction_type']) !!}
 	<br/>
 @endif
 

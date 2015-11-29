@@ -32,6 +32,14 @@ class Contribution extends Model {
 	{
 		return $this->belongsTo('Ceb\Models\User','adhersion_id','adhersion_id');
 	}
+		/**
+	 * Relationship with member
+	 * @return Ceb\Models\User
+	 */
+	public function institution()
+	{
+		return $this->belongsTo('Ceb\Models\Institution');
+	}
 
 	 /**
     * Get loan postings
@@ -52,6 +60,17 @@ class Contribution extends Model {
 		return $query->where('transaction_type',$transactionType);
 	}
 
+
+	/**
+	 * Get Contribution by transaction ID
+	 * @param  $query         
+	 * @param  $transactionId 
+	 * @return mixed
+	 */	
+	public function scopeByTransaction($query,$transactionid)
+	{
+		return $query->where('transactionid',$transactionid);
+	}
 
 	/**
      * Get transactionType of saving
