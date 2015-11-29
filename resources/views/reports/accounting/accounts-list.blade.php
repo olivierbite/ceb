@@ -14,7 +14,7 @@
 	 <td>{!! $account->account_nature !!}</td>
 	</tr>
 	@empty
-		{{-- empty expr --}}
+	
 	@endforelse
 
 	</tbody>

@@ -12,7 +12,14 @@
 @if ($filterOptions->show_institution == true)
 <b>{{ trans('reports.select_institution') }}</b>	
 	<br/>
-	  {!! Form::select('institution', $institutions, null, ['class'=>'form-control']) !!}
+	  {!! Form::select('institution', $institutions, null, ['class'=>'form-control','id'=>'institition']) !!}
+	<br/>
+@endif
+{{-- Only show this if the report require institition selection  --}}
+@if ($filterOptions->show_transaction_type == true)
+<b>{{ trans('reports.show_transaction_type') }}</b>	
+	<br/>
+	  {!! Form::select('transaction_type', $institutions, null, ['class'=>'form-control','id'=>'transaction_type']) !!}
 	<br/>
 @endif
 
@@ -27,11 +34,11 @@
 {{-- Only show this if the report require accounts selection  --}}
 @if ($filterOptions->show_accounts == true)
 	<b>{{ trans('reports.select_account') }}</b>
-	  {!! Form::select('account', $accounts,isset($accountId)?$accountId :null, ['class'=>'form-control'])!!}    
+	  {!! Form::select('account', $accounts,isset($accountId)?$accountId :null, ['class'=>'form-control','id'=>'account'])!!}    
 @endif
 
 {{-- Only show this if the report require to show loan types selection  --}}
-@if ($filterOptions->show_accounts == true)
+@if ($filterOptions->show_loan_types == true)
   <b>{{ trans('reports.loan_type') }}</b>
    {!! Form::select('loan_type',$loanTypes,null,['class'=>'form-control','id'=>'loan_type'])!!}
 @endif
@@ -114,6 +121,25 @@ $(document).ready(function()
 			}
 		}
         
+        
+        if(typeof $('#account').val() !=='undefined')
+        {
+        	var account = $('#account').val();
+        	url = '/'+baseUrl+'/'+daterange +'/'+account+'/'+ export_excel;
+		}
+
+        if(typeof $('#loan_type').val() !=='undefined')
+        {
+        	var loan_type = $('#loan_type').val();
+
+        	url = '/'+baseUrl+'/'+daterange +'/'+loan_type+'/'+ export_excel;
+		}
+
+		 if(typeof $('#account').val() !=='undefined' && typeof $('#loan_type').val() !=='undefined')
+		 {
+		 	url = '/'+baseUrl+'/'+daterange +'/'+account+'/'+loan_type+'/'+ export_excel;
+		 }
+
 		/** Add additinal parameters for the members routes */
 		if(baseUrl.indexOf('members') !== -1)
 		{

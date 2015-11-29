@@ -132,8 +132,8 @@ Route::resource('loans', 'LoanController');
 	{
 			Route::group(['prefix'=>'disbursed'], function()
 			{
-				Route::get('saving/{startDate}/{endDate}/{export_excel?}',['as'=>'piece.disbursed.saving','uses'=>'ReportController@pieceDisbursedSaving']);
-				Route::get('account/{startDate}/{endDate}/{export_excel?}',['as'=>'piece.disbursed.account','uses'=>'ReportController@pieceDisbursedAccount']);
+				Route::get('saving/{startDate}/{endDate}/{account}/{export_excel?}',['as'=>'piece.disbursed.saving','uses'=>'ReportController@pieceDisbursedSaving']);
+				Route::get('account/{startDate}/{endDate}/{account}/{export_excel?}',['as'=>'piece.disbursed.account','uses'=>'ReportController@pieceDisbursedAccount']);
 				Route::get('loan/{startDate}/{endDate}/{export_excel?}',['as'=>'piece.disbursed.account','uses'=>'ReportController@pieceDisbursedLoan']);
 			});
 	});
@@ -197,10 +197,10 @@ Route::group(array('prefix'	=> '/items'), function() {
 
 /** DYNAMIC ASSETS ROUTES */
 $router->get('/js/loanform',['as'=>'assets.js.loanform','uses'=>function(){
-	return view('assets.js.loan_formjs');
+	return response()->view('assets.js.loan_formjs')->header('Content-Type','application/javascript; charset=utf-8');
 }]);
 $router->get('/js/regularisationform',['as'=>'assets.js.regularisationform','uses'=>function(){
-	return view('assets.js.regularisation_formjs');
+	return response()->view('assets.js.regularisation_formjs')->header('Content-Type','application/javascript; charset=utf-8');;
 }]);
 
 $router->get('/test',function()

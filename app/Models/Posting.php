@@ -30,6 +30,33 @@ class Posting extends Model {
 	}
 
 	/**
+	 * Relationship with Contribution
+	 * @return Ceb\Models\Contribution
+	 */
+	public function contribution()
+	{
+		return $this->belongsTo('\Ceb\Models\Contribution','transactionid','transactionid');
+	}
+
+	/**
+	 * Relationship with user
+	 * @return Ceb\Models\user
+	 */
+	public function user()
+	{
+		return $this->belongsTo('\Ceb\Models\User');
+	}
+
+	/**
+	 * Relationship with Loan
+	 * @return Ceb\Models\Loan
+	 * 
+	 */
+	public function loans()
+	{
+		return $this->belongsTo('\Ceb\Models\Loan','transactionid','transactionid');
+	}
+	/**
 	 * Relationship with account
 	 * @return Ceb\Models\Account
 	 */
@@ -47,6 +74,27 @@ class Posting extends Model {
 		return $query->where(DB::raw('LOWER(transaction_type)'),'debit');
 	}
 
+	/**
+	 * Get posting by transaction ID
+	 * @param  $query         
+	 * @param  $transactionId 
+	 * @return mixed
+	 */	
+	public function scopeByTransaction($query,$transactionid)
+	{
+		return $query->where('transactionid',$transactionid);
+	}
+
+	/**
+	 * Get posting by account
+	 * @param  $query     
+	 * @param  $account_id 
+	 * @return  
+	 */
+	public function scopeForAccount($query,$account_id)
+	{
+		return $query->where('account_id',$account_id);
+	}
 	/**
 	 * Sum amount
 	 * 

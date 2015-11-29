@@ -139,6 +139,7 @@ class ContributionRepository {
 			if (!$newContribution) {
 				return false;
 			}
+
 		}
 
 		if (!empty($memberWithoutFees)) {

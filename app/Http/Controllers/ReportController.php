@@ -11,12 +11,15 @@ use Ceb\Models\User;
 use Ceb\Repositories\Reports\GraphicReportRepository;
 use Illuminate\Support\Facades\Log;
 use Ceb\Factories\LoanFactory;
+use stdClass;
 
 class ReportController extends Controller {
 	public $report;
+	public $labels;
 	function __construct(User $member) {
 		$this->report = trans('report.nothing_to_show');
 		$this->member = $member;
+		$this->labels = new stdClass();
 		parent::__construct();
 	}
 
@@ -138,7 +141,7 @@ class ReportController extends Controller {
 
 	/**
 	 * Get member by his ID
-	 * @param  INTEGER $memberId [description]
+	 * @param  INTEGER $memberId 
 	 * @return Model
 	 */
 	private function getMember($memberId) {
@@ -326,7 +329,7 @@ class ReportController extends Controller {
 
     /**
      * Show this member contribution
-     * @param  numeric $memberId [description]
+     * @param  numeric $memberId 
      * @return view       
      */
     public function contributions(Contribution $contribution,$startDate=null,$endDate=null,$excel=0,$adhersionId)
@@ -377,31 +380,101 @@ class ReportController extends Controller {
 
     /**
      * Piece Disbursed Saving Report 
-     * @param  string $value [description]
-     * @return [type]        [description]
+     * @param  string $value 
+     * @return [type]        
      */
-    public function pieceDisbursedSaving()
+    public function pieceDisbursedSaving(Contribution $contribution,$startDate,$endDate,$transactionid,$excel=0)
     {
-    	return 'We are still working on the piece disbursed saving';
+    	/** @todo finish pierce debourse */
+    	$contribution = $contribution->with(['postings','institution'])->betweenDates($startDate,$endDate)->byTransaction($transactionid)->first();
+
+		$postings				= [];
+
+		$labels = $this->labels;
+    	if (isset($contribution->postings)) 
+    	{
+	    	$postings = $contribution->postings;
+	    	$this->labels->title 					= trans('report.piece_debourse_saving');
+	    	$this->labels->top_left_upper			= trans('account.payment_date');;
+			$this->labels->top_left_upper_value		= $postings->first()->created_at->format('Y-m-d');
+			$this->labels->top_left_under			= trans('account.operator');
+			$this->labels->top_left_under_value		= $postings->first()->user->names;
+			$this->labels->top_right_upper			= 'top_right_upper';
+			$this->labels->top_right_upper_value	= 'top_right_upper_value';
+			$this->labels->top_right_under			= 'top_right_under';
+			$this->labels->top_right_under_value	= 'top_right_under_value';
+    	}
+        
+    	$report =  view('reports.postings.piece_debourse',compact('postings','labels'))->render();
+
+    	if ($excel==1) {
+			 toExcel($report,$status.'_between_'.request()->segment(3).'_and_'.request()->segment(4));
+		}
+    
+    	return view('layouts.printing', compact('report'));
     }
 
      /**
      * Piece Disbursed Account Report 
-     * @param  string $value [description]
-     * @return [type]        [description]
+     * @param  string $value 
+     * @return [type]        
      */
-    public function pieceDisbursedAccount()
+    public function pieceDisbursedAccount(Posting $posting,$startDate,$endDate,$account,$excel=0)
     {
-    	return 'We are still working on the piece disbursed account';
+    	$postings = $posting->with(['account','user'])->betweenDates($startDate,$endDate)->forAccount($account)->get();
+
+    	$this->labels->title 					= trans('report.piece_debourse_accounting');
+    	$this->labels->top_left_upper			= trans('account.payment_date');;
+		$this->labels->top_left_upper_value		= $postings->first()->created_at->format('Y-m-d');
+		$this->labels->top_left_under			= trans('account.operator');
+		$this->labels->top_left_under_value		= $postings->first()->user->names;
+		$this->labels->top_right_upper			= 'top_right_upper';
+		$this->labels->top_right_upper_value	= 'top_right_upper_value';
+		$this->labels->top_right_under			= 'top_right_under';
+		$this->labels->top_right_under_value	= 'top_right_under_value';
+
+		$labels = $this->labels;
+    	$report =  view('reports.postings.piece_debourse',compact('postings','labels'))->render();
+
+    	if ($excel==1) {
+			 toExcel($report,$status.'_between_'.request()->segment(3).'_and_'.request()->segment(4));
+		}
+    	return view('layouts.printing', compact('report'));
     }
 
      /**
      * Piece Disbursed Loan Report 
-     * @param  string $value [description]
-     * @return [type]        [description]
+     * @param  string $value 
+     * @return [type]        
      */
-    public function pieceDisbursedLoan()
+    public function pieceDisbursedLoan(Loan $loan,$transactionid,$excel=0)
     {
-    	return 'We are still working on the piece disbursed loan';
+    	/** @todo finish pierce debourse */
+    	$loan = $loan->with(['postings'])->byTransaction($transactionid)->first();
+
+		$postings				= [];
+
+		$labels = $this->labels;
+    	if (isset($loan->postings)) 
+    	{
+	    	$postings = $loan->postings;
+	    	$this->labels->title 					= trans('report.piece_debourse_loan');
+	    	$this->labels->top_left_upper			= trans('account.payment_date');;
+			$this->labels->top_left_upper_value		= $postings->first()->created_at->format('Y-m-d');
+			$this->labels->top_left_under			= trans('account.operator');
+			$this->labels->top_left_under_value		= $postings->first()->user->names;
+			$this->labels->top_right_upper			= 'top_right_upper';
+			$this->labels->top_right_upper_value	= 'top_right_upper_value';
+			$this->labels->top_right_under			= 'top_right_under';
+			$this->labels->top_right_under_value	= 'top_right_under_value';
+    	}
+        
+    	$report =  view('reports.postings.piece_debourse',compact('postings','labels'))->render();
+
+    	if ($excel==1) {
+			 toExcel($report,$status.'_between_'.request()->segment(3).'_and_'.request()->segment(4));
+		}
+    
+    	return view('layouts.printing', compact('report'));
     }
 }
