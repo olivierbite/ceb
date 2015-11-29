@@ -238,7 +238,16 @@ class Loan extends Model {
         return $query->where('status', '=','pending');
     }
 
-
+    /**
+	 * Get loan by transaction ID
+	 * @param  $query         
+	 * @param  $transactionId 
+	 * @return mixed
+	 */	
+	public function scopeByTransaction($query,$transactionid)
+	{
+		return $query->where('transactionid',$transactionid);
+	}
     /**
      * Scope a query to only include rejected loans.
      *

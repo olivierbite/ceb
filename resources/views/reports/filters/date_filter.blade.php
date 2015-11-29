@@ -17,12 +17,18 @@
 @endif
 {{-- Only show this if the report require institition selection  --}}
 @if ($filterOptions->show_transaction_type == true)
-<b>{{ trans('reports.show_transaction_type') }}</b>	
+<b>{{ trans('reports.transaction_type') }}</b>	
 	<br/>
-	  {!! Form::select('transaction_type', $institutions, null, ['class'=>'form-control','id'=>'transaction_type']) !!}
+	  {!! Form::select('transaction_type', ['saving'=>'saving','withdrawal'=>'withdrawal'], null, ['class'=>'form-control','id'=>'transaction_type']) !!}
 	<br/>
 @endif
-
+{{-- Only show this if the report require institition selection  --}}
+@if ($filterOptions->show_transaction_input == true)
+<b>{{ trans('reports.transaction_id') }}</b>	
+	<br/>
+	 {!! Form::text('transaction_id', null,  ['class'=>'form-control','id'=>'transaction_id']) !!}
+	<br/>
+@endif
 {{-- Only show this if the report require loan status selection  --}}
 @if ($filterOptions->show_loan_status == true)
 <div>
@@ -135,10 +141,16 @@ $(document).ready(function()
         	url = '/'+baseUrl+'/'+daterange +'/'+loan_type+'/'+ export_excel;
 		}
 
-		 if(typeof $('#account').val() !=='undefined' && typeof $('#loan_type').val() !=='undefined')
+	    if(typeof $('#account').val() !=='undefined' && typeof $('#loan_type').val() !=='undefined')
 		 {
 		 	url = '/'+baseUrl+'/'+daterange +'/'+account+'/'+loan_type+'/'+ export_excel;
 		 }
+
+	   if(typeof $('#transaction_id').val() !=='undefined')
+        {
+        	var transaction_id = $('#transaction_id').val();
+        	url = '/'+baseUrl+'/'+transaction_id+'/'+ export_excel;
+		}
 
 		/** Add additinal parameters for the members routes */
 		if(baseUrl.indexOf('members') !== -1)
