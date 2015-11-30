@@ -19,7 +19,7 @@ class ReportController extends Controller {
 	function __construct(User $member) {
 		$this->report = trans('report.nothing_to_show');
 		$this->member = $member;
-		$this->labels = new stdClass();
+		$this->setLabels();
 		parent::__construct();
 	}
 
@@ -383,10 +383,10 @@ class ReportController extends Controller {
      * @param  string $value 
      * @return [type]        
      */
-    public function pieceDisbursedSaving(Contribution $contribution,$startDate,$endDate,$transactionid,$excel=0)
+    public function pieceDisbursedSaving(Contribution $contribution,$transactionid,$excel=0)
     {
     	/** @todo finish pierce debourse */
-    	$contribution = $contribution->with(['postings','institution'])->betweenDates($startDate,$endDate)->byTransaction($transactionid)->first();
+    	$contribution = $contribution->with(['postings','institution'])->byTransaction($transactionid)->first();
 
 		$postings				= [];
 
@@ -408,7 +408,7 @@ class ReportController extends Controller {
     	$report =  view('reports.postings.piece_debourse',compact('postings','labels'))->render();
 
     	if ($excel==1) {
-			 toExcel($report,$status.'_between_'.request()->segment(3).'_and_'.request()->segment(4));
+			 toExcel($report,'piece_debourse_saving');
 		}
     
     	return view('layouts.printing', compact('report'));
@@ -423,6 +423,8 @@ class ReportController extends Controller {
     {
     	$postings = $posting->with(['account','user'])->betweenDates($startDate,$endDate)->forAccount($account)->get();
 
+    	if (!$postings->isEmpty()) {
+    	
     	$this->labels->title 					= trans('report.piece_debourse_accounting');
     	$this->labels->top_left_upper			= trans('account.payment_date');;
 		$this->labels->top_left_upper_value		= $postings->first()->created_at->format('Y-m-d');
@@ -432,12 +434,13 @@ class ReportController extends Controller {
 		$this->labels->top_right_upper_value	= 'top_right_upper_value';
 		$this->labels->top_right_under			= 'top_right_under';
 		$this->labels->top_right_under_value	= 'top_right_under_value';
-
+	
+    	}
 		$labels = $this->labels;
     	$report =  view('reports.postings.piece_debourse',compact('postings','labels'))->render();
 
     	if ($excel==1) {
-			 toExcel($report,$status.'_between_'.request()->segment(3).'_and_'.request()->segment(4));
+			 toExcel($report,'pierce_debource_comptable_between_'.request()->segment(3).'_and_'.request()->segment(4));
 		}
     	return view('layouts.printing', compact('report'));
     }
@@ -472,9 +475,26 @@ class ReportController extends Controller {
     	$report =  view('reports.postings.piece_debourse',compact('postings','labels'))->render();
 
     	if ($excel==1) {
-			 toExcel($report,$status.'_between_'.request()->segment(3).'_and_'.request()->segment(4));
+			 toExcel($report,'piece_debourse_pret');
 		}
     
     	return view('layouts.printing', compact('report'));
+    }
+
+    /**
+     * Set labels
+     */
+    private function setLabels()
+    {	
+    		$this->labels 							= new stdClass();
+	    	$this->labels->title 					= false;
+	    	$this->labels->top_left_upper			= false;
+			$this->labels->top_left_upper_value		= false;
+			$this->labels->top_left_under			= false;
+			$this->labels->top_left_under_value		= false;
+			$this->labels->top_right_upper			= false;
+			$this->labels->top_right_upper_value	= false;
+			$this->labels->top_right_under			= false;
+			$this->labels->top_right_under_value	= false;
     }
 }

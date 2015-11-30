@@ -63,12 +63,12 @@
   		</a>
   </li>
   <li>
-  		<a href="{{ route('reports.filter') }}/?reporturl=reports/piece/disbursed/saving&show_accounts=true&show_dates=true&show_exports=true" class="popdown">
+  		<a href="{{ route('reports.filter') }}/?reporturl=reports/piece/disbursed/saving&show_transaction_input=true&show_exports=true" class="popdown">
   			<i class="icon-chevron-right"></i> {{ trans('report.saving_piece_disbursed') }}
   		</a>
   </li>
   <li>
-  		<a href="{{ route('reports.filter') }}/?reporturl=reports/piece/disbursed/loan&show_dates=true&show_exports=true" class="popdown">
+  		<a href="{{ route('reports.filter') }}/?reporturl=reports/piece/disbursed/loan&show_transaction_input=true&show_exports=true" class="popdown">
   			<i class="icon-chevron-right"></i> {{ trans('report.loan_piece_disbursed') }}
   		</a>
   </li>
