@@ -66,18 +66,19 @@ jQuery(document).ready(function($) {
 		};
 
 		// Calculate remaining interest
-		interestRate				= Math.round(getInterestRate(remaining_installments));
+		interestRate				= getInterestRate(remaining_installments);
 		remaining_interest			= Math.round(getInterest(loanBalance,interestRate,remaining_installments));
-		interestRate				= Math.round(getInterestRate(numberOfInstallment));
+		interestRate				= getInterestRate(numberOfInstallment);
 
 		// Do this only when this is regularisation echeance/installments
 		if (operation_type.indexOf("installment") > -1 && operation_type.indexOf("amount") == -1) {		
 			totalInstallement_interests	= Math.round(getInterest(loanBalance,interestRate,numberOfInstallment));
 			interest_on_installements	= Math.round(totalInstallement_interests - remaining_interest);
 			new_monthly_fees			= parseInt(Math.round(loanBalance/numberOfInstallment));
-			total_interests  = interest_on_installements;
+			total_interests				= interest_on_installements;
 		};
-
+		
+		
 		// Do this only when this is regularisation montant/amount
 		if (operation_type.indexOf("amount") > -1 && operation_type.indexOf("installment") == -1) {
 			totalInstallement_interests = Math.round(getInterest(Math.round(loanBalance) + Math.round(additional_amount),interestRate,numberOfInstallment));
@@ -172,7 +173,12 @@ jQuery(document).ready(function($) {
 		//           TI: Interest Rate
 		//           N : Montly payment
 		// amount * (rate*installments) / 1200 +(rate*installments)
-		return (amount * (rate*installments)) / (1200 +(rate*installments));
+		amount = parseFloat(amount);
+		rate   = parseFloat(rate);
+		installments = parseInt(installments);
+
+		var interests = amount * rate * installments / 1200 +(rate*installments);
+		return interests;
 	}
 
 	/**
