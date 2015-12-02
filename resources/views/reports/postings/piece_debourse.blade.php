@@ -37,7 +37,8 @@
   	 	<tr>
 	  	 	<td>
 	  	 		{{ trans('report.done_by') }} <br/>
-				{!! (new Ceb\Models\Setting)->get('general.gerant') !!}
+	  	 		<?php $user = Sentry::getUser(); ?>
+				{!!  $user->first_name !!} {!! $user->last_name !!}
 	  	 	</td>
 	     	<td>{{ trans('report.gerant') }} <br/>
 				{!! (new Ceb\Models\Setting)->get('general.gerant') !!}

@@ -426,7 +426,7 @@ class ReportController extends Controller {
     	if (!$postings->isEmpty()) {
     	
     	$this->labels->title 					= trans('report.piece_debourse_accounting');
-    	$this->labels->top_left_upper			= trans('account.payment_date');;
+    	$this->labels->top_left_upper			= trans('account.payment_date');
 		$this->labels->top_left_upper_value		= $postings->first()->created_at->format('Y-m-d');
 		$this->labels->top_left_under			= trans('account.operator');
 		$this->labels->top_left_under_value		= $postings->first()->user->names;
@@ -457,19 +457,22 @@ class ReportController extends Controller {
 
 		$postings				= [];
 
+		$this->labels->title 					= trans('report.piece_debourse_loan');
+
+    	$this->labels->top_left_upper			= trans('loan.bank');
+		$this->labels->top_left_under			= trans('report.payment_date');
+		$this->labels->top_right_upper			= trans('loan.beneficiaire');
+		$this->labels->top_right_under			= trans('loan.cheque_number');
+
 		$labels = $this->labels;
+
     	if (isset($loan->postings)) 
     	{
 	    	$postings = $loan->postings;
-	    	$this->labels->title 					= trans('report.piece_debourse_loan');
-	    	$this->labels->top_left_upper			= trans('account.payment_date');;
-			$this->labels->top_left_upper_value		= $postings->first()->created_at->format('Y-m-d');
-			$this->labels->top_left_under			= trans('account.operator');
-			$this->labels->top_left_under_value		= $postings->first()->user->names;
-			$this->labels->top_right_upper			= 'top_right_upper';
-			$this->labels->top_right_upper_value	= 'top_right_upper_value';
-			$this->labels->top_right_under			= 'top_right_under';
-			$this->labels->top_right_under_value	= 'top_right_under_value';
+			$this->labels->top_left_upper_value		= $loan->bank_id;
+			$this->labels->top_left_under_value		= $loan->updated_at->format('d/m/Y');
+			$this->labels->top_right_upper_value	= $loan->member->names;
+			$this->labels->top_right_under_value	= $loan->cheque_number;
     	}
         
     	$report =  view('reports.postings.piece_debourse',compact('postings','labels'))->render();
@@ -488,13 +491,15 @@ class ReportController extends Controller {
     {	
     		$this->labels 							= new stdClass();
 	    	$this->labels->title 					= false;
-	    	$this->labels->top_left_upper			= false;
-			$this->labels->top_left_upper_value		= false;
-			$this->labels->top_left_under			= false;
-			$this->labels->top_left_under_value		= false;
-			$this->labels->top_right_upper			= false;
-			$this->labels->top_right_upper_value	= false;
-			$this->labels->top_right_under			= false;
-			$this->labels->top_right_under_value	= false;
+
+	    	$this->labels->top_left_upper			= trans('loan.bank');
+			$this->labels->top_left_under			= trans('report.payment_date');
+			$this->labels->top_right_upper			= trans('loan.beneficiaire');
+			$this->labels->top_right_under			= trans('loan.cheque_number');
+
+			$this->labels->top_left_upper_value		= trans('general.not_available');
+			$this->labels->top_left_under_value		= trans('general.not_available');
+			$this->labels->top_right_upper_value	= trans('general.not_available');
+			$this->labels->top_right_under_value	= trans('general.not_available');
     }
 }
