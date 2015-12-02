@@ -14,6 +14,7 @@
             }
       }
     </style>
+    <!-- aaddiing heree piece ddebbuurree priinnt seccttiioonn--->>
     <link rel="stylesheet" type="text/css" href="{!! url('/assets/dist/css/report.css') !!}">
     @yield('headercss')
 
