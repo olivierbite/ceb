@@ -305,7 +305,7 @@ class MemberController extends Controller {
 		 }
 
 		 // Error happened here
-		 return $this->trans($memberId);
+		 return $this->transacts($memberId);
 	}
     
     /**

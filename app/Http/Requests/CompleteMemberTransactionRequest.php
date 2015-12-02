@@ -45,7 +45,7 @@ class CompleteMemberTransactionRequest extends Request
     {
         // Grab all inputs from the user
         $attributes = parent::all();
-       
+
         // Modify or Add new array key/values
         // ==================================
         // Make sure these fields are numeric

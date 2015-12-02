@@ -45,7 +45,7 @@
                 </div>
                 <div class="panel-body">
                    <div class="notifications"></div>
-                   {!! Form::open(['url'=>  route('members.completetransaction',['memberId'=>$member->id])]) !!}
+                   {!! Form::open(['method'=>'POST','url'=>  route('members.completetransaction',['memberId'=>$member->id])]) !!}
                         <div class="row">
                             <div class="col-xs-4 col-md-4">
                                 <div class="form-group">
