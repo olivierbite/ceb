@@ -217,7 +217,7 @@ class Loan extends Model {
     {
         return $query->where('status', $status);
     }
-
+    
 	/**
      * Scope a query to only include approved loans.
      *

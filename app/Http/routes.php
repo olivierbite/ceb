@@ -1,4 +1,6 @@
 <?php
+
+use Ceb\Models\Setting;
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -205,22 +207,7 @@ $router->get('/js/regularisationform',['as'=>'assets.js.regularisationform','use
 
 $router->get('/test',function()
 	{
-		$defaultDebitsAccounts = Ceb\Models\DefaultAccount::ofType('debit')->regularisationAmount()->get();
 		
-		$debitsAccounts = [];
-		$creditsAccounts = [];
-		foreach ($defaultDebitsAccounts as $defaultDebitAccount) {
-			foreach ($defaultDebitAccount->accounts as $account) {
-				$debitsAccounts[$account->id] = $account->entitled;
-			}
-		}
-
-		$defaultCreditsAccounts = Ceb\Models\DefaultAccount::with('accounts')->credit()->regularisationAmount()->get();
-		foreach ($defaultCreditsAccounts as $defaultCreditAccount) {
-			foreach ($defaultCreditAccount->accounts as $account) {
-				$creditsAccounts[$account->id] = $account->entitled;
-			}
-		}
-
-		dd($debitsAccounts,$creditsAccounts);
+		dd((new Setting)->get('loan.give.ordinary.loan.2'));
+	
    });
