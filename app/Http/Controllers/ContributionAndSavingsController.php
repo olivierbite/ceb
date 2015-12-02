@@ -161,24 +161,26 @@ class ContributionAndSavingsController extends Controller {
 		    flash()->warning(trans('contribution.debit_account_and_credit_account_cannot_be_the_same'));
 			return $this->reload();		
 		}
+		$transactionid = null;
 
-		if ($this->contribution->complete() == true) {
+		if (($transactionid = $this->contribution->complete()) != false) {
 
 			$this->contributionFactory->clearAll();
 			$message = trans('contribution.contribution_well_saved');
 			flash()->success($message);
 
-			return redirect()->route('contributions.index');
+			return $this->reload($transactionid);
 		}
 		$message = trans('contribution.something_went_wrong_while_saving_contribution');
 		flash()->error($message);
 
-		return redirect()->route('contributions.index');}
+		return redirect()->route('contributions.index');
+	}
 	/**
 	 * Reload the current transactions pages
 	 * @return mixed
 	 */
-	private function reload() {
+	private function reload($transactionid=null) {
 
 		// Detect if there is something to set or be removed
 		$this->setByInsitution();
@@ -197,7 +199,7 @@ class ContributionAndSavingsController extends Controller {
 		$wording = $this->contributionFactory->getWording();
 		$total = $this->contributionFactory->total();
 
-		return view('contributionsandsavings.list', compact('members','pageLinks','wording', 'institutionId', 'total', 'debitAccount', 'creditAccount', 'month','contributionHasDifference'));
+		return view('contributionsandsavings.list', compact('members','transactionid','pageLinks','wording', 'institutionId', 'total', 'debitAccount', 'creditAccount', 'month','contributionHasDifference'));
 
 	}
 

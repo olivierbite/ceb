@@ -97,7 +97,7 @@ class ContributionRepository {
 
 		// Lastly, Let's commit a transaction since we reached here
 		DB::commit();
-		return true;
+		return $transactionId;
 
 	}
 

@@ -79,9 +79,9 @@ class RefundController extends Controller {
 	    $this->refundFactory->setWording(Input::get('wording'));
 
 		// codes to complete transactions
-		$this->refundFactory->complete();
+		$transactionid = $this->refundFactory->complete();
 		
-		return Redirect::route('refunds.index');
+		return $this->reload($transactionid);
 	}
 
 	/**
@@ -107,7 +107,7 @@ class RefundController extends Controller {
 	 * Reload the refund view
 	 * @return
 	 */
-	private function reload() {
+	private function reload($transactionid = null) {
 
 		/** if we have any parameter passed, then set it  */
 		$this->setAnyThing();
@@ -122,7 +122,7 @@ class RefundController extends Controller {
 		$totalRefunds	= $this->refundFactory->getTotalRefunds();
 		$refundType		= $this->refundFactory->getRefundType();
 
-		return view('refunds.list', compact('members','institution','refundType', 'month', 'totalRefunds', 'creditAccount', 'debitAccount'));
+		return view('refunds.list', compact('members','institution','transactionid','refundType', 'month', 'totalRefunds', 'creditAccount', 'debitAccount'));
 	}
 
 	/**

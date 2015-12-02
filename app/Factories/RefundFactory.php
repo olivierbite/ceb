@@ -121,7 +121,7 @@ class RefundFactory {
 		// Remove everything from the session
 		$this->clearAll();
 		flash()->success(trans('refund.refun_transaction_sucessfully_registered'));
-		return true;
+		return $transactionId;
 
 	}
 
