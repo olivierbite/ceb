@@ -6,7 +6,7 @@
 	<td>{!! $member->adhersion_id !!}</td>
 	<td>{!! $member->total_contribution !!}</td>
 	<td>{!! $member->loan_balance !!}</td>
-	<td>Solde</td>
+	<td>{!! $member->total_contribution - $member->loan_balance !!}</td>
 	<td>{!! $member->monthly_fee !!}</td>
 	<td>{!! $loan->right_to_loan !!}</td>
 	<td>{!! $loan->wished_amount !!}</td>
