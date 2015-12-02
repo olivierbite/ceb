@@ -392,15 +392,12 @@ class ReportController extends Controller {
     	if (isset($contribution->postings)) 
     	{
 	    	$postings = $contribution->postings;
+	    	$posting = $postings->first();
 	    	$this->labels->title 					= trans('report.piece_debourse_saving');
-	    	$this->labels->top_left_upper			= trans('account.payment_date');;
 			$this->labels->top_left_upper_value		= $postings->first()->created_at->format('Y-m-d');
-			$this->labels->top_left_under			= trans('account.operator');
 			$this->labels->top_left_under_value		= $postings->first()->user->names;
-			$this->labels->top_right_upper			= 'top_right_upper';
-			$this->labels->top_right_upper_value	= 'top_right_upper_value';
-			$this->labels->top_right_under			= 'top_right_under';
-			$this->labels->top_right_under_value	= 'top_right_under_value';
+			$this->labels->top_right_upper_value	= $contribution->adhersion_id;
+			$this->labels->top_right_under_value	= $contribution->cheque_number;
     	}
         
     	$report =  view('reports.postings.piece_debourse',compact('postings','labels'))->render();
