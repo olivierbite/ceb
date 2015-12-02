@@ -209,6 +209,7 @@ $router->get('/js/regularisationform',['as'=>'assets.js.regularisationform','use
 $router->get('/test',function()
 	{
 		
-		dd((new Setting)->get('loan.give.ordinary.loan.2'));
+		$count = Ceb\Models\Posting::count();
+		dd(sprintf("%09d", $count));
 	
    });

@@ -1,6 +1,8 @@
 <?php namespace Ceb\Traits;
 use Ceb\Models\Contribution;
+use Ceb\Models\Posting;
 use DateTime;
+use Illuminate\Support\Facades\DB;
 use Sentry;
 trait TransactionTrait {
 	/**
@@ -8,7 +10,8 @@ trait TransactionTrait {
 	 * @return string
 	 */
 	private function getTransactionId() {
-		return (new DateTime)->format('YmdHi') . Sentry::getUser()->id;
+		$count = Posting::select(DB::raw('count(distinct transactionid) as count'))->first()->count;
+		return sprintf("%09d", $count);
 	}
 	/**
 	 * Search  adhresion key

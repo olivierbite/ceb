@@ -1,4 +1,4 @@
- <table class="pure-table pure-table-bordered" style="width:30%;float: left ">
+<table class="pure-table pure-table-bordered" style="width:30%;float: left ">
   	 	<tr>
 	  	 	<th> {!! $labels->top_left_upper !!}</th>
 	     	<td> {!! $labels->top_left_upper_value !!}</td>
