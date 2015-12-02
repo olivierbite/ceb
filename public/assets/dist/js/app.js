@@ -799,6 +799,7 @@ $(document).on('change', '#upload-photo:file', function() {
                      data:  $("form.accounting-form").serialize(), // serializes the form's elements.
                      success: function(data)
                      {
+
                       
                       $('.popdown').close_popdown();
 

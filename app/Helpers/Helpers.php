@@ -174,30 +174,31 @@ function generateContract($member,$contract_type)
 		$contract_type = $loan->regulation_type;
 	}
 
+	$transactionid =  $loan->transactionid;
 	switch ($contract_type) {
 			case (strpos($contract_type,'ordinary_loan') !== FALSE):
 			     // Ordinary loan
-				 $contract = view('reports.contracts_loan_ordinary')->render();
+				 $contract = view('reports.contracts_loan_ordinary',compact('transactionid'))->render();
 				break;
 			case 'special_loan':
 				// Special loan	
-			    $contract = view('reports.contracts_loan_special', compact('member'))->render();
+			    $contract = view('reports.contracts_loan_special', compact('transactionid'))->render();
 				break;
 			case 'social_loan':
 				// Social loan.			
-			    $contract = view('reports.contracts_loan_social', compact('member'))->render();
+			    $contract = view('reports.contracts_loan_social', compact('transactionid'))->render();
 				break;
 			case 'installments':
 				// Regularisation installments
-				$contract = view('reports.contracts_regularisation_installment',compact('member'))->render();
+				$contract = view('reports.contracts_regularisation_installment',compact('transactionid'))->render();
 				break;
 			case 'amount':
 				// Regularisation installments
-				$contract = view('reports.contracts_regularisation_amount',compact('member'))->render();
+				$contract = view('reports.contracts_regularisation_amount',compact('transactionid'))->render();
 				break;
 			case 'amount_installments':
 				// Regularisation installments
-				$contract = view('reports.contracts_regularisation_amount_installments',compact('member'))->render();
+				$contract = view('reports.contracts_regularisation_amount_installments',compact('transactionid'))->render();
 				break;
 			default: // Could not detect the contract
 				$contract = 'Unable to determine the contract type';

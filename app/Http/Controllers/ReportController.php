@@ -122,9 +122,7 @@ class ReportController extends Controller {
         if (is_null($loan = $foundUser->latestLoan())) {
 
         	    flash()->error(trans('member.member_you_are_looking_for_does_not_have_a_loan_contract'));
-
         		Log::error('The member you are looking for does not have a loan contract:'.$identifier);
-        		
         		return redirect()->back();
         }
 
@@ -423,16 +421,13 @@ class ReportController extends Controller {
     {
     	$postings = $posting->with(['account','user'])->betweenDates($startDate,$endDate)->forAccount($account)->get();
 
+		$this->labels->top_right_upper			= trans('loan.operator');
+		$this->labels->top_right_upper_value	= $this->user->first_name.' '.$this->user->last_name;
+
     	if (!$postings->isEmpty()) {
-    	
+   
     	$this->labels->title 					= trans('report.piece_debourse_accounting');
-    	$this->labels->top_left_upper			= trans('account.payment_date');
-		$this->labels->top_left_upper_value		= $postings->first()->created_at->format('Y-m-d');
-		$this->labels->top_left_under			= trans('account.operator');
 		$this->labels->top_left_under_value		= $postings->first()->user->names;
-		$this->labels->top_right_upper			= 'top_right_upper';
-		$this->labels->top_right_upper_value	= 'top_right_upper_value';
-		$this->labels->top_right_under			= 'top_right_under';
 		$this->labels->top_right_under_value	= 'top_right_under_value';
 	
     	}
@@ -445,6 +440,33 @@ class ReportController extends Controller {
     	return view('layouts.printing', compact('report'));
     }
 
+      /**
+     * Piece Disbursed Loan Report 
+     * @param  string $value 
+     * @return [type]        
+     */
+    public function pieceDisbursedAccounting(Posting $posting,$transactionid,$excel=0)
+    {
+    	$postings = $posting->with(['account','user'])->ByTransaction($transactionid)->get();
+
+		$this->labels->top_right_upper			= trans('loan.operator');
+		$this->labels->top_right_upper_value	= $this->user->first_name.' '.$this->user->last_name;
+
+    	if (!$postings->isEmpty()) {
+   
+    	$this->labels->title 					= trans('report.piece_debourse_accounting');
+		$this->labels->top_left_under_value		= $postings->first()->user->names;
+		$this->labels->top_right_under_value	= 'top_right_under_value';
+	
+    	}
+		$labels = $this->labels;
+    	$report =  view('reports.postings.piece_debourse',compact('postings','labels'))->render();
+
+    	if ($excel==1) {
+			 toExcel($report,'pierce_debource_comptable_between_'.request()->segment(3).'_and_'.request()->segment(4));
+		}
+    	return view('layouts.printing', compact('report'));
+    }
      /**
      * Piece Disbursed Loan Report 
      * @param  string $value 
