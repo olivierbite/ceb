@@ -32,7 +32,7 @@ s<div class="box-body">
    <label>{{ trans('loan.regularisation_type') }}</label>
    {{-- IF THIS MEMBER IS ONLY ALOWED TO REGULATE INSTALLEMMENTS REMOVE OTHER TYPES --}}
    @if ($member->exists)
-       @if ($member->loan_to_regulate == 1 && strpos($loanInputs['operation_type'], 'amount') !== false)
+       @if ($member->loan_to_regulate == 1)
             <?php unset($regularisations['amount']) ?>
             <?php unset($regularisations['amount_installments']) ?>
        @endif
