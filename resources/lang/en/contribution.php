@@ -42,7 +42,7 @@ return array (
   'contribution_well_saved'                           => 'Contribution Well  Saved',
   'something_went_wrong_while_saving_contribution'    => 'Error on Saving',
   'contribution_cancelled'                            => 'Contribution Cancelled',
-  'cancel_transaction'                                => 'Cancel ,transaction',
+  'cancel_transaction'                                => 'Cancel transaction',
   'add_new_contribution'                              => 'Add  New  Contribution',
   'add_new'                                           => 'Add  New',
   'libelle'                                           =>'Wording',
@@ -61,5 +61,6 @@ return array (
   'contribution_set_by_institution'                   =>'set by institution',
   'contribution_add'                                  =>'add',
   'contribution_remove_contribution_with_differences' =>'contribution remove contribution with differences',
+  'please_select_account_to_credit_before_completing_this_transaction'=>'Please select account to credit before completing this transaction',
 
 );

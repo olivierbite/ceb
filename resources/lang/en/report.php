@@ -108,4 +108,15 @@ return array (
    'members'                      =>'Members',
    'various_withdrawal'           =>'Various Withdrawal',
    'reports_members_contributions' => 'Members contributions',
+   'done_by'=>'Done by',
+   'gerant'=>'Gerant',
+   'President'=>'President',
+   'tresorien'=>'Tresorien',
+   'controller'=>'Controled by',
+   'administrator'=>'Administrator',
+
+       'piece_debourse_accounting'=>'Piece accounting N*',
+       'payment_date'=>'Payment date',
+          'reports_piece_disbursed_saving'=>'Rapport piece disbursed saving',
+           'reports_piece_disbursed_loan'=>'Reports piece disbursed loan',
   );

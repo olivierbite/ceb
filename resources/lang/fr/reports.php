@@ -18,4 +18,7 @@ return array (
    'all_loans'=>'All loans',
    'member_loan_records_file'=>'Fiche de prêts',
    'member_contribution_file'=>'Fiche de cotisations',
+   'select_account'  =>'Selectionner compte',
+      'reports_piece_disbursed_saving'=>'Rapport piece debourse epargne',
+      'transaction_id'=>'Numero document',
   );

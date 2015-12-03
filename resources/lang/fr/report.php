@@ -72,6 +72,17 @@ return array (
 'reports_members_contracts_saving'=>'Contract d\'epargne',
 'reports_members_contracts_loan'=>'Contract de prêt',
 'provide_bank_details_to_unblock_this_loan'=>'veillez insere le numero du cheque',
+   'done_by'=>'Prepare',
+   'gerant'=>'Gerant',
+   'President'=>'President',
+   'tresorien'=>'Tresorien',
+   'controller'=>'Controle par',
+   'administrator'=>'Administrateur',
+     'piece_debourse_accounting'=>'Piece Comptable N*',
+            'payment_date'=>'Date d\'operation',
+                  'reports_piece_disbursed_saving'=>'Rapport piece debourse epargne',
+                  'reports_piece_disbursed_loan'=>'Rapport piece debourse prêt',
+
 
  
   );

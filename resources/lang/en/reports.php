@@ -18,5 +18,8 @@ return array (
    'all_loans'=>'All loans',
    'member_loan_records_file'=>'Laon records file',
    'member_contribution_file'=>'Contribution records file',
-  
+   'select_account'  =>'Select account',
+
+      'transaction_id'=>'Transaction id',
+
     );

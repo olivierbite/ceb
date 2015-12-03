@@ -186,5 +186,6 @@ return [
 
 
    'installments'                                                                    =>'Installments ',
-
+'operator'=>'Operator',
+'cheque_number'=>'Cheque number',
 ];
