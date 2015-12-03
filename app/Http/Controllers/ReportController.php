@@ -366,7 +366,7 @@ class ReportController extends Controller {
 	    	$results = $results->ofStatus($status);
     	}
 
-    	$loans = $results->orderBy('operation_type','ASC')->paginate(50);
+    	$loans = $results->orderBy('operation_type','ASC');
 
     	$report = view('reports.loans.loans',compact('loans'))->render();
 

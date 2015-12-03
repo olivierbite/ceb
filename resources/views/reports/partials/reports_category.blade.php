@@ -47,7 +47,7 @@
       </a>
   </li>
   <li>
-      <a  href="{{ route('reports.filter') }}/?reporturl=reports/members/refunds&show_dates=true&show_exports=true&show_institutions=true" class="popdown">
+      <a  href="{{ route('reports.filter') }}/?reporturl=reports/refunds&show_dates=true&show_exports=true&show_institutions=true" class="popdown">
         <i class="icon-chevron-right"></i> {{ trans('report.monthly_refund_file') }}
       </a>
   </li>
