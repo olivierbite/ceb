@@ -42,7 +42,11 @@ return array (
    'saving_contribution'          =>'Saving/Contribution',
    'loan_repayment'               =>'Loan Repayment',
    'members'                      =>'Members',
-   'various_withdrawal'           =>'Various Withdrawal',
+   'various_withdrawal'            =>'Various Withdrawal',
    'reports_members_contributions' => 'Members contributions',
+   'piece_debourse_accounting'     => 'piece debourse number :number ',
+   'piece_debourse_saving_number'  => 'piece debourse saving_number :number',
+   'piece_debourse_accounting'     => 'piece debourse accounting :number',
+   'piece_debourse_loan'           => 'piece debourse loan :number',
 
   );

@@ -126,21 +126,30 @@ class User extends SentinelModel {
 
 	/**
 	 * Get latest ordinary loan for this member
-	 * @return Ceb\Model\Loan
+	 * @return -1 if the user is not eligible for  loan to regulate
+	 * @return  1 if the user can only regulate installments
+	 * @return  2 if the user can regulate both installments and amount <=>
 	 */
 	public function getLoanToRegulateAttribute()
 	{
 		$loan = $this->latest_ordinary_loan;
-		// dd($loan->loan_to_repay >= $loan->right_to_loan);
-		if (is_null($loan) || ($loan->loan_to_repay >= $loan->right_to_loan) ) {
-			return new loan;
+
+		// If not have active loan we have nothing to do here
+		if ($this->hasActiveLoan() == false) {
+			return -1;
 		}
 
+		// Can regulate echeance
+		if ($loan->loan_to_repay >= $loan->right_to_loan) {
+			return 1;
+		}
+
+		// Can regulate amount
 		if ($loan->loan_to_repay < $loan->right_to_loan) {
-			return $loan;
+			return 2;
 		}
 
-		return new loan;
+		return -1;
 	}	
 
 	/**

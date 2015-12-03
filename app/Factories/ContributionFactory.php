@@ -31,7 +31,7 @@ class ContributionFactory {
 			$this->clearAll();
 		}
 		// Get the institution by its id
-		$members = $this->institution->find($institutionId)->members;
+		$members = $this->institution->with('members')->find($institutionId)->members;
 		$toSetMembers =[];
 		foreach ($members as $member) {
 			$member->monthly_fee = (int) $member->monthly_fee;

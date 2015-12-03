@@ -41,7 +41,7 @@ class RegularisationFactory {
 	 */
 	function addMember($memberId) {
 		$member = $this->member->eligible($memberId)->find($memberId);
-      
+      	
 		// Detect if this member is not more than 6 months
 		// as per de definition of CEB
 		if (is_null($member)) {
@@ -49,9 +49,22 @@ class RegularisationFactory {
 			return false;
 		}
 
-		/** We only allow people to regulate if they have active loan */
-		if ($member->loan_to_regulate->exists == false) {
+
+      	// Determine which operation type so that we can know what the 
+      	// member is eligible for
+      	$operationType = $this->getLoanInput('operation_type');
+
+      	$elibilityType = $member->loan_to_regulate;
+
+		/** THIS MEMBER DOES NOT HAVE ANYTHING TO REGULATE */
+		if ($elibilityType == -1) {
 			flash()->error(trans('loan.does_not_have_active_right_to_regulate',['names'=>$member->names]));
+			return false;
+		}
+
+		/** This member can regulate installment, however we need to make that the current operation is installment */
+		if ($elibilityType == 1 && $operationType !=='installments') {
+			flash()->warning(trans('loan.this_member_can_only_regulate_installment',['names'=>$member->names]));
 			return false;
 		}
 		

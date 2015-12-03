@@ -378,7 +378,7 @@ class LoanFactory {
                    ->from($this->user->id)
                    ->to($this->getMember()->id)
                    ->url(route('loan.pending',['loanid'=>$saveLoan->id]))
-                   ->sendWithEmail();
+                   ->send();
         
 		// Since we are done let's make sure everything is cleaned fo
 		// the next transaction
