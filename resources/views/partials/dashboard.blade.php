@@ -17,7 +17,7 @@
 
                     <div class="small-box bg-yellow">
                         <div class="inner">
-                            <h3>{!! round($dashboarddata['ordinary_loan']) !!}</h3> 
+                            <h3>{!! number_format( round($dashboarddata['ordinary_loan'])) !!}</h3> 
                             <p>{{ trans('loan.ordinary_loans') }}</p>
                         </div>
                         <div class="icon"><i class="ion ion-edit"></i></div>
@@ -31,7 +31,7 @@
 
                     <div class="small-box bg-aqua">
                         <div class="inner">
-                            <h3>{!! round($dashboarddata['special_loan']) !!}</h3>
+                            <h3>{!! number_format(round($dashboarddata['special_loan'])) !!}</h3>
                             <p>{{ trans('loan.special_loans') }}</p>
                         </div>
                         <div class="icon"><i class="ion ion-share"></i></div>
@@ -45,7 +45,7 @@
                 <div class="col-sm-6">
                     <div class="small-box bg-red">
                         <div class="inner">
-                            <h3>{!! round($dashboarddata['outstandingLoans'])!!}</h3>
+                            <h3>{!! number_format(round($dashboarddata['outstanding_loan']))!!}</h3>
                             <p>{{ trans('loan.outstanding_loan') }}</p>
                         </div>
                         <div class="icon"><i class="ion ion-alert"></i></div>
@@ -59,12 +59,12 @@
 
                     <div class="small-box bg-green">
                         <div class="inner">
-                            <h3>{!! $dashboarddata['paidLoans'] !!}</h3>
+                            <h3>{!! number_format( $dashboarddata['refunded_amount']) !!}</h3>
                             <p>{{ trans('loan.full_paid_loan') }}</p>
                         </div>
                         <div class="icon"><i class="ion ion-heart"></i></div>
                         <a class="small-box-footer" href="#">
-                            View Payments <i class="fa fa-arrow-circle-right"></i>
+                            {{ trans('general.view_payments') }} <i class="fa fa-arrow-circle-right"></i>
                         </a>
                     </div>
                 </div>
