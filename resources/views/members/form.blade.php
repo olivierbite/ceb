@@ -170,7 +170,7 @@
                     </tbody>
                   </table>
 
-                  <a href="{!!route('members.index')!!}" class="btn btn-warning"><i class="fa fa-remove"></i> Cancel</a>
+                  <a href="{!!route('members.index')!!}" class="btn btn-warning"><i class="fa fa-remove"></i> {{ trans('member.cancel') }}</a>
                   <button href="#" class="btn btn-success"><i class="fa fa-floppy-o"></i> {!! $button !!}</button>
 
                 </div>
