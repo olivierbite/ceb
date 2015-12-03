@@ -380,9 +380,9 @@ class User extends SentinelModel {
 		// Amount to loan that he is eligeable for we 
 		// need to consider right to loan a member
 		// had before we give him this loan
-		$latestLoan = $this->loan_to_regulate;
+		$latestLoan = $this->latestLoan();
 		// dd($latestLoan->right_to_loan - $latestLoan->loan_to_repay);
-		if ($this->loan_to_regulate->exists) {
+		if ($this->loan_to_regulate !==-1 ) {
 			return $latestLoan->right_to_loan - $latestLoan->loan_to_repay;
 		}
 
