@@ -420,7 +420,7 @@ class RegularisationFactory {
 		$member = $this->getMember();
 		$loan = $member->loan_to_regulate;
 		// Prepare information to be saved in the database by refereing to previous ordinary loan
-		if (!$loan->exists) {
+		if ($loan == -1) {
 			flash()->error(trans('loan.this_member_does_not_have_loan_to_regulate'));
 			return false;
 		}
