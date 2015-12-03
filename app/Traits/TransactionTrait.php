@@ -11,7 +11,7 @@ trait TransactionTrait {
 	 */
 	private function getTransactionId() {
 		$count = Posting::select(DB::raw('count(distinct transactionid) as count'))->first()->count;
-		return sprintf("%09d", $count);
+		return ++$count;
 	}
 	/**
 	 * Search  adhresion key
