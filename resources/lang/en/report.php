@@ -106,14 +106,19 @@ return array (
    'saving_contribution'          =>'Saving/Contribution',
    'loan_repayment'               =>'Loan Repayment',
    'members'                      =>'Members',
-   'various_withdrawal'           =>'Various Withdrawal',
+   'various_withdrawal'            =>'Various Withdrawal',
    'reports_members_contributions' => 'Members contributions',
    'done_by'=>'Done by',
    'gerant'=>'Gerant',
    'President'=>'President',
    'tresorien'=>'Tresorien',
    'controller'=>'Controled by',
-   'administrator'=>'Administrator',
+
+   'piece_debourse_accounting'     => 'piece debourse number :number ',
+   'piece_debourse_saving_number'  => 'piece debourse saving_number :number',
+   'piece_debourse_accounting'     => 'piece debourse accounting :number',
+   'piece_debourse_loan'           => 'piece debourse loan :number',
+
 
        'piece_debourse_accounting'=>'Piece accounting N*',
        'payment_date'=>'Payment date',

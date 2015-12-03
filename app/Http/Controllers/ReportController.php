@@ -393,9 +393,9 @@ class ReportController extends Controller {
     	{
 	    	$postings = $contribution->postings;
 	    	$posting = $postings->first();
-	    	$this->labels->title 					= trans('report.piece_debourse_saving');
-			$this->labels->top_left_upper_value		= $postings->first()->created_at->format('Y-m-d');
-			$this->labels->top_left_under_value		= $postings->first()->user->names;
+	    	$this->labels->title 					= trans('report.piece_debourse_saving_number',['number'=>$posting->transactionid]);
+			$this->labels->top_left_upper_value		= $posting->created_at->format('Y-m-d');
+			$this->labels->top_left_under_value		= $posting->user->names;
 			$this->labels->top_right_upper_value	= $contribution->adhersion_id;
 			$this->labels->top_right_under_value	= $contribution->cheque_number;
     	}
@@ -422,10 +422,10 @@ class ReportController extends Controller {
 		$this->labels->top_right_upper_value	= $this->user->first_name.' '.$this->user->last_name;
 
     	if (!$postings->isEmpty()) {
-   
-    	$this->labels->title 					= trans('report.piece_debourse_accounting');
-		$this->labels->top_left_under_value		= $postings->first()->user->names;
-		$this->labels->top_right_under_value	= 'top_right_under_value';
+   		$posting = $postings->first();
+    	$this->labels->title 					= trans('report.piece_debourse_accounting',['number'=>$posting->transactionid]);
+		$this->labels->top_left_under_value		= $posting->user->names;
+		$this->labels->top_right_under_value	= $posing->cheque_number;
 	
     	}
 		$labels = $this->labels;
@@ -450,10 +450,11 @@ class ReportController extends Controller {
 		$this->labels->top_right_upper_value	= $this->user->first_name.' '.$this->user->last_name;
 
     	if (!$postings->isEmpty()) {
-   
-    	$this->labels->title 					= trans('report.piece_debourse_accounting');
-		$this->labels->top_left_under_value		= $postings->first()->user->names;
-		$this->labels->top_right_under_value	= 'top_right_under_value';
+   		
+   		$posting = $postings->first();
+    	$this->labels->title 					= trans('report.piece_debourse_accounting',['number'=>$posting->transactionid]);
+		$this->labels->top_left_under_value		= $posting->user->names;
+		$this->labels->top_right_under_value	= $posting->cheque_number;
 	
     	}
 		$labels = $this->labels;
@@ -476,8 +477,6 @@ class ReportController extends Controller {
 
 		$postings				= [];
 
-		$this->labels->title 					= trans('report.piece_debourse_loan');
-
     	$this->labels->top_left_upper			= trans('loan.bank');
 		$this->labels->top_left_under			= trans('report.payment_date');
 		$this->labels->top_right_upper			= trans('loan.beneficiaire');
@@ -487,6 +486,12 @@ class ReportController extends Controller {
 
     	if (isset($loan->postings)) 
     	{
+    		$transactionid = null;
+    		if (!$loan->postings->isEmpty()) {
+    			$transactionid = $loan->postings->first()->transactionid;
+    		}
+
+			$this->labels->title 					= trans('report.piece_debourse_loan',['number'=>$transactionid]);
 	    	$postings = $loan->postings;
 			$this->labels->top_left_upper_value		= $loan->bank_id;
 			$this->labels->top_left_under_value		= $loan->updated_at->format('d/m/Y');
