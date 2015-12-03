@@ -3,7 +3,7 @@
  @media print{@page {size: portrait}}
 </style>
 <script type="text/javascript">
-  window.open("{!! route('piece.disbursed.account',['transactionid'=>$transactionid,'export_excel'=>0]) !!}, '_blank'");
+   window.open("{!! route('piece.disbursed.account',['transactionid'=>$transactionid,'export_excel'=>0]) !!}", "_blank");
   window.focus();
 </script>
 <h3 style="text-align: center;text-decoration: underline">CONTRAT DE PRÊT ET DE CAUTIONNEMENT SOLIDAIRE N° {contract_id}</h3>
