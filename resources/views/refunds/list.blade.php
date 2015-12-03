@@ -13,9 +13,15 @@ function toggle(source) {
 @stop
 @section('content')
 
+
+@if (!is_null($transactionid) && $transactionid !=false)
+  <script type="text/javascript">
+    OpenInNewTab("{!! route('piece.disbursed.saving',['transactionid'=>$transactionid]) !!}")
+  </script>
+@endif
+
 {!! Form::open(['route'=>'refunds.complete']) !!}
   @include('refunds.form',['institutionId'=>'institutionId'])
-
      {{-- only show this if we have members ... --}}
   @if (count($members) > 0)
   {!! Form::open(array('route'=>'refunds.complete','method'=>'POST')) !!}

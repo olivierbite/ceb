@@ -222,7 +222,7 @@ class MemberController extends Controller {
 	 * This method shows transaction form
 	 * @return view 
 	 */
-	public function transacts($memberId)
+	public function transacts($memberId,$transactionid= null)
 	{
 		$member = $this->member->with(['loans','contributions','refunds','cautions','cautioned','attornies','institution'])->findOrfail($memberId);
 
@@ -234,7 +234,7 @@ class MemberController extends Controller {
 		}
 
         $defaultAccounts = $this->getDefaultAccounts($movement_type);
-		return view('members.transactions',compact('member','movement_type','defaultAccounts'));
+		return view('members.transactions',compact('member','transactionid','movement_type','defaultAccounts'));
 	}
 	/**
      * Get default accounts for this modules
@@ -298,18 +298,14 @@ class MemberController extends Controller {
 		 $data = $request->all();
 
 		 $data['member'] = $this->member->findOrfail($memberId);
-
-		 if ($factory->complete($data)) {
-		 	return response(trans('member.transaction_well_recorded'),200);
+		 $transactionid = null;
+		 if (($transactionid = $factory->complete($data)) != false) {
+		 	flash()->success(trans('member.transaction_well_recorded'));
+		 	return $this->transacts($memberId,$transactionid);
 		 }
 
-		 $errors  = array('errors' => json_encode(Session::get('flash_notification.message')) );
-
-		 Session::forget('flash_notification.message'); // remove any error in the dd
-
-		 $errors  = json_encode($errors);
 		 // Error happened here
-		 return response($errors,422);
+		 return $this->transacts($memberId);
 	}
     
     /**

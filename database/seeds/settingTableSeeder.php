@@ -73,6 +73,37 @@ class settingTableSeeder extends Seeder
 		   'value' => 1,
 	  	   'type'  => 'boolean',
 	  	   ],
+      12 =>[
+		  	'key' => 'general.done_by',
+		   'value' => null,
+	  	   'type'  => 'string',
+	  	   ], 
+	  13 =>[
+		  	'key' => 'general.gerant',
+		   'value' => 'Gera wa ceb',
+	  	   'type'  => 'string',
+	  	   ],
+	  14 =>[
+		  	'key' => 'general.president',
+		   'value' => 'President wa ceb',
+	  	   'type'  => 'string',
+	  	   ],
+	  15 =>[
+		  	'key' => 'general.tresorien',
+		   'value' => null,
+	  	   'type'  => 'string',
+	  	   ],
+	  16 =>[
+		  	'key' => 'general.controller',
+		   'value' => null,
+	  	   'type'  => 'string',
+	  	   ],
+	  17 =>[
+		  	'key' => 'general.administrator',
+		   'value' => null,
+	  	   'type'  => 'string',
+	  	   ],
+	  	   
 	 ];
 
 	 DB::table('settings')->truncate();

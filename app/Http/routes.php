@@ -1,4 +1,6 @@
 <?php
+
+use Ceb\Models\Setting;
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -133,6 +135,7 @@ Route::resource('loans', 'LoanController');
 			Route::group(['prefix'=>'disbursed'], function()
 			{
 				Route::get('saving/{transactionid}/{export_excel?}',['as'=>'piece.disbursed.saving','uses'=>'ReportController@pieceDisbursedSaving']);
+				Route::get('accounting/{transactionid}}',['as'=>'piece.disbursed.accounting','uses'=>'ReportController@pieceDisbursedAccounting']);
 				Route::get('account/{startDate}/{endDate}/{account}/{export_excel?}',['as'=>'piece.disbursed.account','uses'=>'ReportController@pieceDisbursedAccount']);
 				Route::get('loan/{transactionid}/{export_excel?}',['as'=>'piece.disbursed.account','uses'=>'ReportController@pieceDisbursedLoan']);
 			});
@@ -205,22 +208,8 @@ $router->get('/js/regularisationform',['as'=>'assets.js.regularisationform','use
 
 $router->get('/test',function()
 	{
-		$defaultDebitsAccounts = Ceb\Models\DefaultAccount::ofType('debit')->regularisationAmount()->get();
 		
-		$debitsAccounts = [];
-		$creditsAccounts = [];
-		foreach ($defaultDebitsAccounts as $defaultDebitAccount) {
-			foreach ($defaultDebitAccount->accounts as $account) {
-				$debitsAccounts[$account->id] = $account->entitled;
-			}
-		}
-
-		$defaultCreditsAccounts = Ceb\Models\DefaultAccount::with('accounts')->credit()->regularisationAmount()->get();
-		foreach ($defaultCreditsAccounts as $defaultCreditAccount) {
-			foreach ($defaultCreditAccount->accounts as $account) {
-				$creditsAccounts[$account->id] = $account->entitled;
-			}
-		}
-
-		dd($debitsAccounts,$creditsAccounts);
+		$count = Ceb\Models\Posting::count();
+		dd(sprintf("%09d", $count));
+	
    });

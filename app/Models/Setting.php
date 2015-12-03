@@ -18,6 +18,14 @@ class Setting extends Model {
     	return $query->where('key',$key)->first()->value;
     }
 
+    public function get($key)
+    {
+        $results = $this->where('key',$key);
+        if ($results->count() > 0 ) {
+            return $results->first()->value;
+        }
+        return null;
+    }
     /**
      * Determine if the key exists
      * @param  $query 

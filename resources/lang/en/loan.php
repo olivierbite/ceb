@@ -167,6 +167,7 @@ return [
 
 
    'does_not_have_active_right_to_regulate'                                          =>':names does not have active loan to regulate, please use loan module if you want to give him a loan',
+
 'we_could_not_find_the_loan_you_are_looking_for'=>'We could not find the loan you are looking for',
 'loan_successfully_unblocked'=>'Loan successfully unbocked',
 'regularisation_cancelled'=>'Regularisation cancelled',
@@ -182,5 +183,8 @@ return [
 'regularisation_completed'=>'Regularisation completed',
 'loan_with_transaction_id_2015112615281547_has_been_rejected'=>'loan with_transaction id has been rejected',
 'this_member_has_active_ordinary_loan'=>'This member has active ordinary loan',
+
+
+   'installments'                                                                    =>'Installments ',
 
 ];

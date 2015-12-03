@@ -2,8 +2,11 @@
 	/** @type {PRINT IN LANDSCAPE}  */
  @media print{@page {size: portrait}}
 </style>
+<script type="text/javascript">
+  window.open("{!! route('piece.disbursed.account',['transactionid'=>$transactionid,'export_excel'=>0]) !!}, '_blank'");
+  window.focus();
+</script>
 <h3 style="text-align: center;text-decoration: underline">CONTRAT DE PRÊT ET DE CAUTIONNEMENT SOLIDAIRE N° {contract_id}</h3>
-
 <p>
 Entre Mr /Madame/Mlle  <strong>{names}</strong>, ayant le Numéro d'adhésion <strong>{adhersion_id}</strong> Domicilié dans le District <strong>{district}</strong>  Province <strong>{province}</strong>. 
 Membre de la Caisse d’Entraide de Butare,  d’une part : <br/>

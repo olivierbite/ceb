@@ -353,7 +353,7 @@ class LoanController extends Controller {
    			flash()->warning(trans('loan.we_could_not_find_the_loan_you_are_looking_for'));
    			return redirect()->back();
    		}
-
+   		$transactionid 	= $loan->transactionid;
 		// Start saving if something fails cancel everything
 		Db::beginTransaction();
   		$loan->status = strtolower($toSetstatus);

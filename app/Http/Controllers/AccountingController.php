@@ -48,15 +48,18 @@ class AccountingController extends Controller {
 
         // First log
         Log::info($this->user->email . ' completed account posting');
+        $transactionid = null;
 
-		if ($transactionid = $this->accounting->complete($request->all()) != false) {			
-		  return trans('accounting.transaction_is_recorded_successfully_transaction_id_is').' '.$transactionid;
+		if (($transactionid = $this->accounting->complete($request->all())) != false) {
+			flash()->success(trans('accounting.you_have_done_accounting_transaction_successfully'));
+		  return $this->reload($transactionid);
 		}
 
-		return trans('general.something_unexpected_happned');
+		flash()->success(trans('accounting.error_occured_while_completing_accounting_transaction'));
+		return $this->reload();
 	}
 
-	private function reload() {
-		return view('accounting.index');
+	private function reload($transactionid=null) {
+		return view('accounting.index',compact('transactionid'));
 	}
 }

@@ -28,7 +28,7 @@ class CompleteMemberTransactionRequest extends Request
         return [
           'movement_type'    =>  'required|min:1',
           'operation_type'   =>  'required|min:3',
-          'amount'           =>  'required|numeric|min:5000',
+          'amount'           =>  'required|numeric',
           'wording'          =>  'required|min:6',
           'cheque_number'    =>  'required|alpha_dash|min:5',
           'bank'             =>  'required|min:1',
@@ -45,7 +45,7 @@ class CompleteMemberTransactionRequest extends Request
     {
         // Grab all inputs from the user
         $attributes = parent::all();
-       
+
         // Modify or Add new array key/values
         // ==================================
         // Make sure these fields are numeric

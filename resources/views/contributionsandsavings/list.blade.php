@@ -13,7 +13,11 @@ function toggle(source) {
 
 @section('content')
 
-
+@if (!is_null($transactionid) && $transactionid !=false)
+  <script type="text/javascript">
+    OpenInNewTab("{!! route('piece.disbursed.saving',['transactionid'=>$transactionid]) !!}")
+  </script>
+@endif
   @include('contributionsandsavings.form',['institutions'=>$institutions,'institutionId'=>$institutionId])
   @include('partials.batch_upload',['route'=>'contributions.batch'])
   @if(!$members->isEmpty())

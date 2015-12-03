@@ -4,6 +4,11 @@
 {{ trans('member.transactions_and_other_withdrawals_on_savings') }}
 @endsection
 @section('content')
+@if (!is_null($transactionid) && $transactionid !=false)
+  <script type="text/javascript">
+    OpenInNewTab("{!! route('piece.disbursed.saving',['transactionid'=>$transactionid]) !!}")
+  </script>
+@endif
             <!-- CREDIT CARD FORM STARTS HERE -->
             <div class="panel panel-default credit-card-box">
             
@@ -40,7 +45,7 @@
                 </div>
                 <div class="panel-body">
                    <div class="notifications"></div>
-                   {!! Form::open(['url'=>  route('members.completetransaction',['memberId'=>$member->id]),'id'=>'member-transaction-form']) !!}
+                   {!! Form::open(['method'=>'POST','url'=>  route('members.completetransaction',['memberId'=>$member->id])]) !!}
                         <div class="row">
                             <div class="col-xs-4 col-md-4">
                                 <div class="form-group">
@@ -52,10 +57,10 @@
                             </div>
                            <div class="col-xs-4 col-md-4">
                                 <div class="form-group">
-                                    <label for="movement_type">
-	                                	 {{ trans('member.movement_type') }}
+                                    <label for="operation_type">
+	                                	 {{ trans('member.operation_type') }}
                                      </label>
-                                   	 {!! Form::select('movement_type', $memberTransactions[$movement_type], null, ['class'=>'form-control movement_type']) !!}
+                                   	 {!! Form::select('operation_type', $memberTransactions[$movement_type], null, ['class'=>'form-control operation_type']) !!}
                                 </div>
                             </div>
                            <div class="col-xs-4 col-md-4">

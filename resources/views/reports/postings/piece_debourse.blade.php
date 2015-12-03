@@ -1,4 +1,4 @@
- <table class="pure-table pure-table-bordered" style="width:30%;float: left ">
+<table class="pure-table pure-table-bordered" style="width:30%;float: left ">
   	 	<tr>
 	  	 	<th> {!! $labels->top_left_upper !!}</th>
 	     	<td> {!! $labels->top_left_upper_value !!}</td>
@@ -34,14 +34,26 @@
 </table>
 <br/>
 <table class="pure-table pure-table-bordered">
-	  <thead>
   	 	<tr>
-	  	 	<td>{{ trans('report.done_by') }}</td>
-	     	<td>{{ trans('report.gerant') }}</td>
-			<td>{{ trans('report.president') }}</td>
-			<td>{{ trans('report.tresorien') }}</td>
-			<td>{{ trans('report.controller') }}</td>
-			<td>{{ trans('report.administrator') }}</td>
+	  	 	<td>
+	  	 		{{ trans('report.done_by') }} <br/>
+	  	 		<?php $user = Sentry::getUser(); ?>
+				{!!  $user->first_name !!} {!! $user->last_name !!}
+	  	 	</td>
+	     	<td>{{ trans('report.gerant') }} <br/>
+				{!! (new Ceb\Models\Setting)->get('general.gerant') !!}
+			</td>
+			<td>{{ trans('report.president') }} <br/>
+				{!! (new Ceb\Models\Setting)->get('general.president') !!}
+				</td>
+			<td>{{ trans('report.tresorien') }} <br/>
+				{!! (new Ceb\Models\Setting)->get('general.tresorien') !!}
+				</td>
+			<td>{{ trans('report.controller') }} <br/>
+				{!! (new Ceb\Models\Setting)->get('general.controller') !!}
+				</td>
+			<td>{{ trans('report.administrator') }} <br/>
+				{!! (new Ceb\Models\Setting)->get('general.administrator') !!}
+				</td>
 	  	</tr>
-   	 </thead>
  </table>

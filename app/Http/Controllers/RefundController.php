@@ -76,14 +76,23 @@ class RefundController extends Controller {
 			return $this->reload();
 		}
 
+		$month = $this->refundFactory->getMonth();
+		if (is_null($month)) {
+			flash()->error(trans('refund.please_set_month_before_you_continue'));
+			return $this->reload();
+		}
 	    $this->refundFactory->setWording(Input::get('wording'));
 
 		// codes to complete transactions
-		$this->refundFactory->complete();
+		$transactionid = $this->refundFactory->complete();
 		
-		return Redirect::route('refunds.index');
+		return $this->reload($transactionid);
 	}
 
+	public function show()
+	{
+			return $this->reload();
+	}
 	/**
 	 * Cancel refund transaction that is ongoing
 	 * @return Redirect
@@ -107,7 +116,7 @@ class RefundController extends Controller {
 	 * Reload the refund view
 	 * @return
 	 */
-	private function reload() {
+	private function reload($transactionid = null) {
 
 		/** if we have any parameter passed, then set it  */
 		$this->setAnyThing();
@@ -122,7 +131,7 @@ class RefundController extends Controller {
 		$totalRefunds	= $this->refundFactory->getTotalRefunds();
 		$refundType		= $this->refundFactory->getRefundType();
 
-		return view('refunds.list', compact('members','institution','refundType', 'month', 'totalRefunds', 'creditAccount', 'debitAccount'));
+		return view('refunds.list', compact('members','institution','transactionid','refundType', 'month', 'totalRefunds', 'creditAccount', 'debitAccount'));
 	}
 
 	/**

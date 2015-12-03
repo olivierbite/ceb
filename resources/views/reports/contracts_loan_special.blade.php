@@ -2,6 +2,10 @@
 	/** @type {PRINT IN LANDSCAPE}  */
  @media print{@page {size: portrait}}
 </style>
+<script type="text/javascript">
+  window.open("{!! route('piece.disbursed.account',['transactionid'=>$transactionid,'export_excel'=>0]) !!}, '_blank'");
+  window.focus();
+</script>
 <h3 style="text-align: center;text-decoration: underline">CONTRAT DE PRÊT A CARACTERE SPECIAL N° {contract_id}</h3>
 
 <p>
