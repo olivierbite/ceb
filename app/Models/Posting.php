@@ -82,7 +82,7 @@ class Posting extends Model {
 	 */	
 	public function scopeByTransaction($query,$transactionid)
 	{
-		return $query->where('transactionid',$transactionid);
+		return $query->where('transactionid',"$transactionid");
 	}
 
 	/**

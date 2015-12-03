@@ -69,7 +69,7 @@ class Contribution extends Model {
 	 */	
 	public function scopeByTransaction($query,$transactionid)
 	{
-		return $query->where('transactionid',$transactionid);
+		return $query->where('transactionid','=',"$transactionid");
 	}
 
 	/**
