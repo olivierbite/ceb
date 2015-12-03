@@ -1,6 +1,8 @@
 <?php
 
 namespace Ceb\Models;
+
+use Illuminate\Support\Facades\DB;
 class Refund extends Model {
 
 	protected $fillable = [
@@ -36,4 +38,15 @@ class Refund extends Model {
 	{
 		return $this->hasMany('Ceb\Models\Loan','adhersion_id','adhersion_id');
 	}
+
+	/**
+     * Sum  outstanding loan amount
+     * @return number;
+     */
+    public function sumRefunds()
+    {
+    	$sum=  DB::select("select sum(amount) as amount FROM refunds");
+    	
+     	return array_shift($sum)->amount;
+    }
 }

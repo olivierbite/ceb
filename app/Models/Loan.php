@@ -354,9 +354,9 @@ class Loan extends Model {
     	$sum=  DB::select("SELECT sum(a.loan_to_repay) - sum(b.amount) as amount
 	    						FROM 
 									(select sum(loan_to_repay) as loan_to_repay FROM loans WHERE status = 'approved') as a,
-									refunds as b 
+									(select sum(amount) as amount FROM refunds ) as b 
 						   ");
-
+    	
      	return array_shift($sum)->amount;
     }
 }

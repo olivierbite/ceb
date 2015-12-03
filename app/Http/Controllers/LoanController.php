@@ -392,7 +392,7 @@ class LoanController extends Controller {
                    ->url(route('members.show',['memberid'=>$loan->member->id]))
                    ->sendWithEmail();
                    
-	  		return redirect()->route('reports.members.contracts.loan',['loanId'=>$loan->member->id]);
+	  		return redirect()->route('reports.members.contracts.loan',['loanId'=>$loan->member->adhersion_id]);
   		}
 
   		return redirect()->route('loan.pending');
