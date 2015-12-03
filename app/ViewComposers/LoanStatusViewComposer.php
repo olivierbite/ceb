@@ -11,9 +11,10 @@ class LoanStatusViewComposer {
 		$loanStatuses = 
 					[
 					'all'       => trans('general.all'),
-					'approved'	=>	trans('loan.approved'),
-					'pending' 	=> 	trans('loan.pending'),
-					'rejected' 	=>	trans('loan.rejected'),
+					'unblocked' => trans('loan.unblocked'),
+					'pending' 	=> trans('loan.pending'),
+					'approved'	=> trans('loan.approved'),
+					'rejected' 	=> trans('loan.rejected'),
 					];
 
 		$view->with('loanStatuses',$loanStatuses);

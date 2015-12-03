@@ -521,6 +521,7 @@ class LoanController extends Controller {
 		//  Update the loan only if the loan
 		$loan->cheque_number = $request->get('cheque_number');
 		$loan->bank_id       = $request->get('bank_id');
+		$loan->status 		 = 'unblocked';
 		$saveLoan = $loan->save();
 
 		// If we cannot save this posting then rollback transaction
