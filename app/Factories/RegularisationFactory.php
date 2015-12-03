@@ -424,7 +424,7 @@ class RegularisationFactory {
 			flash()->error(trans('loan.this_member_does_not_have_loan_to_regulate'));
 			return false;
 		}
-
+		$loan = $member->latest_ordinary_loan;
 		$loanToRegulate = $loan->replicate();
 		
 		$loanToRegulate->transactionid			= $transactionid;
