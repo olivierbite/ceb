@@ -8,7 +8,7 @@
 	<td>{!! $member->institution?$member->institution->name:null !!}</td>
 	<td>{!! $member->service !!}</td>
 	<td>{!! $member->district !!}</td>
-	<td>{!! $member->created_at !!}</td>
+	<td>{!! $member->created_at->foramt('Y-m-d') !!}</td>
 	<td>
 {!! Form::open(array('route' => array('members.destroy', $member->id),
 					'method' => 'delete'))
