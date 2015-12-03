@@ -351,6 +351,15 @@ class ReportController extends Controller {
     }
 
 
+    /**
+     * Show loan per status
+     * @param      $loan      
+     * @param    $startDate 
+     * @param    $endDate   
+     * @param    $status    
+     * @param   $excel     
+     * @return    view
+     */
     public function loans(Loan $loan,$startDate=null,$endDate=null,$status='all',$excel=0)
     {
     	 // First check if the user has the permission to do this
@@ -366,7 +375,7 @@ class ReportController extends Controller {
 	    	$results = $results->ofStatus($status);
     	}
 
-    	$loans = $results->orderBy('operation_type','ASC');
+    	$loans = $results->orderBy('operation_type','ASC')->get();
 
     	$report = view('reports.loans.loans',compact('loans'))->render();
 
@@ -374,6 +383,19 @@ class ReportController extends Controller {
 			 toExcel($report,$status.'_between_'.request()->segment(3).'_and_'.request()->segment(4));
 		}
     	return view('layouts.printing', compact('report'));
+    }
+
+    /**
+     * Show member with loan per institutions
+     * @param  Institution $institution   [description]
+     * @param  [type]      $institutionId [description]
+     * @return [type]                     [description]
+     */
+    public function montlyRefund(Institution $institution,$institutionId)
+    {
+    	// Get the institution by its id
+		$members = $institution->with('members')->find((int) $institutionId)->membersWithLoan();
+		dd($members->count());
     }
 
     /**
