@@ -46,7 +46,7 @@ class MemberController extends Controller {
 		// First log
 		Log::info($this->user->email . ' viewed member list');
 
-		$members = $this->member->whereNotNull('adhersion_id')->paginate(20);
+		$members = $this->member->whereNotNull('adhersion_id')->whereNull('deleted_at')->paginate(20);
 
 		return view('members.list', compact('members'));
 	}
@@ -354,12 +354,10 @@ class MemberController extends Controller {
 		// Delete the user
 		if ($user->delete()) {
 			//Fire the sentinel.user.destroyed event
-			$this->dispatcher->fire('sentinel.user.destroyed', ['user' => $user]);
-
-			flash()->success(trans('Sentinel::users.notdestroyed'));
+			flash()->success(trans('Sentinel::users.destroyed'));
 		}
 
-		return Redirect::route('members.index', ['success' => $message]);
+		return Redirect::route('members.index');
 	}
 
 	/**

@@ -51,7 +51,7 @@ class MemberRepository implements MemberRepositoryInterface {
 
 			// Get the unique adhersion number for this member
 			$data['adhersion_id'] = $this->generateAdhersionNumber();
-			$data['contract_id']  = 'CONTRACT' . date('YmdHis') . (string) AuthenticatedUser::getUser()->id;
+			$data['contract_id']  = 'CONTRACT' .$data['adhersion_id'];
 
 			// Setting default password
 			$data['password'] = e('Test1234');
@@ -81,6 +81,7 @@ class MemberRepository implements MemberRepositoryInterface {
 				}
 			}
 			
+			$dataToInsert['created_at'] = date('Y-m-d h:i:s');
 			// Attempt user registration
 			$insertId = Db::table('users')->insertGetId($dataToInsert);
 			$user = $this->sentry->getUserProvider()->findById($insertId);

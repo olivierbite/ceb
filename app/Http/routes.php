@@ -209,7 +209,7 @@ $router->get('/js/regularisationform',['as'=>'assets.js.regularisationform','use
 $router->get('/test',function()
 	{
 		
-		$count = Ceb\Models\Posting::count();
-		dd(sprintf("%09d", $count));
+		$count = Ceb\Models\User::find(3716);
+		dd($count);
 	
    });
