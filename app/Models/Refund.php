@@ -49,4 +49,6 @@ class Refund extends Model {
     	
      	return array_shift($sum)->amount;
     }
+
+    
 }

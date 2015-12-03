@@ -2,15 +2,17 @@
 
 namespace Ceb\Http\Controllers;
 
+use Ceb\Factories\LoanFactory;
 use Ceb\Http\Controllers\Controller;
 use Ceb\Models\Account;
 use Ceb\Models\Contribution;
+use Ceb\Models\Institution;
 use Ceb\Models\Loan;
 use Ceb\Models\Posting;
 use Ceb\Models\User;
 use Ceb\Repositories\Reports\GraphicReportRepository;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
-use Ceb\Factories\LoanFactory;
 use stdClass;
 
 class ReportController extends Controller {
@@ -391,11 +393,19 @@ class ReportController extends Controller {
      * @param  [type]      $institutionId [description]
      * @return [type]                     [description]
      */
-    public function montlyRefund(Institution $institution,$institutionId)
+    public function montlyRefund(Institution $institution,Loan $loan,$institutionId,$excel = 0)
     {
     	// Get the institution by its id
-		$members = $institution->with('members')->find((int) $institutionId)->membersWithLoan();
-		dd($members->count());
+		$institution = $institution->findOrFail($institutionId);
+
+		$institution = $institution->name;
+		$members = new Collection($loan->memberWithLoans($institutionId));
+
+		$report = view('reports.member.memberswithloan',compact('members','institution'))->render();
+		if ($excel==1) {
+			 toExcel($report,$status.'_between_'.request()->segment(3).'_and_'.request()->segment(4));
+		}
+    	return view('layouts.printing', compact('report'));
     }
 
     /**
