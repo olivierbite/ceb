@@ -246,7 +246,7 @@ class Loan extends Model {
 	 */	
 	public function scopeByTransaction($query,$transactionid)
 	{
-		return $query->where('transactionid',"$transactionid");
+		return $query->where('transactionid',$transactionid);
 	}
     /**
      * Scope a query to only include rejected loans.
