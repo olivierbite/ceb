@@ -61,13 +61,6 @@ class RegularisationFactory {
 			flash()->error(trans('loan.does_not_have_active_right_to_regulate',['names'=>$member->names]));
 			return false;
 		}
-
-		/** This member can regulate installment, however we need to make that the current operation is installment */
-		if ($elibilityType == 1 && $operationType !=='installments') {
-			flash()->warning(trans('loan.this_member_can_only_regulate_installment',['names'=>$member->names]));
-			return false;
-		}
-		
 		Session::put('regulate_loan_member', $member);
 
 		$this->updateCautionneur();

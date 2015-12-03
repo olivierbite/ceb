@@ -1,4 +1,4 @@
-<div class="box-body">
+s<div class="box-body">
 <div class="box-header with-border">
   <h3 class="box-title">{{ trans('loan.regularisation') }}</h3>
   <div class="loan-notifications">
@@ -30,6 +30,13 @@
   <div class="col-md-3">
   <div class="form-group">
    <label>{{ trans('loan.regularisation_type') }}</label>
+   {{-- IF THIS MEMBER IS ONLY ALOWED TO REGULATE INSTALLEMMENTS REMOVE OTHER TYPES --}}
+   @if ($member->exists)
+       @if ($member->loan_to_regulate == 1 && strpos($loanInputs['operation_type'], 'amount') !== false)
+            <?php unset($regularisations['amount']) ?>
+            <?php unset($regularisations['amount_installments']) ?>
+       @endif
+   @endif
    {!! Form::select('operation_type',
                    $regularisations,
                    isset($loanInputs['operation_type'])?$loanInputs['operation_type']:null,
