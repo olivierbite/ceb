@@ -19,11 +19,11 @@
 			 Signature
 			</th>
 		</tr>
-		<?php $count = 1; ?>
+		<?php $count = 0; ?>
 		@foreach ($loan->cautions as $caution)
 		<tr >
 			<td>
-			Cautionneur.{!! $count!!}</p>
+			Cautionneur.{!! ++$count!!}</p>
 			</td>
 			<td>
 			{!! $caution->cauttionneur->names !!}
