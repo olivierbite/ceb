@@ -35,4 +35,8 @@ return [
 'trillion' =>'trillion',
 'quadrillion' =>'quadrillion',
 'quintillion' =>'quintillion',
+'separator'=>' ',
+'point'=>'.', 
+'and'=>'and',
+'hyphen'=>'-',
 ];

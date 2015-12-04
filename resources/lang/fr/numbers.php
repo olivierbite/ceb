@@ -1,6 +1,6 @@
 <?php 
 return [
-'zero' =>'zerro',
+'zero' =>'zero',
 'one' =>'un',
 'two' =>'deux',
 'three' =>'trois',
@@ -13,7 +13,7 @@ return [
 'ten' =>'dix',
 'eleven' =>'onze',
 'twelve' =>'douze',
-'thirteen' =>'treze',
+'thirteen' =>'treize',
 'fourteen' =>'quatorze',
 'fifteen' =>'quinze',
 'sixteen' =>'seize',
@@ -24,8 +24,8 @@ return [
 'thirty' =>'trente',
 'fourty' =>'quarente',
 'fifty' =>'cinquante',
-'sixty' =>'soisante',
-'seventy' =>'soisante-dix',
+'sixty' =>'soixante',
+'seventy' =>'soixante-dix',
 'eighty' =>'quatre-vingt',
 'ninety' =>'quatre-vingt-dix',
 'hundred' =>'cent',
@@ -35,4 +35,8 @@ return [
 'trillion' =>'trillard',
 'quadrillion' =>'quadrilliard',
 'quintillion' =>'quintilliard',
+'separator'=>',',
+'and'=>'et',
+'hyphen'=>'-',
+'point'=>'.', 
 ];

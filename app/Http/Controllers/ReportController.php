@@ -370,7 +370,6 @@ class ReportController extends Controller {
 
             return redirect()->back();
         }
-
     	$results = $loan->with('member')->betweenDates($startDate,$endDate);
     	// if status is not all, then fetch the status
     	if (strtolower($status) !== 'all') {

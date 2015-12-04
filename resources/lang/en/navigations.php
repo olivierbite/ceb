@@ -4,7 +4,7 @@ return array (
   'dashboard' => 'Dashboard',
   'members' => 'Members',
   'contributions_and_savings' => 'Contributions & savings',
-  'loans_and_repayments' => 'Loans & repayments',
+  'loans_and_repayments' => 'Loans',
   'accounting' => 'Accounting',
   'reports' => 'Reports',
   'settings' => 'Settings',
@@ -27,12 +27,14 @@ return array (
   'refunds' => 'Refunds',
   'reporting'=>'Reporting',
   'regularisation'=>'Regularisation',
-  'refunds' => 'Remboursements',
+  'refunds' => 'Refund',
   'leaves'  => 'Leaves management',
   'items'   => 'Inventory management',
   'regularisation' => 'Regularisation',
   'installments' =>'Installments',
   'amount' =>'Amount',
   'amount_installments' =>'Amount Installments',
+  'unblock_loan'=>'Unblock Loan',
+
 
 );

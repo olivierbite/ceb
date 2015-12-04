@@ -12,4 +12,14 @@ return array (
  'reports_accounts_list'=>'accounts list',
  'reports_loans_records'=>'loans records',
  'reports_contributions'=>'contributions',
-  );
+  'report_range'=>'Report range',
+  'export_excel'=>'Export Excel',
+  'select_loan_status'=>'Select loan status',
+   'all_loans'=>'All loans',
+   'member_loan_records_file'=>'Laon records file',
+   'member_contribution_file'=>'Contribution records file',
+   'select_account'  =>'Select account',
+
+      'transaction_id'=>'Transaction id',
+
+    );

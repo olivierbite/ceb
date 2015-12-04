@@ -1,6 +1,37 @@
 <?php
 
 return array (
+
+  'institutions' => 'Institutions',
+  'month' => 'Month',
+  'date' => 'Date',
+  'totalAmount' => 'Total amount',
+  'debit_account' => 'Debit account',
+  'credit_account' => 'Credit account',
+  'complete_transaction' => 'Save',
+  'contribution_well_saved' => 'Contribution Well  Saved',
+  'something_went_wrong_while_saving_contribution' => 'Error on Saving',
+  'contribution_cancelled' => 'Contribution Cancelled',
+  'cancel_transaction' => 'Cancel',
+  'add_new_contribution' => 'Add  New  Contribution',
+  'add_new' => 'Add  New',
+  'libelle'=>'Wording',
+
+'contribution_index'=>'index',
+ 'contribution_view'=>'view',
+ 'contribution_update'=>'update',
+ 'contribution_complete'=>'complete',
+'contribution_remove_member'=>'remove_member',
+ 'contribution_cancel'=>'cancel',
+'contribution_batch_contribution'=>'batch contribution',
+'contribution_download_sample'=>'download sample',
+'contribution_set_month'=>'set month',
+'contribution_set_credit_account'=>'set credit account',
+'contribution_set_debit_account'=>'set debit account',
+'contribution_set_by_institution'=>'set by institution',
+'contribution_add'=>'add',
+'contribution_remove_contribution_with_differences'=>'contribution remove contribution with differences',
+
   'institutions'                                      => 'Institutions',
   'month'                                             => 'Month',
   'date'                                              => 'Date',
@@ -11,7 +42,7 @@ return array (
   'contribution_well_saved'                           => 'Contribution Well  Saved',
   'something_went_wrong_while_saving_contribution'    => 'Error on Saving',
   'contribution_cancelled'                            => 'Contribution Cancelled',
-  'cancel_transaction'                                => 'Cancel ,transaction',
+  'cancel_transaction'                                => 'Cancel transaction',
   'add_new_contribution'                              => 'Add  New  Contribution',
   'add_new'                                           => 'Add  New',
   'libelle'                                           =>'Wording',
@@ -30,4 +61,6 @@ return array (
   'contribution_set_by_institution'                   =>'set by institution',
   'contribution_add'                                  =>'add',
   'contribution_remove_contribution_with_differences' =>'contribution remove contribution with differences',
+  'please_select_account_to_credit_before_completing_this_transaction'=>'Please select account to credit before completing this transaction',
+
 );
