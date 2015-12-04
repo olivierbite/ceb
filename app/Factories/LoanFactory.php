@@ -380,12 +380,12 @@ class LoanFactory {
                    ->url(route('loan.pending',['loanid'=>$saveLoan->id]))
                    ->send();
        
-       $user = $this->getMember();
-       // And change it to match what's below
-	   Mail::queue('emails.newloan', $user, function ($message) use ($user) {
-		    $message->to($user->email);
-		    $message->subject("New test");
-	   };
+    //    $user = $this->getMember();
+    //    // And change it to match what's below
+	   // Mail::queue('emails.newloan', $user, function ($message) use ($user) {
+		  //   $message->to($user->email);
+		  //   $message->subject("New test");
+	   // };
 		// Since we are done let's make sure everything is cleaned fo
 		// the next transaction
 		$this->clearAll();
