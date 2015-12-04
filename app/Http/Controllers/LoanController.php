@@ -347,7 +347,7 @@ class LoanController extends Controller {
         // First log 
         Log::info($this->user->email . ' is checking loan status');	
 
-   		$loan = $this->loan->with('member')->pending()->find($loanId);
+   		$loan = $this->loan->with('member')->blocked()->find($loanId);
 
    		if (is_null($loan)) {
    			flash()->warning(trans('loan.we_could_not_find_the_loan_you_are_looking_for'));
@@ -419,7 +419,7 @@ class LoanController extends Controller {
 
         if (!is_null($loanId)) {
         	// we are looking for a special loan, let's grab it  	
-	   		$loans = $this->loan->unBlocked()->pending()->where('id',$loanId)->paginate(20);;
+	   		$loans = $this->loan->unBlocked()->where('id',$loanId)->paginate(20);;
         }
         else
         {
