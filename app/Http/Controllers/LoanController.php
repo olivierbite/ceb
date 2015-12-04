@@ -448,11 +448,11 @@ class LoanController extends Controller {
 
         if (!is_null($loanId)) {
         	// we are looking for a special loan, let's grab it  	
-	   		$loans = $this->loan->blocked()->pending()->where('id',$loanId)->paginate(20);
+	   		$loans = $this->loan->blocked()->where('id',$loanId)->paginate(20);
         }
         else
         {
-	   		$loans = $this->loan->with('member.institution')->blocked()->pending()->paginate(20);
+	   		$loans = $this->loan->with('member.institution')->blocked()->paginate(20);
         }
 
    	    return view('loansandrepayments.blocked_loans',compact('loans'));

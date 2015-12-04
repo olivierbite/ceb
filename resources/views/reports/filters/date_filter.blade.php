@@ -172,8 +172,13 @@ $(document).ready(function()
 
 		if(baseUrl.indexOf('contract') !== -1)
 		{
-           
 			url = baseUrl+'/'+adhersion_id+'/'+ export_excel;
+		}
+
+		if(typeof $('#complex_radio').val() =='undefined' && typeof $('#report_date_range_simple').val() =='undefined' && typeof $('#institition')!== 'undefined')
+		{
+			var instititionType = $('#institition').val();
+			url = baseUrl+'/'+instititionType+'/'+ export_excel;
 		}
 
 		/** OPEN  THE REPORT */
