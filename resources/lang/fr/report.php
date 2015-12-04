@@ -84,5 +84,13 @@ return array (
                   'reports_piece_disbursed_loan'=>'Rapport piece debourse prêt',
 
 
+   'piece_debourse_accounting'     => 'piece debourse N# :number ',
+   'piece_debourse_saving_number'  => 'piece debourse epargne N# :number',
+   'piece_debourse_accounting'     => 'piece debourse comptable N#:number',
+   'piece_debourse_loan'           => 'piece debourse prêt N#:number',
+   'pending_loans'=>'Rapport prêt en attente',
+
+
+
  
   );

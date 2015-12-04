@@ -359,14 +359,13 @@ class ReportController extends Controller {
 
             return redirect()->back();
         }
-
     	$results = $loan->with('member')->betweenDates($startDate,$endDate);
     	// if status is not all, then fetch the status
     	if (strtolower($status) !== 'all') {
 	    	$results = $results->ofStatus($status);
     	}
 
-    	$loans = $results->orderBy('operation_type','ASC');
+    	$loans = $results->orderBy('operation_type','ASC')->get();
 
     	$report = view('reports.loans.loans',compact('loans'))->render();
 

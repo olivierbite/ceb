@@ -21,4 +21,5 @@ return array (
    'select_account'  =>'Selectionner compte',
       'reports_piece_disbursed_saving'=>'Rapport piece debourse epargne',
       'transaction_id'=>'Numero document',
+       'approved_loans'=>'Prêts approuve/actroyer'
   );

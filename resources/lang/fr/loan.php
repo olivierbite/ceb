@@ -103,5 +103,7 @@ return array (
 'operator'=>'Operateur',
 'cheque_number'=>'Cheque numero',
 
+'unblocked'=>'Debroque',
+'amount_installments'=>'Montant et Echeance',
 );
 
