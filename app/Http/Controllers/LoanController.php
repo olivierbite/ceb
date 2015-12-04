@@ -423,7 +423,7 @@ class LoanController extends Controller {
         }
         else
         {
-	   		$loans = $this->loan->with('member.institution')->unBlocked()->pending()->paginate(20);
+	   		$loans = $this->loan->with('member.institution')->unBlocked()->paginate(20);
         }
 
    	    return view('loansandrepayments.pending_loans',compact('loans'));
