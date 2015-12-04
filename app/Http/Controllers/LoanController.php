@@ -419,7 +419,7 @@ class LoanController extends Controller {
 
         if (!is_null($loanId)) {
         	// we are looking for a special loan, let's grab it  	
-	   		$loans = $this->loan->unBlocked()->pending()->where('id',$loanId)->paginate(20);;
+	   		$loans = $this->loan->unBlocked()->where('id',$loanId)->paginate(20);;
         }
         else
         {
