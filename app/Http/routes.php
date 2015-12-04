@@ -213,8 +213,11 @@ $router->get('/js/regularisationform',['as'=>'assets.js.regularisationform','use
 
 $router->get('/test',function()
 	{
-		
-		$count = Ceb\Models\User::find(3716);
-		dd($count);
+		// And change it to match what's below
+	   $user = Ceb\Models\User::find();
+	   Mail::queue('emails.newloan', $user, function ($message) use ($user) {
+		    $message->to($user->email);
+		    $message->subject("New test");
+	   };
 	
    });
