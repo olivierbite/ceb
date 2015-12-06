@@ -149,7 +149,12 @@ Route::resource('loans', 'LoanController');
 	// LOANS REPORTS 
 	Route::group(['prefix'=>'refunds'], function()
 	{
-		Route::get('monthly/{institution}/{export_excel?}', ['as'=>'reports.loans','uses'=>'ReportController@montlyRefund']);
+		Route::get('monthly/{institution}/{export_excel?}', ['as'=>'reports.refunds.monthly','uses'=>'ReportController@montlyRefund']);
+	});
+    // LOANS REPORTS 
+	Route::group(['prefix'=>'savings'], function()
+	{
+		Route::get('level/{institution?}/{export_excel?}', ['as'=>'reports.savings.level','uses'=>'ReportController@savingsLevel']);
 	});
 	
 });
@@ -213,8 +218,8 @@ $router->get('/js/regularisationform',['as'=>'assets.js.regularisationform','use
 
 $router->get('/test',function()
 	{
-		$rate = (new Ceb\Models\loanRate)->rate(43);
+		$savings = (new Ceb\Models\Contribution)->notContributedIn();
 
-		dd($rate);
+		dd($savings);
 	
    });

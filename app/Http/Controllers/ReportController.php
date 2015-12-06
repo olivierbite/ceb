@@ -408,6 +408,24 @@ class ReportController extends Controller {
     }
 
     /**
+     * Show member savings levels
+     * @param  Contribution $contribution 
+     * @param        $excel        
+     * @return                      
+     */
+    public function savingsLevel(Contribution $contribution,$institition=null,$excel = 0 )
+    {
+    	$members = $contribution->savingLevel();
+    	$members = new Collection($members);
+		$report = view('reports.member.memberssavings',compact('members'))->render();
+		if ($excel==1) {
+			 toExcel($report,'savings level');
+		}
+    	return view('layouts.printing', compact('report'));
+    }
+
+
+    /**
      * Piece Disbursed Saving Report 
      * @param  string $value 
      * @return [type]        

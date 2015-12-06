@@ -113,7 +113,7 @@
   		</a>
   </li>
   <li>
-  		<a href="{{ route('reports.filter') }}/?reporturl=reports/members/contracts/saving" class="popdown">
+  		<a href="{{ route('reports.filter') }}/?reporturl=reports/savings/level&show_exports=true" class="popdown">
   			<i class="icon-chevron-right"></i> {{ trans('report.savings_contribution') }}
   		</a>
   </li>
