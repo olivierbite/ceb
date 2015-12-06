@@ -88,18 +88,12 @@
   		</a>
   </li>
   <li>
-  		<a href="{{ route('reports.filter') }}/?reporturl=reports/accounting/journal&show_dates=true&show_exports=true
-&show_dates=true&show_exports=true
-&show_dates=true&show_exports=true
-&show_dates=true&show_exports=true" class="popdown">
+  		<a href="{{ route('reports.filter') }}/?reporturl=reports/accounting/journal&show_dates=true" class="popdown">
   			<i class="icon-chevron-right"></i> {{ trans('report.journal') }}
   		</a>
   </li>
   <li>
-  		<a href="{{ route('reports.filter') }}/?reporturl=reports/accounting/ledger&show_dates=true&show_exports=true
-&show_dates=true&show_exports=true
-&show_dates=true&show_exports=true
-&show_dates=true&show_exports=true" class="popdown">
+  		<a href="{{ route('reports.filter') }}/?reporturl=reports/accounting/ledger&show_dates=true&show_exports=true" class="popdown">
   			<i class="icon-chevron-right"></i> {{ trans('report.operating_account') }}
   		</a>
   </li>

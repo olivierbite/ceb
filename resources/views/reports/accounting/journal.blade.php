@@ -1,18 +1,19 @@
 <style type="text/css">
 	.account-details{
-		border:none;
-		text-align:center;
-		border-left:1px solid;
-		border-bottom:  1px;
-		border-bottom-style:dashed;
+		border:none !important;
+		text-align:center !important;
+		border-left:1px solid !important;
+		border-bottom:  1px !important;
+		border-bottom-style:dashed !important;
 	}
 	.posting-details{
-		border:none;
-		border-bottom: 1px solid green;
-		font-weight: bold;
+		border:none !important;
+		border-bottom: 1px solid green !important;
+		font-weight: bold !important;
 	}
 </style>
-<table border="1">
+<table class="pure-table pure-table-bordered">
+<caption> {{ trans('reports.journal') }} </caption>
 	<thead>
 		<tr>
 			<th>{{ trans('posting.transactionid') }}</th>
