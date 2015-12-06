@@ -33,7 +33,7 @@
 		@if ($date != $posting->created_at->format('Y-m-d'))
 		<?php $date = $posting->created_at->format('Y-m-d'); ?>
 		<tr>
-			<td colspan="6">{!! $date !!}</td>
+			<td class="account-details" colspan="6" style="font-weight: bold">{!! $date !!}</td>
 		</tr>
 		@endif
 
@@ -44,13 +44,13 @@
 				{{-- detrmine how many rows do we have to span as per affected account for this transaction --}}
 				<?php $rowspan = $postings->where('transactionid',$transactionid)->count(); ?>
 
-				<td class="posting-details" rowspan="{!! $rowspan !!}">
+				<td rowspan="{!! $rowspan !!}">
 				    {!! $posting->transactionid !!}
 				 </td>
-				<td class="posting-details" rowspan="{!! $rowspan !!}">
+				<td rowspan="{!! $rowspan !!}">
 				    {!! $posting->created_at->format('Y-m-d') !!}
 				</td>
-				<td class="posting-details" rowspan="{!! $rowspan !!}">{!! $posting->wording !!}</td>
+				<td rowspan="{!! $rowspan !!}">{!! $posting->wording !!}</td>
 			@endif
 				<td class="account-details">{!! $posting->account->account_number !!}</td>
 				<td class="account-details">{!! $posting->debit_amount !!}</td>
