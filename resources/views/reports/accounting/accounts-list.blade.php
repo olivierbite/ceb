@@ -1,4 +1,5 @@
-<table border="1">
+<table class="pure-table pure-table-bordered">
+<caption> {{ trans('reports.accounts_list') }} </caption>
 	<thead>
 		<tr>
 			<th>{{ trans('account.account_number') }}</th>
