@@ -213,13 +213,8 @@ $router->get('/js/regularisationform',['as'=>'assets.js.regularisationform','use
 
 $router->get('/test',function()
 	{
-		// And change it to match what's below
-	   $user = Ceb\Models\User::find(2165);
-	   $data['names'] = $user->names;
-	   $data['amount'] = 1000;
-	   Mail::queue('emails.newloan', $data, function ($message) use ($user) {
-		    $message->to($user->email);
-		    $message->subject("New test");
-	   });
+		$rate = (new Ceb\Models\loanRate)->rate(43);
+
+		dd($rate);
 	
    });

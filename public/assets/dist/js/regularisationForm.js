@@ -38,6 +38,7 @@ jQuery(document).ready(function($) {
 		
 		if(typeof $('#loanBalance').val() !=='undefined'){
 	        loanBalance =$('#loanBalance').val().replace(/,/g,'');
+	        loanBalance = parseInt(loanBalance);
 	    }
 		
 		if(typeof $('#additional_installments').val() !=='undefined'){
@@ -46,6 +47,7 @@ jQuery(document).ready(function($) {
 		
 		if(typeof $('.remaining_tranches').val() !=='undefined'){
 	        remaining_installments =$('.remaining_tranches').val().replace(/,/g,'');
+	        remaining_installments = parseInt(remaining_installments);
 	    }
 		// Remove any character that is not a number
 		if(typeof $('#totalContributions').val() !=='undefined'){
@@ -70,6 +72,7 @@ jQuery(document).ready(function($) {
 		remaining_interest			= Math.round(getInterest(loanBalance,interestRate,remaining_installments));
 		interestRate				= getInterestRate(numberOfInstallment);
 
+		console.log(interestRate,remaining_installments,loanBalance,remaining_interest);
 		// Do this only when this is regularisation echeance/installments
 		if (operation_type.indexOf("installment") > -1 && operation_type.indexOf("amount") == -1) {		
 			totalInstallement_interests	= Math.round(getInterest(loanBalance,interestRate,numberOfInstallment));
@@ -176,8 +179,10 @@ jQuery(document).ready(function($) {
 		amount = parseFloat(amount);
 		rate   = parseFloat(rate);
 		installments = parseInt(installments);
-
-		var interests = amount * rate * installments / 1200 +(rate*installments);
+		var numerator =  amount * rate * installments;
+		var denominator =  1200 +(rate*installments);
+		var interests = numerator  / denominator;
+		
 		return interests;
 	}
 
