@@ -81,4 +81,6 @@ return array (
 'active_loan_monthly_fees_payments'=>'Paiement tranche mensuels',
 'we_could_not_find_the_member_you_are_looking_for'=>'Nous ne pouvions pas trouver le membre que vous cherchez',
 'cancel'=>'Annuel',
+  'adhersion_id'=>'Numero d\'adhesion ',
+  'monthly_fees'=>'Mensualite',
 );

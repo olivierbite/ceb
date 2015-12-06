@@ -135,5 +135,7 @@ return array (
   'total_cautions_amount'                         =>'Total cautions amount',
   'active_loan_monthly_fees_payments'=>'Active loan monthly fees payments',
   'we_could_not_find_the_member_you_are_looking_for'=>'we could not find the member you are looking for',
+  'adhersion_id'=>'Adhersion id',
+   'monthly_fees'=>'Monthly fees',
 
 );

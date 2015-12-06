@@ -23,4 +23,5 @@ return array (
       'transaction_id'=>'Numero document',
        'approved_loans'=>'Prêts approuve/actroyer',
        'montly_refunds_per_institution'=>'Liste de  remboursement mensuel par institution',
+       'select_institution'=>'Institution',
   );

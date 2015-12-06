@@ -107,7 +107,7 @@ return array (
    'loan_repayment'               =>'Loan Repayment',
    'members'                      =>'Members',
    'various_withdrawal'            =>'Various Withdrawal',
-   'reports_members_contributions' => 'Members contributions',
+   'reports_members_contributions' => 'Rapport fiche de cotisation',
    'done_by'=>'Done by',
    'gerant'=>'Gerant',
    'President'=>'President',
@@ -120,8 +120,13 @@ return array (
    'piece_debourse_loan'           => 'piece debourse loan :number',
 
 
-       'piece_debourse_accounting'=>'Piece accounting N*',
+      
        'payment_date'=>'Payment date',
           'reports_piece_disbursed_saving'=>'Rapport piece disbursed saving',
            'reports_piece_disbursed_loan'=>'Reports piece disbursed loan',
+
+
+   'pending_loans'=>'Rapport prêt en attente',
+
+           'reports_refunds_monthly'=>'Reports refunds monthly',
   );

@@ -11,8 +11,8 @@ return array (
   'accounting_dp'=>'Comptable PD',
   'saving_dp'=>'Epargne PD',
   'loan_dp'=>'prêt PD',
-  'contribution_per_month'=>'Contribution Mensuelle',
-  'member_per_institution'=>'Membres par Institution',
+  'contribution_per_month'=>'Cotisation mensuelle',
+  'member_per_institution'=>'Membres par institution',
   'contracts_reports'=>'Rapports Contract',
   'files_reports'=>'Rapport Fiche',
   'the_disbursed_parts'=>'Piece Debourse',
@@ -72,7 +72,7 @@ return array (
 'reports_members_contracts_saving'=>'Contract d\'epargne',
 'reports_members_contracts_loan'=>'Contract de prêt',
 'provide_bank_details_to_unblock_this_loan'=>'veillez insere le numero du cheque',
-   'done_by'=>'Prepare',
+   'done_by'=>'Prepare par',
    'gerant'=>'Gerant',
    'President'=>'President',
    'tresorien'=>'Tresorien',
@@ -89,6 +89,7 @@ return array (
    'piece_debourse_accounting'     => 'piece debourse comptable N#:number',
    'piece_debourse_loan'           => 'piece debourse prêt N#:number',
    'pending_loans'=>'Rapport prêt en attente',
+   'reports_refunds_monthly'=>'Liste de remboursement mensuel',
 
 
 
