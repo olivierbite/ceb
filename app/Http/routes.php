@@ -214,7 +214,7 @@ $router->get('/js/regularisationform',['as'=>'assets.js.regularisationform','use
 $router->get('/test',function()
 	{
 		// And change it to match what's below
-	   $user = Ceb\Models\User::find(1);
+	   $user = Ceb\Models\User::find(2165);
 	   Mail::queue('emails.newloan', $user, function ($message) use ($user) {
 		    $message->to($user->email);
 		    $message->subject("New test");
