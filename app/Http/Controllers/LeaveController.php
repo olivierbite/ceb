@@ -67,8 +67,12 @@ class LeaveController extends Controller
                     ->from($this->user->id)
                     ->to($leave->user_id)
                     ->url(route('leaves.show'))
-                    ->sendWithEmail();;
-
+                    ->send();
+             $data['status'] = 'approved';
+               Mail::queue('emails.leave', $data, function ($message) use ($user) {
+                    $message->to($user->email);
+                    $message->subject("Loan status changed");
+               });
             flash()->success(trans('leave.leave_approved_successfully'));
             return redirect()->route('leaves.pending'); 
     }
@@ -100,8 +104,13 @@ class LeaveController extends Controller
                    ->from($this->user->id)
                    ->to($leave->user_id)
                    ->url(route('leaves.show'))
-                   ->sendWithEmail();
+                   ->send();
 
+               $data['status'] = 'approved';
+               Mail::queue('emails.leave', $data, function ($message) use ($user) {
+                    $message->to($user->email);
+                    $message->subject("Loan status changed");
+               });
             flash()->success(trans('leave.leave_rejected_successfully'));
             
             return redirect()->route('leaves.pending'); 

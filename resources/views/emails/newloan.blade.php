@@ -1,5 +1,5 @@
 <p>
-  Hi {{ $user->names }}
+  Hi {{ $names }}
 </p>
 <p>
  We have received your request for the loan worth of  <code>{{ $amount }}</code> Rwf, and it is under approval process.

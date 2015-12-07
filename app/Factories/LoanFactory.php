@@ -12,6 +12,7 @@ use DB;
 use Datetime;
 use Fenos\Notifynder\Facades\Notifynder;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Sentry;
 use Validator;
@@ -380,12 +381,16 @@ class LoanFactory {
                    ->url(route('loan.pending',['loanid'=>$saveLoan->id]))
                    ->send();
        
-    //    $user = $this->getMember();
-    //    // And change it to match what's below
-	   // Mail::queue('emails.newloan', $user, function ($message) use ($user) {
-		  //   $message->to($user->email);
-		  //   $message->subject("New test");
-	   // };
+       $user = $this->getMember();
+    
+	   $data['names'] = $user->names;
+
+	   $inputs = $this->getLoanInputs();
+	   $data['amount'] = $inputs['loan_to_repay'];
+	   Mail::queue('emails.newloan', $data, function ($message) use ($user) {
+		    $message->to($user->email);
+		    $message->subject("New loan");
+	   });
 		// Since we are done let's make sure everything is cleaned fo
 		// the next transaction
 		$this->clearAll();

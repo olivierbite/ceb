@@ -1,5 +1,6 @@
 @if (!$postings->isEmpty())
-<table border="1">
+<table class="pure-table pure-table-bordered">
+<caption> {{ trans('reports.ledger') }} </caption>
 	<thead>
 		<tr>
 			<th>{{ trans('account.date') }}</th>

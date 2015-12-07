@@ -13,6 +13,7 @@ use Ceb\Models\UserGroup;
 use Fenos\Notifynder\Facades\Notifynder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Input;
 use Redirect;
 use Session;
@@ -391,6 +392,15 @@ class LoanController extends Controller {
                    ->to($loan->member->id)
                    ->url(route('members.show',['memberid'=>$loan->member->id]))
                    ->send();
+       $user = $loan->member;
+    
+	   $data['names'] = $user->names;
+
+	   $data['status'] = $toSetstatus;
+	   Mail::queue('emails.loanstatus', $data, function ($message) use ($user) {
+		    $message->to($user->email);
+		    $message->subject("Loan status changed");
+	   });
                    
 	  		return redirect()->route('reports.members.contracts.loan',['loanId'=>$loan->member->adhersion_id]);
   		}
@@ -579,10 +589,19 @@ class LoanController extends Controller {
                    ->from($this->user->id)
                    ->to($user->id)
                    ->url(route('loan.pending',['loanid'=>$loan->id]))
-                   ->sendWithEmail();
+                   ->send();
            }
 		}
 
+		$user = $loan->member;
+    
+	   $data['names'] = $user->names;
+
+	   $data['status'] = $loan->status;
+	   Mail::queue('emails.loanstatus', $data, function ($message) use ($user) {
+		    $message->to($user->email);
+		    $message->subject("Loan status changed");
+	   });
 		flash()->success(trans('loan.loan_successfully_unblocked'));
 
 		return redirect()->route('loan.blocked');
