@@ -156,6 +156,11 @@ Route::resource('loans', 'LoanController');
 	{
 		Route::get('level/{institution?}/{export_excel?}', ['as'=>'reports.savings.level','uses'=>'ReportController@savingsLevel']);
 	});
+	 // LOANS REPORTS 
+	Route::group(['prefix'=>'contributions'], function()
+	{
+		Route::get('notcontribuing/{institution?}/{export_excel?}', ['as'=>'reports.contribution.not.contributing','uses'=>'ReportController@notContribuing']);
+	});
 	
 });
 
@@ -218,8 +223,9 @@ $router->get('/js/regularisationform',['as'=>'assets.js.regularisationform','use
 
 $router->get('/test',function()
 	{
-		$savings = (new Ceb\Models\Contribution)->notContributedIn();
-
+		$members = (new Ceb\Models\Contribution)->notContributedIn();
+		$members = new Illuminate\Support\Collection($members);
+		return  view('reports.member.members_not_contributed',compact('members'));
 		dd($savings);
 	
    });

@@ -133,7 +133,6 @@ class Contribution extends Model {
     public function notContributedIn($months = 3)
     {
     	$query = "
-    			/** GETTING PEOPLE WHO SPENT  MORE THAN 3 MONTHS WITHOUT CONTRIBUTION **/
 			SELECT  a.*,b.first_name,b.last_name,b.service,a.contributed_amount,(a.contributed_amount + (b.monthly_fee *TIMESTAMPDIFF(MONTH, last_date,CURDATE()))) as to_pay FROM 
 			(SELECT * FROM
 			(

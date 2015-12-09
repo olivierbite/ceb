@@ -108,8 +108,8 @@
 <h4>{{ trans('report.the_management_reports') }}</h4>   
 <ul class="nav nav-list">
   <li>
-  		<a href="{{ route('reports.filter') }}/?reporturl=reports/members/contracts/saving&show_dates=true" class="popdown">
-  			<i class="icon-chevron-right"></i> {{ trans('report.cautions') }}
+  		<a href="{{ route('reports.filter') }}/?reporturl=reports/contributions/notcontribuing&show_exports=true" class="popdown">
+  			<i class="icon-chevron-right"></i> {{ trans('report.not_contributing_members') }}
   		</a>
   </li>
   <li>
