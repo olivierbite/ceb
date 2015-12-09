@@ -117,6 +117,7 @@
   			<i class="icon-chevron-right"></i> {{ trans('report.savings_contribution') }}
   		</a>
   </li>
+  <!--
   <li>
   		<a href="{{ route('reports.filter') }}/?reporturl=reports/members/contracts/saving" class="popdown">
   			<i class="icon-chevron-right"></i> {{ trans('report.loan_repayment') }}
@@ -132,5 +133,6 @@
   			<i class="icon-chevron-right"></i> {{ trans('report.various_withdrawal') }}
   		</a>
   </li>
+  -->
 </ul>
 </div>  
