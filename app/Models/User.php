@@ -191,7 +191,7 @@ class User extends SentinelModel {
 
 	/**
 	 * Member CAUTIONS
-	 * @return Objects contains all refunds by this memebr
+	 * @return Objects contains all people this member cautioned or were their cautionneur
 	 */
 	public function cautions() {
 		return $this->hasMany('Ceb\Models\MemberLoanCautionneur', 'cautionneur_adhresion_id', 'adhersion_id');
@@ -199,7 +199,7 @@ class User extends SentinelModel {
     
     /**
 	 * Member who cautioned this members
-	 * @return Objects contains all refunds by this memebr
+	 * @return Objects contains all people who were cautionneur for this member
 	 */
 	public function cautioned() {
 		return $this->hasMany('Ceb\Models\MemberLoanCautionneur', 'member_adhersion_id', 'adhersion_id');

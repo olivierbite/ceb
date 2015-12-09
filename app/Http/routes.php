@@ -224,7 +224,6 @@ $router->get('/js/regularisationform',['as'=>'assets.js.regularisationform','use
 
 $router->get('/test',function()
 	{
-		$refunds = (new Ceb\Models\Refund)->refundIrregularities();
-		dd($refunds);
-	
+$member = (new Ceb\Models\User)->byAdhersion('20072824')->first();
+		dd($member->cautions);	
    });
