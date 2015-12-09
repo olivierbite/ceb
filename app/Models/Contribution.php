@@ -138,7 +138,7 @@ class Contribution extends Model {
 			(
 			SELECT 
 					adhersion_id,
-			        max(amount) as contributed_amount,
+			        sum(amount) as contributed_amount,
 			        max(created_at) as last_date
 					FROM contributions 
 			        WHERE transaction_type = 'saving'

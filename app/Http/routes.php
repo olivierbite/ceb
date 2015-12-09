@@ -150,6 +150,7 @@ Route::resource('loans', 'LoanController');
 	Route::group(['prefix'=>'refunds'], function()
 	{
 		Route::get('monthly/{institution}/{export_excel?}', ['as'=>'reports.refunds.monthly','uses'=>'ReportController@montlyRefund']);
+		Route::get('irreguralities/{institution?}/{export_excel?}', ['as'=>'reports.refunds.irreguralities','uses'=>'ReportController@refundIrregularities']);
 	});
     // LOANS REPORTS 
 	Route::group(['prefix'=>'savings'], function()
@@ -223,9 +224,7 @@ $router->get('/js/regularisationform',['as'=>'assets.js.regularisationform','use
 
 $router->get('/test',function()
 	{
-		$members = (new Ceb\Models\Contribution)->notContributedIn();
-		$members = new Illuminate\Support\Collection($members);
-		return  view('reports.member.members_not_contributed',compact('members'));
-		dd($savings);
+		$refunds = (new Ceb\Models\Refund)->refundIrregularities();
+		dd($refunds);
 	
    });
