@@ -53,6 +53,17 @@ class MemberLoanCautionneur extends Model {
 	 * @param  $adhersion_id 
 	 * @return Illumunate\Support\Querybuilder
 	 */
+	public function scopeByCautionneurAdhersion($query,$adhersionId)
+	{
+		return $query->where('cautionneur_adhresion_id',$adhersionId);
+	}
+
+	/**
+	 * Get caution details by adhersion Id
+	 * @param  $query  
+	 * @param  $adhersion_id 
+	 * @return Illumunate\Support\Querybuilder
+	 */
 	public function scopeByTransaction($query,$transactionId)
 	{
 		return $query->where('transaction_id',$transactionId);
@@ -85,4 +96,15 @@ class MemberLoanCautionneur extends Model {
 	{
 		return $this->amount - $this->refunded_amount;
 	}
+	
+	/**
+	 * Get status attribute
+	 * @return number
+	 */
+	public function getStatusAttribute()
+	{
+		return ($this->balance > 0 ) ? trans('general.active') : trans('general.closed');
+	}
+
+
 }

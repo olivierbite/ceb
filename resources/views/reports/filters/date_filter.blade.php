@@ -6,6 +6,7 @@
 @if ($filterOptions->member_search == true)
 	@include('members.search')
 	{!!Form::hidden('adhersion_id',null,['class'=>'adhersion_id']) !!}
+	<span class="label label-warning">{{ trans('general.please_start_by_selecting_others_input_before_selecting_a_member') }}</span>
 @endif
 <br/>
 {{-- Only show this if the report require institition selection  --}}
@@ -153,7 +154,7 @@ $(document).ready(function()
 		}
 
 		/** Add additinal parameters for the members routes */
-		if(baseUrl.indexOf('members') !== -1)
+		if(baseUrl.indexOf('members') !== -1 || baseUrl.indexOf('cautions') !== -1 )
 		{
 			/** USER MUST SELECT A MEMBER FOR THIS REPORT */
 			if($('.adhersion_id').val() == '')

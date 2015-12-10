@@ -122,7 +122,16 @@
         <i class="icon-chevron-right"></i> {{ trans('report.refund_irregularities') }}
       </a>
   </li>
- 
+   <li>
+      <a href="{{ route('reports.filter') }}/?reporturl=reports/cautions/cautioned_me&member_search=true&show_dates=true&show_exports=true" class="popdown">
+        <i class="icon-chevron-right"></i> {{ trans('report.members_who_cautionned_me') }}
+      </a>
+  </li>
+   <li>
+      <a href="{{ route('reports.filter') }}/?reporturl=reports/cautions/cautioned_by_me&member_search=true&show_dates=true&show_exports=true" class="popdown">
+        <i class="icon-chevron-right"></i> {{ trans('report.members_cautionned_by_me') }}
+      </a>
+  </li>
   <!--
   <li>
   		<a href="{{ route('reports.filter') }}/?reporturl=reports/members/contracts/saving" class="popdown">
