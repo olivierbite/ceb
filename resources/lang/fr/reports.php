@@ -24,5 +24,13 @@ return array (
        'approved_loans'=>'Prêts approuve/actroyer',
        'montly_refunds_per_institution'=>'Liste de  remboursement mensuel par institution',
        'select_institution'=>'Institution',
-       'bilan'=>'Bilan',
+       'Bilan'=>'Bilan',
+       'reports_savings_level'=>'Rapport niveau epargne',
+       'level_of_savings_per_member'=>'Niveau de l\'epargne par membre',
+       'member_who_are_not_contributing'=>'Irrégularités des cotisations',
+       'member_with_irregularite_in_refunding'=>'Remboursements irréguliers',
+       'accounts_list'=>'Liste des comptes',
+       'ledger'=>'Grand Livre',
+
+
   );

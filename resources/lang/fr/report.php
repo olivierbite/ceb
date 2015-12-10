@@ -90,6 +90,10 @@ return array (
    'piece_debourse_loan'           => 'piece debourse prêt N#:number',
    'pending_loans'=>'Rapport prêt en attente',
    'reports_refunds_monthly'=>'Liste de remboursement mensuel',
+   'contribution_irregularities'=>'Irregularites de contribution',
+   'refund_irregularities'=>'Irregularite de remboursement',
+   'reports_contributions_notcontribuing'=>'Rapport des irregularites de contribution',
+   ' reports_refunds_irreguralities'=>'Rapport des irregularites de  remboursement',
 
 
 
