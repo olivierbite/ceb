@@ -30,7 +30,7 @@ return array (
  'reports_contributions'=>'Epargne',
  'given_loan_per_month'=>'Prêts debroque par mois',
  'the_accountants_reports'=>'Rapports comptable',
- 'given_loan_per_insitution'=>'Prêts debroque par i',
+ 'given_loan_per_insitution'=>'Prêts debroque par institution',
 'the_management_reports'=>'Rapports de gestion',
 'montly_refund_file'=>'Liste de remboursment mensuel',
 'ledger'=>'Grand Livre',

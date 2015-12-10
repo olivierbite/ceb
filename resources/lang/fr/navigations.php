@@ -33,6 +33,15 @@ return array (
   'report_contrats' => 'Report Contracts',
   'report_files' => 'Report Files',
   'user' => 'User',
-
   'main_navigation' => 'Menu',
+  'reporting'=>'Rapports',
+  'give_loan'=>'Prêts',
+  'unblock_loan'=>'Prêts debloque',
+  'pending_loans'=>'Prêts en attente',
+  'regularisation'=>'Regularisation',
+  'leaves'=>'Gestion conges',
+  'items'=>'Gestion inventaire',
+  'installments'=>'Echeances',
+  'amount'=>'Amount',
+  'amount_installments'=>'Montant et Echeance',
 );
