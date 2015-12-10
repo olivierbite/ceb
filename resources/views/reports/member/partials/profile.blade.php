@@ -13,6 +13,6 @@
 	  	</tr>
 	  	<tr>
 	  	 	<th>{{ trans('member.adhersion_date') }}</th>
-	     	<td>{{ $member->created_at->format('d/M/Y') }}</td>
+	     	<td>{{ $member->created_at->format('Y-m-d') }}</td>
 	  	</tr>
   </table>

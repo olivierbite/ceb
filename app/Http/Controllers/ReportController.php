@@ -8,6 +8,7 @@ use Ceb\Models\Account;
 use Ceb\Models\Contribution;
 use Ceb\Models\Institution;
 use Ceb\Models\Loan;
+use Ceb\Models\MemberLoanCautionneur;
 use Ceb\Models\Posting;
 use Ceb\Models\Refund;
 use Ceb\Models\User;
@@ -459,6 +460,48 @@ class ReportController extends Controller {
     	return view('layouts.printing', compact('report'));
     }
 
+    /**
+     * Get member who cautioned me
+     * @param  MemberLoanCautionneur $cautions    
+     * @param                  $startDate   
+     * @param   			   $endDate     
+     * @param                  $excel       
+     * @param                  $adhersionId 
+     * @return                              
+     */
+    public function cautionedMe(MemberLoanCautionneur $cautions,$startDate=null,$endDate=null,$excel=0,$adhersionId)
+    {
+    	$cautions = $cautions->betweenDates($startDate,$endDate)->byAdhersion($adhersionId)->get();
+    	$title    = trans('report.members_who_cautionned_me');
+    	$member   = ($cautions->isEmpty() == false) ? $cautions->first()->member : null;
+    	$type     = 'me';
+    	$report =  view('reports.member.cautionned_me',compact('cautions','title','member','type'))->render();
+		if ($excel==1) {
+			 toExcel($report,'members who cautioned me');
+		}
+    	return view('layouts.printing', compact('report'));
+    }
+      /**
+     * Get member who cautioned me
+     * @param  MemberLoanCautionneur $cautions    
+     * @param                  $startDate   
+     * @param   			   $endDate     
+     * @param                  $excel       
+     * @param                  $adhersionId 
+     * @return                              
+     */
+    public function cautionedByMe(MemberLoanCautionneur $cautions,$startDate=null,$endDate=null,$excel=0,$adhersionId)
+    {
+    	$cautions = $cautions->betweenDates($startDate,$endDate)->byCautionneurAdhersion($adhersionId)->get();
+    	$title    = trans('report.members_cautionned_by_me');
+    	$member   = ($cautions->isEmpty() == false) ? $cautions->first()->member : null;
+    	$type     = 'by_me';
+    	$report =  view('reports.member.cautionned_me',compact('cautions','title','member','type'))->render();
+		if ($excel==1) {
+			 toExcel($report,'members who cautioned me');
+		}
+    	return view('layouts.printing', compact('report'));
+    }
     /**
      * Piece Disbursed Saving Report 
      * @param  string $value 
