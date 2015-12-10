@@ -9,6 +9,7 @@ use Ceb\Models\Contribution;
 use Ceb\Models\Institution;
 use Ceb\Models\Loan;
 use Ceb\Models\Posting;
+use Ceb\Models\Refund;
 use Ceb\Models\User;
 use Ceb\Repositories\Reports\GraphicReportRepository;
 use Illuminate\Support\Collection;
@@ -424,6 +425,39 @@ class ReportController extends Controller {
     	return view('layouts.printing', compact('report'));
     }
 
+    /**
+     * Showing member who are not contributing in x times
+     * @param  Contribution $contribution 
+     * @param        $excel        
+     * @return                      
+     */
+    public function notContribuing(Contribution $contribution,$institition=null,$excel = 0)
+    {
+		$members = $contribution->notContributedIn();
+		$members = new Collection($members);
+		$report =  view('reports.member.members_not_contributed',compact('members'))->render();
+		if ($excel==1) {
+			 toExcel($report,'contribution irreguralities');
+		}
+    	return view('layouts.printing', compact('report'));
+    }
+
+        /**
+     * Showing member who are not contributing in x times
+     * @param  Contribution $contribution 
+     * @param        $excel        
+     * @return                      
+     */
+    public function refundIrregularities(Refund $refund,$institition=null,$excel = 0)
+    {
+		$members = $refund->refundIrregularities();
+		$members = new Collection($members);
+		$report =  view('reports.member.refund_irregularities',compact('members'))->render();
+		if ($excel==1) {
+			 toExcel($report,'refund irreguralities');
+		}
+    	return view('layouts.printing', compact('report'));
+    }
 
     /**
      * Piece Disbursed Saving Report 

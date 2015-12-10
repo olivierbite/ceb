@@ -107,16 +107,23 @@
 <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
 <h4>{{ trans('report.the_management_reports') }}</h4>   
 <ul class="nav nav-list">
-  <li>
-  		<a href="{{ route('reports.filter') }}/?reporturl=reports/members/contracts/saving&show_dates=true" class="popdown">
-  			<i class="icon-chevron-right"></i> {{ trans('report.cautions') }}
-  		</a>
+ <li>
+      <a href="{{ route('reports.filter') }}/?reporturl=reports/savings/level&show_exports=true" class="popdown">
+        <i class="icon-chevron-right"></i> {{ trans('report.savings_contribution') }}
+      </a>
   </li>
   <li>
-  		<a href="{{ route('reports.filter') }}/?reporturl=reports/savings/level&show_exports=true" class="popdown">
-  			<i class="icon-chevron-right"></i> {{ trans('report.savings_contribution') }}
+  		<a href="{{ route('reports.filter') }}/?reporturl=reports/contributions/notcontribuing&show_exports=true" class="popdown">
+  			<i class="icon-chevron-right"></i> {{ trans('report.contribution_irregularities') }}
   		</a>
   </li>
+   <li>
+      <a href="{{ route('reports.filter') }}/?reporturl= reports/refunds/irreguralities&show_exports=true" class="popdown">
+        <i class="icon-chevron-right"></i> {{ trans('report.refund_irregularities') }}
+      </a>
+  </li>
+ 
+  <!--
   <li>
   		<a href="{{ route('reports.filter') }}/?reporturl=reports/members/contracts/saving" class="popdown">
   			<i class="icon-chevron-right"></i> {{ trans('report.loan_repayment') }}
@@ -132,5 +139,6 @@
   			<i class="icon-chevron-right"></i> {{ trans('report.various_withdrawal') }}
   		</a>
   </li>
+  -->
 </ul>
 </div>  

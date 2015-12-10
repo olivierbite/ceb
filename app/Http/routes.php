@@ -150,11 +150,17 @@ Route::resource('loans', 'LoanController');
 	Route::group(['prefix'=>'refunds'], function()
 	{
 		Route::get('monthly/{institution}/{export_excel?}', ['as'=>'reports.refunds.monthly','uses'=>'ReportController@montlyRefund']);
+		Route::get('irreguralities/{institution?}/{export_excel?}', ['as'=>'reports.refunds.irreguralities','uses'=>'ReportController@refundIrregularities']);
 	});
     // LOANS REPORTS 
 	Route::group(['prefix'=>'savings'], function()
 	{
 		Route::get('level/{institution?}/{export_excel?}', ['as'=>'reports.savings.level','uses'=>'ReportController@savingsLevel']);
+	});
+	 // LOANS REPORTS 
+	Route::group(['prefix'=>'contributions'], function()
+	{
+		Route::get('notcontribuing/{institution?}/{export_excel?}', ['as'=>'reports.contribution.not.contributing','uses'=>'ReportController@notContribuing']);
 	});
 	
 });
@@ -218,8 +224,6 @@ $router->get('/js/regularisationform',['as'=>'assets.js.regularisationform','use
 
 $router->get('/test',function()
 	{
-		$savings = (new Ceb\Models\Contribution)->notContributedIn();
-
-		dd($savings);
-	
+$member = (new Ceb\Models\User)->byAdhersion('20072824')->first();
+		dd($member->cautions);	
    });
