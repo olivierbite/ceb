@@ -1,4 +1,11 @@
 @if (!$postings->isEmpty())
+<?php $account = $postings->first()->account; ?>
+
+<strong>{{ trans('account.account_number') }} : </strong>{!! $account->account_number !!}, 
+<strong>{{ trans('account.titled') }} :</strong> {!! $account->entitled !!}, 
+<strong>{{ trans('account.account_nature') }} :</strong> {!! $account->account_nature !!}, 
+<strong>{{ trans('general.between') }} :</strong> {!! request()->segment(4) !!} {{ trans('general.and') }} {!! request()->segment(5) !!}
+<hr/>
 <table class="pure-table pure-table-bordered">
 <caption> {{ trans('reports.ledger') }} </caption>
 	<thead>

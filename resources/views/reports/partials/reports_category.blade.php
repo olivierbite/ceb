@@ -78,7 +78,7 @@
 <h4>{{ trans('report.the_accountants_reports') }}</h4>  
 <ul class="nav nav-list">
   <li>
-  		<a href="{{ route('reports.filter') }}/?reporturl=reports/accounting/ledger&show_dates=true&show_exports=true" class="popdown">
+  		<a href="{{ route('reports.filter') }}/?reporturl=reports/accounting/ledger&show_dates=true&show_exports=true&show_accounts=true" class="popdown">
   			<i class="icon-chevron-right"></i> {{ trans('report.ledger') }}
   		</a>
   </li>

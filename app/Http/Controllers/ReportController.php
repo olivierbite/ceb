@@ -201,7 +201,7 @@ class ReportController extends Controller {
 	 * @param  string  $endDate   
 	 * @return view             
 	 */
-	public function ledger(Posting $posting, $startDate=null,$endDate=null,$excel=0)
+	public function ledger(Posting $posting, $startDate=null,$endDate=null,$accountid=null,$excel=0)
 	{
 		 // First check if the user has the permission to do this
         if (!$this->user->hasAccess('reports.ledger')) {
@@ -213,7 +213,7 @@ class ReportController extends Controller {
         // First log 
         Log::info($this->user->email . ' is viewing ledger report');
     
-		$postings = $posting->with('account')->betweenDates($startDate,$endDate)->get();
+		$postings = $posting->with('account')->betweenDates($startDate,$endDate)->where('account_id',$accountid)->orderBy('id')->get();
 		$report  = view('reports.accounting.ledger',compact('postings'))->render();
 	    if ($excel==1) {
 			 toExcel($report,'ledger-report');
