@@ -21,16 +21,16 @@
 	<tr>
 		<td>{!! $posting->created_at->format('Y-m-d') !!}</td>
 		<td>{!! $posting->wording !!}</td>
-		<td>{!! abs($posting->debit_amount) !!}</td>
-		<td>{!! abs($posting->credit_amount) !!}</td>
+		<td>{!! number_format(abs($posting->debit_amount)) !!}</td>
+		<td>{!! number_format(abs($posting->credit_amount)) !!}</td>
 	</tr>
 	@empty
 		{{-- empty expr --}}
 	@endforelse
 	<tr>
-			<td colspan="2"><b>{{ trans('posting.wording') }}:</b> {!! $postings->first()->wording !!}</td>
-			<td>{!! abs($postings->sum('amount')) !!}</td>
-			<td>{!! abs($postings->sum('amount')) !!}</td>
+			<th colspan="2"><b>{{ trans('posting.wording') }}:</b> {!! $postings->first()->wording !!}</th>
+			<th>{!! number_format(abs($postings->sum('amount'))) !!}</th>
+			<th>{!! number_format(abs($postings->sum('amount'))) !!}</th>
 		</tr>
 	</tbody>
 </table>
