@@ -15,6 +15,14 @@
 	@forelse ($accounts as $account)
 	<?php try { ?>
 	@if ($accountNature != $account->account_nature)
+	 @if ($debits!=0 || $credits!=0)
+	 	<tr>
+	 		<th colspan="2">{{ trans('general.summary') }}</th>
+	 		<th>{!! number_format(abs($debits)) !!}</th>
+			<th>{!! number_format(abs($credits)) !!}</th>
+			<th>{!! number_format(abs($debits - $debits))  !!}</th>
+	 	</tr>
+	 @endif
 	  <tr>
 			<th colspan="5">{{ $accountNature = $account->account_nature }}</th>
 		</tr>
@@ -41,7 +49,7 @@
 			<th colspan="2"></th>
 			<th>{!! abs($debits) !!}</th>
 			<th>{!! abs($credits) !!}</th>
-			<th>{!! abs($credit - $debit) !!}</th>
+			<th>{!! abs($debits - $debits) !!}</th>
 		</tr>
 	</tbody>
 </table>
