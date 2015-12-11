@@ -462,7 +462,7 @@ class User extends SentinelModel {
 	 * @return user Object
 	 */
 	public function latestLoan() {
-		return $this->loans()->approved()->orderBy('created_at', 'desc')->first();
+		return $this->loans()->approved()->orderBy('id', 'desc')->first();
 	}
 
 	/**
