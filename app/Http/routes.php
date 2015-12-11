@@ -124,7 +124,7 @@ Route::resource('loans', 'LoanController');
 	{
 		Route::get('piece/{startDate}/{endDate}/{export_excel?}'	,['as' => 'reports.accounting.piece', 'uses' => 'ReportController@accountingPiece']);
 		Route::get('ledger/{startDate}/{endDate}/{export_excel?}'	,['as'=>'reports.accounting.ledger','uses'=>'ReportController@ledger']);
-		Route::get('bilan/{startDate}/{endDate}/{export_excel?}'	,['as'=>'reports.accounting.bilan','uses'=>'ReportController@bilan']);
+		Route::get('bilan/{startDate}/{endDate}/{accoundid?}/{export_excel?}'	,['as'=>'reports.accounting.bilan','uses'=>'ReportController@bilan']);
 		Route::get('journal/{startDate}/{endDate}/{export_excel?}'	,['as'=>'reports.accounting.journal','uses'=>'ReportController@journal']);
 		Route::get('accounts/{export_excel?}'						,['as'=>'reports.accounting.accounts','uses'=>'ReportController@accountsList']);
 	});

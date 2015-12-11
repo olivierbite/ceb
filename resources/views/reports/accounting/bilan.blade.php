@@ -18,26 +18,22 @@
 		<td>{!! $account->entitled !!}</td>
 		<td>{!! $debit =  $account->debits()->betweenDates(Request::segment(4),Request::segment(5))->sum('amount') !!}</td>
 		<td>{!! $credit = $account->credits()->betweenDates(Request::segment(4),Request::segment(5))->sum('amount') !!}</td>
-		<?php $balance = $credit - $debit ?>
-		<td>{!! ($balance < 0 ) ? -1*$balance : $balance  !!}</td>
+		<td>{!! abs($credit - $debit)  !!}</td>
 
 		<?php $debits+=$debit; $credits+=$credit; ?>
 	</tr>
 	<?php 
 	} catch (Exception $e) {
-		dd($account->postings()->debits()->betweenDates(Request::segment(4),Request::segment(5)));		
+			
 	} ?>
 	@empty
 		{{-- empty expr --}}
 	@endforelse
 	<tr>
-
 			<th colspan="2"></th>
 			<th>{!! $debits !!}</th>
 			<th>{!! $credits !!}</th>
-			<?php $balance = $credits - $debits; ?>
-
-			<th>{!! $balance < 0 ? -1*$balance: $balance !!}</th>
+			<th>{!! abs($credit - $debit) !!}</th>
 		</tr>
 	</tbody>
 </table>
