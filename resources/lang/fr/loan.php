@@ -102,8 +102,9 @@ return array (
 'this_member_has_active_ordinary_loan'=>'Ce membre a un prêt ordinaire actif',
 'operator'=>'Operateur',
 'cheque_number'=>'Cheque numero',
-
 'unblocked'=>'Debroque',
 'amount_installments'=>'Montant et Echeance',
+'previous_loan_to_repay'=>'Prêt precedent',
+'beneficiaire'=>'beneficiaire',
 );
 

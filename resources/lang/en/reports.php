@@ -21,5 +21,6 @@ return array (
    'select_account'  =>'Select account',
 
       'transaction_id'=>'Transaction id',
+      'select_institution'=>'Institution',
 
     );
