@@ -18,6 +18,11 @@
 	  	</tr>
    	 </thead>
  <tbody>
-   @each('reports.member.item_loan_record', $loans, 'loan', 'members.no-items')
+
+  @forelse ($loans as $loan)
+  	@include('reports.member.item_loan_record', compact('loan'))
+  @empty
+  	@includ('members.no-items')
+  @endforelse
  </tbody>
 </table>
