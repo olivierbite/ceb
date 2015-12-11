@@ -83,7 +83,7 @@
   		</a>
   </li>
   <li>
-  		<a href="{{ route('reports.filter') }}/?reporturl=reports/accounting/bilan&show_dates=true&show_exports=true&show_accounts=true" class="popdown">
+  		<a href="{{ route('reports.filter') }}/?reporturl=reports/accounting/bilan&show_dates=true&show_exports=true" class="popdown">
   			<i class="icon-chevron-right"></i> {{ trans('reports.Bilan') }}
   		</a>
   </li>

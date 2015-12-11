@@ -228,7 +228,7 @@ class ReportController extends Controller {
 	 * @param  string  $endDate   
 	 * @return mixed             
 	 */
-	public function bilan(Account $account,$startDate=null,$endDate=null,$accountid=null,$excel=0)
+	public function bilan(Account $account,$startDate=null,$endDate=null,$excel=0)
 	{
 		 // First check if the user has the permission to do this
         if (!$this->user->hasAccess('reports.bilan')) {
@@ -240,7 +240,8 @@ class ReportController extends Controller {
         // First log 
         Log::info($this->user->email . ' is viewing bilan report');
         
-		$accounts = $account->with('postings')->where('id',$accountid)->get();
+		$accounts = $account->with('postings')->orderBy('account_nature')->get();
+		
 		$report = view('reports.accounting.bilan',compact('accounts'))->render();
 		if ($excel==1) {
 			 toExcel($report,'bilan-report');
