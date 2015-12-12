@@ -10,7 +10,7 @@
 		</tr>
 	</thead>
 	<tbody>
-	<?php $debits = 0; $credits = 0; ?>
+	<?php $debits = 0; $credits = 0;?>
 	<?php $accountNature = null; ?>
 	@forelse ($accounts as $account)
 	<?php try { ?>
@@ -20,8 +20,9 @@
 	 		<th colspan="2">{{ trans('general.summary') }}</th>
 	 		<th>{!! number_format(abs($debits)) !!}</th>
 			<th>{!! number_format(abs($credits)) !!}</th>
-			<th>{!! number_format(abs($debits + $debits))  !!}</th>
+			<th>{!! number_format(abs($debits - $credits))  !!}</th>
 	 	</tr>
+		<?php $debits = 0; $credits = 0;?>
 	 @endif
 	  <tr>
 			<th colspan="5">{{ $accountNature = $account->account_nature }}</th>
@@ -31,10 +32,10 @@
 		<td>{!! $account->account_number !!}</td>
 		<td>{!! $account->entitled !!}</td>
 		<?php $debit =  $account->debits()->betweenDates(Request::segment(4),Request::segment(5))->sum('amount') ?>
-		<td>{!! abs($debit) !!}</td>
+		<td>{!! number_format(abs($debit)) !!}</td>
 		<?php  $credit = $account->credits()->betweenDates(Request::segment(4),Request::segment(5))->sum('amount') ?>
-		<td>{!! abs($credit)  !!}</td>
-		<td>{!! abs($credit - $debit)  !!}</td>
+		<td>{!! number_format(abs($credit))  !!}</td>
+		<td>{!! number_format(abs($credit - $debit))  !!}</td>
 
 		<?php $debits+=$debit; $credits+=$credit; ?>
 	</tr>
@@ -45,11 +46,11 @@
 	@empty
 		{{-- empty expr --}}
 	@endforelse
-	<tr>
+	   <tr>
 			<th colspan="2"></th>
-			<th>{!! abs($debits) !!}</th>
-			<th>{!! abs($credits) !!}</th>
-			<th>{!! abs($debits + $debits) !!}</th>
+			<th>{!! number_format(abs($debits)) !!}</th>
+			<th>{!! number_format(abs($credits)) !!}</th>
+			<th>{!! number_format(abs($debits - $credits)) !!}</th>
 		</tr>
 	</tbody>
 </table>
