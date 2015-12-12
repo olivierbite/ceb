@@ -83,21 +83,25 @@ class Loan extends Model {
    {
    		return $this->hasMany('Ceb\Models\MemberLoanCautionneur', 'transaction_id', 'transactionid');
    }
-	/**
-	 * Cautionneur 1
-	 * @return Objects cautionneur 1
-	 */
-	public function getCautionneur1() {
-		return $this->hasOne('Ceb\Models\User','id', 'cautionneur1');
-	}
 
-	/**
-	 * Cautionneur 2
-	 * @return Objects cautionneur 2
-	 */
-	public function getCautionneur2() {
-		return $this->hasOne('Ceb\Models\User','id', 'cautionneur2');
-	}
+    /**
+     * Get cautionneur 1
+     * @return Collection
+     */
+    public function getCautionneur1Attribute()
+    {
+    	return $this->cautions()->get()->first();
+    }
+
+    /**
+     * Get cautionnuer 2
+     * @return Collection 
+     */
+    public function getCautionneur2Attribute()
+    {
+    	return $this->cautions()->get()->last();
+    }
+
 
 	/**
 	 * Refunds done to this loan

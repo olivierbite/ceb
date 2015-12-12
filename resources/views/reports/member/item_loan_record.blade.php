@@ -2,20 +2,17 @@
 <?php $interest = 0; ?>
 <?php $monthly_fees = 0; ?>
 <?php $tranches = 0; ?>
-<tr class="green" style="border-top: 1px solid #fff;font-weight: 800;color: #fff;">
+
+<tr class="green" style="border-top: 1px solid #fff;font-weight: 800;color: green">
 	<td colspan="3" >
 		{!! trans('loan.contract_number') !!} : {!! $loan->loan_contract !!}
 	</td>
 	
-	<td colspan="3" >
-	   @if (!is_null($loan->getCautionneur1))	   	
-		{!! trans('loan.cautionneur1') !!} : {!! $loan->getCautionneur1->first_name !!}
-	   @endif
+	<td colspan="2" >  	
+		{!! trans('loan.cautionneur1') !!} : {!! (empty($loan->cautionneur1) == false )?$loan->cautionneur1->cautionneur_adhresion_id:null !!}
 	</td>
-    <td colspan="3" >
-	   @if (!is_null($loan->getCautionneur2))	   	
-		{!! trans('loan.cautionneur1') !!} : {!! $loan->getCautionneur2->first_name  !!}
-	   @endif
+    <td colspan="4" >   	
+		{!! trans('loan.cautionneur1') !!} : {!! (empty($loan->cautionneur2)==false )?$loan->cautionneur2->cautionneur_adhresion_id:null;  !!}
 	</td>
 </tr>
 <tr>
