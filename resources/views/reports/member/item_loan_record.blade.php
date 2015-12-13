@@ -12,7 +12,7 @@
 		{!! trans('loan.cautionneur1') !!} : {!! (empty($loan->cautionneur1) == false )?$loan->cautionneur1->cautionneur_adhresion_id:null !!}
 	</td>
     <td colspan="4" >   	
-		{!! trans('loan.cautionneur1') !!} : {!! (empty($loan->cautionneur2)==false )?$loan->cautionneur2->cautionneur_adhresion_id:null;  !!}
+		{!! trans('loan.cautionneur2') !!} : {!! (empty($loan->cautionneur2)==false )?$loan->cautionneur2->cautionneur_adhresion_id:null;  !!}
 	</td>
 </tr>
 <tr>
