@@ -106,5 +106,8 @@ return array (
 'amount_installments'=>'Montant et Echeance',
 'previous_loan_to_repay'=>'Prêt precedent',
 'beneficiaire'=>'beneficiaire',
+'contract_number'=>'Numero contrat',
+'cautionneur1'=>'Cautionneur1',
+'cautionneur2'=>'Cautionneur2',
 );
 

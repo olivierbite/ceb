@@ -11,4 +11,5 @@ return [
     'account_entitled'=>'Intitule',
     'titled'=> 'Intitule',
     'account_nature'=>'Nature',
+    'balance'=>'Solde',
 ];

@@ -1,5 +1,5 @@
 <table class="pure-table pure-table-bordered">
-<caption> {{ trans('reports.bilan') }} {{ Request::segment(4).'  '.Request::segment(5) }} </caption>
+<caption> {{ trans('reports.bilan') }} {{ Request::segment(4).' Et '.Request::segment(5) }} </caption>
 	<thead>
 		<tr>
 			<th>{{ trans('account.account_number') }}</th>
