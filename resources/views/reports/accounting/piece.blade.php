@@ -17,9 +17,11 @@
 	<tr>
 			<td colspan="2"><b>{{ trans('posting.wording') }}:</b> {!! $posting->wording !!}</td>
 			<td>
-			    {!! $posting->where(DB::raw('LOWER(transaction_type)'),'debit')->betweenDates(Request::segment(4),Request::segment(5))->sum('amount') !!}
+			<?php $debit = $posting->where(DB::raw('LOWER(transaction_type)'),'debit')->betweenDates(Request::segment(4),Request::segment(5))->sum('amount') ?>
+			    {!! number_format($debit)  !!}
 			 </td>
-			<td>{!! $posting->where(DB::raw('LOWER(transaction_type)'),'credit')->betweenDates(Request::segment(4),Request::segment(5))->sum('amount') !!}</td>
+			 <?php $credit = $posting->where(DB::raw('LOWER(transaction_type)'),'credit')->betweenDates(Request::segment(4),Request::segment(5))->sum('amount'); ?>
+			<td>{!! number_format($credit) !!}</td>
 		</tr>
 	</tbody>
 </table>
