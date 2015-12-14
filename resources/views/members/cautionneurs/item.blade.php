@@ -1,4 +1,9 @@
-<?php $member = $caution->member; ?>
+<?php $member = $caution->cauttionneur;?>
+@if (strtolower($type) == 'by_me')
+	<?php $member = $caution->member;?>
+@endif
+
+
 <tr>
 	<td>{!! $member->adhersion_id!!}</td>
 	<td>

@@ -241,6 +241,7 @@ class MemberRepository implements MemberRepositoryInterface {
 		            ->orWhere('member_nid', 'LIKE', '%' . $keyword . '%')
 		            ->orWhere('adhersion_id', 'LIKE', '%' . $keyword . '%')
 		            ->orWhere('employee_id', 'LIKE', '%' . $keyword . '%')
+		            ->whereNotNull('service')
 		            ->take(5)
 		            ->get();
 

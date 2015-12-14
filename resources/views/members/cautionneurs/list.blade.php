@@ -16,6 +16,10 @@
   	 </tr>
    	 </thead>
  <tbody>
-   @each ('members.cautionneurs.item', $cautions, 'caution', 'members.no-items')
+  @forelse ($cautions as $caution)
+    @include('members.cautionneurs.item',compact('caution','type'))
+  @empty
+    @include('members.no-items')
+  @endforelse
  </tbody>
 </table>

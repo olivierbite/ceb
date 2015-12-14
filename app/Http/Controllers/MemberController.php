@@ -46,7 +46,7 @@ class MemberController extends Controller {
 		// First log
 		Log::info($this->user->email . ' viewed member list');
 
-		$members = $this->member->whereNotNull('adhersion_id')->whereNull('deleted_at')->paginate(20);
+		$members = $this->member->whereNotNull('adhersion_id')->whereNotNull('service')->whereNull('deleted_at')->paginate(20);
 
 		return view('members.list', compact('members'));
 	}
@@ -386,14 +386,15 @@ class MemberController extends Controller {
 		}
 
 		$title 	  = trans('member.i_have_cautionned');
-
 		$cautions = [];
 		$member = $this->member->find($id);
+		$type     = 'me';
+
 		if (!is_null($member)) {
-			$cautions = $member->current_cautions;
+			$cautions = $member->cautioned_me;
 		}
 
-		return view('members.cautionneurs.list',compact('cautions','title'));
+		return view('members.cautionneurs.list',compact('cautions','title','type'));
 	}
 
 	/**
@@ -409,14 +410,15 @@ class MemberController extends Controller {
 		}
 
 		$cautions = [];
-		$member = $this->member->find($id);
+		$member   = $this->member->find($id);
 		$title 	  = trans('member.member_who_cautionned_me');
+		$type     = 'by_me';
 
 		if (!is_null($member)) {
-			$cautions = $member->cautioned_me;
+			$cautions = $member->current_cautions;
 		}
 
-		return view('members.cautionneurs.list',compact('cautions','title'));
+		return view('members.cautionneurs.list',compact('cautions','title','type'));
 	}
 
 	/**
