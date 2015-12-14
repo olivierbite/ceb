@@ -53,8 +53,8 @@
 				<td rowspan="{!! $rowspan !!}">{!! $posting->wording !!}</td>
 			@endif
 				<td class="account-details">{!! $posting->account->account_number !!}</td>
-				<td class="account-details">{!! $posting->debit_amount !!}</td>
-				<td class="account-details">{!! $posting->credit_amount !!}</td>
+				<td class="account-details">{!! number_format($posting->debit_amount) !!}</td>
+				<td class="account-details">{!! number_format($posting->credit_amount) !!}</td>
 			</tr>
 
 	@empty

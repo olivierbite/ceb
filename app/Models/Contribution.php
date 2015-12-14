@@ -116,9 +116,9 @@ class Contribution extends Model {
     	$query = "
 				SELECT  a.adhersion_id,a.first_name,a.last_name,a.institution,a.service,amount as savings FROM 
 				(SELECT a.adhersion_id,a.first_name,a.last_name,b.name as institution,service FROM users as a,
-				institutions b where a.institution_id = b.id) as a
+				institutions b where a.institution_id = b.id and a.service is not null) as a
 					LEFT JOIN 
-				(SELECT adhersion_id,CASE WHEN transaction_type = 'withdrawal' then sum(-1*amount) else sum(amount) end as amount from  contributions group by adhersion_id)
+			     (SELECT adhersion_id, sum(amount)  as amount from  contributions where transaction_type ='saving' group by adhersion_id)
 				c ON a.adhersion_id = c.adhersion_id;
 				";
 
