@@ -348,7 +348,10 @@ class ReportController extends Controller {
         Log::info($this->user->email . ' is viewing contributions report');
     
     	$contributions = $contribution->with('member')->betweenDates($startDate,$endDate)->where('adhersion_id',$adhersionId)->get();
-    	$report = view('reports.member.contributions',compact('contributions'))->render();
+    	$total_savings = $contribution->isSaving()->where('adhersion_id',$adhersionId)->sum('amount');
+    	$total_withdrawal = $contribution->isWithdrawal()->where('adhersion_id',$adhersionId)->sum('amount');
+
+    	$report = view('reports.member.contributions',compact('contributions','total_savings','total_withdrawal'))->render();
     	if ($excel==1) {
 			 toExcel($report,'contributions-report');
 		}
