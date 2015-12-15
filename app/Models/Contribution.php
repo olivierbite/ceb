@@ -144,9 +144,9 @@ class Contribution extends Model {
     {
     	$query = "
 			SELECT  a.*,b.first_name,b.last_name,b.service,a.contributed_amount,(a.contributed_amount + (b.monthly_fee *TIMESTAMPDIFF(MONTH, last_date,CURDATE()))) as to_pay FROM 
-			(SELECT * FROM
 			(
-			SELECT 
+            SELECT a.adhersion_id,contributed_amount-withdrawal_amount AS contributed_amount,last_date FROM
+			(SELECT 
 					adhersion_id,
 			        sum(amount) as contributed_amount,
 			        max(created_at) as last_date
@@ -155,9 +155,14 @@ class Contribution extends Model {
 						GROUP BY 
 					adhersion_id
 			) AS a
-			WHERE 
+            LEFT JOIN
+            (
+            SELECT adhersion_id, sum(amount) as withdrawal_amount FROM contributions WHERE transaction_type = 'withdrawal' GROUP BY adhersion_id
+            )
+            as b ON a.adhersion_id = b.adhersion_id
+		    WHERE 
 			/* Smaller or equal than one month ago */
-			last_date < DATE_SUB(NOW(), INTERVAL $months MONTH)
+			last_date < DATE_SUB(NOW(), INTERVAL 3 MONTH)
 			) as a
 			LEFT JOIN 
 			users b
