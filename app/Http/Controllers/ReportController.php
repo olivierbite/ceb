@@ -400,6 +400,12 @@ class ReportController extends Controller {
      */
     public function montlyRefund(Institution $institution,Loan $loan,$institutionId,$excel = 0)
     {
+    	 // First check if the user has the permission to do this
+        if (!$this->user->hasAccess('reports.monthly.refound')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
+
+            return redirect()->back();
+        }
     	// Get the institution by its id
 		$institution = $institution->findOrFail($institutionId);
 
@@ -421,6 +427,12 @@ class ReportController extends Controller {
      */
     public function savingsLevel(Contribution $contribution,$institition=null,$excel = 0 )
     {
+    	 // First check if the user has the permission to do this
+        if (!$this->user->hasAccess('reports.savings.level')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
+
+            return redirect()->back();
+        }
     	$members = $contribution->savingLevel();
     	$members = new Collection($members);
 		$report = view('reports.member.memberssavings',compact('members'))->render();
@@ -438,6 +450,12 @@ class ReportController extends Controller {
      */
     public function notContribuing(Contribution $contribution,$institition=null,$excel = 0)
     {
+    	 // First check if the user has the permission to do this
+        if (!$this->user->hasAccess('reports.savings.irreguralities')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
+
+            return redirect()->back();
+        }
 		$members = $contribution->notContributedIn();
 		$members = new Collection($members);
 		$report =  view('reports.member.members_not_contributed',compact('members'))->render();
@@ -455,6 +473,13 @@ class ReportController extends Controller {
      */
     public function refundIrregularities(Refund $refund,$institition=null,$excel = 0)
     {
+    	// First check if the user has the permission to do this
+        if (!$this->user->hasAccess('reports.refunds.irreguralities')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
+
+            return redirect()->back();
+        }
+
 		$members = $refund->refundIrregularities();
 		$members = new Collection($members);
 		$report =  view('reports.member.refund_irregularities',compact('members'))->render();
@@ -475,6 +500,13 @@ class ReportController extends Controller {
      */
     public function cautionedMe(MemberLoanCautionneur $cautions,$startDate=null,$endDate=null,$excel=0,$adhersionId)
     {
+    	// First check if the user has the permission to do this
+        if (!$this->user->hasAccess('reports.members_who_cautionned_me')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
+
+            return redirect()->back();
+        }
+
     	$cautions = $cautions->betweenDates($startDate,$endDate)->byAdhersion($adhersionId)->get();
     	$title    = trans('report.members_who_cautionned_me');
     	$member   = ($cautions->isEmpty() == false) ? $cautions->first()->member : null;
@@ -496,6 +528,12 @@ class ReportController extends Controller {
      */
     public function cautionedByMe(MemberLoanCautionneur $cautions,$startDate=null,$endDate=null,$excel=0,$adhersionId)
     {
+    	// First check if the user has the permission to do this
+        if (!$this->user->hasAccess('reports.members_cautionned_by_me')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
+
+            return redirect()->back();
+        }
     	$cautions = $cautions->betweenDates($startDate,$endDate)->byCautionneurAdhersion($adhersionId)->get();
     	$title    = trans('report.members_cautionned_by_me');
     	$member   = ($cautions->isEmpty() == false) ? $cautions->first()->member : null;
@@ -513,7 +551,13 @@ class ReportController extends Controller {
      */
     public function pieceDisbursedSaving(Contribution $contribution,$transactionid,$excel=0)
     {
-    	/** @todo finish pierce debourse */
+    	// First check if the user has the permission to do this
+        if (!$this->user->hasAccess('reports.piece.debourse.saving')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
+
+            return redirect()->back();
+        }
+
     	$contribution = $contribution->with(['postings','institution'])->byTransaction($transactionid)->first();
 
 		$postings				= [];
@@ -546,6 +590,13 @@ class ReportController extends Controller {
      */
     public function pieceDisbursedAccount(Posting $posting,$startDate,$endDate,$account,$excel=0)
     {
+    	// First check if the user has the permission to do this
+        if (!$this->user->hasAccess('reports.piece.debourse.account')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
+
+            return redirect()->back();
+        }
+        
     	$postings = $posting->with(['account','user'])->betweenDates($startDate,$endDate)->forAccount($account)->get();
 
 		$this->labels->top_right_upper			= trans('loan.operator');
@@ -574,6 +625,12 @@ class ReportController extends Controller {
      */
     public function pieceDisbursedAccounting(Posting $posting,$transactionid,$excel=0)
     {
+    	    	// First check if the user has the permission to do this
+        if (!$this->user->hasAccess('reports.piece.debourse.accounting')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
+
+            return redirect()->back();
+        }
     	$postings = $posting->with(['account','user'])->ByTransaction($transactionid)->get();
 
 		$this->labels->top_right_upper			= trans('loan.operator');
@@ -602,6 +659,12 @@ class ReportController extends Controller {
      */
     public function pieceDisbursedLoan(Loan $loan,$transactionid,$excel=0)
     {
+    	// First check if the user has the permission to do this
+        if (!$this->user->hasAccess('reports.piece.debourse.loan')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
+
+            return redirect()->back();
+        }
     	/** @todo finish pierce debourse */
     	$loan = $loan->with(['postings'])->byTransaction($transactionid)->first();
 

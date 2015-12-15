@@ -61,14 +61,14 @@ class Refund extends Model {
 					);');
 
 
-/** GETTING ALL MEMBERS REFUNDS **/
+		/** GETTING ALL MEMBERS REFUNDS **/
 		DB::statement('DROP TABLE IF EXISTS TEMP_memberrefunds');
 		DB::statement('CREATE TEMPORARY TABLE TEMP_memberrefunds
 						(
 						SELECT adhersion_id,sum(amount) refundedAmount FROM refunds group by adhersion_id
 						);'
 					);
-/** GETTING MEMBER WITH LOANS **/
+		/** GETTING MEMBER WITH LOANS **/
 		DB::statement('DROP TABLE IF EXISTS TEMP_members_with_active_loans');
 		DB::statement('CREATE TEMPORARY TABLE TEMP_members_with_active_loans
 						(
