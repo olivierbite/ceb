@@ -118,8 +118,18 @@ class Contribution extends Model {
 				(SELECT a.adhersion_id,a.first_name,a.last_name,b.name as institution,service FROM users as a,
 				institutions b where a.institution_id = b.id and a.service is not null) as a
 					LEFT JOIN 
-			     (SELECT adhersion_id, sum(amount)  as amount from  contributions where transaction_type ='saving' group by adhersion_id)
-				c ON a.adhersion_id = c.adhersion_id;
+				
+                (
+                SELECT savings.adhersion_id, 
+					case when withdrawal.amount is null then savings.amount
+                    else savings.amount - withdrawal.amount end as amount 
+				FROM
+			     (SELECT adhersion_id, sum(amount)  as amount from  contributions where transaction_type ='saving' group by adhersion_id) as savings
+				  LEFT JOIN
+                 (SELECT adhersion_id, sum(amount)  as amount from  contributions where transaction_type ='withdrawal' group by adhersion_id) as withdrawal
+                 ON savings.adhersion_id = withdrawal.adhersion_id
+                 )
+				 c ON a.adhersion_id = c.adhersion_id;
 				";
 
 		return DB::select($query);

@@ -267,7 +267,9 @@ class User extends SentinelModel {
 	 * Get the total amount of contribution
 	 */
 	public function totalContributions() {
-		return (int)$this->contributions()->isSaving()->sum('amount');
+		$saving = $this->contributions()->isSaving()->sum('amount');
+		$withdrawal = $this->contributions()->isWithdrawal()->sum('amount');
+		return (int) $saving - $withdrawal;
 	}
 
 	/**
