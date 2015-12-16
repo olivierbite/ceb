@@ -61,14 +61,14 @@ class Refund extends Model {
 					);');
 
 
-/** GETTING ALL MEMBERS REFUNDS **/
+		/** GETTING ALL MEMBERS REFUNDS **/
 		DB::statement('DROP TABLE IF EXISTS TEMP_memberrefunds');
 		DB::statement('CREATE TEMPORARY TABLE TEMP_memberrefunds
 						(
 						SELECT adhersion_id,sum(amount) refundedAmount FROM refunds group by adhersion_id
 						);'
 					);
-/** GETTING MEMBER WITH LOANS **/
+		/** GETTING MEMBER WITH LOANS **/
 		DB::statement('DROP TABLE IF EXISTS TEMP_members_with_active_loans');
 		DB::statement('CREATE TEMPORARY TABLE TEMP_members_with_active_loans
 						(
@@ -119,14 +119,28 @@ class Refund extends Model {
 		DB::statement('DROP TABLE IF EXISTS TEMP_contributions');
 		DB::statement('CREATE TEMPORARY TABLE TEMP_contributions
 						(
-						SELECT 
+								SELECT a.adhersion_id,
+								   CASE 
+									WHEN withdrawal_amount IS NULL THEN contributed_amount
+                                    ELSE contributed_amount - withdrawal_amount 
+                                    END AS contributed_amount,
+								    a.last_date
+                                   FROM  (
+                                       SELECT 
 											adhersion_id,
 									        sum(amount) as contributed_amount,
 									        max(created_at) as last_date
 											FROM contributions 
 									        WHERE transaction_type = \'saving\'
 												GROUP BY 
-											adhersion_id
+											adhersion_id) as a
+								LEFT JOIN
+								(
+                                 SELECT adhersion_id,
+									    sum(amount) as withdrawal_amount 
+								 FROM contributions WHERE transaction_type = \'withdrawal\'
+								) as b 
+                                ON a.adhersion_id=b.adhersion_id
 						);');
 
 
