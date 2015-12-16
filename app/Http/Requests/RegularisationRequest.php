@@ -45,7 +45,7 @@ class RegularisationRequest extends Request
           'balance_of_loan'            =>  'required|numeric',
           'interests_to_pay'           =>  'required|numeric',
           'wording'                    =>  'required|min:6',
-          'movement_nature'            =>  'required',
+          // 'movement_nature'            =>  'required',
           'debit_accounts'             =>  'required',
           'credit_accounts'            =>  'required',
           'debit_amounts'              =>  'required',
@@ -125,26 +125,27 @@ class RegularisationRequest extends Request
            }
            
            // Validate bonded amount
-           $bondedAmount                                 = (int) $attributes['amount_bonded'];
+           // $bondedAmount                                 = (int) $attributes['amount_bonded'];
            $contributions                                = (int) str_replace(',', '', $attributes['member']['contributions']);
+           $attributes['amount_bonded']                  = 0;
            // If we have bonded amount then check if we have cautionneur
            // If the amount to repay is higher than total contributions  
            // we need to have a cautionneur
-           if (!empty($bondedAmount) && ($attributes['additional_amount'] > $attributes['right_to_loan']  )) {
-           // If we have bonded amount make sure we fail this transacation            
-           $cautionneur                                  = $this->regularisationFactory->getCautionneurs();
-           //  We can only allow two cautionneurs if they are not set 
-           //  We will fail this validation
-           if (count($cautionneur) !== 2) 
-           {
-             $attributes['cautionneur']                    = 'cautionneur';
-             $attributes['cautionneur_confirmation']       = 'cautionneur_to_faile';
-           }
-         }
-         else
-         {
-         $attributes['amount_bonded']                  = 0;
-         }
+           //   if (!empty($bondedAmount) && ($attributes['additional_amount'] > $attributes['right_to_loan']  )) {
+           //   // If we have bonded amount make sure we fail this transacation            
+           //   $cautionneur                                  = $this->regularisationFactory->getCautionneurs();
+           //   //  We can only allow two cautionneurs if they are not set 
+           //   //  We will fail this validation
+           //   if (count($cautionneur) !== 2) 
+           //   {
+           //     $attributes['cautionneur']                    = 'cautionneur';
+           //     $attributes['cautionneur_confirmation']       = 'cautionneur_to_faile';
+           //   }
+           // }
+           // else
+           // {
+           // $attributes['amount_bonded']                  = 0;
+           // }
           
         // Format/sanitize data here
         return $attributes;

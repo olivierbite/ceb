@@ -35,8 +35,7 @@
 
     @include('loansandrepayments.ordinary_loan_form')
 
-	@include('loansandrepayments.caution_form')
-	
+	 {{-- THIS PLACE USED TO HOLD CAUTION FORM	 --}}
 	<?php $wording = isset($wording) ? $wording : trans('loan.giving_loan_to',['loantype'=>$loanInputs['operation_type'],'names'=>$member->names]) ?>
 	@include('partials.wording')
 

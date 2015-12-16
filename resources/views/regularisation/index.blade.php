@@ -32,7 +32,6 @@
 		@endif
 	@endif
     @include('regularisation.ordinary_loan_form')
-	@include('regularisation.caution_form')
 	
 	<?php $wording = isset($wording) ? $wording : trans('loan.regulating_loan_to',['loantype'=>$loanInputs['operation_type'],'names'=>$member->names]) ?>
 	@include('partials.wording')

@@ -15,7 +15,7 @@
 	<?php $popdown = ($loan->is_regulation == true && $loan->regulation_type == 'installments') ? null : 'popdown' ;?>
 	<?php $route = ($loan->is_regulation == true && $loan->regulation_type == 'installments') ? 'loan.unblock.store' : 'loan.unblock.form' ;?>
 
-		<a href="{!! route($route,['loanId'=> $loan->id]) !!}" class="btn btn-success {!! $popdown !!}">
+		<a href="{!! route($route,['loanId'=> $loan->id]) !!}" class="btn btn-success">
 			<i class="fa fa-unlock-alt"></i> {{ trans('loan.unblock') }}
 		</a>
 	</td>

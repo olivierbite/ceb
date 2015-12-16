@@ -91,23 +91,26 @@ class CompleteLoanRequest extends Request
         }
         
         // Validate bonded amount
-        $bondedAmount = (int) $attributes['amount_bonded'];
+        // $bondedAmount = (int) $attributes['amount_bonded'];
+        $attributes['amount_bonded'] = 0;
         $contributions = (int) str_replace(',', '', $attributes['member']['contributions']);
         // If we have bonded amount then check if we have cautionneur
         // If the amount to repay is higher than total contributions  
         // we need to have a cautionneur
-        if (!empty($bondedAmount) && ($attributes['loan_to_repay'] > $contributions )) {
-            // If we have bonded amount make sure we fail this transacation            
-            $cautionneur = $this->loanFactory->getCautionneurs();
-            //  We can only allow two cautionneurs if they are not set 
-            //  We will fail this validation
-            if (count($cautionneur) !== 2) {
-                 $attributes['cautionneur']                 = 'cautionneur';
-                 $attributes['cautionneur_confirmation']    = 'cautionneur_to_faile';
-            }
-        }else{
-          $attributes['amount_bonded'] = 0;
-        }
+        // if (!empty($bondedAmount) && ($attributes['loan_to_repay'] > $contributions )) {
+        //     // If we have bonded amount make sure we fail this transacation            
+        //     $cautionneur = $this->loanFactory->getCautionneurs();
+        //     //  We can only allow two cautionneurs if they are not set 
+        //     //  We will fail this validation
+        //     if (count($cautionneur) !== 2) {
+        //          $attributes['cautionneur']                 = 'cautionneur';
+        //          $attributes['cautionneur_confirmation']    = 'cautionneur_to_faile';
+        //     }
+        // }
+        // else
+        // {
+        //   $attributes['amount_bonded'] = 0;
+        // }
         
         // Format/sanitize data here
         return $attributes;
