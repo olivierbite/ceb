@@ -7,6 +7,7 @@ use Ceb\Http\Requests\CompleteLoanRequest;
 use Ceb\Http\Requests\UnblockLoanRequest;
 use Ceb\Models\DefaultAccount;
 use Ceb\Models\Loan;
+use Ceb\Models\MemberLoanCautionneur;
 use Ceb\Models\User as Member;
 use Ceb\Models\User;
 use Ceb\Models\UserGroup;
@@ -162,7 +163,8 @@ class LoanController extends Controller {
 			flash()->success(trans('loan.cautionneur_has_been_added_successfully'));
 		}
 
-		return $this->reload();
+		$loanid = Session::get('loan_id', null);
+		return $this->showUnblockingForm($loanid); //$this->reload();
 	}
 	/**
 	 * Remove cautionneur from the loan Factory
@@ -474,7 +476,7 @@ class LoanController extends Controller {
     * @param  numeric $loanid 
     * @return view       
     */
-   public function showUnblockingForm($loanid)
+   public function showUnblockingForm($loanid=null)
    {
    		// First check if the user has the permission to do this
         if (!$this->user->hasAccess('loan.can.unblock.loan')) {
@@ -482,12 +484,28 @@ class LoanController extends Controller {
 
             return redirect()->back();
         }
+        if (!is_null($loanid)) {
+        	Session::put('loan_id', $loanid);
+        }
 
+        $loanid = Session::get('loan_id', null);
+
+        $cautionneurs = $this->loanFactory->getCautionneurs();
+        $loan = $this->loan->findOrFail($loanid);
+        $member = $loan->member;
+
+        $bonded_amount = 0;
+        $show_caution_form = false;
+        /** if this loan is ordinary loan the check if the requested amount is higher than the contributions */
+        if ($loan->loan_to_repay > $member->total_contribution) {
+        	$bonded_amount = $loan->loan_to_repay - $member->total_contribution;
+        	$show_caution_form = true;
+        }
         // First log 
         Log::info($this->user->email . ' is viewing blocking form loan with id'.$loanid);
 
         $title = trans('loan.provide_bank_details_to_unblock_this_loan');
-        return view('loansandrepayments.unblock_form',compact('loanid','title'));
+        return view('loansandrepayments.unblock_form',compact('loanid','title','loan','member','cautionneurs','bonded_amount','show_caution_form'));
 
    }
 
@@ -533,6 +551,18 @@ class LoanController extends Controller {
 		$loan->bank_id       = $request->get('bank_id');
 		$loan->status 		 = 'unblocked';
 		$saveLoan = $loan->save();
+
+		$member = $loan->member;
+		$cautionneurs  = $this->loanFactory->getCautionneurs();
+		$amount_bonded  = Input::get('amount_bonded', 0);
+		$transactionid = $loan->transactionid;
+		$cautionneursSaved = $this->recordCautionneurs($transactionid,$loan,$member,$cautionneurs,$amount_bonded);
+
+		if ($cautionneursSaved == false) {
+			flash()->error('loan.we_could_not_save_cautionneurs_therefore_we_have_rollback_this_action');
+			DB::rollBack();
+			return redirect()->route('loan.blocked');
+		}
 
 		// If we cannot save this posting then rollback transaction
 		if ($loan->postings->isEmpty()) {
@@ -606,4 +636,37 @@ class LoanController extends Controller {
 
 		return redirect()->route('loan.blocked');
    }
+
+
+
+   /**
+	 * Record cautionneur details for this loan
+	 * @param  string $transactionid 
+	 * @param  string $loanId        
+	 * @return bool         
+	 */
+	public function recordCautionneurs($transactionid,$loan,$member,$cautionneurs,$amount_bonded)
+	{
+		// Devide amount equally 
+		$amount  = $amount_bonded / count($cautionneurs);
+
+		foreach ($cautionneurs as $cautionneur) 
+		{
+				$memberLoanCautionneur = new MemberLoanCautionneur;
+				$memberLoanCautionneur->member_adhersion_id       = $member->adhersion_id;
+				$memberLoanCautionneur->cautionneur_adhresion_id  = $cautionneur->adhersion_id;
+				$memberLoanCautionneur->amount                    = $amount;
+				$memberLoanCautionneur->transaction_id			  = $transactionid;
+				$memberLoanCautionneur->loan_id                   = $loan->id;
+				$memberLoanCautionneur->letter_date			  	  = $loan->letter_date;
+
+				// Fail transaction if something went wrong
+				if(!$memberLoanCautionneur->save())
+				{
+					return false;
+				}
+		}
+
+		return true;
+	}
 }

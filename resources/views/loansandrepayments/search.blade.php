@@ -20,7 +20,7 @@
         	<br/>
         	{{ trans('member.nid') }} : {{ $cautionneur->member_nid }}
         </span>
-        {!! Form::hidden($fieldname, $member->adhersion_id,['class'=>'loan-input']) !!}
+        {!! Form::hidden($fieldname, $cautionneur->adhersion_id,['class'=>'loan-input']) !!}
 <p>
 </div>
     @endif

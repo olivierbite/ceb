@@ -135,10 +135,11 @@ class User extends SentinelModel {
 		$loan = $this->latest_ordinary_loan;
 
 		// If not have active loan we have nothing to do here
-		if ($this->hasActiveLoan() == false) {
+		if ($this->hasActiveLoan() == false || is_null($loan)) {
 			return -1;
 		}
 
+		
 		// Can regulate echeance
 		if ($loan->loan_to_repay >= $loan->right_to_loan) {
 			return 1;
