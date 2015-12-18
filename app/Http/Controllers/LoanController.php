@@ -523,7 +523,7 @@ class LoanController extends Controller {
         }
 
 	    // First log 
-	    Log::info($this->user->email . ' is  blocking loan with details '.json_encode($request->all()));
+	    Log::info($this->user->email . ' is  unblocking loan with details '.json_encode($request->all()));
 
 	    /////////////////////////////////////
 	    // Prepare the passed information  //

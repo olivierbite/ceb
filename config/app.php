@@ -95,7 +95,7 @@ return [
 	|
 	 */
 
-	'log' => 'single',
+	'log' => 'daily',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -146,13 +146,14 @@ return [
 		Ceb\Providers\ViewComposerServiceProvider::class,
 		Ceb\Providers\NotificationServiceProvider::class,
 
-		// Adding service provider for the authentication
+		// Adding service provider for the 3rd parties
 		Sentinel\SentinelServiceProvider::class,
 		Illuminate\Html\HtmlServiceProvider::class,
 		Laracasts\Flash\FlashServiceProvider::class,
 		Spatie\Activitylog\ActivitylogServiceProvider::class,
 		Barryvdh\TranslationManager\ManagerServiceProvider::class,
 		Fenos\Notifynder\NotifynderServiceProvider::class,
+		Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider::class,
 
 
 	],

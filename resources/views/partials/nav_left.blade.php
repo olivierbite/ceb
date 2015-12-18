@@ -132,12 +132,12 @@
                 </li>
               </ul>
             </li>
-            <li class="header"> </li>
-            <li><a href="#"><i class="fa fa-question-circle"></i>
-            <span>{{ trans('navigations.help') }}</span></a>
+            <li><a href="{{ route('logs') }}"><i class="fa fa-question-circle"></i>
+            <span>{{ trans('navigations.logs') }}</span></a>
             </li>
             <li class="header"> </li>
           </ul>
+          
         </section>
         <!-- /.sidebar -->
       </aside>

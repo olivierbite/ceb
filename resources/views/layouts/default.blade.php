@@ -2,7 +2,7 @@
 <html>
   @include('partials.head')
 
-  <body class="skin-blue sidebar-mini {{ ((Request::is('report*')|| Request::is('regularisation*') || Request::is('loans*')|| Sentry::getUser()->hasAccess('ceb.view.own.profile')) ? 'sidebar-collapse' : '') }}">
+  <body class="skin-blue sidebar-mini {{ ((Request::is('report*')|| Request::is('regularisation*') || Request::is('loans*')|| Sentry::getUser()->hasAccess('ceb.view.own.profile') || Request::is('log*')) ? 'sidebar-collapse' : '') }}">
     <!-- Site wrapper -->
     <div class="wrapper">
     @include('partials.nav_header')
