@@ -1,6 +1,8 @@
 <?php namespace Ceb\Traits;
 use Ceb\Models\Contribution;
+use Ceb\Models\Loan;
 use Ceb\Models\Posting;
+use Ceb\Models\Refund;
 use DateTime;
 use Illuminate\Support\Facades\DB;
 use Sentry;
@@ -10,9 +12,40 @@ trait TransactionTrait {
 	 * @return string
 	 */
 	private function getTransactionId() {
-		$count = Posting::select(DB::raw('count(distinct transactionid) as count'))->first()->count;
-		return ++$count;
+		$transactionid = Posting::select(DB::raw('MAX( CAST( `transactionid` AS UNSIGNED) ) as transactionid'))->first()->transactionid;
+
+		do {
+			$transactionid++;
+        } // Already in the DB? Fail. Try again
+        while (self::transactionExists($transactionid));
+
+        return $transactionid;
 	}
+	   /**
+     * Checks whether a key exists in the database or not
+     *
+     * @param $key
+     * @return bool
+     */
+    private static function transactionExists($key)
+    {
+        $postingTransactionId 		= Posting::where('transactionid', '=', $key)->limit(1)->count();
+        $loanTransactionId 			= Loan::where('transactionid', '=', $key)->limit(1)->count();
+        $contributionTransactionId 	= Contribution::where('transactionid', '=', $key)->limit(1)->count();
+        $refundTransactionId        = Refund::where('transaction_id', '=', $key)->limit(1)->count();
+
+        if (
+	        	($postingTransactionId > 0) && 
+	        	($loanTransactionId    > 0) &&
+	        	($contributionTransactionId > 0) && 
+	        	($refundTransactionId    > 0)
+        	) 
+        {
+			return true;
+        }
+
+        return false;
+    }
 	/**
 	 * Search  adhresion key
 	 * @param   $keyword

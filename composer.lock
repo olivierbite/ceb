@@ -4,7 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "a125aae11f84726b6c677bb13f9a188b",
+    "hash": "9773065f2e97c054f69296d476a2fb64",
+    "content-hash": "d6ab607f82a83c2865b27a0993172db2",
     "packages": [
         {
             "name": "anlutro/l4-settings",
@@ -16,7 +17,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/anlutro/laravel-settings/zipball/49b2ae5ab9f363832e5045a9e2b25182e2c5b976",
+                "url": "https://api.github.com/repos/anlutro/laravel-settings/zipball/952c93c7cd0c77aa17126e1f6e4b9b288c9a0649",
                 "reference": "49b2ae5ab9f363832e5045a9e2b25182e2c5b976",
                 "shasum": ""
             },
@@ -926,7 +927,7 @@
                     "name": "Jeremy Lindblom",
                     "email": "jeremeamia@gmail.com",
                     "homepage": "https://github.com/jeremeamia",
-                    "role": "Developer"
+                    "role": "developer"
                 }
             ],
             "description": "Serialize Closure objects, including their context and binding",
@@ -1537,16 +1538,16 @@
         },
         {
             "name": "paragonie/random_compat",
-            "version": "1.1.0",
+            "version": "1.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paragonie/random_compat.git",
-                "reference": "19f765b66c6fbb56ee3b11bc16d52e38eebdc295"
+                "reference": "d762ee5b099a29044603cd4649851e81aa66cb47"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/19f765b66c6fbb56ee3b11bc16d52e38eebdc295",
-                "reference": "19f765b66c6fbb56ee3b11bc16d52e38eebdc295",
+                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/d762ee5b099a29044603cd4649851e81aa66cb47",
+                "reference": "d762ee5b099a29044603cd4649851e81aa66cb47",
                 "shasum": ""
             },
             "require": {
@@ -1581,7 +1582,7 @@
                 "pseudorandom",
                 "random"
             ],
-            "time": "2015-11-10 00:45:41"
+            "time": "2015-12-10 14:48:13"
         },
         {
             "name": "phpoffice/phpexcel",
@@ -1798,6 +1799,52 @@
                 "shell"
             ],
             "time": "2015-11-12 16:18:56"
+        },
+        {
+            "name": "rap2hpoutre/laravel-log-viewer",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/rap2hpoutre/laravel-log-viewer.git",
+                "reference": "73e55f9d33a1c93b219e48a2ff6c2e49c7d94351"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/rap2hpoutre/laravel-log-viewer/zipball/73e55f9d33a1c93b219e48a2ff6c2e49c7d94351",
+                "reference": "73e55f9d33a1c93b219e48a2ff6c2e49c7d94351",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "4.2.*|5.*",
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "src/controllers"
+                ],
+                "psr-0": {
+                    "Rap2hpoutre\\LaravelLogViewer\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "rap2hpoutre",
+                    "email": "raphael@ornikar.com"
+                }
+            ],
+            "description": "A Laravel log reader",
+            "keywords": [
+                "log",
+                "log-reader",
+                "log-viewer",
+                "logging"
+            ],
+            "time": "2015-11-22 19:11:24"
         },
         {
             "name": "rydurham/sentinel",
@@ -4066,7 +4113,8 @@
         "spatie/activitylog": 20,
         "maatwebsite/excel": 20,
         "league/csv": 20,
-        "fenos/notifynder": 20
+        "fenos/notifynder": 20,
+        "rap2hpoutre/laravel-log-viewer": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
