@@ -42,6 +42,15 @@ class Posting extends Model {
 	 * Relationship with user
 	 * @return Ceb\Models\user
 	 */
+	public function member()
+	{
+		return $this->belongsTo('\Ceb\Models\User','adhersion_id','member_adhersion_id');
+	}
+
+	/**
+	 * Relationship with user
+	 * @return Ceb\Models\user
+	 */
 	public function user()
 	{
 		return $this->belongsTo('\Ceb\Models\User');

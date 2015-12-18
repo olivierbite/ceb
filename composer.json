@@ -16,7 +16,8 @@
         "maatwebsite/excel": "dev-master",
         "league/csv": "^7.1@dev",
         "fenos/notifynder": "dev-master",
-        "guzzlehttp/guzzle": "^6.1"
+        "guzzlehttp/guzzle": "^6.1",
+        "rap2hpoutre/laravel-log-viewer": "dev-master"
         },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

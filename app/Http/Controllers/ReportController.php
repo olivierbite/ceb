@@ -687,7 +687,7 @@ class ReportController extends Controller {
 			$this->labels->title 					= trans('report.piece_debourse_loan',['number'=>$transactionid]);
 	    	$postings = $loan->postings;
 			$this->labels->top_left_upper_value		= $loan->bank_id;
-			$this->labels->top_left_under_value		= $loan->created_at->format('d/m/Y');
+			$this->labels->top_left_under_value		= $loan->created_at->format('Y-m-d');
 			$this->labels->top_right_upper_value	= $loan->member->names;
 			$this->labels->top_right_under_value	= $loan->cheque_number;
     	}

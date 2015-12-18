@@ -41,6 +41,11 @@ $app->singleton(
     Ceb\Exceptions\Handler::class
 );
 
+/** ADDED CUSTOMER LOGGER */
+$app->singleton(
+    Illuminate\Foundation\Bootstrap\ConfigureLogging::class,
+    Ceb\Bootstrap\ConfigureLogging::class
+);
 /*
 |--------------------------------------------------------------------------
 | Return The Application

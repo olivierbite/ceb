@@ -523,7 +523,7 @@ class LoanController extends Controller {
         }
 
 	    // First log 
-	    Log::info($this->user->email . ' is  blocking loan with details '.json_encode($request->all()));
+	    Log::info($this->user->email . ' is  unblocking loan with details '.json_encode($request->all()));
 
 	    /////////////////////////////////////
 	    // Prepare the passed information  //
@@ -648,6 +648,13 @@ class LoanController extends Controller {
 	public function recordCautionneurs($transactionid,$loan,$member,$cautionneurs,$amount_bonded)
 	{
 		// Devide amount equally 
+		$cautionneursCount = count($cautionneurs);
+
+		// If we don't have cautinneurs, just pass the method
+		if ($cautionneursCount == 0 ) {
+			return true;
+		}
+
 		$amount  = $amount_bonded / count($cautionneurs);
 
 		foreach ($cautionneurs as $cautionneur) 

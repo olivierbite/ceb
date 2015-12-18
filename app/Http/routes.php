@@ -228,8 +228,5 @@ $router->get('/js/regularisationform',['as'=>'assets.js.regularisationform','use
 	return response()->view('assets.js.regularisation_formjs')->header('Content-Type','application/javascript; charset=utf-8');;
 }]);
 
-$router->get('/test',function()
-	{
-$member = (new Ceb\Models\User)->byAdhersion('20072824')->first();
-		dd($member->cautions);	
-   });
+/** ROUTE FOR LOGS */
+Route::get('logs', ['as'=>'logs','middleware'=>'sentry.admin','uses'=>'\Rap2hpoutre\LaravelLogViewer\LogViewerController@index']);
