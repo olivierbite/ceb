@@ -23,7 +23,7 @@
 		@foreach ($loan->cautions as $caution)
 		<tr >
 			<td>
-			Cautionneur.{!! ++$count!!}</p>
+			Cautionneur.{!! ++$count!!} ({!! $caution->adhersion_id !!})</p>
 			</td>
 			<td>
 			{!! $caution->cauttionneur->names !!}
