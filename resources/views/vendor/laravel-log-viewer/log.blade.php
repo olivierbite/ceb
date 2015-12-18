@@ -5,7 +5,7 @@
 
   @section('content')
    <link href="{{Url()}}/assets/dist/css/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />
-
+    
 
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -17,13 +17,17 @@
 
     <div class="container-fluid">
       <div class="row">
-        <div class="col-sm-3 col-md-2 sidebar">
+        <div class="col-sm-3 sidebar">
           <div class="list-group">
-            @foreach($files as $file)
-              <a href="?l={{ base64_encode($file) }}" class="list-group-item @if ($current_file == $file) llv-active @endif">
-                {{$file}}
-              </a>
-            @endforeach
+           <?php 
+           $logFiles = [];
+           foreach ($files as $file) {
+             $logFiles  [base64_encode($file)] = $file;
+           }
+
+            ?>
+            {!! Form::select('files', $logFiles, Input::get('l', null), ['class'=>'form-control','id'=>'select-file']) !!}
+
           </div>
         </div>
         <div class="col-sm-9 col-md-10 table-container">
@@ -32,7 +36,7 @@
               Log file >50M, please download it.
             </div>
           @else
-          <table id="table-log" class="table table-striped">
+          <table id="table-log" class="table table-bordered table-striped">
             <thead>
               <tr>
                 <th>Level</th>
@@ -88,10 +92,15 @@
           }
         });
         $('.table-container').on('click', '.expand', function(){
+          alert('oka');
           $('#' + $(this).data('display')).toggle();
         });
         $('#delete-log').click(function(){
           return confirm('Are you sure?');
+        });
+
+        $('#select-file').change(function(event) {
+            window.location = '?l='+$(this).val();
         });
       });
     </script>

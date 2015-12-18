@@ -1,6 +1,6 @@
 @extends('layouts.default')
 
-@sectin('content_title')
+@section('content_title')
   {!! $title !!}
 @endsection
 
