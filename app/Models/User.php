@@ -270,6 +270,7 @@ class User extends SentinelModel {
 	public function totalContributions() {
 		$saving = $this->contributions()->isSaving()->sum('amount');
 		$withdrawal = $this->contributions()->isWithdrawal()->sum('amount');
+
 		return (int) $saving - $withdrawal;
 	}
 
@@ -384,18 +385,18 @@ class User extends SentinelModel {
 		// need to consider right to loan a member
 		// had before we give him this loan
 		$latestLoan = $this->latestLoan();
+		$contributions 		= $this->contributions();
+		
 		// dd($latestLoan->right_to_loan - $latestLoan->loan_to_repay);
 		if ($this->loan_to_regulate !==-1 ) {
 			return $latestLoan->right_to_loan - $latestLoan->loan_to_repay;
 		}
-
-		$contributions 		= $this->contributions();
+		
 
 		// Since this member has active loan, let's determine
 		// what is his right loan as of previous loan
 		// Then deduct the loan he was given
-
-		return $contributions->isSaving()->sum('amount') * $this->rightToLoanPercentage;
+		return  $this->totalContributions() * $this->rightToLoanPercentage;
 	}
 
 	/**
