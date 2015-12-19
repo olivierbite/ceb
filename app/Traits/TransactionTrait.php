@@ -35,10 +35,10 @@ trait TransactionTrait {
         $refundTransactionId        = Refund::where('transaction_id', '=', $key)->limit(1)->count();
 
         if (
-	        	($postingTransactionId > 0) && 
-	        	($loanTransactionId    > 0) &&
-	        	($contributionTransactionId > 0) && 
-	        	($refundTransactionId    > 0)
+	        	($postingTransactionId = 0) && 
+	        	($loanTransactionId    = 0) &&
+	        	($contributionTransactionId = 0) && 
+	        	($refundTransactionId    = 0)
         	) 
         {
 			return true;
