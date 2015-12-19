@@ -1,6 +1,5 @@
 <div class="box">
             <div class="box-header with-border">
-              <h3 class="box-title">@yield('content_title')</h3>
               <div class="box-tools">
               {{-- Request::is('regularisation/types') --}}
               @if ((request()->is('members*') || request()->is('loans*') || request()->is('regularisation*')) && !request()->is('loans/pending*') || request()->is('loans/complete'))

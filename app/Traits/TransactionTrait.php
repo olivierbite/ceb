@@ -29,18 +29,14 @@ trait TransactionTrait {
      */
     private static function transactionExists($key)
     {
-        $postingTransactionId 		= Posting::where('transactionid', '=', $key)->limit(1)->count();
-        $loanTransactionId 			= Loan::where('transactionid', '=', $key)->limit(1)->count();
-        $contributionTransactionId 	= Contribution::where('transactionid', '=', $key)->limit(1)->count();
-        $refundTransactionId        = Refund::where('transaction_id', '=', $key)->limit(1)->count();
+        $postingCount 		= Posting::where('transactionid', '=', $key)->limit(1)->count();
+        $loanCount 			= Loan::where('transactionid', '=', $key)->limit(1)->count();
+        $contributionCount 	= Contribution::where('transactionid', '=', $key)->limit(1)->count();
+        $refundCount        = Refund::where('transaction_id', '=', $key)->limit(1)->count();
 
-        if (
-	        	($postingTransactionId > 0) && 
-	        	($loanTransactionId    > 0) &&
-	        	($contributionTransactionId > 0) && 
-	        	($refundTransactionId    > 0)
-        	) 
+        if($postingCount > 0  || $loanCount  > 0  || $contributionCount > 0  || $refundCount    > 0 )      	
         {
+
 			return true;
         }
 
