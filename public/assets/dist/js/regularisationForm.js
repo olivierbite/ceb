@@ -87,7 +87,7 @@ jQuery(document).ready(function($) {
 			totalInstallement_interests = Math.round(getInterest(Math.round(loanBalance) + Math.round(additional_amount),interestRate,numberOfInstallment));
 			interest_on_amount			= Math.round(totalInstallement_interests - remaining_interest);
 
-			
+			console.log(interest_on_amount,totalInstallement_interests,remaining_interest,numberOfInstallment);
 
 			if (additinal_charges_rate > 0) {
 				additinal_charges	= Math.round((additional_amount * additinal_charges_rate)/  100);

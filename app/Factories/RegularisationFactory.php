@@ -449,7 +449,6 @@ class RegularisationFactory {
 		$loanToRegulate->is_regulation			= true;
 		$loanToRegulate->regulation_type		= $inputs['operation_type'];
 
-
         if ($loanToRegulate->save() == false) {
         	return false;
         }
@@ -555,8 +554,7 @@ class RegularisationFactory {
 	 * Get loan interest
 	 * @return float
 	 */
-	public function getInterestRate() {
-		$numberOfInstallment = $this->getTranschesNumber();
+	public function getInterestRate($numberOfInstallment) {
 		return $this->loanRate->rate($numberOfInstallment,$numberOfInstallment);
 	}
 
@@ -573,7 +571,7 @@ class RegularisationFactory {
 		$loanDetails['additional_installments']		=$additional_installments		= isset($loanDetails['additional_installments']) ? (int) $loanDetails['additional_installments'] : 0;
 		$loanDetails['remaining_installments']		=$remaining_installments		= (int) $loanDetails['current_number_of_installments'];				
 		$loanDetails['totalContributions']			=$totalContributions			= 0;				
-		$loanDetails['additinal_charges_rate']		=$additinal_charges_rate		= isset($loanDetails['additinal_charges_rate']) ? (int) $loanDetails['additinal_charges_rate'] : 0;				
+		$loanDetails['additinal_charges_rate']		=$additinal_charges_rate		= isset($loanDetails['charges_rate']) ? (int) $loanDetails['charges_rate'] : 0;				
 		$loanDetails['additinal_charges']			=$additinal_charges				= 0;				
 		$loanDetails['remaining_interest']			=$remaining_interest			= 0;				
 		$loanDetails['totalInstallement_interests']	=$totalInstallement_interests	= 0;
@@ -588,21 +586,20 @@ class RegularisationFactory {
 		// Calculate remaining interests
 		$interestRate		= (float) $this->getInterestRate($remaining_installments);
 		$remaining_interest	= (int) calculateInterest($loanBalance,$interestRate,$remaining_installments);
-		$interestRate		= (float) $this->getInterestRate($numberOfInstallment);
 		
-      	switch (strtolower($loanDetails['operation_type'])) {
-      		case 'installments': // THIS IS A INSTALLMENT REGULATION 
-
+      	if (strtolower($loanDetails['operation_type']) == 'installments') {
+      	     // THIS IS A INSTALLMENT REGULATION 
+				$interestRate		= (float) $this->getInterestRate($numberOfInstallment);
 				$loanDetails['totalInstallement_interests']	= calculateInterest($loanBalance,$interestRate,$numberOfInstallment);
-				$loanDetails['interest_on_installements']	= $totalInstallement_interests - $remaining_interest;
+				$loanDetails['interest_on_installements']	= $loanDetails['totalInstallement_interests'] - $remaining_interest;
 				$loanDetails['new_monthly_fees']			= $loanBalance / $numberOfInstallment;
 				$loanDetails['total_interests']				= (int) $loanDetails['interests_to_pay'];
-      			break;
+      		} 
 
-      		case 'amount':     // THIS IS A AMOUNT REGULATION 
-
-				$loanDetails['totalInstallement_interests']	= calculateInterest($loanBalance + $additional_amount,$interestRate,$numberOfInstallment);
-				$loanDetails['interest_on_amount']			= $totalInstallement_interests - $remaining_interest;
+      	else if (strtolower($loanDetails['operation_type']) == 'amount') {
+      	   // THIS IS A AMOUNT REGULATION 
+				$loanDetails['totalInstallement_interests']	= calculateInterest(($loanBalance + $additional_amount),$interestRate,$remaining_installments);
+				$loanDetails['interest_on_amount']			= round($loanDetails['totalInstallement_interests'] - $remaining_interest,0);
 				$loanDetails['new_monthly_fees']			= $loanBalance / $numberOfInstallment;
 				// If we have additiona charges such as administration fees
 				// Then charge them here
@@ -611,18 +608,17 @@ class RegularisationFactory {
 					$loanDetails['additinal_charges']    = ($additional_amount * $additinal_charges_rate)/  100;
 				};
 
-				$loanDetails['total_interests']		= $total_interests	= $interest_on_amount;
+				$loanDetails['total_interests']		= $total_interests	= $loanDetails['interest_on_amount'];
 				$loanDetails['netToReceive']		= $netToReceive		= $additional_amount - $interest_on_installements - $interest_on_amount- $additinal_charges;
 				$loanDetails['new_monthly_fees']	= $new_monthly_fees	= ($loanBalance + $additional_amount )/$numberOfInstallment;
-
-      			break;
-
-      		case 'amount_installments': // THIS IS A AMOUNT AND INSTALLMENT REGULATION 
-
+		}
+		else if (strtolower($loanDetails['operation_type']) == 'amount_installments')
+		{    // THIS IS A AMOUNT AND INSTALLMENT REGULATION 
+				$interestRate		= (float) $this->getInterestRate($numberOfInstallment);
 				$loanDetails['totalInstallement_interests']	= $totalInstallement_interests	= calculateInterest($loanBalance,$interestRate,$numberOfInstallment);
-				$loanDetails['interest_on_installements']	= $interest_on_installements	= $totalInstallement_interests - $remaining_interest;
+				$loanDetails['interest_on_installements']	= $interest_on_installements	= $loanDetails['totalInstallement_interests'] - $remaining_interest;
 				$loanDetails['totalInstallement_interests']	= $totalInstallement_interests	= calculateInterest($loanBalance + $additional_amount,$interestRate,$numberOfInstallment);
-				$loanDetails['interest_on_amount']			= $interest_on_amount			= $totalInstallement_interests - $remaining_interest;
+				$loanDetails['interest_on_amount']			= $interest_on_amount			= $loanDetails['totalInstallement_interests'] - $remaining_interest;
 
 				// If we have additiona charges such as administration fees
 				// Then charge them here
@@ -632,11 +628,10 @@ class RegularisationFactory {
 				$loanDetails['total_interests']		= $total_interests		= $interest_on_amount + $interest_on_installements;
 				$loanDetails['netToReceive']		= $netToReceive		= $additional_amount - $interest_on_installements - $interest_on_amount- $additinal_charges;
 				$loanDetails['new_monthly_fees']	= $new_monthly_fees	= ($loanBalance + $additional_amount )/$numberOfInstallment;
-				break;
-      		default:
-      			// We cannot determine which regulation is this....
-      			return false;
-      			break;
+		}
+      	else
+      	{
+      		return false;
       	}
 
 	    $this->addLoanInput($loanDetails);
