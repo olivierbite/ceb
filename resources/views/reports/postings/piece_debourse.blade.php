@@ -31,8 +31,8 @@
  <tbody>
 
    @each('reports.member.item_piece_debourse', $postings, 'posting', 'members.no-items')
-	
-	@if (empty($postings) == false)
+
+	@if ($postings->count() > 0)
    	<tr>
 	  	 	<th colspan="2">{!!  $postings->first()->wording !!}</th>
 			<th>{!! number_format(abs($postings->where('transaction_type','debit')->sum('amount'))) !!}</th>
