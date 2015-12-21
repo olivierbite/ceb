@@ -166,14 +166,17 @@ $(document).ready(function()
 			          });
 				return exit;
 			}
-
+			
 		    adhersion_id = $('.adhersion_id').val();
 			url = url +'/'+adhersion_id;
 		}
 
 		if(baseUrl.indexOf('contract') !== -1)
 		{
+			adhersion_id = $('.adhersion_id').val();
 			url = baseUrl+'/'+adhersion_id+'/'+ export_excel;
+			OpenInNewTab(url);
+			return ;
 		}
 
 		if(typeof $('#complex_radio').val() =='undefined' && typeof $('#report_date_range_simple').val() =='undefined' && typeof $('#institition')!== 'undefined')
@@ -181,7 +184,6 @@ $(document).ready(function()
 			var instititionType = $('#institition').val();
 			url = baseUrl+'/'+instititionType+'/'+ export_excel;
 		}
-
 		/** OPEN  THE REPORT */
 		OpenInNewTab(url);
 

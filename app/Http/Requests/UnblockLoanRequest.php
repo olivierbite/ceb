@@ -7,6 +7,7 @@ use Ceb\Factories\LoanFactory;
 use Ceb\Http\Requests\Request;
 use Ceb\Models\Setting;
 use Ceb\Models\User;
+use Ceb\Models\Loan;
 
 
 class UnblockLoanRequest extends Request
@@ -36,12 +37,26 @@ class UnblockLoanRequest extends Request
       if ($this->isMethod('get')) {
            return [];
         }
-      return [
+
+      $rules = [
               'cheque_number'     =>  'required|alpha_dash|min:5',
               'bank_id'           =>  'required|min:1',
-              'cautionneur'       =>  'confirmed',
               'loanid'            =>  'required|numeric',
               ];
+
+      // If loan taken is higher than total contribution then make 
+      // Cautionneur mandatory
+      $attributes = $this->all();
+      $loan = Loan::findOrFail($attributes['loanid']);
+      $member = $loan->member;
+
+      if ($loan->loan_to_repay > $member->total_contribution) {
+       $rules['cautionneur1']    =  'required';
+       $rules['cautionneur2']    =  'required';
+       $rules['amount_bonded']   =  'required|numeric';
+      }
+
+      return $rules;
        
     }
 
@@ -56,16 +71,7 @@ class UnblockLoanRequest extends Request
         // If we have bonded amount then check if we have cautionneur
         // If the amount to repay is higher than total contributions  
         // we need to have a cautionneur
-        if (!empty($bondedAmount)) {
-            // If we have bonded amount make sure we fail this transacation            
-            $cautionneur = $this->loanFactory->getCautionneurs();
-            //  We can only allow two cautionneurs if they are not set 
-            //  We will fail this validation
-            if (count($cautionneur) !== 2) {
-                 $attributes['cautionneur']                 = 'cautionneur';
-                 $attributes['cautionneur_confirmation']    = 'cautionneur_to_faile';
-            }
-        }
-      return  array_change_key_case(parent::all(),CASE_LOWER);
+ 
+      return  array_change_key_case($attributes,CASE_LOWER);
     }
 }

@@ -110,13 +110,9 @@ class ReportController extends Controller {
         // We could not find the user using his Id, we assume, the 
     	// the provided identifier is a adhersion id  let's try 
     	// to look for him/her using his adhersion number
-    	
     	if (is_null($foundUser = $user->with('loans')->byAdhersion($identifier)->first())) {
-
     		flash()->error(trans('member.we_could_not_find_the_member_you_are_looking_for'));
-
     		Log::error('Unable to find a member with identifier'.$identifier);
-    		
     		return redirect()->back();
     	}
          

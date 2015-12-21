@@ -157,7 +157,8 @@ function calculateInterest($amount,$rate,$installments)
 		//           P : Amount to Repay
 		//           TI: Interest Rate
 		//           N : Montly payment
-	return ($amount * ($rate * $installments)) / (1200 + ($rate * $installments));
+		$rate_installments = $rate * $installments;
+	return ($amount * $rate_installments ) / (1200 + $rate_installments);
 }
 
 /**

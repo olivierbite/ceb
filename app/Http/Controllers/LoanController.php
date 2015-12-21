@@ -550,6 +550,8 @@ class LoanController extends Controller {
 		$loan->cheque_number = $request->get('cheque_number');
 		$loan->bank_id       = $request->get('bank_id');
 		$loan->status 		 = 'unblocked';
+		$loan->movement_nature = Input::get('movement_nature', 	$loan->movement_nature);
+		
 		$saveLoan = $loan->save();
 
 		$member = $loan->member;
