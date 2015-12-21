@@ -138,7 +138,8 @@ Route::resource('loans', 'LoanController');
 				Route::get('accounting/{transactionid}}',['as'=>'piece.disbursed.accounting','uses'=>'ReportController@pieceDisbursedAccounting']);
 				Route::get('account/{startDate}/{endDate}/{account}/{export_excel?}',['as'=>'piece.disbursed.account','uses'=>'ReportController@pieceDisbursedAccount']);
 				Route::get('loan/{transactionid}/{export_excel?}',['as'=>'piece.disbursed.account','uses'=>'ReportController@pieceDisbursedLoan']);
-			});
+				Route::get('refund/{transactionid}/{export_excel?}',['as'=>'piece.disbursed.refund','uses'=>'ReportController@pieceDisbursedRefund']);
+		});
 	});
 	// CAUTIONS REPORTS 
 	Route::group(['prefix'=>'cautions'], function()

@@ -52,7 +52,7 @@ class RefundController extends Controller {
 		$adhersion_number = Input::get('adhersion_number');
 		$monthly_fee = Input::get('monthly_fee');
 
-		$this->refundFactory->updateMonthlyFee($adhersion_number, $monthly_fee);
+		$this->refundFactory->updateRefundFee($adhersion_number, $monthly_fee);
 
 		return $this->reload();
 	}

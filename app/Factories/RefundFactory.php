@@ -44,8 +44,13 @@ class RefundFactory {
 		}
 		// Get the institution by its id
 		$members = $this->institution->with('members')->find((int) $institutionId)->membersWithLoan();
+
 		if (!is_array($members)) {
 			$members = [];
+		}
+
+		foreach ($members as $key => $member) {
+			$members[$key]->refund_fee = $members[$key]->loan_montly_fee;
 		}
 
 		$this->setRefundMembers($members);
@@ -66,7 +71,7 @@ class RefundFactory {
 			return false;
 		}
         // Make sure amount is numeric
-        $member->monthly_fee = (int) $member->monthly_fee;
+        $member->refund_fee = (int) $member->loan_montly_fee;
         
 		$members[] = $member;
 		$this->setRefundMembers($members);
@@ -79,18 +84,18 @@ class RefundFactory {
 	 * @param  [type] $newValue         [description]
 	 * @return [type]                   [description]
 	 */
-	public function updateMonthlyFee($adhersion_number, $newMontlyFee) {
+	public function updateRefundFee($adhersion_number, $newFee) {
 		// First get what is in the session now
-		$data = $this->getRefundMembers();
-		// in (PHP 5 >= 5.5.0) you don't have to write your own function to search through a multi dimensional array
-		$key = $this->searchAdhersionKey($adhersion_number, $data);
+		$users = $this->getRefundMembers();
 
-		// An array can have index 0 that's why we check if it's not strictly false
-		if ($key !== false) {
-			$data[$key]['monthly_fee'] = $newMontlyFee;
+		foreach ($users as $key => $user) {
+			if ($user->adhersion_id == (int) $adhersion_number) {
+				$user->refund_fee = $newFee;
+			}
 		}
+
 		// Now we are ready to go
-		return $this->setRefundMembers($data);
+		return $this->setRefundMembers($users);
 	}
 
 	/**
@@ -144,7 +149,7 @@ class RefundFactory {
 			$refund['adhersion_id']		= $refundMember->adhersion_id;
 			$refund['contract_number']	= $loan->loan_contract;
 			$refund['month']			= $this->getMonth();
-			$refund['amount']			= $refundMember->loanMonthlyFees();
+			$refund['amount']			= $refundMember->refund_fee;
 			$refund['tranche_number']	= $loan->tranches_number;
 			$refund['transaction_id']	= $transactionId;
 			$refund['member_id']		= $refundMember->id;
@@ -233,6 +238,7 @@ class RefundFactory {
 		// Try to post the debit before crediting another account
 		$debiting = $this->posting->create($posting);
 
+
 		// Change few data for crediting
 		// Then try to credit the account too
 		$posting['transaction_type'] = 'credit';
@@ -254,7 +260,7 @@ class RefundFactory {
 		$sum = 0;
 		$members = $this->getRefundMembers();
 		foreach ($members as $member) {
-			$sum += $member->loan_montly_fee;
+			$sum += $member->refund_fee;
 		}
 		return $sum;
 	}

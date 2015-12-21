@@ -43,6 +43,12 @@ class User extends SentinelModel {
 	protected $rightToLoanPercentage = 2.5;
 
 	/**
+	 *  Refund fees
+	 * @var integer
+	 */
+	public $refund_fee = 0;
+
+	/**
 	 * Minimum months a user needs to have before having a loan.
 	 * @var 
 	 */
