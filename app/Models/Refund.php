@@ -19,6 +19,15 @@ class Refund extends Model {
 		];
 
 
+
+	 /**
+    * Get loan postings
+    * @return  
+    */
+   public function postings()
+   {
+   	return $this->hasMany('\Ceb\Models\Posting','transactionid','transaction_id');
+   }
 	/**
 	 * Get loan by which this Refund belongs to
 	 * 

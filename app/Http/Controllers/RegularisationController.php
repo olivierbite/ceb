@@ -189,11 +189,12 @@ class RegularisationController extends Controller {
         $loanInputs = $this->regularisationFactory->getLoanInputs();
         $loanInputs['operation_type'] = isset($loanInputs['operation_type']) ? $loanInputs['operation_type'] : 'installments';
 
-        $creditAccounts = $this->regularisationFactory->getCreditAccounts();
-        $debitAccounts = $this->regularisationFactory->getDebitAccounts();
-        $cautionneurs = $this->regularisationFactory->getCautionneurs();
-        $operationType = $this->regularisationFactory->getOperationType();
+        $creditAccounts  = $this->regularisationFactory->getCreditAccounts();
+        $debitAccounts   = $this->regularisationFactory->getDebitAccounts();
+        $cautionneurs    = $this->regularisationFactory->getCautionneurs();
+        $operationType   = $this->regularisationFactory->getOperationType();
         $currentMemberId = $this->currentMember;
+        
         $activeLoan = $this->loan;
         $rightToLoan = 0;
 

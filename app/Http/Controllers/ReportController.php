@@ -579,6 +579,45 @@ class ReportController extends Controller {
     	return view('layouts.printing', compact('report'));
     }
 
+    /**
+     * Piece Disbursed Refund Report 
+     * @param  string $value 
+     * @return [type]        
+     */
+    public function pieceDisbursedRefund(Refund $refund,$transactionid,$excel=0)
+    {
+    	// First check if the user has the permission to do this
+        if (!$this->user->hasAccess('reports.piece.debourse.refund')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
+
+            return redirect()->back();
+        }
+
+    	$refund = $refund->with('postings')->where('transaction_id',$transactionid)->first();
+
+		$postings				= [];
+
+		$labels = $this->labels;
+    	if (isset($refund->postings)) 
+    	{
+	    	$postings = $refund->postings;
+	    	$posting = $postings->first();
+	    	$this->labels->title 					= trans('report.piece_debourse_refund_number',['number'=>$posting->transactionid]);
+			$this->labels->top_left_upper_value		= $posting->created_at->format('Y-m-d');
+			$this->labels->top_left_under_value		= $posting->user->names;
+			$this->labels->top_right_upper_value	= $refund->adhersion_id;
+			$this->labels->top_right_under_value	= $refund->cheque_number;
+    	}
+        
+    	$report =  view('reports.postings.piece_debourse',compact('postings','labels'))->render();
+
+    	if ($excel==1) {
+			 toExcel($report,'piece_debourse_saving');
+		}
+    
+    	return view('layouts.printing', compact('report'));
+    }
+
      /**
      * Piece Disbursed Account Report 
      * @param  string $value 

@@ -16,7 +16,7 @@ function toggle(source) {
 
 @if (!is_null($transactionid) && $transactionid !=false)
   <script type="text/javascript">
-    OpenInNewTab("{!! route('piece.disbursed.saving',['transactionid'=>$transactionid]) !!}")
+    OpenInNewTab("{!! route('piece.disbursed.refund',['transactionid'=>$transactionid]) !!}")
   </script>
 @endif
 
@@ -39,7 +39,7 @@ function toggle(source) {
         <th> {{ trans('member.member') }}</th>
         <th> {{ trans('member.institution') }}</th>
         <th> {{ trans('member.employee_id') }}</th>
-        <th> {{ trans('member.monthly_fee') }}</th>
+        <th> {{ trans('member.refund_fees') }}</th>
   	 		<th><i class="fa fa-gear"></i></th>
   	 	</tr>
    	 </thead>

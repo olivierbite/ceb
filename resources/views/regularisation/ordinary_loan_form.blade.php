@@ -1,13 +1,12 @@
-s<div class="box-body">
+<div class="box-body">
 <div class="box-header with-border">
   <h3 class="box-title">{{ trans('loan.regularisation') }}</h3>
   <div class="loan-notifications">
    </div>
 </div>
 
-<div class="row">
+<div class="row"> 
  @if ((strpos($loanInputs['operation_type'], 'installment') !== false) || empty($loanInputs['operation_type']))
-
   <div class="col-md-3">
   <div class="form-group">
    <label>{{ trans('loan.number_of_installments') }}</label>
@@ -18,6 +17,7 @@ s<div class="box-body">
   </div>
   </div>
  @endif
+
  @if (strpos($loanInputs['operation_type'], 'amount') !== false)
   <div class="col-md-3">
   <div class="form-group">

@@ -17,7 +17,7 @@ Et le Conseil d’Administration de la Caisse d’Entraide de Butare représent�
 <p>
 IL EST LIBREMENT CONVENU CE QUI SUIT : <br/>
 <p>
-	<strong>Art 1.</strong> : Mr /Madame/Mlle<strong>{names}</strong>.employé (e) de <strong>{institution_name}</strong> reçoit un prêt de <strong>{loan_to_repay_word}</strong> Francs Rwandais, (<strong>{loan_to_repay}</strong> Frw) Par un Chèque N° <strong>{cheque_number}</strong>  remboursables en <strong>{tranches_number}</strong>. tranches de  <strong>{monthly_fees}</strong> Francs Rwandais par mois avec intérêts normaux de <strong>{interests}</strong> Francs et intérêts d’urgence de <strong>{urgent_loan_interests}</strong> Frw à déduire préalablement sur la somme 
+	<strong>Art 1.</strong> : Mr /Madame/Mlle<strong>{names}</strong>.employé (e) de <strong>{institution_name}</strong> reçoit un prêt de <strong>{loan_to_repay_word}</strong> Francs Rwandais, (<strong>{loan_to_repay}</strong> Frw) Par un Chèque N° <strong>{cheque_number}</strong>  remboursables en <strong>{tranches_number}</strong>. tranches de  <strong>{monthly_fees}</strong> Francs Rwandais par mois avec intérêts prolongement de <strong>{interests}</strong> Francs et intérêts d’urgence de <strong>{urgent_loan_interests}</strong> Frw à déduire préalablement sur la somme 
 	prêtée.
 </p>
 <p>
