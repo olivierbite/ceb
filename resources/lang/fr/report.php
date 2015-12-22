@@ -97,4 +97,24 @@ return array (
                   'members_cautionned_by_me'                  =>'Membre que j\'ai cautionnee',
 
 
+<<<<<<< HEAD
+=======
+
+   'piece_debourse_accounting'     => 'piece debourse N# :number ',
+   'piece_debourse_saving_number'  => 'piece debourse epargne N# :number',
+   'piece_debourse_accounting'     => 'piece debourse comptable N#:number',
+   'piece_debourse_loan'           => 'piece debourse prêt N#:number',
+   'pending_loans'=>'Rapport prêt en attente',
+   'reports_refunds_monthly'=>'Liste de remboursement mensuel',
+   'contribution_irregularities'=>'Irregularites de contribution',
+   'refund_irregularities'=>'Irregularite de remboursement',
+   'reports_contributions_notcontribuing'=>'Rapport des irregularites de contribution',
+   ' reports_refunds_irreguralities'=>'Rapport des irregularites de  remboursement',
+   'reports_cautions_cautioned_by_me'=>'Coutions cautionne par',
+    'members_who_cautionned_me'=>'Les cautionneur ',
+    'members_cautionned_by_me'=>'Membres qui ont cautionner',
+    'reports_savings_level'=>'Rapport niveau epargne',
+
+ 
+>>>>>>> cc7cdbe41e446063b17bac3ce399536245f20141
   );
