@@ -22,7 +22,7 @@
   @forelse ($loans as $loan)
   	@include('reports.member.item_loan_record', compact('loan'))
   @empty
-  	@includ('members.no-items')
+  	@include('members.no-items')
   @endforelse
  </tbody>
 </table>

@@ -42,7 +42,7 @@ return array (
   'loans_and_repayments'      => 'Loans & repayments',
   'accounting'                => 'Comptabilite',
   'reports'                   => 'Rapports',
-  'settings'                  => 'Settings',
+  'settings'                  => 'Paramètres',
   'institutions'              => 'institutions',
   
   'accounting_plan'           => 'Plan Comptable',

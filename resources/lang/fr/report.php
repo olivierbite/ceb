@@ -106,8 +106,8 @@ return array (
                   'reports_contributions_notcontribuing'      =>'Rapport des irregularites de contribution',
                   ' reports_refunds_irreguralities'           =>'Rapport des irregularites de  remboursement',
                   'reports_cautions_cautioned_by_me'          =>'Coutions cautionne par',
-                  'members_who_cautionned_me'                 =>'Les cautionneur ',
-                  'members_cautionned_by_me'                  =>'Membres qui ont cautionner',
+                  'members_who_cautionned_me'                 =>'Membre qui m\'ont cautionnee',
+                  'members_cautionned_by_me'                  =>'Membres que j\ai cauionnee',
                   'reports_savings_level'                     =>'Rapport niveau epargne',
 
   );
