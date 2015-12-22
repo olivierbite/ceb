@@ -213,9 +213,7 @@ class MemberController extends Controller {
     	$startDate = date('Y-m-d', 0);
  		$endDate   = date('Y-m-d');
 
-    	$contributions = $contribution->with('member')->betweenDates($startDate,$endDate)->where('adhersion_id',$adhersionId)->get();
-    	$report = view('reports.member.contributions',compact('contributions'))->render();
-    	return view('layouts.printing', compact('report'));
+    	return redirect()->to('reports/members/contributions/'.$startDate.'/'.$endDate.'/0/'.$adhersionId);
     }
 
 	/**
