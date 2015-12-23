@@ -175,7 +175,6 @@ jQuery(document).ready(function($) {
   		loanToRepay  = $('#loanToRepay').val();
   		loanToRepay  = parseInt(loanToRepay);
 
-  		console.log(parseInt(totalContributions) < loanToRepay);
   		if(parseInt(totalContributions) > parseInt(loanToRepay)){
   			$('#cautionForm').css('display', 'none');
   		}else{
@@ -193,7 +192,15 @@ jQuery(document).ready(function($) {
 
   		}
 
+  		/** UPDATE ACCOUNTS AMOUNT */
+		$('#debit_amount_0').val($('#loanToRepay').val());
+		$('#credit_amounts_0').val($('#netToReceive').val());
+		$('#credit_amounts_2').val($('#interests').val());	
 	}
+
+	
+
+
 
 	function calculateUrgentLoanFees(){
 		if ($('#operation_type').val()=='urgent_ordinary_loan') {
@@ -325,4 +332,6 @@ jQuery(document).ready(function($) {
 		.always(function() {
 		});			
 	}
+
+
 });
