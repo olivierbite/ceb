@@ -1,5 +1,7 @@
 @extends('layouts.default')
-
+@section('content_title')
+	{{ trans('navigations.accounting_plan') }}
+@endsection
 @section('content')
 <div class="row">
 <div class="col-xs-2 col-md-2 member-add-button">

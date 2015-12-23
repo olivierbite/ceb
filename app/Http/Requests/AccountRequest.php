@@ -24,8 +24,9 @@ class AccountRequest extends Request
     public function rules()
     {
         return [
-            'name'              => 'required|min:5',
-            'accounting_nature' => 'required|min:3',
+            'account_number'  => 'required|numeric|min:2|unique:accounts',
+            'entitled'        => 'required|min:3|unique:accounts',
+            'account_nature' => 'required|min:3',
         ];
     }
 }
