@@ -16,17 +16,17 @@ class LoanRate extends Model {
 	 * @param   $end   
 	 * @return         
 	 */
-    public function scopeRate($query,$monthNumber)
+    public function rate($monthNumber)
     {
     	$results = DB::select('select rate from `loan_rates` where (? >=`start_month` and  ?<= `end_month`)', [$monthNumber,$monthNumber]);
 
     	$resultsCollection = new Collection($results);
-    	
+ 
     	// If the rate is not configured in the system then return 0
     	if ($resultsCollection->isEmpty()) {
     		return 0;
     	}
-    	
+
     	return $resultsCollection->first()->rate;
     }
 }

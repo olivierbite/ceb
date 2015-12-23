@@ -567,9 +567,9 @@ class RegularisationFactory {
 
 	
 		$loanDetails['additional_amount']			=$additional_amount				= isset($loanDetails['additional_amount']) ? (int) $loanDetails['additional_amount'] : 0;				
-		$loanDetails['loanBalance']					=$loanBalance					= (int) $loanDetails['previous_loan_balance'];
+		$loanDetails['loanBalance']					=$loanBalance					= isset($loanDetails['previous_loan_balance']) ?(int) $loanDetails['previous_loan_balance'] : 0;
 		$loanDetails['additional_installments']		=$additional_installments		= isset($loanDetails['additional_installments']) ? (int) $loanDetails['additional_installments'] : 0;
-		$loanDetails['remaining_installments']		=$remaining_installments		= (int) $loanDetails['current_number_of_installments'];				
+		$loanDetails['remaining_installments']		=$remaining_installments		= isset($loanDetails['current_number_of_installments']) ? (int) $loanDetails['current_number_of_installments']:0;				
 		$loanDetails['totalContributions']			=$totalContributions			= 0;				
 		$loanDetails['additinal_charges_rate']		=$additinal_charges_rate		= isset($loanDetails['charges_rate']) ? (int) $loanDetails['charges_rate'] : 0;				
 		$loanDetails['additinal_charges']			=$additinal_charges				= 0;				
@@ -600,6 +600,11 @@ class RegularisationFactory {
       	   // THIS IS A AMOUNT REGULATION 
 				$loanDetails['totalInstallement_interests']	= calculateInterest(($loanBalance + $additional_amount),$interestRate,$remaining_installments);
 				$loanDetails['interest_on_amount']			= round($loanDetails['totalInstallement_interests'] - $remaining_interest,0);
+				
+				if ($numberOfInstallment == 0) {
+					$numberOfInstallment = 1;
+				}
+
 				$loanDetails['new_monthly_fees']			= $loanBalance / $numberOfInstallment;
 				// If we have additiona charges such as administration fees
 				// Then charge them here

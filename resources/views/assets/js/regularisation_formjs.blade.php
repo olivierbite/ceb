@@ -150,6 +150,31 @@ jQuery(document).ready(function($) {
 
   		}
 
+
+  		
+  		/** UPDATE ACCOUNTS AMOUNT */
+  		if ($('#operation_type').val()=='installments') {
+			$('#debit_amount_0').val($('#interests_to_pay').val());
+			$('#credit_amounts_0').val($('#interests_to_pay').val());
+		};
+
+		if ($('#operation_type').val()=='amount') {
+			$('#debit_amount_0').val($('#additional_amount').val());
+			$('#credit_amounts_0').val($('#netToReceive').val());
+			$('#credit_amounts_2').val($('#interests_to_pay').val());
+			$('#credit_amounts_4').val($('#additinal_charges').val());
+		};
+
+		if ($('#operation_type').val()=='amount_installments') {
+			$('#debit_amount_0').val($('#additional_amount').val());
+			$('#debit_amount_2').val($('#additional_amount').val());
+
+			$('#credit_amounts_0').val($('#netToReceive').val());
+			$('#credit_amounts_2').val($('#interests_to_pay').val());
+			$('#credit_amounts_4').val($('#additinal_charges').val());
+		};
+		
+
 	}
 
 	/**
