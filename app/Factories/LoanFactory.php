@@ -593,10 +593,17 @@ class LoanFactory {
 		$administration_fees = (int) $this->setting->keyValue('loan.administration.fee');
 		$numberOfInstallment = $this->getTranschesNumber();
 
-		
-		if (strpos(strtolower($loanDetails['operation_type']), 'ordinary_loan') === false) {
-			$loanToRepay+=(int) $loanDetails['previous_loan_balance'];
+		if (isset($loanDetails['operation_type'])==true) {
+		   if (strpos(strtolower($loanDetails['operation_type']), 'ordinary_loan') === false) {
+			       $loanToRepay+=(int) $loanDetails['previous_loan_balance'];
+		     }
 		}
+		else
+		{
+			$loanDetails['operation_type'] = null;
+		}
+
+	
 		// Interest formular
 		// The formular to calculate interests at ceb is as following
 		// I =  P *(TI * N)

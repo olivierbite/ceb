@@ -2,7 +2,7 @@
 @section('content')
 <div class="row">
 <div class="col-xs-2 col-md-2 member-add-button">
-   <a class="popdown btn btn-primary" href="{{ route('settings.accountingplan.create')}}">
+   <a class="popdown btn btn-primary" href="{{ route('settings.institution.create')}}">
   <i class="fa fa-plus"></i>
   {{ trans('institution.add') }}
   </a>

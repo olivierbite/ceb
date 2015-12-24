@@ -23,7 +23,7 @@
                 {!! Form::select('credit_accounts[]', $accounts,$id, ['class'=>'form-control account'])!!}
               </div>
               <div class="col-xs-4">
-                <input class="form-control credit-amount" name="credit_amounts[{!! $count++ !!}]" type="numeric" value="{{isset($amount)?$amount:0}}">
+                <input class="form-control credit-amount" id="credit_amounts_{!! $count++ !!}" name="credit_amounts[{!! $count++ !!}]" type="numeric" value="{{isset($amount)?$amount:0}}">
               </div>
               <div class="col-xs-2">
                 <div class='btn btn-danger'><i class='fa fa-times'></i></div> 
@@ -41,7 +41,7 @@
                 {!! Form::select('credit_accounts[]', $accounts,isset($accountId)?$accountId :null, ['class'=>'form-control account'])!!}
               </div>
               <div class="col-xs-4">
-                <input class="form-control credit-amount" name="credit_amounts[0]" type="numeric" value="{{isset($amount)?$amount:0}}">
+                <input class="form-control credit-amount" id="credit_amounts_{!! $count++ !!}" name="credit_amounts[0]" type="numeric" value="{{isset($amount)?$amount:0}}">
               </div>
               <div class="col-xs-2">
                 <div class='btn btn-danger'><i class='fa fa-times'></i></div> 

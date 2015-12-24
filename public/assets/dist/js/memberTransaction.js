@@ -5,7 +5,26 @@ jQuery(document).ready(function($) {
   
       window.location.href = window.location.protocol+'//'+window.location.host+window.location.pathname+'?movement_type='+loanType.val();
     });
+    
+    /** UPDATE ACCOUNTS AMOUNT */
+    /** @todo map the right amount to the right account */
+    if ($('#operation_type').val()=='saving') {
+      $('#debit_amount_0').val($('#additional_amount').val());
+      $('#debit_amount_2').val($('#additional_amount').val());
 
+      $('#credit_amounts_0').val($('#netToReceive').val());
+      $('#credit_amounts_2').val($('#interests_to_pay').val());
+      $('#credit_amounts_4').val($('#additinal_charges').val());
+    };
+
+    if ($('#operation_type').val()=='withdrawal') {
+      $('#debit_amount_0').val($('#additional_amount').val());
+      $('#debit_amount_2').val($('#additional_amount').val());
+
+      $('#credit_amounts_0').val($('#netToReceive').val());
+      $('#credit_amounts_2').val($('#interests_to_pay').val());
+      $('#credit_amounts_4').val($('#additinal_charges').val());
+    };
   });
   /**
    * Implement validation

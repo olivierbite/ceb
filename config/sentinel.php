@@ -62,11 +62,11 @@ return [
 	 */
 
 	'default_permissions' => ['admin', 'users','ceb.view.own.profile',
-		'account.list','account.create',
+		'account.list','account.create','account.edit','account.delete',
 		'accounting.view','accounting.posting','attornies.add',
 		'contribution.index','contribution.add','contribution.view','contribution.update','contribution.complete','contribution.remove.member','contribution.cancel','contribution.batch.contribution','contribution.download.sample','contribution.set.month','contribution.set.credit.account','contribution.set.debit.account','contribution.set.by.institution','contribution.remove.contribution.with.differences',
 		'files.view','files.add',
-		'institutions.view',
+		'institutions.view','institutions.edit','institutions.create','institutions.delete',
 		
 		'leaves.view','leaves.approve','leaves.reject','leaves.view.my.leaves','leaves.request.leaves','leaves.view.leave.status',
 		'items.index','items.add','items.edit','items.edit','items.view',
@@ -82,7 +82,7 @@ return [
 		'reports.monthly.refound','reports.savings.level','reports.savings.irreguralities','reports.refunds.irreguralities','reports.members_who_cautionned_me',
 		'reports.members_cautionned_by_me','reports.piece.debourse.saving','reports.piece.debourse.account','reports.piece.debourse.accounting','reports.piece.debourse.loan',
 		'reports.piece.debourse.refund',
-		 
+
 
 		'utility.can.do.database.backup',
 		],

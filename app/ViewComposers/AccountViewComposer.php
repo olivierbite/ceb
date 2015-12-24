@@ -13,6 +13,11 @@ class AccountViewComposer {
 		$this->account = $account;
 	}
 	public function compose(View $view) {
-		$view->with('accounts', $this->account->lists());
+		$view->with('accounts', $this->account->dropDownList());
+	}
+
+	private function generateList()
+	{
+		
 	}
 }
