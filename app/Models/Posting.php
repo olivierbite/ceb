@@ -140,4 +140,15 @@ class Posting extends Model {
 	{
 		return strtolower($this->transaction_type) =='credit' ? $this->amount : 0;
 	}
+
+	/**
+     * Get the posting's transaction type.
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public function getTransactionTypeAttribute($value)
+    {
+        return strtolower($value);
+    }
 }
