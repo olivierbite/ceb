@@ -151,6 +151,8 @@ $(document).ready(function()
         {
         	var transaction_id = $('#transaction_id').val();
         	url = '/'+baseUrl+'/'+transaction_id+'/'+ export_excel;
+        	OpenInNewTab(url);
+        	return ;
 		}
 
 		/** Add additinal parameters for the members routes */
