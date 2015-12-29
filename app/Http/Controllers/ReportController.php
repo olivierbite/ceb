@@ -653,7 +653,7 @@ class ReportController extends Controller {
     	return view('layouts.printing', compact('report'));
     }
 
-      /**
+     /**
      * Piece Disbursed Loan Report 
      * @param  string $value 
      * @return [type]        
@@ -675,7 +675,7 @@ class ReportController extends Controller {
    		
    		$posting = $postings->first();
     	$this->labels->title 					= trans('report.piece_debourse_accounting',['number'=>$posting->transactionid]);
-		$this->labels->top_left_under_value		= $posting->user->names;
+		$this->labels->top_left_under_value		= date('Y-m-d',strtotime($posting->created_at));
 		$this->labels->top_right_under_value	= $posting->cheque_number;
 	
     	}

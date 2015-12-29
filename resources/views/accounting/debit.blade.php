@@ -25,7 +25,7 @@
             
             </div>
             <div class="col-xs-4">
-              <input class="form-control debit-amount" name="debit_amounts[{!! $count++ !!}]" type="numeric" value="{{isset($amount)?$amount:0}}">
+              <input class="form-control debit-amount" id="debit_amount_{!! $count++ !!}" name="debit_amounts[{!! $count++ !!}]" type="numeric" value="{{isset($amount)?$amount:0}}">
             </div>
             <div class="col-xs-2">
               <div class='btn btn-danger'><i class='fa fa-times'></i></div> 
@@ -43,7 +43,7 @@
             
             </div>
             <div class="col-xs-4">
-              <input class="form-control debit-amount" name="debit_amounts[0]" type="numeric" value="{{isset($amount)?$amount:0}}">
+              <input class="form-control debit-amount" id="debit_amount_{!! $count++ !!}" name="debit_amounts[0]" type="numeric" value="{{isset($amount)?$amount:0}}">
             </div>
             <div class="col-xs-2">
               <div class='btn btn-danger'><i class='fa fa-times'></i></div> 

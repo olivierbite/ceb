@@ -25,10 +25,10 @@ class AccountingRequest extends Request {
      
       //Continue with Rule validation
         return [
-          'journal'   		 		       =>  'required|numeric|min:1',
+          'journal'   		 		       =>  'numeric|min:1',
           'wording'                  =>  'required|min:5',
-          'cheque_number'            =>  'required|min:10',
-          'bank'                     =>  'required|min:2',
+          'cheque_number'            =>  'min:10|unique:postings',
+          'bank'                     =>  'min:2',
           'debit_amounts'   		     =>  'required|min:1',
           'credit_amounts'           =>  'required|min:1',
           'credit_accounts'          =>  'required',

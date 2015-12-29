@@ -31,7 +31,7 @@
 
          <br/>        
         </div>
-        {!! Form::submit('Apply', array('class' => 'btn btn-primary'))!!}
+        {!! Form::submit(trans('general.save'), array('class' => 'btn btn-primary'))!!}
         {!!  Form::close() !!}
     </div>
 </div>

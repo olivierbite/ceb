@@ -18,4 +18,15 @@ class AccountRepository implements AccountRepositoryInterface {
 	public function lists() {
 		return $this->account->lists('entitled', 'id');
 	}
+
+	public function dropDownList()
+	{
+		$accounts = $this->account->all();
+		$accountsList = [];
+		foreach ($accounts as $account) {
+			$accountsList[$account->id] = $account->account_number.' - '.$account->entitled;
+		}
+
+		return $accountsList;
+	}
 }
