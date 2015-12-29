@@ -27,7 +27,7 @@ class AccountingRequest extends Request {
         return [
           'journal'   		 		       =>  'numeric|min:1',
           'wording'                  =>  'required|min:5',
-          'cheque_number'            =>  'min:10',
+          'cheque_number'            =>  'min:10|unique:postings',
           'bank'                     =>  'min:2',
           'debit_amounts'   		     =>  'required|min:1',
           'credit_amounts'           =>  'required|min:1',
