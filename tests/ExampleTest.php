@@ -16,9 +16,4 @@ class ExampleTest extends TestCase
         $this->visit('/')
              ->see('ceb');
     }
-
-    public funciton testMember(){
-        $this->visit('/members')
-            ->see('members');
-    }
 }

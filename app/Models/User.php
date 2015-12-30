@@ -352,13 +352,14 @@ class User extends SentinelModel {
 		return $this->loanBalance() > 0;
 	}
 
+    
 	/**
 	 * Check if a user has active loan
 	 * @return  bool
 	 */
 	public function getHasActiveLoanAttribute()
 	{
-		return $this->loanBalance() > 0;
+		return ($this->totalLoans() - $this->totalRefunds())  > 0;
 	}
 
 	/**
@@ -452,6 +453,32 @@ class User extends SentinelModel {
 	public function totalLoans() {
 		return $this->loans()->approved()->sum('loan_to_repay');
 	}
+	public function loanSumRelation()
+	{
+	    return $this->hasMany('Ceb\Models\Loan', 'adhersion_id', 'adhersion_id')->selectRaw('adhersion_id, sum(loan_to_repay) as loan_to_repay')
+	    	->where('status','approved')
+	        ->groupBy('adhersion_id');
+	}
+
+	public function getLoanSumAttribute()
+	{
+		$sumLoan = $this->loanSumRelation;
+	    return $sumLoan->isEmpty() ? 0:
+	        intval($sumLoan->first()->loan_to_repay) ;
+	}
+
+	public function refundSumRelation()
+	{
+	    return $this->hasMany('Ceb\Models\Refund', 'adhersion_id', 'adhersion_id')->selectRaw('adhersion_id, sum(amount) as refund')
+	        ->groupBy('adhersion_id');
+	}
+
+	public function getRefundSumAttribute()
+	{
+		$sumRefund = $this->refundSumRelation;
+	    return $sumRefund->isEmpty() ? 0:
+	        intval($sumRefund->first()->refund) ;
+	}
 
 	/**
 	 * Get member loan monthly fees that
@@ -459,7 +486,15 @@ class User extends SentinelModel {
 	 * @return numeric with the fees this member need to pay
 	 */
 	public function loanMonthlyFees() {
-		return $this->latestLoan()->monthly_fees;
+		try
+		{
+			return $this->latestLoan()->monthly_fees;
+		}
+		catch (\Exception $ex)
+		{
+            return 0;
+		}
+		
 	}
 
 	public function getLoanMontlyFeeAttribute()
