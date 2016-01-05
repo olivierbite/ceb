@@ -4,7 +4,10 @@ namespace Ceb\Http\Controllers;
 
 use Ceb\Factories\RefundFactory;
 use Ceb\Http\Controllers\Controller;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Paginator;
 use Input;
 use Redirect;
 
@@ -45,7 +48,7 @@ class RefundController extends Controller {
 
             return redirect()->back();
         }
-
+        
         // First log 
         Log::info($this->user->email . ' is updating refund');
 		// Update
@@ -127,13 +130,39 @@ class RefundController extends Controller {
 
 		$debitAccount	= $this->refundFactory->getDebitAccount();
 		$creditAccount	= $this->refundFactory->getCreditAccount();
-		$members		= $this->refundFactory->getRefundMembers();
+		$members 		= $this->refundFactory->getRefundMembers();
+
+		$members		= $this->paginatedMembers($members);
+
 		$totalRefunds	= $this->refundFactory->getTotalRefunds();
 		$refundType		= $this->refundFactory->getRefundType();
 
 		return view('refunds.list', compact('members','institution','transactionid','refundType', 'month', 'totalRefunds', 'creditAccount', 'debitAccount'));
 	}
 
+	/**
+	 * Paginate members
+	 * @return paginated members
+	 */
+	public function paginatedMembers($members)
+	{
+		//Get current page form url e.g. &page=6
+        $currentPage = (int) LengthAwarePaginator::resolveCurrentPage();
+
+        //Create a new Laravel collection from the array data
+        $collection = new Collection($this->refundFactory->getRefundMembers());
+
+        //Define how many items we want to be visible in each page
+        $perPage = 20;
+        //Slice the collection to get the items to display in current page
+        $currentPageSearchResults = $collection->slice($currentPage * $perPage, $perPage)->all();
+
+        //Create our paginator and pass it to the view
+        $paginatedSearchResults= new LengthAwarePaginator($currentPageSearchResults, count($collection), $perPage);
+
+        return $paginatedSearchResults;
+
+	}
 	/**
 	 * Set anything that may have been passed
 	 */
@@ -161,7 +190,6 @@ class RefundController extends Controller {
 		// If the user has changed new institution
 		if (Input::has('institution')) {
 			$this->refundFactory->setInstitution(Input::get('institution'));
-			$this->refundFactory->setByInsitution(Input::get('institution'));
 			$this->refundFactory->setByInsitution(Input::get('institution'));
 		}
 	}

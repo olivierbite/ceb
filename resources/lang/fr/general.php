@@ -38,5 +38,6 @@ return array (
       'summary'=>'Total',
           'please_start_by_selecting_others_input_before_selecting_a_member'=>'s\'il vous plaît commencer par sélectionner d\'autres entrée avant de choisir un membre',
     'not_available'=>'Indisponible',
+    'are_you_sure_you_want_to_remove_this_item'=>'êtes-vous sûr que vous voulez supprimer cet article',
 
 );

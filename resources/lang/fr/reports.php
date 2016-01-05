@@ -32,6 +32,7 @@ return array (
        'accounts_list'=>'Liste des comptes',
        'ledger'=>'Grand Livre',
        'journal'=>'Journal',
+       'Bilan'=>'Bilan',
 
 
 

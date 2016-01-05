@@ -14,8 +14,12 @@ class LocaleMiddleware {
    public function handle($request, Closure $next)
    {
         if(Sentry::check()){
-           app()->setLocale(Sentry::getUser()->language);
-        }else{
+            
+            app()->setLocale(Sentry::getUser()->language);
+
+        }
+        else
+        {
            //You may log this here
         }
 

@@ -31,6 +31,7 @@ function toggle(source) {
               ['class'=>'form-control','placeholder'=>'refund for this month ....']) !!}
   @include('contributionsandsavings.buttons',['cancelRoute'=>'refunds.cancel'])
   {!! Form::close() !!}
+  {!! str_replace('/?', '?', $members->render()); !!}
   <table class="table table-bordered">
   	 <thead>
   	 	<tr>

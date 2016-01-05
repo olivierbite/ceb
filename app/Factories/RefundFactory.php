@@ -42,18 +42,22 @@ class RefundFactory {
 			// Clear the session befor continuing
 			$this->clearAll();
 		}
+
 		// Get the institution by its id
-		$members = $this->institution->with('members')->find((int) $institutionId)->membersWithLoan();
-
-		if (!is_array($members)) {
-			$members = [];
+		// $members = $this->institution->with('members')->find((int) $institutionId)->membersWithLoan();
+		$members = User::with(['loanSumRelation','refundSumRelation'])->where('institution_id',(int)$institutionId)->get();
+		
+		$membersWithNoLoan = [];
+		/** Make sure we only get member with loan */
+		foreach ($members as $member) {
+			if ($member->refund_sum >= $member->loan_sum) {
+				continue;
+			}
+			$member->refund_fee = intval($member->loan_montly_fee);
+			$membersWithNoLoan[] = $member;
 		}
-
-		foreach ($members as $key => $member) {
-			$members[$key]->refund_fee = $members[$key]->loan_montly_fee;
-		}
-
-		$this->setRefundMembers($members);
+	
+		$this->setRefundMembers($membersWithNoLoan);
 	}
 
 	/**
@@ -88,11 +92,16 @@ class RefundFactory {
 		// First get what is in the session now
 		$users = $this->getRefundMembers();
 
-		foreach ($users as $key => $user) {
-			if ($user->adhersion_id == (int) $adhersion_number) {
-				$user->refund_fee = $newFee;
-			}
-		}
+        $users = array_map( function($user) use($adhersion_number, $newFee)
+        		{
+	        	// If we need to  update this key then update it before returning
+	        	if ($user->adhersion_id == (int) $adhersion_number) {
+	        		 $user->refund_fee = $newFee;
+	        	}
+
+        	return $user;
+        },$users);
+
 
 		// Now we are ready to go
 		return $this->setRefundMembers($users);

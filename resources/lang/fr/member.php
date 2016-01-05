@@ -91,4 +91,7 @@ return array (
   'paid_tranches'=>'Tranche payee',
   'difference'=>'Difference',
   'total_contributed_amount'=>'Total contributed amount',
+   'refund_fees'=>'frais de remboursement',
+   'saving'=>'Epargne',
+   'withdrawal'=>'Retrait',
 );
