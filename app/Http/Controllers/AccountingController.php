@@ -51,7 +51,7 @@ class AccountingController extends Controller {
         $transactionid = null;
 
 		if (($transactionid = $this->accounting->complete($request->all())) != false) {
-			flash()->success(trans('accounting.you_have_done_accounting_transaction_successfully'));
+			flash()->success(trans('accounting.you_have_done_accounting_transaction_successfully',['transactionid'=>$transactionid]));
 		  return $this->reload($transactionid);
 		}
 

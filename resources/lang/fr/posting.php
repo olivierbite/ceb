@@ -7,6 +7,6 @@ return array (
   'account_number'=>'Numero compte',
   'debit'=>'Debit',
   'credit'=>'Credit',
-  
+  'movement_total'=>'Total des mouvements',
 
 );

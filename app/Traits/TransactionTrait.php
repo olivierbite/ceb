@@ -195,8 +195,10 @@ trait TransactionTrait {
 		//Debiting....
 		$debits = (!is_null($debits)) ? $debits : $this->getDebitAccounts();
 
+
 		foreach ($debits as $accountId => $amount) {
-			$results = $this->savePosting($accountId, $amount, $transactionId, 'Debit', $journalId,$wording,$cheque_number,$bank);
+	
+			$results = $this->savePosting($accountId,(int) $amount, $transactionId, 'Debit', $journalId,$wording,$cheque_number,$bank);
 			if (!$results) {
 				flash()->error(trans("posting.something_went_wrong_while_trying_to_debit_accounts_please_check_input_and_try_again"));
 				return false;
@@ -206,7 +208,7 @@ trait TransactionTrait {
 		//Crediting
 		$credits = (!is_null($credits)) ? $credits : $this->getCreditAccounts();
 		foreach ($credits as $accountId => $amount) {
-			$results = $this->savePosting($accountId, $amount, $transactionId, 'Credit', $journalId,$wording,$cheque_number,$bank);
+			$results = $this->savePosting($accountId,(int) $amount, $transactionId, 'Credit', $journalId,$wording,$cheque_number,$bank);
 			if (!$results) {
 			     flash()->error(trans("posting.something_went_wrong_while_trying_to_credit_accounts_please_check_input_and_try_again"));
 				return false;
