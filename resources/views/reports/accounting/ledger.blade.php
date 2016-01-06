@@ -34,7 +34,7 @@
 		{{-- empty expr --}}
 	@endforelse
 	<tr>
-			<th colspan="2"><b>{{ trans('posting.movement_total') }}:</b></th>
+			<th colspan="3"><b>{{ trans('posting.movement_total') }}:</b></th>
 			<th>{!! number_format($totalDebit) !!}</th>
 			<th>{!! number_format($totalCrebit) !!}</th>
 		</tr>
