@@ -41,6 +41,7 @@ class AccountingRepository {
 		$accoutingData['journal'] = 0;
 		// now we have reached so we can continue with saving posting
 		$savePostings = $this->savePostings($transactionid, $accoutingData['journal'], $debits, $credits,$accoutingData['wording'],$accoutingData['cheque_number'],$accoutingData['bank']);
+		
 		// Rollback the transaction via if one of the insert fails
 		if ($savePostings == false) {
 			DB::rollBack();
