@@ -17,10 +17,14 @@
 		</tr>
 	</thead>
 	<tbody>
+	<?php $totalDebit = 0; ?>
+	<?php $totalCrebit= 0; ?>
 	@forelse ($postings as $posting)
 	<tr>
 		<td>{!! $posting->created_at->format('Y-m-d') !!}</td>
 		<td>{!! $posting->wording !!}</td>
+		<?php $totalDebit += abs($posting->debit_amount); ?>
+		<?php $totalCrebit+= abs($posting->credit_amount); ?>
 		<td>{!! number_format(abs($posting->debit_amount)) !!}</td>
 		<td>{!! number_format(abs($posting->credit_amount)) !!}</td>
 	</tr>
@@ -28,9 +32,9 @@
 		{{-- empty expr --}}
 	@endforelse
 	<tr>
-			<th colspan="2"><b>{{ trans('posting.wording') }}:</b> {!! $postings->first()->wording !!}</th>
-			<th>{!! number_format(abs($postings->sum('amount'))) !!}</th>
-			<th>{!! number_format(abs($postings->sum('amount'))) !!}</th>
+			<th colspan="2"><b>{{ trans('posting.movement_total') }}:</b></th>
+			<th>{!! number_format($totalDebit) !!}</th>
+			<th>{!! number_format($totalCrebit) !!}</th>
 		</tr>
 	</tbody>
 </table>
