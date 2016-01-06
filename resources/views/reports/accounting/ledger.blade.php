@@ -11,6 +11,7 @@
 	<thead>
 		<tr>
 			<th>{{ trans('account.date') }}</th>
+			<th>{{ trans('posting.transactionid') }}</th>
 			<th>{{ trans('account.wording') }}</th>
 			<th>{{ trans('account.debit') }}</th>
 			<th>{{ trans('account.credit') }}</th>
@@ -22,6 +23,7 @@
 	@forelse ($postings as $posting)
 	<tr>
 		<td>{!! $posting->created_at->format('Y-m-d') !!}</td>
+		<td>{!! $posting->transactionid !!}</td>
 		<td>{!! $posting->wording !!}</td>
 		<?php $totalDebit += abs($posting->debit_amount); ?>
 		<?php $totalCrebit+= abs($posting->credit_amount); ?>
