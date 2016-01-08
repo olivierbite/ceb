@@ -16,4 +16,5 @@ return array (
       'wording'=>'Libelle',
   'cheque_number'=>'Numero de  cheque',
   'bank'=>'Banque',	
+  'you_have_done_accounting_transaction_successfully'=>'Transaction comptable effectue  avec success',
   );
