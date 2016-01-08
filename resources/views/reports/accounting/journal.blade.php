@@ -32,7 +32,7 @@
 
 		@if ($date != $posting->created_at->format('Y-m-d'))
 		<?php $date = $posting->created_at->format('Y-m-d'); ?>
-		<tr>
+		<tr style="border-bottom: 1px solid #000">
 			<td class="account-details" colspan="6" style="font-weight: bold">{!! $date !!}</td>
 		</tr>
 		@endif
@@ -44,15 +44,15 @@
 				{{-- detrmine how many rows do we have to span as per affected account for this transaction --}}
 				<?php $rowspan = $postings->where('transactionid',$transactionid)->count(); ?>
 
-				<td rowspan="{!! $rowspan !!}">
+				<td rowspan="{!! $rowspan !!} " style="border-bottom: 1px solid #000">
 				    {!! $posting->transactionid !!}
 				 </td>
-				<td rowspan="{!! $rowspan !!}">
+				<td rowspan="{!! $rowspan !!}" style="border-bottom: 1px solid #000">
 				    {!! $posting->created_at->format('Y-m-d') !!}
 				</td>
-				<td rowspan="{!! $rowspan !!}">{!! $posting->wording !!}</td>
+				<td rowspan="{!! $rowspan !!}" style="border-bottom: 1px solid #000">{!! $posting->wording !!}</td>
 			@endif
-				<td class="account-details">{!! $posting->account->account_number !!}</td>
+				<td  align="left" >{!! $posting->account->account_number  !!} - {!! $posting->account->entitled  !!} </td>
 				<td class="account-details">{!! number_format($posting->debit_amount) !!}</td>
 				<td class="account-details">{!! number_format($posting->credit_amount) !!}</td>
 			</tr>

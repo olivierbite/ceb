@@ -20,7 +20,7 @@
 	 		<th colspan="2">{{ trans('general.summary') }}</th>
 	 		<th>{!! number_format(abs($debits)) !!}</th>
 			<th>{!! number_format(abs($credits)) !!}</th>
-			<th>{!! number_format(abs($debits - $credits))  !!}</th>
+			<th>{!! number_format(abs($debits) - abs($credits))  !!}</th>
 	 	</tr>
 		<?php $debits = 0; $credits = 0;?>
 	 @endif
@@ -35,7 +35,7 @@
 		<td>{!! number_format(abs($debit)) !!}</td>
 		<?php  $credit = $account->credits()->betweenDates(Request::segment(4),Request::segment(5))->sum('amount') ?>
 		<td>{!! number_format(abs($credit))  !!}</td>
-		<td>{!! number_format(abs($credit - $debit))  !!}</td>
+		<td>{!! number_format( abs($debit) - abs($credit))  !!}</td>
 
 		<?php $debits+=$debit; $credits+=$credit; ?>
 	</tr>
@@ -50,7 +50,7 @@
 			<th colspan="2"></th>
 			<th>{!! number_format(abs($debits)) !!}</th>
 			<th>{!! number_format(abs($credits)) !!}</th>
-			<th>{!! number_format(abs($debits - $credits)) !!}</th>
+			<th>{!! number_format(abs($debits) - abs($credits)) !!}</th>
 		</tr>
 	</tbody>
 </table>
