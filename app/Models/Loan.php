@@ -197,6 +197,18 @@ class Loan extends Model {
     }
 
     /**
+     * Get emergency loan
+     * @param  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeIsOrdinary($query)
+    {
+        return $query->where('operation_type','LIKE','emergency_loan')
+                     ->where('is_umergency',1)
+                     ->where('status','approved');
+    }
+
+    /**
      * Get loan, that still has more right to loan
      * @param  $query
      * @return \Illuminate\Database\Eloquent\Builder
