@@ -18,9 +18,10 @@
   </div>
  @endif
 
-  @if (strpos($loanInputs['operation_type'],'ordinary_loan') !== false)
+  @if (strpos($loanInputs['operation_type'],'ordinary_loan') !== false || strpos($loanInputs['operation_type'],'emergency_loan') !== false)
   <div class="col-md-3">
   <div class="form-group">
+  
    <label>{{ trans('loan.number_of_installments') }}</label>
   {!! Form::selectRange('tranches_number', 1, $setting->keyValue('loan.maximum.installments'),
                           isset($loanInputs['tranches_number'])?$loanInputs['tranches_number']:null,
