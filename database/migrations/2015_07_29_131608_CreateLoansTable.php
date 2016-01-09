@@ -10,7 +10,7 @@ class CreateLoansTable extends Migration {
 	 * @return void
 	 */
 	public function up() {
-		Schema::create('loans', function (Blueprint $table) {
+		Schema::create('emergency_loans', function (Blueprint $table) {
 			$table->increments('id');
 			$table->string('transactionid');
 			$table->string('loan_contract');

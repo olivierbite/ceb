@@ -21,9 +21,14 @@
   @if (strpos($loanInputs['operation_type'],'ordinary_loan') !== false || strpos($loanInputs['operation_type'],'emergency_loan') !== false)
   <div class="col-md-3">
   <div class="form-group">
-  
+
+  <?php $maximumInstallments = $setting->keyValue('loan.maximum.installments'); ?>
+  {{-- If we are dealing with emergency loan, Maximum installments needs to be less or equal to 3 --}}
+  @if (strpos($loanInputs['operation_type'],'emergency_loan') !== false)
+    <?php $maximumInstallments = 3;?>
+  @endif
    <label>{{ trans('loan.number_of_installments') }}</label>
-  {!! Form::selectRange('tranches_number', 1, $setting->keyValue('loan.maximum.installments'),
+  {!! Form::selectRange('tranches_number', 1, $maximumInstallments ,
                           isset($loanInputs['tranches_number'])?$loanInputs['tranches_number']:null,
                          ['class'=>'form-control loan-select','id'=>'numberOfInstallment'])
     !!}

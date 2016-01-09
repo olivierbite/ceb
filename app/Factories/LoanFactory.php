@@ -472,6 +472,12 @@ class LoanFactory {
 		$data['urgent_loan_interests']  = $inputs['urgent_loan_interests'];
 		$data['user_id'] = Sentry::getUser()->id;
 
+		// If operation type is emergency loan then add emergency loan details 
+		if (strtolower($data['operation_type']) ==  'emergency_loan') {
+			$data['is_umergency'] = 1;
+			$data['emergency_balance'] = $data['loan_to_repay'];
+		}
+		
         $newLoan = $this->loan->create($data);
 	    // If we have bond then save cautionneurs in also in the database
 		if ($inputs['amount_bonded'] > 0 && ($inputs['loan_to_repay'] > $member->totalContributions())) {
