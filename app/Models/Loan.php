@@ -201,7 +201,7 @@ class Loan extends Model {
      * @param  $query
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeIsOrdinary($query)
+    public function scopeIsUmergency($query)
     {
         return $query->where('operation_type','LIKE','emergency_loan')
                      ->where('is_umergency',1)
