@@ -154,6 +154,38 @@ class RefundFactory {
 		foreach ($refundMembers as $refundMember) {
 			
 			$loan  = $refundMember->latestLoan();
+			
+			// if this member has active emergency loan, remove the normal amount to refund
+			// without emergency loan and then the rest save it as emergency loan refund 
+			// so that we can record how much money on emergency loan has been paid
+			// back by this user
+			
+			if ($refundMember->HasActiveEmergencyLoan) {
+				// Get the monthly fees and add it here
+				$emergencyLoan = $refundMember->loans()->isNotPaidUmergency()->orderBy('updated_at','DESC')->first();
+
+				if (empty($emergencyLoan) == false) {
+
+					// We have umergency loan, let's determine how much money to record as pay back
+					$emergencyMonthlyFee = $emergencyLoan->EmergencyMonthlyFee;
+					$emergencyLoanRefundFee = $refundMember->refund_fee - $emergencyMonthlyFee;
+
+					// Determine exact amount to record as emergency payback
+					$emergencyLoanRefundFee  = $refundMember->loan_montly_fee - $emergencyLoanRefundFee;
+
+					// Amount refunded has included the emergency loan then record it
+					if ($emergencyLoanRefundFee > 0 ) {
+					 	$emergencyLoan->emergency_refund += $emergencyLoanRefundFee;
+					 	$emergencyLoan->emergency_balance -= $emergencyLoanRefundFee;
+					 	// If we cannot save this operation let's fail the entire transaction
+					 	if (!$emergencyLoan->save()) {
+					 		return false;
+					 	}
+					 } 
+				}
+
+			}
+		
 
 			$refund['adhersion_id']		= $refundMember->adhersion_id;
 			$refund['contract_number']	= $loan->loan_contract;
@@ -173,6 +205,7 @@ class RefundFactory {
 			if (!$newRefund) {
 				return false;
 			}
+
 
 			// If the loan we are paying for has cautionneur, then make sure
 			// We are update our member cautionneur table by adding the
