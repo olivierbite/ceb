@@ -196,6 +196,22 @@ class Loan extends Model {
     				 ->where('status','approved');
     }
 
+/**
+     * Get emergency loan
+     * @param  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function getEmergencyMonthlyFeeAttribute()
+    {
+        try
+        {
+            return $this->loan_to_repay / $this->tranches_number ;
+        }
+        catch (\Exception $e){
+            return $this->loan_to_repay;
+        }
+    }
+
     /**
      * Get emergency loan
      * @param  $query
@@ -232,7 +248,8 @@ class Loan extends Model {
                      ->where('emergency_balance',0)
                      ->where('status','approved');
     }
-        /**
+    
+    /**
      * Get not paid emergency loan
      * @param  $query
      * @return \Illuminate\Database\Eloquent\Builder
