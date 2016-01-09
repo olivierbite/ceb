@@ -431,11 +431,11 @@ class LoanController extends Controller {
 
         if (!is_null($loanId)) {
         	// we are looking for a special loan, let's grab it  	
-	   		$loans = $this->loan->unBlocked()->where('id',$loanId)->paginate(20);;
+	   		$loans = $this->loan->unBlocked()->where('id',$loanId)->orderBy('updated_at','DESC')->paginate(20);;
         }
         else
         {
-	   		$loans = $this->loan->with('member.institution')->unBlocked()->paginate(20);
+	   		$loans = $this->loan->with('member.institution')->unBlocked()->orderBy('updated_at','DESC')->paginate(20);
         }
 
    	    return view('loansandrepayments.pending_loans',compact('loans'));
@@ -460,11 +460,11 @@ class LoanController extends Controller {
 
         if (!is_null($loanId)) {
         	// we are looking for a special loan, let's grab it  	
-	   		$loans = $this->loan->blocked()->where('id',$loanId)->paginate(20);
+	   		$loans = $this->loan->blocked()->where('id',$loanId)->orderBy('updated_at','DESC')->paginate(20);
         }
         else
         {
-	   		$loans = $this->loan->with('member.institution')->blocked()->paginate(20);
+	   		$loans = $this->loan->with('member.institution')->blocked()->orderBy('updated_at','DESC')->paginate(20);
         }
 
    	    return view('loansandrepayments.blocked_loans',compact('loans'));

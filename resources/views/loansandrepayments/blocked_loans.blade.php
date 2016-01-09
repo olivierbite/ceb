@@ -11,7 +11,7 @@
 		<th>{{ trans('member.adhersion_number') }}</th>
 		<th>{{ trans('member.balance_of_loan') }} </th>
 		<th>{{ trans('member.right_to_loan') }} </th>
-		<th>{{ trans('loan.wished_amount') }} </th>
+		<th>{{ trans('loan.operation_type') }} </th>
 		<th>{{ trans('loan.rate') }}</th>
 		<th>{{ trans('loan.number_of_installments') }}</th>
 		<th>{{ trans('loan.monthly_installments') }}</th>

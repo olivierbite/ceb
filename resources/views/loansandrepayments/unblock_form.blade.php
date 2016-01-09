@@ -18,7 +18,7 @@
     <th>{{ trans('member.adhersion_number') }}</th>
     <th>{{ trans('member.balance_of_loan') }} </th>
     <th>{{ trans('member.right_to_loan') }} </th>
-    <th>{{ trans('loan.wished_amount') }} </th>
+    <th>{{ trans('loan.operation_type') }} </th>
     <th>{{ trans('loan.rate') }}</th>
     <th>{{ trans('loan.number_of_installments') }}</th>
     <th>{{ trans('loan.monthly_installments') }}</th>
@@ -31,14 +31,14 @@
       <td>{{ $member->first_name.' '.$member->last_name }}</td>
       <td>{{ $member->institution->name }} </td>
       <td>{{ $member->adhersion_id }}  </td>
-      <td>{{ $member->Loan_balance }} </td>
-      <td>{{ $loan->right_to_loan }} </td>
-      <td>{{ $loan->wished_amount }} </td>
+      <td>{{ number_format($member->Loan_balance) }} </td>
+      <td>{{ number_format($loan->right_to_loan) }} </td>
+      <td>{{ trans('loans.'.$loan->operation_type) }} </td>
       <td>{{ $loan->rate }}</td>
-      <td>{{ $loan->tranches_number }}</td>
-      <td>{{ $loan->monthly_fees }} </td>
-      <td>{{ $loan->loan_to_repay }}</td>
-      <td>{{ $loan->interests }}</td>
+      <td>{{ number_format($loan->tranches_number) }}</td>
+      <td>{{ number_format($loan->monthly_fees) }} </td>
+      <td>{{ number_format($loan->loan_to_repay) }}</td>
+      <td>{{ number_format($loan->interests) }}</td>
     </tr>
   </tbody>
 </table>  
