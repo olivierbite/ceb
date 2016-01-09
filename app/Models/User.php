@@ -488,6 +488,7 @@ class User extends SentinelModel {
 	public function loanMonthlyFees() {
 		try
 		{
+			dd($this->loans()->isNotUmergency()->get());
 			return $this->latestLoan()->monthly_fees;
 		}
 		catch (\Exception $ex)
@@ -506,7 +507,7 @@ class User extends SentinelModel {
 	 * @return user Object
 	 */
 	public function latestLoan() {
-		return $this->loans()->approved()->orderBy('id', 'desc')->first();
+		return $this->loans()->isNotUmergency()->approved()->orderBy('id', 'desc')->first();
 	}
 
 	/**
@@ -515,6 +516,7 @@ class User extends SentinelModel {
 	 */
 	public function getLatestLoanAttribute()
 	{
+		dd($this->latestLoan());
 		return $this->latestLoan();
 	}
 	/**

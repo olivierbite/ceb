@@ -203,7 +203,7 @@ class Loan extends Model {
      */
     public function scopeIsUmergency($query)
     {
-        return $query->where('operation_type','LIKE','emergency_loan')
+        return $query->where('operation_type','=','emergency_loan')
                      ->where('is_umergency',1)
                      ->where('status','approved');
     }
@@ -215,14 +215,13 @@ class Loan extends Model {
      */
     public function scopeIsNotUmergency($query)
     {
-        return $query->where('operation_type','NOT LIKE','emergency_loan')
-                     ->where('is_umergency',1)
-                     ->where('status','approved');
+        return $query->where('operation_type','<>','emergency_loan')
+                     ->where('is_umergency',0);
     }
 
 
     /**
-     * Get emergency loan
+     * Get paid emergency loan
      * @param  $query
      * @return \Illuminate\Database\Eloquent\Builder
      */
@@ -231,6 +230,18 @@ class Loan extends Model {
         return $query->where('operation_type','LIKE','emergency_loan')
                      ->where('is_umergency',1)
                      ->where('emergency_balance',0)
+                     ->where('status','approved');
+    }
+        /**
+     * Get not paid emergency loan
+     * @param  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeIsNotPaidUmergency($query)
+    {
+        return $query->where('operation_type','LIKE','emergency_loan')
+                     ->where('is_umergency',1)
+                     ->where('emergency_balance','>',0)
                      ->where('status','approved');
     }
    

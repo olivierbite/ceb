@@ -231,3 +231,9 @@ $router->get('/js/regularisationform',['as'=>'assets.js.regularisationform','use
 
 /** ROUTE FOR LOGS */
 Route::get('logs', ['as'=>'logs','middleware'=>'sentry.admin','uses'=>'\Rap2hpoutre\LaravelLogViewer\LogViewerController@index']);
+
+Route::get('/test', function(){
+	$user = Ceb\Models\User::find(87);
+
+	dd($user->loans()->isPaidUmergency()->get());
+});
