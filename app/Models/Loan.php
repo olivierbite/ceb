@@ -213,6 +213,19 @@ class Loan extends Model {
      * @param  $query
      * @return \Illuminate\Database\Eloquent\Builder
      */
+    public function scopeIsNotUmergency($query)
+    {
+        return $query->where('operation_type','NOT LIKE','emergency_loan')
+                     ->where('is_umergency',1)
+                     ->where('status','approved');
+    }
+
+
+    /**
+     * Get emergency loan
+     * @param  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
     public function scopeIsPaidUmergency($query)
     {
         return $query->where('operation_type','LIKE','emergency_loan')
@@ -220,7 +233,7 @@ class Loan extends Model {
                      ->where('emergency_balance',0)
                      ->where('status','approved');
     }
-
+   
     /**
      * Get loan, that still has more right to loan
      * @param  $query
