@@ -55,6 +55,9 @@ class Loan extends Model {
 		'factor',
 		'rate',
 		'reason',
+        'is_umergency',
+        'emergency_refund',
+        'emergency_balance',
 	];
 
 	/**
