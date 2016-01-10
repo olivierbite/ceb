@@ -65,14 +65,14 @@ class MemberTransactionsFactory {
 				return false;
 			}
 			$charges = 0;
-			if (isset($data['charges'])) {
-				$charges = ($data['amount'] * (int) $data['charges']) / 100;
-			}
+			// if (isset($data['charges'])) {
+			// 	$charges = ($data['amount'] * (int) $data['charges']) / 100;
+			// }
 			
 			$contribution['transactionid']		= $transactionId;
 			$contribution['month']				= date('Ym');
 			$contribution['institution_id']		= $data['member']->institution_id;
-			$contribution['amount']				= $data['amount'] - $charges;
+			$contribution['amount']				= $data['amount'];
 			$contribution['state']				= 'Ancien';
 			$contribution['year']				= date('Y');
 			$contribution['contract_number']	= $this->getContributionContractNumber();
