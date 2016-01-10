@@ -541,7 +541,6 @@ class User extends SentinelModel {
 	 */
 	public function getLatestLoanAttribute()
 	{
-		dd($this->latestLoan());
 		return $this->latestLoan();
 	}
 	/**

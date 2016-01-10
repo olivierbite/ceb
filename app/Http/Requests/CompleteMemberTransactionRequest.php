@@ -23,7 +23,7 @@ class CompleteMemberTransactionRequest extends Request
      */
     public function rules()
     {
-    
+        
       //Continue with Rule validation
         return [
           'movement_type'    =>  'required|min:1',
@@ -46,10 +46,10 @@ class CompleteMemberTransactionRequest extends Request
         // Grab all inputs from the user
         $attributes = parent::all();
 
+
         // Modify or Add new array key/values
         // ==================================
         // Make sure these fields are numeric
-         $attributes['movement_type'] = intval($attributes['movement_type']);
          $attributes['amount']  = intval($attributes['amount']) ;
 
         // Validating account amount

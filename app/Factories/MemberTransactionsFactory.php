@@ -41,7 +41,6 @@ class MemberTransactionsFactory {
 		$saveContibution = $this->saveContibutions($transactionId,$data);
 		$savePosting = $this->savePostings($transactionId,$data);
          
-
 		// Rollback the transaction via if one of the insert fails
 		if (!$saveContibution || !$savePosting) {
 			DB::rollBack();
@@ -77,7 +76,7 @@ class MemberTransactionsFactory {
 			$contribution['state']				= 'Ancien';
 			$contribution['year']				= date('Y');
 			$contribution['contract_number']	= $this->getContributionContractNumber();
-			$contribution['transaction_type']	= $this->getTransactionType($data['movement_type']);
+			$contribution['transaction_type']	= $data['movement_type'];
 			$contribution['transaction_reason']	= $data['operation_type'];
 			$contribution['wording']			= $data['wording'];
 			$contribution['adhersion_id']		= $data['member']->adhersion_id;
@@ -90,9 +89,11 @@ class MemberTransactionsFactory {
 			# try to save if it doesn't work then
 			# exist the loop
 			$newContribution = Contribution::create($contribution);
+
 			if (!$newContribution) {
 				return false;
 			}
+
 		return true;
 	}
 
@@ -111,10 +112,10 @@ class MemberTransactionsFactory {
  		$wording = $data['wording'];
 
 		//Debiting....
-		$debits = $this->accountAmount($data['debit_accounts'], $data['debit_amounts']);
+		$debits = $this->joinAccountWithAmount($data['debit_accounts'], $data['debit_amounts']);
 
 		//Crediting
-		$credits = $this->accountAmount($data['credit_accounts'], $data['credit_amounts']);
+		$credits = $this->joinAccountWithAmount($data['credit_accounts'], $data['credit_amounts']);
 
 		// Let's again, make sure that accounting records are valid
 		if (!$this->isValidPosting($debits,$credits)) {
