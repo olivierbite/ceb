@@ -318,8 +318,9 @@ class ReportController extends Controller {
         // First log 
         Log::info($this->user->email . ' is viewing loans records report');
     
-    	$loans = $loan->with('member')->betweenDates($startDate,$endDate)->where('adhersion_id',$adhersionId)->orderBy('transactionid')->get();
+    	$loans = $loan->with('member')->betweenDates($startDate,$endDate)->where('adhersion_id',$adhersionId)->orderBy('letter_date','ASC')->get();
 	    $report = view('reports.member.loan_records',compact('loans'))->render();
+
 	    if ($excel==1) {
 			 toExcel($report,'loanRecords-report');
 		}
