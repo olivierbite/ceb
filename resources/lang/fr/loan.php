@@ -218,5 +218,6 @@ return array (
     'cautionneur2'                                                                    =>'Cautionneur2',
 
     'provide_bank_details_to_unblock_this_loan'                                       =>'Fournir des détails bancaires pour débloquer ce prêt', 
+
 );
 
