@@ -34,6 +34,6 @@ return array (
        'journal'=>'Journal',
        'Bilan'=>'Bilan',
 
-
+1  
 
   );

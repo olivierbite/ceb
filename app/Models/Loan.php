@@ -55,6 +55,9 @@ class Loan extends Model {
 		'factor',
 		'rate',
 		'reason',
+        'is_umergency',
+        'emergency_refund',
+        'emergency_balance',
 	];
 
 	/**
@@ -193,6 +196,72 @@ class Loan extends Model {
     				 ->where('status','approved');
     }
 
+/**
+     * Get emergency loan
+     * @param  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function getEmergencyMonthlyFeeAttribute()
+    {
+        try
+        {
+            return $this->loan_to_repay / $this->tranches_number ;
+        }
+        catch (\Exception $e){
+            return $this->loan_to_repay;
+        }
+    }
+
+    /**
+     * Get emergency loan
+     * @param  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeIsUmergency($query)
+    {
+        return $query->where('operation_type','=','emergency_loan')
+                     ->where('is_umergency',1)
+                     ->where('status','approved');
+    }
+
+    /**
+     * Get emergency loan
+     * @param  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeIsNotUmergency($query)
+    {
+        return $query->where('operation_type','<>','emergency_loan')
+                     ->where('is_umergency',0);
+    }
+
+
+    /**
+     * Get paid emergency loan
+     * @param  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeIsPaidUmergency($query)
+    {
+        return $query->where('operation_type','LIKE','emergency_loan')
+                     ->where('is_umergency',1)
+                     ->where('emergency_balance',0)
+                     ->where('status','approved');
+    }
+    
+    /**
+     * Get not paid emergency loan
+     * @param  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeIsNotPaidUmergency($query)
+    {
+        return $query->where('operation_type','LIKE','emergency_loan')
+                     ->where('is_umergency',1)
+                     ->where('emergency_balance','>',0)
+                     ->where('status','approved');
+    }
+   
     /**
      * Get loan, that still has more right to loan
      * @param  $query

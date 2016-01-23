@@ -201,6 +201,10 @@ function generateContract($member,$contract_type)
 				// Regularisation installments
 				$contract = view('reports.contracts_regularisation_amount_installments',compact('transactionid'))->render();
 				break;
+			case 'emergency_loan':
+				// Regularisation installments
+				$contract = view('reports.contracts_loan_ordinary',compact('transactionid'))->render();
+				break;
 			default: // Could not detect the contract
 				$contract = 'Unable to determine the contract type';
 				break;

@@ -33,7 +33,13 @@ class CompleteLoanRequest extends Request
         }
         $attributes = $this->all();
         
-        $rightToLoan = $this->member->findByAdhersion($attributes['adhersion_id'])->right_to_loan;
+        $rightToLoan = $this->member->findByAdhersion($attributes['adhersion_id']);
+
+        // If this member exists then get his right to loan 
+        if (!empty($rightToLoan)) {
+          $rightToLoan = $rightToLoan->right_to_loan;
+        }
+
         // Validate the right to loan
         $settingKey = strtolower($attributes['operation_type']).'.amount';
         if ($this->setting->hasKey($settingKey) !== false) {
@@ -41,7 +47,8 @@ class CompleteLoanRequest extends Request
         }
      
       //Continue with Rule validation
-        return [
+        $rules =  [
+          'adhersion_id'      =>  'required',
           'operation_type'    =>  'required|min:3',
           'loan_to_repay'     =>  'required|numeric|min:5000|max:'.$rightToLoan,
           'wording'           =>  'required|min:6',
@@ -50,6 +57,8 @@ class CompleteLoanRequest extends Request
           'cautionneur'       =>  'confirmed',
           'accounts'          =>  'confirmed',
         ];
+
+        return $rules;
     }
     /**
      * Modifying input before validation
@@ -59,18 +68,28 @@ class CompleteLoanRequest extends Request
     {
         // Grab all inputs from the user
         $attributes = parent::all();
+
         // Continue only if the method is get 
          if ($this->isMethod('get')) {
            return $attributes;
         }
+
         // Set the member by his adhersion ID
-        $memberId = $this->member->findByAdhersion($attributes['adhersion_id'])->id;
+        $memberId = $this->member->findByAdhersion($attributes['adhersion_id']);
+
+        // If we cannot find a member with this adhersion id finish the flow from here
+        if (is_null($memberId) && empty($memberId)) {
+          return $attributes;
+        }
+
+        $memberId = $memberId->id;
+
         $this->loanFactory->addMember($memberId);
         // Modify or Add new array key/values
         // ==================================
         // Make sure these fields are numeric
       
-       $attributes['right_to_loan']                  = (int)  str_replace(',','',$attributes['member']['right_to_loan']);
+       $attributes['right_to_loan']                  = (int) str_replace(',','',$attributes['member']['right_to_loan']);
        $attributes['contributions']                  = (int) str_replace(',', '', $attributes['member']['contributions']);
        $attributes['balance_of_loan']                = (int) str_replace(',', '', $attributes['member']['balance_of_loan']);
 

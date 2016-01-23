@@ -13,6 +13,7 @@
     </div>
     <div class="icon"><i class="ion ion-edit"></i></div>
 </div>
+
 <div class="small-box bg-yellow">
     <div class="inner">
         <h3>{!! $member->has_active_loan ? number_format($member->loan_montly_fee, 0, null, ",") : 0 !!} Rwf</h3> 
@@ -28,6 +29,7 @@
     </div>
     <div class="icon"><i class="ion ion-share"></i></div>
 </div>
+
 <div class="small-box bg-black">
     <div class="inner">
         <h3>{!! number_format($member->caution_amount - $member->caution_refunded) !!}</h3>

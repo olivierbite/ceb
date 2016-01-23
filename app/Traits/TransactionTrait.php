@@ -77,7 +77,7 @@ trait TransactionTrait {
 		
 		$newData = [];
 		foreach ($accounts as $key => $value) {
-		
+
 			    if (!isset($amounts[$key]['value']) && !empty($amounts[$key])) {
 			    	$newData[$value] = $amounts[$key];
 			    	continue;
@@ -103,6 +103,7 @@ trait TransactionTrait {
 	 * @return array that merges
 	 */
 	public function joinAccountWithAmount(array $accounts, array $amounts){
+		
 		$AccountWithAmmount = [];
 		foreach ($accounts as $key => $value) {
 			if (empty($amounts[$key]) || trim($amounts[$key]) == '' || $amounts[$key] == 0) {

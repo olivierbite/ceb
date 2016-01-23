@@ -481,19 +481,45 @@ class User extends SentinelModel {
 	}
 
 	/**
+	 * Determine if this user has active emergency Loan
+	 * @return boolean 
+	 */
+	public function getHasActiveEmergencyLoanAttribute()
+	{
+		return $this->loans()->IsNotPaidUmergency()->count() > 0;
+	}
+
+	/**
 	 * Get member loan monthly fees that
 	 * He is supposed to pay
 	 * @return numeric with the fees this member need to pay
 	 */
 	public function loanMonthlyFees() {
+		$monthly_fee =  0;
+
+
 		try
 		{
-			return $this->latestLoan()->monthly_fees;
+		   $monthly_fee =  $this->latestLoan()->monthly_fees;
 		}
 		catch (\Exception $ex)
 		{
-            return 0;
+           $monthly_fee =  0;
 		}
+
+		// If this user has a pending emergency loan then add monthly fee
+		if ($this->HasActiveEmergencyLoan) {
+
+			// Get the monthly fees and add it here
+			$emergencyLoan = $this->loans()->isNotPaidUmergency()->orderBy('updated_at','DESC')->first();
+
+			if (empty($emergencyLoan) == false) {
+				
+				$monthly_fee += $emergencyLoan->EmergencyMonthlyFee;
+			}
+		}
+
+		return $monthly_fee;
 		
 	}
 
@@ -506,7 +532,7 @@ class User extends SentinelModel {
 	 * @return user Object
 	 */
 	public function latestLoan() {
-		return $this->loans()->approved()->orderBy('id', 'desc')->first();
+		return $this->loans()->isNotUmergency()->approved()->orderBy('id', 'desc')->first();
 	}
 
 	/**

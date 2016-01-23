@@ -34,9 +34,8 @@ return array (
   'termination_date' => 'Date fin',
   'updated' => 'Mise a Jours Avec Succes',
   'member' => 'Membre',
-  array (
+
     'count_of_members' => 'Tous les membres',
-  ),
   'count_of_members' => 'Nombre de membres',
   'select_movement_type_first'=>'Selectionner type mouvement d\'abord',
   'add_attornies'    => 'Ajouter Mandataire',
@@ -94,4 +93,5 @@ return array (
    'refund_fees'=>'frais de remboursement',
    'saving'=>'Epargne',
    'withdrawal'=>'Retrait',
+  'refund_fees'=>'frais de remboursement',
 );

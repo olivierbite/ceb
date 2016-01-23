@@ -292,7 +292,7 @@ class MemberController extends Controller {
 	public function completeTransaction($memberId,CompleteMemberTransactionRequest $request,MemberTransactionsFactory $factory)
 	{
 		 $data = $request->all();
-
+		 
 		 $data['member'] = $this->member->findOrfail($memberId);
 		 $transactionid = null;
 		 if (($transactionid = $factory->complete($data)) != false) {
