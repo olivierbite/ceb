@@ -79,11 +79,11 @@ class RefundController extends Controller {
 			return $this->reload();
 		}
 
-		$month = $this->refundFactory->getMonth();
-		if (is_null($month)) {
-			flash()->error(trans('refund.please_set_month_before_you_continue'));
-			return $this->reload();
-		}
+		// $month = $this->refundFactory->getMonth();
+		// if (is_null($month)) {
+		// 	flash()->error(trans('refund.please_set_month_before_you_continue'));
+		// 	return $this->reload();
+		// }
 	    $this->refundFactory->setWording(Input::get('wording'));
 
 		// codes to complete transactions
