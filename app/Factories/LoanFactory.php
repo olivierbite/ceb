@@ -453,7 +453,6 @@ class LoanFactory {
 		$data['InteretsPU'] = 0;
 		$data['amount_received'] = $inputs['amount_received'];
 		$data['tranches_number'] = $this->getTranschesNumber();
-		$data['monthly_fees']    = $data['loan_to_repay'] / $inputs['remaining_tranches'];
 		$data['cheque_number']   = isset($inputs['cheque_number']) ? $inputs['cheque_number'] : '';
 		$data['bank_id']         = isset($inputs['bank_id']) ? $inputs['bank_id'] : '';
 		$data['security_type'] = 0;
@@ -464,6 +463,7 @@ class LoanFactory {
 		$data['comment'] = $inputs['wording'];
 		$data['special_loan_contract_number'] = 0;
 		$data['remaining_tranches'] = isset($inputs['tranches_number']) ? $inputs['tranches_number'] : 1;
+		$data['monthly_fees']    = $data['loan_to_repay'] / $data['remaining_tranches'];
 		$data['special_loan_tranches'] = 0;
 		$data['special_loan_interests'] = 0;
 		$data['special_loan_amount_to_receive'] = 0;

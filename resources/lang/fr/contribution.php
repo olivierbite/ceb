@@ -30,4 +30,5 @@ return array (
 'contribution_add'=>'Ajouter',
 'contribution_remove_contribution_with_differences'=>'Supprimer des contribution aves des  differences',
 'please_select_account_to_credit_before_completing_this_transaction'=>'S\'il vous plaît sélectionnez compte au crédit avant de remplir cette transaction',
+
 );

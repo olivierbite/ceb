@@ -1,5 +1,4 @@
 <?php
-
 return [
      'adhersion_number_you_are_looking_for_cannot_be_found'                            => 'Adhersion number you are looking for cannot be found',
      'cautionneur_should_not_be_the_same_as_the_member_requesting_loan'                => 'Cautionneur should not be the same as the member requesting  loan',
