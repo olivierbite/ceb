@@ -233,7 +233,10 @@ $router->get('/js/regularisationform',['as'=>'assets.js.regularisationform','use
 Route::get('logs', ['as'=>'logs','middleware'=>'sentry.admin','uses'=>'\Rap2hpoutre\LaravelLogViewer\LogViewerController@index']);
 
 Route::get('/test', function(){
-	$user = Ceb\Models\User::find(87);
+		$user = new Ceb\Models\User;
+		// Get latest adhersion id
+		$max = $user->max('adhersion_id');
+		$max = substr($max, 4);
+		$newAdhersionNumber = '2007'.($max+1);
 
-	dd($user->loans()->isPaidUmergency()->get());
 });

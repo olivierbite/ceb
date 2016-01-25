@@ -51,7 +51,7 @@ class MemberRepository implements MemberRepositoryInterface {
 
 			// Get the unique adhersion number for this member
 			$data['adhersion_id'] = $this->generateAdhersionNumber();
-			$data['contract_id']  = 'CONTRACT' .$data['adhersion_id'];
+			$data['contract_id']  = $data['adhersion_id'];
 
 			// Setting default password
 			$data['password'] = e('Test1234');
@@ -286,16 +286,11 @@ class MemberRepository implements MemberRepositoryInterface {
 	 * Generate unique Adhersion number
 	 */
 	protected function generateAdhersionNumber() {
-		$countUsers = $this->user->count() + 1;
-		$newAdhersionNumber = date('Y') . sprintf("%04d", $countUsers);
-
-		// if we have this adhersion number generate another
-		while ($this->user->where('adhersion_id', '=', $newAdhersionNumber)->first() != null) {
-			$countUsers++;
-			// We assume that CEB can only recruit less than 10K member per year
-			$newAdhersionNumber = date('Y') . sprintf("%04d", $countUsers);
-		}
-		// Format the number to  something like "00001"
+		$user = new Ceb\Models\User;
+		// Get latest adhersion id
+		$max = $user->max('adhersion_id');
+		$max = substr($max, 4);
+		$newAdhersionNumber = '2007'.($max+1);
 		return $newAdhersionNumber;
 	}
 
