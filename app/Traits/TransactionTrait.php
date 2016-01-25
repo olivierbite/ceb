@@ -65,7 +65,7 @@ trait TransactionTrait {
 	 * Transaction
 	 */
 	private function getContributionContractNumber() {
-		return 'CONTRACT' . date('YmdHis') . (string) Sentry::getUser()->id;
+		return  date('YmdHis') . (string) Sentry::getUser()->id;
 	}
 
 	/**
