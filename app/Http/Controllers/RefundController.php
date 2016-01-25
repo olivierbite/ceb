@@ -5,9 +5,9 @@ namespace Ceb\Http\Controllers;
 use Ceb\Factories\RefundFactory;
 use Ceb\Http\Controllers\Controller;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Paginator;
+use Illuminate\Pagination\LengthAwarePaginator as Paginator;
 use Input;
 use Redirect;
 
@@ -132,37 +132,25 @@ class RefundController extends Controller {
 		$creditAccount	= $this->refundFactory->getCreditAccount();
 		$members 		= $this->refundFactory->getRefundMembers();
 
-		$members		= $this->paginatedMembers($members);
+		//Get current page form url e.g. &page=6
+		$currentPage = Input::get('page', 1);
+
+		//Create a new Laravel collection from the array data
+  		$members = new Collection($members);
+
+  		//Define how many items we want to be visible in each page
+		$members = $members->forPage($currentPage,20);
+
+		// Get page links
+		$pageLinks = new Paginator($members,$members->count(),20,$currentPage);
 
 		$totalRefunds	= $this->refundFactory->getTotalRefunds();
 		$refundType		= $this->refundFactory->getRefundType();
 
-		return view('refunds.list', compact('members','institution','transactionid','refundType', 'month', 'totalRefunds', 'creditAccount', 'debitAccount'));
+		return view('refunds.list', compact('members','pageLinks','institution','transactionid','refundType', 'month', 'totalRefunds', 'creditAccount', 'debitAccount'));
 	}
 
-	/**
-	 * Paginate members
-	 * @return paginated members
-	 */
-	public function paginatedMembers($members)
-	{
-		//Get current page form url e.g. &page=6
-        $currentPage = (int) LengthAwarePaginator::resolveCurrentPage();
 
-        //Create a new Laravel collection from the array data
-        $collection = new Collection($this->refundFactory->getRefundMembers());
-
-        //Define how many items we want to be visible in each page
-        $perPage = 20;
-        //Slice the collection to get the items to display in current page
-        $currentPageSearchResults = $collection->slice($currentPage * $perPage, $perPage)->all();
-
-        //Create our paginator and pass it to the view
-        $paginatedSearchResults= new LengthAwarePaginator($currentPageSearchResults, count($collection), $perPage);
-
-        return $paginatedSearchResults;
-
-	}
 	/**
 	 * Set anything that may have been passed
 	 */
