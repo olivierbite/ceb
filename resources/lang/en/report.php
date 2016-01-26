@@ -22,7 +22,7 @@ return array (
            'reports_member'                            =>'member',
            'reports_accounting_piece'                  =>'accounting piece',
            'reports_ledger'                            =>'ledger',
-           'reports_bilan'                             =>'bilan',
+           'reports_bilan'                             =>'Bilan',
            'reports_journal'                           =>'journal',
            'reports_accounts_list'                     =>'accounts list',
            'reports_loans_records'                     =>'loans records',
