@@ -22,4 +22,16 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
 
         return $app;
     }
+
+    /**
+     * Login to sentinel
+     * @param  $email
+     * @return void
+     */
+    public function sentryUserBe($email='admin@admin.com')
+    {
+        $user = \Sentry::findUserByLogin($email);
+        \Sentry::login($user);
+       \Event::fire('sentinel.user.login', ['user' => $user]);
+    }
 }
