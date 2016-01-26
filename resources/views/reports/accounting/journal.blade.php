@@ -13,7 +13,7 @@
 	}
 </style>
 <table class="pure-table pure-table-bordered" style="border: 1px solid #000">
-<caption> {{ trans('reports.journal') }} </caption>
+<caption> {{ ucfirst(trans('reports.reports_journal') )}} {{ Request::segment(4).' Et '.Request::segment(5) }}</caption>
 	<thead>
 		<tr>
 			<th>{{ trans('posting.transactionid') }}</th>
