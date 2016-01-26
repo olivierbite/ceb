@@ -3,7 +3,7 @@
 	<thead>
 		<tr>
 			<th>{{ trans('account.account_number') }}</th>
-			<th>{{ trans('account.titled') }}</th>
+			<th>{{ trans('account.entitled') }}</th>
 			<th>{{ trans('account.debit') }}</th>
 			<th>{{ trans('account.credit') }}</th>
 			<th>{{ trans('account.balance') }}</th>
@@ -14,20 +14,6 @@
 	<?php $accountNature = null; ?>
 	@forelse ($accounts as $account)
 	<?php try { ?>
-	@if ($accountNature != $account->account_nature)
-	 @if ($debits!=0 || $credits!=0)
-	 	<tr>
-	 		<th colspan="2">{{ trans('general.summary') }}</th>
-	 		<th>{!! number_format(abs($debits)) !!}</th>
-			<th>{!! number_format(abs($credits)) !!}</th>
-			<th>{!! number_format(abs($debits) - abs($credits))  !!}</th>
-	 	</tr>
-		<?php $debits = 0; $credits = 0;?>
-	 @endif
-	 	
-	 	{{-- UPDATE ACCOUNT NATURE --}}
-	 	<?php $accountNature = $account->account_nature; ?>
-	@endif
 	<tr>
 		<td>{!! $account->account_number !!}</td>
 		<td>{!! $account->entitled !!}</td>
@@ -47,7 +33,7 @@
 		{{-- empty expr --}}
 	@endforelse
 	   <tr>
-			<th colspan="2"></th>
+	 		<th colspan="2">{{ trans('general.summary') }}</th>
 			<th>{!! number_format(abs($debits)) !!}</th>
 			<th>{!! number_format(abs($credits)) !!}</th>
 			<th>{!! number_format(abs($debits) - abs($credits)) !!}</th>

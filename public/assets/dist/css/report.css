@@ -36,15 +36,15 @@
 .pure-table thead {
   background-color: #e0e0e0;
   color: #000;
-  font-size: 12px;
-  text-align: left;
+  font-size: 16px;
+  text-align: center;
   vertical-align: bottom;
   border-bottom: 1px solid #e0e0e0;
 }
 
 .pure-table td {
   background-color: transparent;
-  font-size: 12px;
+  font-size: 16px;
 }
 
 .pure-table-odd td {
@@ -85,7 +85,7 @@
 
 .pure-table caption {
   color: #000;
-  font: italic 85%/1 arial,sans-serif;
+  font:  85%/1 arial,sans-serif;
   padding: 1em 0;
   text-align: center;
 }
