@@ -13,7 +13,7 @@ class AddUniqueTransactionId extends Migration
     public function up()
     {
         Schema::table('loans', function (Blueprint $table) {
-            $table->unique('transactionid');
+            // $table->unique('transactionid');
         });
     }
 
