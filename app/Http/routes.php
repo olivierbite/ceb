@@ -233,7 +233,25 @@ $router->get('/js/regularisationform',['as'=>'assets.js.regularisationform','use
 Route::get('logs', ['as'=>'logs','middleware'=>'sentry.admin','uses'=>'\Rap2hpoutre\LaravelLogViewer\LogViewerController@index']);
 
 Route::get('/test', function(){
-	$user = Ceb\Models\User::find(87);
 
-	dd($user->loans()->isPaidUmergency()->get());
+	$template = 'public function testName()
+			    {
+			        $this->sentryUserBe();
+			        $this->visit("/members")
+			             ->seePageIs("/members")
+			             ->see("members");
+			    }';
+ 	
+ 	$routeCollection = Route::getRoutes();
+
+ 	dd($routeCollection);
+
+	foreach ($routeCollection as $key => $value) {
+	   $newTest = $template;
+	   $newTest = str_replace('testName', 'test'.$key, $newTest);
+	   dd($newTest);
+	}
+
+ 	dd($template);
+
 });

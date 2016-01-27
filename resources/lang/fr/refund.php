@@ -13,7 +13,7 @@ return [
   'libelle'=>'Libelle',
     'refun_transaction_sucessfully_registered'=>'Transaction pour remboursement enrgistre avec success',
     'refund_for_the_month_of'=>'Remboursement du mois de ',
-    'refund_by_banque'	=> 'refund by banque',
+    'refund_by_banque'	=> 'Remboursement par banque',
 	'refund_by_salaire'				=> 'Remboursement par salaire',
 	'refund_by_epargne'				=> 'Remboursement par epargne',
 	'refund_by_cautionneur'			=> 'Remboursement par cautionneur',

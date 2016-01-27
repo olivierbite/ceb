@@ -49,13 +49,13 @@
           </div>
           <div class="row">
             <div class="col-xs-8">
-              <div class="checkbox icheck">
+{{--               <div class="checkbox icheck">
                 <label>
                   <input name="rememberMe" value="rememberMe" type="checkbox">
                 Remember Me
                 </label>
 
-              </div>
+              </div> --}}
                         <a href="{{ route('sentinel.forgot.form') }}">Forgot Password</a>
             </div><!-- /.col -->
             <div class="col-xs-4">

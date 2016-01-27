@@ -5,7 +5,7 @@ return array (
   'members' => 'Members',
   'contributions_and_savings' => 'Contributions & savings',
   'loans_and_repayments' => 'Loans & repayments',
-  'accounting' => 'Indi menu',
+  'accounting' => 'Accounting',
   'reports' => 'Reports',
   'settings' => 'Settings',
   'institutions' => 'institutions',

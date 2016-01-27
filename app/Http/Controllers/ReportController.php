@@ -14,6 +14,7 @@ use Ceb\Models\Refund;
 use Ceb\Models\User;
 use Ceb\Repositories\Reports\GraphicReportRepository;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use stdClass;
 
@@ -235,10 +236,31 @@ class ReportController extends Controller {
 
         // First log 
         Log::info($this->user->email . ' is viewing bilan report');
+
+        $report = view('reports.accounting.bilan')->render();
         
-		$accounts = $account->with('postings')->orderBy('account_nature')->get();
+        /** @var Generate table for ACTIVE */
+		$accounts = $account->with('postings')->where(DB::raw('LOWER(account_nature)'),strtolower('ACTIF'))->get();
+		$actifs = view('reports.accounting.bilan_item',compact('accounts'))->render();
+
+		/** @var string get passif  */
+		$accounts = $account->with('postings')->where(DB::raw('LOWER(account_nature)'),strtolower('passif'))->get();
+		$passif = view('reports.accounting.bilan_item',compact('accounts'))->render();
 		
-		$report = view('reports.accounting.bilan',compact('accounts'))->render();
+		/** @var string get passif  */
+		$accounts = $account->with('postings')->where(DB::raw('LOWER(account_nature)'),strtolower('charges'))->get();
+		$charges = view('reports.accounting.bilan_item',compact('accounts'))->render();
+
+		/** @var string get passif  */
+		$accounts = $account->with('postings')->where(DB::raw('LOWER(account_nature)'),strtolower('produits'))->get();
+		$produits = view('reports.accounting.bilan_item',compact('accounts'))->render();
+
+		// POSITION REPORTS IN THE TABLE 
+		$report = str_replace('ACTIF_TABLE', $actifs, $report);
+		$report = str_replace('PASSIF_TABLE', $passif, $report);
+		$report = str_replace('CHARGES_TABLE', $charges, $report);
+		$report = str_replace('PRODUIT_TABLE', $produits, $report);
+
 		if ($excel==1) {
 			 toExcel($report,'bilan-report');
 		}
@@ -318,8 +340,9 @@ class ReportController extends Controller {
         // First log 
         Log::info($this->user->email . ' is viewing loans records report');
     
-    	$loans = $loan->with('member')->betweenDates($startDate,$endDate)->where('adhersion_id',$adhersionId)->orderBy('transactionid')->get();
+    	$loans = $loan->with('member')->betweenDates($startDate,$endDate)->where('adhersion_id',$adhersionId)->orderBy('letter_date','ASC')->get();
 	    $report = view('reports.member.loan_records',compact('loans'))->render();
+
 	    if ($excel==1) {
 			 toExcel($report,'loanRecords-report');
 		}

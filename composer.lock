@@ -4,7 +4,12 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
+<<<<<<< HEAD
+    "hash": "1066cf6fb1da3284a594b518a751fcce",
+    "content-hash": "16b3dfb97ca832ede9be9a9745bde60b",
+=======
     "hash": "9773065f2e97c054f69296d476a2fb64",
+>>>>>>> e3a5b51e072a605cd9ad4c2be23b4e294c356005
     "packages": [
         {
             "name": "anlutro/l4-settings",
@@ -1172,16 +1177,16 @@
         },
         {
             "name": "league/flysystem",
-            "version": "1.0.15",
+            "version": "1.0.16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "31525caf9e8772683672fefd8a1ca0c0736020f4"
+                "reference": "183e1a610664baf6dcd6fceda415baf43cbdc031"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/31525caf9e8772683672fefd8a1ca0c0736020f4",
-                "reference": "31525caf9e8772683672fefd8a1ca0c0736020f4",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/183e1a610664baf6dcd6fceda415baf43cbdc031",
+                "reference": "183e1a610664baf6dcd6fceda415baf43cbdc031",
                 "shasum": ""
             },
             "require": {
@@ -1195,7 +1200,7 @@
                 "mockery/mockery": "~0.9",
                 "phpspec/phpspec": "^2.2",
                 "phpspec/prophecy-phpunit": "~1.0",
-                "phpunit/phpunit": "~4.1"
+                "phpunit/phpunit": "~4.8"
             },
             "suggest": {
                 "ext-fileinfo": "Required for MimeType",
@@ -1252,11 +1257,11 @@
                 "sftp",
                 "storage"
             ],
-            "time": "2015-09-30 22:26:59"
+            "time": "2015-12-19 20:16:43"
         },
         {
             "name": "maatwebsite/excel",
-            "version": "dev-master",
+            "version": "v2.0.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Maatwebsite/Laravel-Excel.git",
@@ -1912,12 +1917,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/activitylog.git",
-                "reference": "0d40e4d8fc95e6f2d417b1ec07f528d3676d6505"
+                "reference": "82d08bafb25658e58b6356a3e50e9690d739b660"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/activitylog/zipball/0d40e4d8fc95e6f2d417b1ec07f528d3676d6505",
-                "reference": "0d40e4d8fc95e6f2d417b1ec07f528d3676d6505",
+                "url": "https://api.github.com/repos/spatie/activitylog/zipball/82d08bafb25658e58b6356a3e50e9690d739b660",
+                "reference": "82d08bafb25658e58b6356a3e50e9690d739b660",
                 "shasum": ""
             },
             "require": {
@@ -1955,7 +1960,7 @@
                 "log",
                 "user"
             ],
-            "time": "2015-10-15 13:46:19"
+            "time": "2015-12-21 19:13:17"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -4224,7 +4229,6 @@
         "barryvdh/laravel-translation-manager": 20,
         "anlutro/l4-settings": 20,
         "spatie/activitylog": 20,
-        "maatwebsite/excel": 20,
         "league/csv": 20,
         "fenos/notifynder": 20,
         "rap2hpoutre/laravel-log-viewer": 20

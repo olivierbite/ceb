@@ -189,7 +189,7 @@ class RefundFactory {
 
 			$refund['adhersion_id']		= $refundMember->adhersion_id;
 			$refund['contract_number']	= $loan->loan_contract;
-			$refund['month']			= $this->getMonth();
+			$refund['month']			= $this->getMonth() ?:'N/A';
 			$refund['amount']			= $refundMember->refund_fee;
 			$refund['tranche_number']	= $loan->tranches_number;
 			$refund['transaction_id']	= $transactionId;

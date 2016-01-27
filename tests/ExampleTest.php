@@ -11,9 +11,18 @@ class ExampleTest extends TestCase
      *
      * @return void
      */
-    public function testHomePage()
+    public function testDashboardPage()
     {
+        $this->sentryUserBe();
         $this->visit('/')
-             ->see('ceb');
+             ->see('dashboard');
+    }
+
+    public function testBasicExample()
+    {
+        $this->sentryUserBe();
+        $this->visit('/members')
+             ->seePageIs('/members')
+             ->see('members');
     }
 }

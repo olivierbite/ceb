@@ -13,7 +13,7 @@
         "barryvdh/laravel-translation-manager": "^0.2.0@dev",
         "anlutro/l4-settings": "dev-master",
         "spatie/activitylog": "dev-master",
-        "maatwebsite/excel": "dev-master",
+        "maatwebsite/excel": "~2.0.0",
         "league/csv": "^7.1@dev",
         "fenos/notifynder": "dev-master",
         "guzzlehttp/guzzle": "^6.1",
