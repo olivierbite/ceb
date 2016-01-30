@@ -1,6 +1,6 @@
 <table class="pure-table pure-table-bordered">
 
-<caption> {{ trans('reports.bilan') }} {{ Request::segment(4).' Et '.Request::segment(5) }} </caption>
+<caption> {{ trans('report.bilan') }} {{ Request::segment(4).' Et '.Request::segment(5) }} </caption>
 	<tr>
 		<td Valign="TOP">ACTIF_TABLE</td>
 		<td Valign="TOP">PASSIF_TABLE</td>
