@@ -188,8 +188,10 @@ class ContributionAndSavingsController extends Controller {
 		$this->setCreditAccount();
 		$this->setMonth();
 
+		// this determines if we need to export member with differences
 		$this->exportContributionWithDifference();
 
+		// This determines if we need to remove member with differences
 		$this->removeContributionWithDifference();
 
 		$month = $this->contributionFactory->getMonth();
@@ -432,7 +434,7 @@ class ContributionAndSavingsController extends Controller {
 		if (Input::has('export-member-with-differences') && Input::get('export-member-with-differences') == 'yes') {
 			$members = $this->contributionFactory->getConstributionsWithDifference();
 			$report = view('contributionsandsavings.export_table',compact('members'))->render();
-
+	
 			toExcel($report, trans('contribution.with_difference'));
 		}
 
