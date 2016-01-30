@@ -22,21 +22,26 @@
 			<th>{{ trans('posting.account_number') }}</th>		
 			<th>{{ trans('posting.debit') }}</th>
 			<th>{{ trans('posting.credit') }}</th>
+			<th>{{ trans('posting.balance') }}</th>
 		</tr>
 	</thead>
 	<tbody>
 	<?php $transactionid = null; ?>
 	<?php $date = null; ?>
+ 	<?php $balance = 0; ?>
 	<?php $rowspan = 0; ?>
 	<?php $latestRow = false ; ?>
 	@forelse ($postings as $posting)
 		
+		{{-- Debit and credit to get balance --}}
+		<?php $balance += $posting->credit_amount; ?>
+		<?php $balance -= $posting->debit_amount; ?>
+
 		@if ($date != $posting->created_at->format('Y-m-d'))
 		<?php $date = $posting->created_at->format('Y-m-d'); ?>
 		<tr style="border-bottom: 1px solid #000">
 			<td class="account-details" colspan="6" style="font-weight: bold">{!! $date !!}</td>
 		</tr>
-
 			<?php $latestRow = true; ?>
 		@endif
 
@@ -62,6 +67,7 @@
 				<td align="left" style="{!! ($latestRow || $rowspan == 1)?'border-bottom: 1px solid #000':'' !!};text-align: left">{!! $posting->account->account_number  !!} - {!! $posting->account->entitled  !!} </td>
 				<td style="{!! ($latestRow || $rowspan == 1)?'border-bottom: 1px solid #000':'' !!};text-align: center">{!! number_format($posting->debit_amount) !!}</td>
 				<td style="{!! ($latestRow || $rowspan == 1)?'border-bottom: 1px solid #000':'' !!};text-align: center">{!! number_format($posting->credit_amount) !!}</td>
+				<td style="{!! ($latestRow || $rowspan == 1)?'border-bottom: 1px solid #000':'' !!};text-align: center">{!! number_format(abs($balance)) !!}</td>
 			</tr>
 
 	@empty
