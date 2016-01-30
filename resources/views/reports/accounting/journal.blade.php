@@ -22,7 +22,7 @@
 			<th>{{ trans('posting.account_number') }}</th>		
 			<th>{{ trans('posting.debit') }}</th>
 			<th>{{ trans('posting.credit') }}</th>
-			<th>{{ trans('posting.balance') }}</th>
+			<th>{{ trans('account.balance') }}</th>
 		</tr>
 	</thead>
 	<tbody>
