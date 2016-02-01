@@ -36,9 +36,9 @@
 	@endforelse
 	   <tr>
 	 		<th colspan="2">{{ trans('general.summary') }}</th>
-			<th>{!! number_format(abs($debits)) !!}</th>
+{{-- 			<th>{!! number_format(abs($debits)) !!}</th>
 			<th>{!! number_format(abs($credits)) !!}</th>
-			<th>{!! number_format(abs(abs($debits) - abs($credits))) !!}</th>
+ --}}			<th>{!! number_format(abs(abs($debits) - abs($credits))) !!}</th>
 		</tr>
 	</tbody>
 </table>
