@@ -18,13 +18,10 @@
     <![endif]-->
         {{-- partials.css --}}
     <style type="text/css"  media="print">
-          p{
-            font-size: 14px;
-          }
           @media print {
             body, html, .invoice,wrapper {
                 width: 100%;
-                font-size: 10px;
+                font-size: 14px;
                 page-break-after: always;
             }
               table { page-break-after:auto }
@@ -38,6 +35,12 @@
         size: A4;
       }
     </style>
+
+    <style type="text/css">
+     p{
+            font-size: 20px;
+          }
+          </style>
   </head>
   <body>
     <div class="wrapper">

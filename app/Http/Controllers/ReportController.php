@@ -86,7 +86,7 @@ class ReportController extends Controller {
 		 $contract = str_replace('{district}',$member->district,$contract);
 		 $contract = str_replace('{province}',$member->province,$contract);
 		 $contract = str_replace('{member_nid}',$member->member_nid,$contract);
-		 $contract = str_replace('{president}',NULL,$contract);
+		 $contract = str_replace('{President}',(new \Ceb\Models\Setting)->get('general.president'),$contract);
 
 		 $report   = $contract;
 
