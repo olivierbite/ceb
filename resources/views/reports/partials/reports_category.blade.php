@@ -114,7 +114,7 @@
   </li>
    <li>
       <a href="{{ route('reports.filter') }}/?reporturl=reports/loans/balance&show_exports=true" class="popdown">
-        <i class="icon-chevron-right"></i> {{ trans('report.loans_balance') }}
+        <i class="icon-chevron-right"></i> {{ trans('report.member_loan_balance') }}
       </a>
   </li>
   <li>

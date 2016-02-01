@@ -1,6 +1,6 @@
 {{-- Start by pulling this member profile --}}
 <table class="pure-table pure-table-bordered">
-<caption> {{ trans('reports.member_loan_balance') }} </caption>
+<caption> {{ trans('report.member_loan_balance') }} </caption>
   	 <thead>
   	 	<tr>
 	  	 	<th>{{ trans('member.adhersion_id') }}</th>
