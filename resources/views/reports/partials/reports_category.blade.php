@@ -112,6 +112,11 @@
         <i class="icon-chevron-right"></i> {{ trans('report.savings_contribution') }}
       </a>
   </li>
+   <li>
+      <a href="{{ route('reports.filter') }}/?reporturl=reports/loans/balance&show_exports=true" class="popdown">
+        <i class="icon-chevron-right"></i> {{ trans('report.loans_balance') }}
+      </a>
+  </li>
   <li>
   		<a href="{{ route('reports.filter') }}/?reporturl=reports/contributions/notcontribuing&show_exports=true" class="popdown">
   			<i class="icon-chevron-right"></i> {{ trans('report.contribution_irregularities') }}

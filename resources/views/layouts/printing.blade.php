@@ -18,6 +18,9 @@
     <![endif]-->
         {{-- partials.css --}}
     <style type="text/css"  media="print">
+          p{
+            font-size: 14px;
+          }
           @media print {
             body, html, .invoice,wrapper {
                 width: 100%;

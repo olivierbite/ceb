@@ -122,7 +122,7 @@ return array (
            'reports_piece_disbursed_loan'              =>'Piece disbursed loan',
                      
            'pending_loans'                             =>'Prêt en attente',
-           
+           'member_loan_balance'                       =>'Member loan balance',
            'reports_refunds_monthly'                   =>'Refunds monthly',
            'members_who_cautionned_me'                 =>'Members who cautionned me',
            'members_cautionned_by_me'                  =>'Members cautionned by me',

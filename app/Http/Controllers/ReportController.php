@@ -461,6 +461,22 @@ class ReportController extends Controller {
     	return view('layouts.printing', compact('report'));
     }
 
+    public function loansBalance(Loan $loan,$institition=null,$excel = 0 )
+    {
+
+    	if (!$this->user->hasAccess('reports.loan.balance')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
+
+            return redirect()->back();
+        }
+    	$members = $loan->getMembersLoanBalance();
+
+		$report = view('reports.member.memberloans',compact('members'))->render();
+		if ($excel==1) {
+			 toExcel($report,'Loan levels');
+		}
+    	return view('layouts.printing', compact('report'));
+    }
     /**
      * Showing member who are not contributing in x times
      * @param  Contribution $contribution 

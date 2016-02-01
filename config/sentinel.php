@@ -81,7 +81,7 @@ return [
 		'member.list', 'member.view', 'member.edit', 'member.create', 'member.delete', 
 		'member.view.current.i.cautioned','member.view.current.cautioned.by.me',
 		'reports.index','reports.contract.saving','reports.contract.loan','reports.member','reports.accounting.piece','reports.ledger',
-		'reports.bilan','reports.journal','reports.accounts.list','reports.loans.records','reports.contributions','reports.loans.status',
+		'reports.bilan','reports.journal','reports.accounts.list','reports.loans.records','reports.contributions','reports.loans.status','reports.loan.balance',
 		'reports.monthly.refound','reports.savings.level','reports.savings.irreguralities','reports.refunds.irreguralities','reports.members_who_cautionned_me',
 		'reports.members_cautionned_by_me','reports.piece.debourse.saving','reports.piece.debourse.account','reports.piece.debourse.accounting','reports.piece.debourse.loan',
 		'reports.piece.debourse.refund',

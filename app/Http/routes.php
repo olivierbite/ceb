@@ -151,7 +151,9 @@ Route::resource('loans', 'LoanController');
 	// LOANS REPORTS 
 	Route::group(['prefix'=>'loans'], function()
 	{
-		Route::get('/{startDate}/{endDate}/{status}/{export_excel?}', ['as'=>'reports.loans','uses'=>'ReportController@loans']);
+
+		Route::get('/balance/undefined/{export_excel?}', ['as'=>'reports.loans.balance','uses'=>'ReportController@loansBalance']);
+		Route::get('/{startDate}/{endDate}/{status}/{export_excel?}', ['as'=>'reports.loans.status','uses'=>'ReportController@loans']);
 	});
 	// LOANS REPORTS 
 	Route::group(['prefix'=>'refunds'], function()
