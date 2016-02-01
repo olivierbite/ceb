@@ -5,20 +5,7 @@
     <title>CEB | PRINTING</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    {{-- partials.css --}}
-    <style type="text/css"  media="print">
-          @media print {
-            body, html, .invoice,wrapper {
-                width: 100%;
-                font-size: 10px;
-            }
 
-      }
-      @page {
-        size: A4;
-        margin: 60;
-      }
-    </style>
     <!-- aaddiing heree piece ddebbuurree priinnt seccttiioonn--->
     <link rel="stylesheet" type="text/css" href="{!! url('/assets/dist/css/report.css') !!}">
     @yield('headercss')
@@ -29,6 +16,25 @@
         <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+        {{-- partials.css --}}
+    <style type="text/css"  media="print">
+          @media print {
+            body, html, .invoice,wrapper {
+                width: 100%;
+                font-size: 10px;
+                page-break-after: always;
+            }
+              table { page-break-after:auto }
+              tr    { page-break-inside:avoid; page-break-after:auto }
+              td    { page-break-inside:avoid; page-break-after:auto }
+              thead { display:table-header-group }
+              tfoot { display:table-footer-group }
+
+      }
+      @page {
+        size: A4;
+      }
+    </style>
   </head>
   <body>
     <div class="wrapper">
