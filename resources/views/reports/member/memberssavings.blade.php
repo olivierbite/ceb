@@ -12,6 +12,10 @@
    	 </thead>
  <tbody>
    @each ('reports.member.item_membersavings', $members, 'member', 'members.no-items')
+   <tr>
+	  	 	<th colspan="4">{{ trans('member.service') }}</th>
+			<th>{!! number_format(abs($members->sum('savings'))) !!}</th>
+	  	</tr>
  </tbody>
 </table>
 <table class="pure-table pure-table-bordered">
