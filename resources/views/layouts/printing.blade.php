@@ -10,21 +10,13 @@
           @media print {
             body, html, .invoice,wrapper {
                 width: 100%;
-                font-size: 12px;
-                margin: 0;
-                border: initial;
-                border-radius: initial;
-                width: initial;
-                min-height: initial;
-                box-shadow: initial;
-                background: initial;
-                page-break-after: always;
+                font-size: 10px;
             }
 
       }
       @page {
         size: A4;
-        margin: 0;
+        margin: 60;
       }
     </style>
     <!-- aaddiing heree piece ddebbuurree priinnt seccttiioonn--->
