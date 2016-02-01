@@ -37,8 +37,8 @@ class AddNewMemberRequest extends Request {
         'email'=>'required|email|unique:users',
         'telephone'=>'required|min:9|max:12',
         'monthly_fee'=>'required',
-        'photo'=>'required|image',
-        'signature'=>'required|image'
+        // 'photo'=>'required|image',
+        // 'signature'=>'required|image'
         ];
 	}
 }
