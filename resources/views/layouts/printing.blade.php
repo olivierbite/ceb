@@ -10,11 +10,20 @@
           @media print {
             body, html, .invoice,wrapper {
                 width: 100%;
-                font-size: 10px;
+                font-size: 12px;
+                margin: 0;
+                border: initial;
+                border-radius: initial;
+                width: initial;
+                min-height: initial;
+                box-shadow: initial;
+                background: initial;
+                page-break-after: always;
             }
 
       }
       @page {
+        size: A4;
         margin: 0;
       }
     </style>
