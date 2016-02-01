@@ -240,19 +240,19 @@ class ReportController extends Controller {
         $report = view('reports.accounting.bilan')->render();
         
         /** @var Generate table for ACTIVE */
-		$accounts = $account->with('postings')->where(DB::raw('LOWER(account_nature)'),strtolower('ACTIF'))->get();
+		$accounts = $account->with('postings')->where(DB::raw('LOWER(account_nature)'),strtolower('ACTIF'))->orderBy('account_number','ASC')->get();
 		$actifs = view('reports.accounting.bilan_item',compact('accounts'))->render();
 
 		/** @var string get passif  */
-		$accounts = $account->with('postings')->where(DB::raw('LOWER(account_nature)'),strtolower('passif'))->get();
+		$accounts = $account->with('postings')->where(DB::raw('LOWER(account_nature)'),strtolower('passif'))->orderBy('account_number','ASC')->get();
 		$passif = view('reports.accounting.bilan_item',compact('accounts'))->render();
 		
 		/** @var string get passif  */
-		$accounts = $account->with('postings')->where(DB::raw('LOWER(account_nature)'),strtolower('charges'))->get();
+		$accounts = $account->with('postings')->where(DB::raw('LOWER(account_nature)'),strtolower('charges'))->orderBy('account_number','ASC')->get();
 		$charges = view('reports.accounting.bilan_item',compact('accounts'))->render();
 
 		/** @var string get passif  */
-		$accounts = $account->with('postings')->where(DB::raw('LOWER(account_nature)'),strtolower('produits'))->get();
+		$accounts = $account->with('postings')->where(DB::raw('LOWER(account_nature)'),strtolower('produits'))->orderBy('account_number','ASC')->get();
 		$produits = view('reports.accounting.bilan_item',compact('accounts'))->render();
 
 		// POSITION REPORTS IN THE TABLE 

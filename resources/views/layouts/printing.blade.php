@@ -12,6 +12,10 @@
                 width: 100%;
                 font-size: 10px;
             }
+
+      }
+      @page {
+        margin: 0;
       }
     </style>
     <!-- aaddiing heree piece ddebbuurree priinnt seccttiioonn--->
