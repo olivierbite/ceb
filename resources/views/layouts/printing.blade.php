@@ -38,7 +38,7 @@
 
     <style type="text/css">
      p{
-            font-size: 20px;
+            font-size: 16px;
           }
           </style>
   </head>
