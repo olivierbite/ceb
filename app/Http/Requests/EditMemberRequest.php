@@ -21,7 +21,7 @@ class EditMemberRequest extends Request {
 	 */
 	public function rules() {
 	return [
-		'names'   => 'required',
+		'names'   =>'required',
         'district'=>'required',
         'province'=>'required',
         'institution_id'=>'required|numeric',
@@ -29,12 +29,12 @@ class EditMemberRequest extends Request {
         'termination_date'=>'date',
         'employee_id' 	  =>'alpha_num',
         // 'password'=>'required',
-        'date_of_birth'=>'required|date',
+        'date_of_birth'=>'date',
         'sex'=>'required',
-        'member_nid'=>'required|numeric',
-        'nationality'=>'required',
-        'email'=>'required|email',
-        'telephone'=>'required|min:9|max:12',
+        // 'member_nid'=>'required|numeric',
+        // 'nationality'=>'required',
+        'email'=>'email',
+        'telephone'=>'min:9|max:12',
         'monthly_fee'=>'required',
         'photo'=>'image',
         'signature'=>'image'

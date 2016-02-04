@@ -32,7 +32,7 @@ class AccountController extends Controller
 
         // First log
         Log::info($this->user->email . ' viewed accounts list');
-        $accounts = $this->account->paginate(20);
+        $accounts = $this->account->orderBy('account_number','ASC')->paginate(20);
         return view('settings.accountingplan.list',compact('accounts'));
     }
 

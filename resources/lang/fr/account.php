@@ -12,4 +12,5 @@ return [
     'titled'=> 'Intitule',
     'account_nature'=>'Nature',
     'balance'=>'Solde',
+    'operating_account' =>'compte d\'exploitation',
 ];

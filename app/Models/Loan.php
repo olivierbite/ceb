@@ -2,6 +2,7 @@
 
 namespace Ceb\Models;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 
 class Loan extends Model {
@@ -406,6 +407,11 @@ class Loan extends Model {
      	return array_shift($sum)->amount;
     }
 
+    /**
+     * Get members with loans
+     * @param  string $institition 
+     * @return array 
+     */
     public function memberWithLoans($institition = '')
     {
     	// if user passed institution then consider it in the select
@@ -431,5 +437,30 @@ class Loan extends Model {
 									) latestloan
 									where withloans.adhersion_id = latestloan.adhersion_id";
     	return DB::select($query);
+    }
+
+    public function getMembersLoanBalance()
+    {
+        DB::statement('DROP TABLE IF EXISTS TEMP_MEMBER_LOAN_REFUND');
+        DB::statement('CREATE TEMPORARY TABLE TEMP_MEMBER_LOAN_REFUND(
+                        SELECT a.adhersion_id,sum_loan  - sum_refund as balance FROM
+                        (
+                            SELECT adhersion_id,sum(loan_to_repay) as sum_loan FROM 
+                                loans as a where a.status=\'approved\' group by adhersion_id) as a
+                            LEFT JOIN 
+                        (
+                            SELECT adhersion_id,case when sum(amount) is null then 0 else sum(amount) end as sum_refund 
+                                FROM refunds group by adhersion_id) as b 
+                            ON a.adhersion_id = b.adhersion_id
+                        );'
+                    );
+
+        $query = 'SELECT a.adhersion_id,balance,first_name,last_name,service,c.name institution 
+                  FROM TEMP_MEMBER_LOAN_REFUND as a
+                  LEFT JOIN users as b on a.adhersion_id = b.adhersion_id
+                  LEFT JOIN institutions as c on b.institution_id = c.id   WHERE balance > 0 ';
+
+        $results = DB::select(DB::raw($query));
+        return new Collection($results);
     }
 }

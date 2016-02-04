@@ -84,7 +84,7 @@
   </li>
   <li>
   		<a href="{{ route('reports.filter') }}/?reporturl=reports/accounting/bilan&show_dates=true&show_exports=true" class="popdown">
-  			<i class="icon-chevron-right"></i> {{ trans('reports.reports_bilan') }}
+  			<i class="icon-chevron-right"></i> {{ trans('report.bilan') }}
   		</a>
   </li>
   <li>
@@ -110,6 +110,11 @@
  <li>
       <a href="{{ route('reports.filter') }}/?reporturl=reports/savings/level&show_exports=true" class="popdown">
         <i class="icon-chevron-right"></i> {{ trans('report.savings_contribution') }}
+      </a>
+  </li>
+   <li>
+      <a href="{{ route('reports.filter') }}/?reporturl=reports/loans/balance&show_exports=true" class="popdown">
+        <i class="icon-chevron-right"></i> {{ trans('report.member_loan_balance') }}
       </a>
   </li>
   <li>

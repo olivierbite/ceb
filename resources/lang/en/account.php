@@ -8,8 +8,9 @@ return [
 	'debit'				=>'Debit',
 	'credit'			=>'Credit',
 	'balance'			=>'Balance',
-   'account_number'  =>'Account #',
-   'entitled'           =>'Entitled',
-   'accounting_nature'  =>'Nature',
+	'account_number'	=>'Account #',
+	'entitled'			=>'Entitled',
+	'accounting_nature'	=>'Nature',
+	'operating_account' =>'Operating account',
     
 ];

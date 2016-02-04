@@ -1,20 +1,20 @@
 {{-- Start by pulling this member profile --}}
 <table class="pure-table pure-table-bordered">
-<caption> {{ trans('reports.level_of_savings_per_member') }} </caption>
+<caption> {{ trans('report.member_loan_balance') }} </caption>
   	 <thead>
   	 	<tr>
 	  	 	<th>{{ trans('member.adhersion_id') }}</th>
 	     	<th>{{ trans('member.names') }}</th>
 			<th>{{ trans('member.institution') }}</th>
 			<th>{{ trans('member.service') }}</th>
-			<th>{{ trans('member.savings') }}</th>
+			<th>{{ trans('account.balance') }}</th>
 	  	</tr>
    	 </thead>
  <tbody>
-   @each ('reports.member.item_membersavings', $members, 'member', 'members.no-items')
+   @each ('reports.member.item_memberloans', $members, 'member', 'members.no-items')
    <tr>
 	  	 	<th colspan="4">{{ trans('member.service') }}</th>
-			<th>{!! number_format(abs($members->sum('savings'))) !!}</th>
+			<th>{!! number_format(abs($members->sum('balance'))) !!}</th>
 	  	</tr>
  </tbody>
 </table>

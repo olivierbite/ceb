@@ -86,7 +86,7 @@ class ReportController extends Controller {
 		 $contract = str_replace('{district}',$member->district,$contract);
 		 $contract = str_replace('{province}',$member->province,$contract);
 		 $contract = str_replace('{member_nid}',$member->member_nid,$contract);
-		 $contract = str_replace('{president}',NULL,$contract);
+		 $contract = str_replace('{President}',(new \Ceb\Models\Setting)->get('general.president'),$contract);
 
 		 $report   = $contract;
 
@@ -240,19 +240,19 @@ class ReportController extends Controller {
         $report = view('reports.accounting.bilan')->render();
         
         /** @var Generate table for ACTIVE */
-		$accounts = $account->with('postings')->where(DB::raw('LOWER(account_nature)'),strtolower('ACTIF'))->get();
+		$accounts = $account->with('postings')->where(DB::raw('LOWER(account_nature)'),strtolower('ACTIF'))->orderBy('account_number','ASC')->get();
 		$actifs = view('reports.accounting.bilan_item',compact('accounts'))->render();
 
 		/** @var string get passif  */
-		$accounts = $account->with('postings')->where(DB::raw('LOWER(account_nature)'),strtolower('passif'))->get();
+		$accounts = $account->with('postings')->where(DB::raw('LOWER(account_nature)'),strtolower('passif'))->orderBy('account_number','ASC')->get();
 		$passif = view('reports.accounting.bilan_item',compact('accounts'))->render();
 		
 		/** @var string get passif  */
-		$accounts = $account->with('postings')->where(DB::raw('LOWER(account_nature)'),strtolower('charges'))->get();
+		$accounts = $account->with('postings')->where(DB::raw('LOWER(account_nature)'),strtolower('charges'))->orderBy('account_number','ASC')->get();
 		$charges = view('reports.accounting.bilan_item',compact('accounts'))->render();
 
 		/** @var string get passif  */
-		$accounts = $account->with('postings')->where(DB::raw('LOWER(account_nature)'),strtolower('produits'))->get();
+		$accounts = $account->with('postings')->where(DB::raw('LOWER(account_nature)'),strtolower('produits'))->orderBy('account_number','ASC')->get();
 		$produits = view('reports.accounting.bilan_item',compact('accounts'))->render();
 
 		// POSITION REPORTS IN THE TABLE 
@@ -461,6 +461,22 @@ class ReportController extends Controller {
     	return view('layouts.printing', compact('report'));
     }
 
+    public function loansBalance(Loan $loan,$institition=null,$excel = 0 )
+    {
+
+    	if (!$this->user->hasAccess('reports.loan.balance')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
+
+            return redirect()->back();
+        }
+    	$members = $loan->getMembersLoanBalance();
+
+		$report = view('reports.member.memberloans',compact('members'))->render();
+		if ($excel==1) {
+			 toExcel($report,'Loan levels');
+		}
+    	return view('layouts.printing', compact('report'));
+    }
     /**
      * Showing member who are not contributing in x times
      * @param  Contribution $contribution 

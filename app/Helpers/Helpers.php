@@ -235,6 +235,7 @@ function generateContract($member,$contract_type)
 			$letter_date = $loan->created_at;
 		}
 
+		dd('test');
 		$contract = str_replace('{tranches_number}',$tranches,$contract);
 		$contract = str_replace('{monthly_fees}',number_format((int)$loan->monthly_fees),$contract);
 		$contract = str_replace('{interests}',number_format((int) $loan->interests),$contract);
@@ -243,7 +244,7 @@ function generateContract($member,$contract_type)
 		// We need to remove 1 month that we have added in the starting date
 		$contract = str_replace('{end_payment_month}',$letter_date->addMonth($tranches-1)->format('m-Y'),$contract); 
 		$contract = str_replace('{tranches_number}',$tranches,$contract);
-		$contract = str_replace('{president}',(new Ceb\Models\Setting)->get('general.president'),$contract);	
+		$contract = str_replace('{President}',(new Ceb\Models\Setting)->get('general.president'),$contract);	
 		$contract = str_replace('{treasurer}',(new Ceb\Models\Setting)->get('general.tresorien'),$contract);	
 		$contract = str_replace('{administrator}',(new Ceb\Models\Setting)->get('general.administrator'),$contract);
 		

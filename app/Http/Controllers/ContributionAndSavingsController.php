@@ -187,6 +187,11 @@ class ContributionAndSavingsController extends Controller {
 		$this->setDebitAccount();
 		$this->setCreditAccount();
 		$this->setMonth();
+
+		// this determines if we need to export member with differences
+		$this->exportContributionWithDifference();
+
+		// This determines if we need to remove member with differences
 		$this->removeContributionWithDifference();
 
 		$month = $this->contributionFactory->getMonth();
@@ -410,6 +415,30 @@ class ContributionAndSavingsController extends Controller {
 			$this->contributionFactory->setByInsitution(Input::get('institution'));
 		}
 	}
+	/**
+	 * Export contribution with differences
+	 * 
+	 * @return void
+	 */
+	public function exportContributionWithDifference()
+	{
+				// First check if the user has the permission to do this
+        if (!$this->user->hasAccess('contribution.export.contribution.with.differences')) {
+            flash()->error(trans('Sentinel::users.noaccess').' - To export contribution with differences');
+            return redirect()->back();
+        }
+
+        // First log
+        Log::info($this->user->email . ' exports contribution with differences');
+
+		if (Input::has('export-member-with-differences') && Input::get('export-member-with-differences') == 'yes') {
+			$members = $this->contributionFactory->getConstributionsWithDifference();
+			$report = view('contributionsandsavings.export_table',compact('members'))->render();
+	
+			toExcel($report, trans('contribution.with_difference'));
+		}
+
+	}
 
 	/**
 	 * Remove contribution with differences
@@ -420,7 +449,7 @@ class ContributionAndSavingsController extends Controller {
 	{
 				// First check if the user has the permission to do this
         if (!$this->user->hasAccess('contribution.remove.contribution.with.differences')) {
-            flash()->error(trans('Sentinel::users.noaccess'));
+            flash()->error(trans('Sentinel::users.noaccess').' - To remove contribution with differences');
             return redirect()->back();
         }
 
