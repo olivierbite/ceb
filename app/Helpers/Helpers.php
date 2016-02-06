@@ -235,7 +235,6 @@ function generateContract($member,$contract_type)
 			$letter_date = $loan->created_at;
 		}
 
-		dd('test');
 		$contract = str_replace('{tranches_number}',$tranches,$contract);
 		$contract = str_replace('{monthly_fees}',number_format((int)$loan->monthly_fees),$contract);
 		$contract = str_replace('{interests}',number_format((int) $loan->interests),$contract);
