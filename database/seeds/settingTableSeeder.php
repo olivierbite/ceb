@@ -103,7 +103,16 @@ class settingTableSeeder extends Seeder
 		   'value' => null,
 	  	   'type'  => 'string',
 	  	   ],
-	  	   
+	  18 =>[
+		  	'key' => 'loan.emergency.installments',
+		   'value' => 3,
+	  	   'type'  => 'numeric',
+	  	   ],   
+	  18 =>[
+		  	'key' => 'loan.emergency.rate',
+		   'value' => 5,
+	  	   'type'  => 'numeric',
+	  	   ], 	   
 	 ];
 
 	 DB::table('settings')->truncate();

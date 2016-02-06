@@ -583,6 +583,12 @@ class LoanFactory {
 	 * @return float
 	 */
 	public function getInterestRate() {
+
+		/** Adding exception for the emergency loan */
+		if ($this->getOperationType() == 'emergency_loan') {
+			return $this->setting->keyValue('loan.emergency.rate');
+		}
+
 		$numberOfInstallment = $this->getTranschesNumber();
 		return $this->loanRate->rate($numberOfInstallment,$numberOfInstallment);
 	}

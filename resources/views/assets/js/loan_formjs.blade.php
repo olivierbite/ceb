@@ -228,6 +228,11 @@ jQuery(document).ready(function($) {
 	 * @return {[type]} [description]
 	 */
 	function getInterestRate(){
+		/** Adding exception for the emergency loan */
+		if ($('#operation_type').val() =='emergency_loan') {
+			return {!! (float) $setting->keyValue('loan.emergency.rate') !!};
+		};
+
 		var numberOfInstallment = $('#numberOfInstallment').val();
 		@foreach ($loanRates as $loanRate)
 			if (numberOfInstallment>={!! $loanRate->start_month !!} && numberOfInstallment<={!! $loanRate->end_month !!}) {return {!! (float) $loanRate->rate !!};};
