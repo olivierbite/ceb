@@ -7,14 +7,14 @@ jQuery(document).ready(function($) {
     notification +='message';
     notification +='</div>';
     
-  	// Set the letter date to be a date	
-  	new datepickr('letter_date', {
-                'dateFormat': 'Y-m-d'
-            });
+  	// // Set the letter date to be a date	
+  	// new datepickr('letter_date', {
+   //              'dateFormat': 'Y-m-d'
+   //          });
 
-  	new datepickr('today',{
-  		'dateFormat':'Y-m-d'
-  	});
+  	// new datepickr('today',{
+  	// 	'dateFormat':'Y-m-d'
+  	// });
 
   	/** Set the new operation type */
   	$("#operation_type").change(function(event) {
@@ -285,17 +285,17 @@ jQuery(document).ready(function($) {
      //or a loan with ordinary urgent loan
      //Oridinary loan is detected when someone's letter date is after 15 of each month
      
-   	 $("input[name='letter_date']").on('click keyup keydown keypress change',function(event) {
-   	 	event.preventDefault();
-   	   	validateOrdinaryLoan($(this));
-   	   });
-   	 $('html').click(function(e) {
-  //if clicked element is not your element and parents aren't your div
-		  if (e.target.id != 'date' && $(e.target).parents('#date').length == 0) {
-		  validateOrdinaryLoan($("input[name='letter_date']"));
+  //  	 $("input[name='letter_date']").on('click keyup keydown keypress change',function(event) {
+  //  	 	event.preventDefault();
+  //  	   	validateOrdinaryLoan($(this));
+  //  	   });
+  //  	 $('html').click(function(e) {
+  //      //if clicked element is not your element and parents aren't your div
+		//   if (e.target.id != 'date' && $(e.target).parents('#date').length == 0) {
+		//   validateOrdinaryLoan($("input[name='letter_date']"));
 
-		  }
-	 });
+		//   }
+	 // });
 	
 	/**
    	  * Determine if this loan is urgent or not
