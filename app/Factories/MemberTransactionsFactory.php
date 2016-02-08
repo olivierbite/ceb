@@ -94,6 +94,12 @@ class MemberTransactionsFactory {
 				return false;
 			}
 
+			/**
+			 * @todo if this transaction is for relicat, then DEBIT LOAN/CREDIT EPARGNE
+			 */
+			if ($contribution['transaction_reason']=='withdrawal_remaining_balances') {
+				# code...
+			}
 		return true;
 	}
 
