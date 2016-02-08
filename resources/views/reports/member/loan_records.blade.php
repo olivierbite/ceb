@@ -18,11 +18,54 @@
 	  	</tr>
    	 </thead>
  <tbody>
+   	<?php $loan_to_repay = 0; ?>
+	<?php $interest = 0; ?>
+	<?php $monthly_fees = 0; ?>
 
+  <?php $first_loan = $loans->first()->id; ?>
   @forelse ($loans as $loan)
-  	@include('reports.member.item_loan_record', compact('loan'))
+
+  	{{-- HEADER TABLE ONLY SHOW HEADERS FOR ORDINARY LOAN--}}
+  	@if (strpos($loan->operation_type,'ordinary_loan') !== FALSE)
+  		{{-- SUMMARY TABLE --}}
+		@if ($loan->id !== $first_loan)
+			@include('reports.member.item_loan_record_summary')
+			   	<?php $loan_to_repay = 0; ?>
+				<?php $interest = 0; ?>
+				<?php $monthly_fees = 0; ?>
+		@endif
+
+  		<?php $tranches = 0; ?>
+		@include('reports.member.item_loan_record_header')
+  	@endif
+
+	<tr>
+		<td>{!! $loan->letter_date->format('d-M-Y') !!}</td>
+	 	<td>{{  trans('loan.loan') }}</td>
+		<td>{!! trans('loans.'.$loan->operation_type)  !!}</td>
+		<td>{!! $loan->comment !!} </td>
+		<td>{!! number_format((int) $loan->loan_to_repay) !!} </td>
+	    <td>{!! number_format((int) $loan->interests) !!} </td>
+	    <td>{!! number_format((int) $loan->monthly_fees) !!} </td>
+	    <td>0</td>
+	</tr>
+
+  	<?php $loan_to_repay += $loan->loan_to_repay; ?>
+	<?php $interest += $loan->interests; ?>
+	<?php $monthly_fees += $loan->monthly_fees; ?>
+
+  	{{-- REFUND TABLE  --}}
+	@foreach ($loan->refunds as $refund)
+	@include('reports.member.item_loan_record_refund')
+		<?php $tranches += $refund->amount; ?>
+	@endforeach
   @empty
   	@include('members.no-items')
   @endforelse
+  <?php try{?>
+   @include('reports.member.item_loan_record_summary')
+   <?php }catch(\Exception $e){
+
+   	} ?>
  </tbody>
 </table>

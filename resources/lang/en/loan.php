@@ -73,7 +73,7 @@ return [
      'withdrawal'                                                                      =>'Withdrawal',
      'summary'                                                                         =>'Loans Summary',
      'movement_total'                                                                  =>'Movement Total',
-     'loan_balance'                                                                    =>'Loan Balance',
+     'loan_balance'                                                                    =>'Balance',
      'approved'                                                                        =>'Approved',
      'pending'                                                                         =>'Pending',
      'rejected'                                                                        =>'Rejected',
