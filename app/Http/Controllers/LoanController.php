@@ -300,9 +300,15 @@ class LoanController extends Controller {
 	 * @return  void
 	 */
 	public function ajaxFieldUpdate() {
+		try
+		{
 		$this->loanFactory->addLoanInput(Input::all());
 
 		$this->loanFactory->calculateLoanDetails();
+		}
+		catch(\Exception $e){
+			return $e->getMessage();
+		}
 	}
 
 	/**

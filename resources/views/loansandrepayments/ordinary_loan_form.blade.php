@@ -7,7 +7,6 @@
 <div class="row">
   @if (isset($loanInputs['tranches_number']) && strpos($loanInputs['tranches_number'],'ordinary_loan'))
     {{-- Show contract number when this one is not an ordinary loan --}}
-  
   <div class="col-md-3">
   <div class="form-group">
    <label>{{ trans('loan.loan_contract_number') }}</label>
@@ -25,7 +24,7 @@
   <?php $maximumInstallments = $setting->keyValue('loan.maximum.installments'); ?>
   {{-- If we are dealing with emergency loan, Maximum installments needs to be less or equal to 3 --}}
   @if (strpos($loanInputs['operation_type'],'emergency_loan') !== false)
-    <?php $maximumInstallments = 3;?>
+    <?php $maximumInstallments = $setting->keyValue('loan.emergency.installments');?>
   @endif
    <label>{{ trans('loan.number_of_installments') }}</label>
   {!! Form::selectRange('tranches_number', 1, $maximumInstallments ,
