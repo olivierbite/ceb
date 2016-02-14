@@ -340,7 +340,7 @@ class ReportController extends Controller {
         // First log 
         Log::info($this->user->email . ' is viewing loans records report');
     
-    	$loans = $loan->with('member')->betweenDates($startDate,$endDate)->where('adhersion_id',$adhersionId)->orderBy('letter_date','ASC')->get();
+    	$loans = $loan->with('member')->betweenDates($startDate,$endDate)->where('adhersion_id',$adhersionId)->orderBy('transactionid','ASC')->get();
 	    
 	    $report = view('reports.member.loan_records',compact('loans'))->render();
 
