@@ -604,8 +604,9 @@ class ReportController extends Controller {
 	    	$postings = $contribution->postings;
 	    	$posting = $postings->first();
 	    	$this->labels->title 					= trans('report.piece_debourse_saving_number',['number'=>$posting->transactionid]);
-			$this->labels->top_left_upper_value		= $posting->created_at->format('Y-m-d');
-			$this->labels->top_left_under_value		= $posting->user->names;
+			$this->labels->top_left_upper           = trans('report.done_by');
+			$this->labels->top_left_upper_value		= $posting->user->names;
+			$this->labels->top_left_under_value		= $posting->created_at->format('Y-m-d');
 			$this->labels->top_right_upper_value	= $contribution->adhersion_id;
 			$this->labels->top_right_under_value	= $contribution->cheque_number;
     	}
