@@ -480,7 +480,7 @@ class LoanFactory {
 		}
 		
         $newLoan = $this->loan->create($data);
-	    // If we have bond then save cautionneurs in also in the database
+	    // If we have bond then save cautionneurs also in the database
 		if ($inputs['amount_bonded'] > 0 && ($inputs['loan_to_repay'] > $member->totalContributions())) {
 			// Attempt to record the loan
 			if ($this->recordCautionneurs($transactionid, $newLoan->id) == false) {

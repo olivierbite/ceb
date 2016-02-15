@@ -122,6 +122,7 @@ return [
      'ordinary_loans'                                                                  => 'Ordinary Loan',
      'special_loans'                                                                   => 'Special Loan',
      'outstanding_loan'                                                                => 'Outstanding loan',
+     'loan_relicat'                                                                    => 'Relicat',
      'full_paid_loan'                                                                  => 'Full Paid Loan',
      'nature'                                                                          =>'Nature',
      'wording'                                                                         =>'Wording',

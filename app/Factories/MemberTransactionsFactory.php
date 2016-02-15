@@ -1,15 +1,16 @@
 <?php 
 namespace Ceb\Factories;
 
+use Ceb\Models\Contribution;
 use Ceb\Models\Institution;
+use Ceb\Models\Loan;
 use Ceb\Models\Posting;
 use Ceb\Models\Refund;
+use Ceb\Models\User;
 use Ceb\Traits\TransactionTrait;
-use Ceb\Models\Contribution;
 use DB;
 use Illuminate\Support\Facades\Session;
 use Sentry;
-use Ceb\Models\User;
 
 /**
  * Refund Factory
@@ -95,12 +96,53 @@ class MemberTransactionsFactory {
 			}
 
 			/**
-			 * @todo if this transaction is for relicat, then DEBIT LOAN/CREDIT EPARGNE
+			 * @todo if this transaction is for relicat, then ADD NEW LOAN/CREDIT EPARGNE
 			 */
 			if ($contribution['transaction_reason']=='withdrawal_remaining_balances') {
-				# code...
+				if (!$this->recordLoan($contribution)) {
+						return false;
+				}
 			}
 		return true;
+	}
+
+	public function recordLoan($input)
+	{
+		// Prepare information to be saved in the database
+		$data['transactionid']					= $input['transactionid'];
+		$data['loan_contract']					= $input['contract_number'];
+		$data['adhersion_id']					= $input['adhersion_id'];
+		$data['movement_nature']				= $input['transaction_reason'];
+		$data['operation_type']					= 'loan_relicat';
+		$data['letter_date']					=   Date('Y-m-d');
+		$data['right_to_loan']					= 0;
+		$data['wished_amount']					= $input['amount'];
+		$data['loan_to_repay']					= $input['amount'];
+		$data['interests']						= 0;
+		$data['InteretsPU']						= 0;
+		$data['amount_received']				= $input['amount'];
+		$data['tranches_number']				= 0;
+		$data['cheque_number']					=  '';
+		$data['bank_id']						=  '';
+		$data['security_type']					= 0;
+		$data['cautionneur1']					= 0;
+		$data['cautionneur2']					= 0;
+		$data['average_refund']					= 0;
+		$data['amount_refounded']				= 0;
+		$data['comment']						= $input['wording'];
+		$data['special_loan_contract_number']	= 0;
+		$data['remaining_tranches']				= 1;
+		$data['monthly_fees']					= 0;
+		$data['special_loan_tranches']			= 0;
+		$data['special_loan_interests']			= 0;
+		$data['special_loan_amount_to_receive']	= 0;
+		$data['rate']							= 0;
+		$data['status']							= 'approved';
+		$data['reason']							=  'Transaction relicat';
+		$data['urgent_loan_interests']			= 0;
+		$data['user_id']						= Sentry::getUser()->id;
+
+		return Loan::create($data);
 	}
 
 	/**
