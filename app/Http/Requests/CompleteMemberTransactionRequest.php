@@ -23,9 +23,10 @@ class CompleteMemberTransactionRequest extends Request
      */
     public function rules()
     {
-        
+       $attributes = $this->all();
+
       //Continue with Rule validation
-        return [
+    $rules =  [
           'movement_type'    =>  'required|min:1',
           'operation_type'   =>  'required|min:3',
           'amount'           =>  'required|numeric',
@@ -35,6 +36,12 @@ class CompleteMemberTransactionRequest extends Request
           'accounting_amount' => 'required|confirmed|numeric|min:'.parent::get('amount'),
           'transactionamount' => 'required|confirmed|numeric',
         ];
+
+        if ($attributes['operation_type'] == 'remainers') {
+            $rules['contract_number'] = 'required|min:5';
+        }
+
+        return $rules;
     }
 
     /**

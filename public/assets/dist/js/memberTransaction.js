@@ -1,4 +1,5 @@
 jQuery(document).ready(function($) {
+  $('#contract_number').hide();
     /** SET Operation type if it is changed */
     $(".movement_type").change(function(event) {
       var loanType = $(this);
@@ -6,6 +7,17 @@ jQuery(document).ready(function($) {
       window.location.href = window.location.protocol+'//'+window.location.host+window.location.pathname+'?movement_type='+loanType.val();
     });
     
+        /** SET Operation type if it is changed */
+    $(".operation_type").change(function(event) {
+
+      if ($(this).val() == 'remainers') {
+         $('#contract_number').show();
+      }
+      else{
+         $('#contract_number').hide();
+      }
+    });
+
     /** UPDATE ACCOUNTS AMOUNT */
     /** @todo map the right amount to the right account */
     if ($('#operation_type').val()=='saving') {

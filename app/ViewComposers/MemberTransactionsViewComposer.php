@@ -18,7 +18,7 @@ class MemberTransactionsViewComposer {
 											'individual_monthly_contribution'			=>'individual_monthly_contribution',
 											'annual_interest'							=>'annual_interest',
 											'returned_interest'							=>'returned_interest',
-											'remainders'								=>'remainders',
+											'remainers'									=>'remainers',
 											'repayments_of_third_party_debt_payment'	=>'repayments_of_third_party_debt_payment',
 											'regularization'							=>'regularization',
 											'other_savings'								=>'other_savings',

@@ -40,7 +40,7 @@
   	@endif
 
 	<tr>
-		<td>{!! $loan->letter_date->format('d-M-Y') !!}</td>
+		<td>{!! $loan->letter_date->format('Y-m-d') !!}</td>
 	 	<td>{{  trans('loan.loan') }}</td>
 		<td>{!! trans('loans.'.$loan->operation_type)  !!}</td>
 		<td>{!! $loan->comment !!} </td>

@@ -85,7 +85,10 @@
                                 <?php $urgent_fees =  \Ceb\Models\Setting::keyValue('urgent.administration.fee'); ?>
                                 @endif
                                   {!! Form::select('charges',
-                                                  [ $urgent_fees => trans('general.urgent_administration_fee',['charges'=>$urgent_fees]),
+
+                                                    [0     => trans('general.select'),
+                                                     $urgent_fees => trans('general.urgent_administration_fee',
+                                                    ['charges'=>$urgent_fees]),
                                                     $administration_fees=>trans('loan.charging_administration_fees',
                                                     ['charges'=>$administration_fees]),],null,['class' => 'form-control']) !!}                         
 
@@ -105,6 +108,14 @@
 	                                	 {{ trans('member.bank') }}
                                      </label>
                                    	 {!! Form::select('bank', $banks, null, ['class'=>'form-control']) !!}
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-md-12" id="contract_number">
+                                <div class="form-group">
+                                    <label for="contract_number">
+                                     {{ trans('loan.contract_number') }}
+                                     </label>
+                                       {!! Form::input('text', 'contract_number', null, ['class'=>'form-control','placeholder'=>trans('general.contract_number')]) !!}
                                 </div>
                             </div>
                             <div class="col-xs-12 col-md-12">
@@ -131,5 +142,4 @@
                     </form>
                 </div>
             <!-- CREDIT CARD FORM ENDS HERE -->
-
 @endsection
