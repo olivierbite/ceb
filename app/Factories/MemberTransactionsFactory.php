@@ -76,7 +76,7 @@ class MemberTransactionsFactory {
 			$contribution['amount']				= $data['amount'];
 			$contribution['state']				= 'Ancien';
 			$contribution['year']				= date('Y');
-			$contribution['contract_number']	= $this->getContributionContractNumber();
+			$contribution['contract_number']	= $data['contract_number'];
 			$contribution['transaction_type']	= $data['movement_type'];
 			$contribution['transaction_reason']	= $data['operation_type'];
 			$contribution['wording']			= $data['wording'];
@@ -98,7 +98,8 @@ class MemberTransactionsFactory {
 			/**
 			 * @todo if this transaction is for relicat, then ADD NEW LOAN/CREDIT EPARGNE
 			 */
-			if ($contribution['transaction_reason']=='withdrawal_remaining_balances') {
+			if ($contribution['transaction_reason']=='remainers' && $contribution['transaction_type'] =='saving') {
+				// Add contract number here ....
 				if (!$this->recordLoan($contribution)) {
 						return false;
 				}

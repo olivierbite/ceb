@@ -138,6 +138,12 @@ jQuery(document).ready(function($) {
 		// LoanToRepay * (InterestRate*NumberOfInstallment) / 1200 +(InterestRate*NumberOfInstallment)
 		
 		var interests = (loanToRepay * (interestRate*numberOfInstallment)) / (1200 +(interestRate*numberOfInstallment));
+
+		/** Adding exception for the emergency loan */
+		if ($('#operation_type').val() =='emergency_loan') {
+		 	interests =  loanToRepay * parseFloat({!! (float) $setting->keyValue('loan.emergency.rate') !!}) / 100 ;
+		};
+
 		var netToReceive = loanToRepay - interests;
 		var administration_fees = 2;
 		var operation_type  	= $('#operation_type').val();
@@ -234,9 +240,13 @@ jQuery(document).ready(function($) {
 		};
 
 		var numberOfInstallment = $('#numberOfInstallment').val();
+
 		@foreach ($loanRates as $loanRate)
 			if (numberOfInstallment>={!! $loanRate->start_month !!} && numberOfInstallment<={!! $loanRate->end_month !!}) {return {!! (float) $loanRate->rate !!};};
 		@endforeach
+
+		return {!! (float) $loanRate->max('rate') !!};
+
 	}
 	/**
 	 * If the wished amount is higher than the

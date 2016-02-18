@@ -474,6 +474,7 @@ class LoanFactory {
 
 		// If operation type is emergency loan then add emergency loan details 
 		if (strtolower($data['operation_type']) ==  'emergency_loan') {
+			$data['interests'] 		 = $data['loan_to_repay'] * ($this->getInterestRate() /100);
 			$data['monthly_fees']    = $data['loan_to_repay'] / $data['tranches_number'];
 			$data['is_umergency']    = 1;
 			$data['emergency_balance'] = $data['loan_to_repay'];

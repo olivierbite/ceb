@@ -319,7 +319,7 @@ class User extends SentinelModel {
 	 */
 	public function remainingInstallment()
 	{
-		if (!$this->hasActiveLoan()) {
+		if (!$this->hasActiveLoan() || $this->latestLoan()->monthly_fees == 0) {
 			// No active loan therefore remaining installment is 0
 			return 0;
 		}
@@ -532,7 +532,7 @@ class User extends SentinelModel {
 	 * @return user Object
 	 */
 	public function latestLoan() {
-		return $this->loans()->isNotUmergency()->approved()->orderBy('id', 'desc')->first();
+		return $this->loans()->isNotUmergency()->approved()->orderBy('transactionid', 'desc')->first();
 	}
 
 	/**

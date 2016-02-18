@@ -65,7 +65,8 @@
   <div class="form-group">
    <label>{{ trans('loan.administration_fees') }}</label>
      {!! Form::select('administration_fees',
-                       [$administration_fees=>trans('loan.charging_administration_fees',['charges'=>$administration_fees]),
+                       [0 => trans('general.select'),
+                       $administration_fees=>trans('loan.charging_administration_fees',['charges'=>$administration_fees]),
                         ],null,['class' => 'form-control']) 
     !!} 
   </div>

@@ -17,6 +17,8 @@
 		<th>{{ trans('loan.monthly_installments') }}</th>
 		<th>{{ trans('loan.loan_to_repay') }}</th>
 		<th>{{ trans('loan.interests') }}</th>
+    	<th>{{ trans('loan.administration_fees') }}</th>
+    	<th>{{ trans('loan.net_to_receive') }}</th>
  		<th style="width: 170px;"><i class="fa fa-gear"></i>{{ trans('general.action') }}</th>
 	</thead>
 

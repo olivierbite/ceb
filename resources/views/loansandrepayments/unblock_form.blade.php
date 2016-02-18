@@ -24,6 +24,9 @@
     <th>{{ trans('loan.monthly_installments') }}</th>
     <th>{{ trans('loan.loan_to_repay') }}</th>
     <th>{{ trans('loan.interests') }}</th>
+    <th>{{ trans('loan.administration_fees') }}</th>
+    <th>{{ trans('loan.net_to_receive') }}</th>
+  
   </thead>
 
   <tbody>
@@ -39,6 +42,8 @@
       <td>{{ number_format($loan->monthly_fees) }} </td>
       <td>{{ number_format($loan->loan_to_repay) }}</td>
       <td>{{ number_format($loan->interests) }}</td>
+      <td>{{ number_format($loan->urgent_loan_interest) }}</td>
+      <td>{{ number_format($loan->net_to_receive) }}</td>
     </tr>
   </tbody>
 </table>  
