@@ -608,9 +608,10 @@ class LoanFactory {
 		$numberOfInstallment = $this->getTranschesNumber();
 
 		if (isset($loanDetails['operation_type'])==true) {
-		   if (strpos(strtolower($loanDetails['operation_type']), 'ordinary_loan') === false) {
+		 		 if (!isset($loanDetails['previous_loan_balance'])) {
+			   			$loanDetails['previous_loan_balance'] = 0;
+			   		}
 			       $loanToRepay+=(int) $loanDetails['previous_loan_balance'];
-		     }
 		}
 		else
 		{

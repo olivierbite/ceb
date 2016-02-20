@@ -158,7 +158,7 @@ class RefundFactory {
 			// if this member has active emergency loan, remove the normal amount to refund
 			// without emergency loan and then the rest save it as emergency loan refund 
 			// so that we can record how much money on emergency loan has been paid
-			// back by this user
+			// back by this member
 			
 			if ($refundMember->HasActiveEmergencyLoan) {
 				// Get the monthly fees and add it here
@@ -169,7 +169,7 @@ class RefundFactory {
 					// We have umergency loan, let's determine how much money to record as pay back
 					$emergencyMonthlyFee = $emergencyLoan->EmergencyMonthlyFee;
 					$emergencyLoanRefundFee = $refundMember->refund_fee - $emergencyMonthlyFee;
-
+					
 					// Determine exact amount to record as emergency payback
 					$emergencyLoanRefundFee  = $refundMember->loan_montly_fee - $emergencyLoanRefundFee;
 

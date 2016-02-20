@@ -1,6 +1,6 @@
 <div class="box-body">
 <div class="box-header with-border">
-  <h3 class="box-title">{{ trans('loan.loan') }}</h3>
+  <h3 class="box-title">{{ ucfirst(trans('loans.'.$loanInputs['operation_type'])) }} </h3>
   <div class="loan-notifications">
    </div>
 </div>

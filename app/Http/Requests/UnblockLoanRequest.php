@@ -39,7 +39,7 @@ class UnblockLoanRequest extends Request
         }
 
       $rules = [
-              'cheque_number'     =>  'required|alpha_dash|min:5',
+              'cheque_number'     =>  'required|unique:loans',
               'bank_id'           =>  'required|min:1',
               'loanid'            =>  'required|numeric',
               ];

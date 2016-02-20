@@ -204,13 +204,18 @@ class Loan extends Model {
      */
     public function getEmergencyMonthlyFeeAttribute()
     {
-        try
-        {
-            return $this->loan_to_repay / $this->tranches_number ;
+        /** Make sure this is a valid emergency loan before proceeding */
+        if ($this->operation_type == 'emergency_loan' && $this->emergency_balance>0) {
+            try
+            {
+                return $this->loan_to_repay / $this->tranches_number ;
+            }
+            catch (\Exception $e){
+                return $this->monthly_fees;
+            }
         }
-        catch (\Exception $e){
-            return $this->loan_to_repay;
-        }
+
+        return 0;
     }
 
     /**
