@@ -496,8 +496,6 @@ class User extends SentinelModel {
 	 */
 	public function loanMonthlyFees() {
 		$monthly_fee =  0;
-
-
 		try
 		{
 		   $monthly_fee =  $this->latestLoan()->monthly_fees;
@@ -532,7 +530,15 @@ class User extends SentinelModel {
 	 * @return user Object
 	 */
 	public function latestLoan() {
-		return $this->loans()->isNotUmergency()->approved()->orderBy('transactionid', 'desc')->first();
+		return $this->loans()->isNotUmergency()->approved()->orderBy('id', 'desc')->first();
+	}
+
+	/**
+	 * Get latest Loan that this member has gotten
+	 * @return user Object
+	 */
+	public function latestLoanWithEmergency() {
+		return $this->loans()->approved()->orderBy('id', 'desc')->first();
 	}
 
 	/**

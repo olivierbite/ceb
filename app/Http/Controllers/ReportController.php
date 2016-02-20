@@ -120,7 +120,7 @@ class ReportController extends Controller {
 
         // now we have found the member, let's try get his loan, otherwise we 
         // will display an error
-        if (is_null($loan = $foundUser->latestLoan())) {
+        if (is_null($loan = $foundUser->latestLoanWithEmergency())) {
 
         	    flash()->error(trans('member.member_you_are_looking_for_does_not_have_a_loan_contract'));
         		Log::error('The member you are looking for does not have a loan contract:'.$identifier);
@@ -128,7 +128,7 @@ class ReportController extends Controller {
         }
 
 		// if the contract is empty, we assume it is not generated, let's try to generate it and save it
-		if (empty($loan->contract)) {
+		if ($loan->status =='approved') {
 			$loan->contract = generateContract($foundUser,strtolower($loan->operation_type));
 			$loan->save();
 		}
