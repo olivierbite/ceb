@@ -197,7 +197,19 @@ class Loan extends Model {
     				 ->where('status','approved');
     }
 
-/**
+
+    /**
+     * Get ordinary loan
+     * @param  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeIsNotReliquant($query)
+    {
+        return $query->where('operation_type','<>','loan_relicat')
+                     ->where('status','approved');
+    }
+
+    /**
      * Get emergency loan
      * @param  $query
      * @return \Illuminate\Database\Eloquent\Builder

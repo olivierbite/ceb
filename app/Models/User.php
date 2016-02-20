@@ -451,7 +451,7 @@ class User extends SentinelModel {
 	 * @return  numeric
 	 */
 	public function totalLoans() {
-		return $this->loans()->approved()->sum('loan_to_repay');
+		return $this->loans()->isNotUmergency()->approved()->sum('loan_to_repay');
 	}
 	public function loanSumRelation()
 	{
@@ -530,7 +530,7 @@ class User extends SentinelModel {
 	 * @return user Object
 	 */
 	public function latestLoan() {
-		return $this->loans()->isNotUmergency()->approved()->orderBy('id', 'desc')->first();
+		return $this->loans()->isNotReliquant()->approved()->orderBy('id', 'desc')->first();
 	}
 
 	/**
