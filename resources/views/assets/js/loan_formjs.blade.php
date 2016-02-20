@@ -152,9 +152,9 @@ jQuery(document).ready(function($) {
 		$('#interests').val(Math.round(interests) );
 		data[$('#interests').attr('name')] = $('#interests').val();
         
-        if(operation_type != 'ordinary_loan' && operation_type != 'urgent_ordinary_loan' )
+        if(operation_type != 'ordinary_loan' && operation_type != 'urgent_ordinary_loan' && operation_type!='emergency_loan')
         {
-    	  loanToRepay+=parseInt(previous_loan_balance); 
+    	  loanToRepay= parseInt(loanToRepay) + parseInt(previous_loan_balance); 
         }
 		
 		$('#monthlyInstallments').val(Math.round((loanToRepay/numberOfInstallment)) );
