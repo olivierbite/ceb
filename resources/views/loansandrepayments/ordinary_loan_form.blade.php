@@ -47,11 +47,16 @@
   <div class="col-md-3">
   <div class="form-group">
    <label>{{ trans('loan.operation_type') }}</label>
-   @if ($member->has_active_loan)
-     {{-- remove ordinary loan if this member has active loans --}}
+   {{-- remove ordinary loan if this member has active loans --}}
+   @if ($member->has_active_loan)     
      <?php unset($loanTypes['ordinary_loan']); ?>
      <?php unset($loanTypes['urgent_ordinary_loan']); ?>
    @endif
+   <!-- If the customer has active emergency loan, remove it also -->
+   @if ($member->has_active_emergency_loan)
+     <?php unset($loanTypes['emergency_loan']); ?>
+   @endif
+   
    {!! Form::select('operation_type',
                    $loanTypes,
                    isset($loanInputs['operation_type'])?$loanInputs['operation_type']:null,
