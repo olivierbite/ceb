@@ -233,27 +233,3 @@ $router->get('/js/regularisationform',['as'=>'assets.js.regularisationform','use
 
 /** ROUTE FOR LOGS */
 Route::get('logs', ['as'=>'logs','middleware'=>'sentry.admin','uses'=>'\Rap2hpoutre\LaravelLogViewer\LogViewerController@index']);
-
-Route::get('/test', function(){
-
-	$template = 'public function testName()
-			    {
-			        $this->sentryUserBe();
-			        $this->visit("/members")
-			             ->seePageIs("/members")
-			             ->see("members");
-			    }';
- 	
- 	$routeCollection = Route::getRoutes();
-
- 	dd($routeCollection);
-
-	foreach ($routeCollection as $key => $value) {
-	   $newTest = $template;
-	   $newTest = str_replace('testName', 'test'.$key, $newTest);
-	   dd($newTest);
-	}
-
- 	dd($template);
-
-});

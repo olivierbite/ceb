@@ -469,6 +469,10 @@ class Loan extends Model {
     	return DB::select($query);
     }
 
+    /**
+     * Get member loan balance
+     * @return 
+     */
     public function getMembersLoanBalance()
     {
         DB::statement('DROP TABLE IF EXISTS TEMP_MEMBER_LOAN_REFUND');
