@@ -8,9 +8,11 @@ use Ceb\Models\Contribution;
 use Ceb\Models\Loan;
 use Ceb\Models\Setting;
 use Ceb\Traits\LogsActivity;
+use Exception;
 use Fenos\Notifynder\Notifable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Spatie\Activitylog\LogsActivityInterface;
 use Vinkla\Hashids\Facades\Hashids;
 
@@ -252,6 +254,15 @@ class User extends SentinelModel {
         return $this->hasMany('Ceb\Models\Leave');
     }
 
+    /**
+     * Get total refund attribute
+     * @return [type] [description]
+     */
+    public function getTotalRefundsAttribue()
+    {
+    	return $this->totalRefunds();
+    }
+
 	/**
 	 * Get total refunds by this member;
 	 * @return numeric
@@ -291,7 +302,16 @@ class User extends SentinelModel {
 	 * @return numeric
 	 */
 	public function loanBalance() {
-		return $this->totalLoans() - $this->totalRefunds();
+		$balance = 0;		
+		if ($this->has_active_loan) {
+			$balance = $this->totalLoans() - $this->totalRefunds();
+		}
+
+		//
+		if ($this->hasActiveEmergencyLoan) {
+			$balance+= $this->active_emergency_loan->emergency_balance;
+		}
+		return $balance;
 	}
 
 	/**
@@ -309,7 +329,7 @@ class User extends SentinelModel {
 	 */
 	public function getLoanBalanceAttribute()
 	{
-		return $this->totalLoans() - $this->totalRefunds();
+		return $this->loanBalance();
 	}
 
 	/**
@@ -319,12 +339,32 @@ class User extends SentinelModel {
 	 */
 	public function remainingInstallment()
 	{
-		if (!$this->hasActiveLoan() || $this->latestLoan()->monthly_fees == 0) {
-			// No active loan therefore remaining installment is 0
-			return 0;
-		}
+		$installments = 0;
+		try
+		{
+			if (!$this->has_active_loan) {
+				// No active loan therefore remaining installment is 0
+				$installment = round($this->loanBalance() / $this->latestLoan()->monthly_fees);
+			}
 
-		return round($this->loanBalance() / $this->latestLoan()->monthly_fees);
+			// Add emergency loan if we have it
+			if ($this->has_active_emergency_loan) {
+				$emergency_loan = $this->active_emergency_loan;
+				$emergency_installments = round($emergency_loan->emergency_balance / $emergency_loan->monthly_fees);
+
+				// Add the difference of emergency loan installments 
+				// if installments are < than emergency loan installments
+				if ($installments < $emergency_installments) {
+					$installments += abs($installments - $emergency_installments);
+				}
+			}
+		}
+		catch(Exception $e)
+		{
+			Log::critical($e->getMessage());
+		}
+		
+		return $installments;
 	}
 
 	/**
@@ -393,7 +433,6 @@ class User extends SentinelModel {
 		$latestLoan = $this->latestLoan();
 		$contributions 		= $this->contributions();
 		
-		// dd($latestLoan->right_to_loan - $latestLoan->loan_to_repay);
 		if ($this->loan_to_regulate !==-1 ) {
 			return $latestLoan->right_to_loan - $latestLoan->loan_to_repay;
 		}
@@ -447,12 +486,22 @@ class User extends SentinelModel {
 	}
 
 	/**
+	 * Get total loan attribute
+	 * @return numeric
+	 */
+	public function getTotalLoanAttribute()
+	{
+		return $this->totalLoans();
+	}
+
+	/**
 	 * total Loan that user has taken
 	 * @return  numeric
 	 */
 	public function totalLoans() {
 		return $this->loans()->approved()->sum('loan_to_repay');
 	}
+
 	public function loanSumRelation()
 	{
 	    return $this->hasMany('Ceb\Models\Loan', 'adhersion_id', 'adhersion_id')->selectRaw('adhersion_id, sum(loan_to_repay) as loan_to_repay')
@@ -486,7 +535,8 @@ class User extends SentinelModel {
 	 */
 	public function getHasActiveEmergencyLoanAttribute()
 	{
-		$emergencyLoan = $this->loans()->IsNotPaidUmergency()->first();
+		$emergencyLoan = $this->loans()->isNotPaidUmergency()->orderBy('id','desc')->first();
+
 		if (is_null($emergencyLoan)) {
 			return false;
 		}
@@ -499,8 +549,32 @@ class User extends SentinelModel {
 	 */
 	public function getActiveEmergencyLoanAttribute()
 	{
-		return $this->loans()->IsNotPaidUmergency()->first();
+		return $this->loans()->isNotPaidUmergency()->orderBy('id','desc')->first();
 	}
+
+	    /**
+     * Get emergency loan
+     * @param  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function getEmergencyMonthlyFeeAttribute()
+    {
+        /** Make sure this is a valid emergency loan before proceeding */
+        $monthly_fee = 0;
+        try
+        {
+        	if($this->has_active_emergency_loan)
+        	{
+        		$monthly_fee =  $this->active_emergency_loan->monthly_fees;
+        	}
+        	
+    	}
+        catch(Exception $e){
+        	Log::critical($e->getMessage());
+        } 
+
+        return $monthly_fee;
+    }
 
 	/**
 	 * Get member loan monthly fees that
@@ -508,18 +582,18 @@ class User extends SentinelModel {
 	 * @return numeric with the fees this member need to pay
 	 */
 	public function loanMonthlyFees() {
-		$monthly_fee =  0;
-		try
-		{
-		   $monthly_fee =  $this->latestLoan()->monthly_fees;
-		}
-		catch (\Exception $ex)
-		{
-           $monthly_fee =  0;
-		}
+		$monthly_fee = 0;		
 
-		return $monthly_fee;
-		
+			if ($this->has_active_loan) {
+				$monthly_fee = $this->latestLoan()->monthly_fees;
+			}
+
+			//
+			if ($this->hasActiveEmergencyLoan) {
+				$monthly_fee+= $this->active_emergency_loan->monthly_fees;
+			}
+
+		return $monthly_fee;	
 	}
 
 	public function getLoanMontlyFeeAttribute()
@@ -540,7 +614,7 @@ class User extends SentinelModel {
 	 */
 	public function latestLoanWithEmergency() {
 		return $this->loans()->isNotReliquant()->approved()->orderBy('id', 'desc')->first();
-	}
+	}	
 
 	/**
 	 * Get latest loan attribute
