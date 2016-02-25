@@ -451,7 +451,7 @@ class User extends SentinelModel {
 	 * @return  numeric
 	 */
 	public function totalLoans() {
-		return $this->loans()->isNotUmergency()->approved()->sum('loan_to_repay');
+		return $this->loans()->approved()->sum('loan_to_repay');
 	}
 	public function loanSumRelation()
 	{
@@ -486,7 +486,20 @@ class User extends SentinelModel {
 	 */
 	public function getHasActiveEmergencyLoanAttribute()
 	{
-		return $this->loans()->IsNotPaidUmergency()->count() > 0;
+		$emergencyLoan = $this->loans()->IsNotPaidUmergency()->first();
+		if (is_null($emergencyLoan)) {
+			return false;
+		}
+		return $emergencyLoan->exists;
+	}
+
+	/**
+	 * Get active emergency loan
+	 * @return 
+	 */
+	public function getActiveEmergencyLoanAttribute()
+	{
+		return $this->loans()->IsNotPaidUmergency()->first();
 	}
 
 	/**
@@ -530,7 +543,7 @@ class User extends SentinelModel {
 	 * @return user Object
 	 */
 	public function latestLoan() {
-		return $this->loans()->isNotReliquant()->approved()->orderBy('id', 'desc')->first();
+		return $this->loans()->isNotUmergency()->isNotReliquant()->approved()->orderBy('id', 'desc')->first();
 	}
 
 	/**
@@ -538,7 +551,7 @@ class User extends SentinelModel {
 	 * @return user Object
 	 */
 	public function latestLoanWithEmergency() {
-		return $this->loans()->approved()->orderBy('id', 'desc')->first();
+		return $this->loans()->isNotReliquant()->approved()->orderBy('id', 'desc')->first();
 	}
 
 	/**
