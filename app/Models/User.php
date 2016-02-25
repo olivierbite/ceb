@@ -306,11 +306,12 @@ class User extends SentinelModel {
 		if ($this->has_active_loan) {
 			$balance = $this->totalLoans() - $this->totalRefunds();
 		}
+		// dd()
+		// //
+		// if ($this->hasActiveEmergencyLoan) {
+		// 	$balance+= $this->active_emergency_loan->emergency_balance;
+		// }
 
-		//
-		if ($this->hasActiveEmergencyLoan) {
-			$balance+= $this->active_emergency_loan->emergency_balance;
-		}
 		return $balance;
 	}
 
@@ -340,18 +341,37 @@ class User extends SentinelModel {
 	public function remainingInstallment()
 	{
 		$installments = 0;
+		
 		try
 		{
 			if ($this->has_active_loan) {
+				$loan_balance = $this->loanBalance();
+				$loan_refund  = $this->latestLoan()->monthly_fees;
 				// No active loan therefore remaining installment is 0
-				$installments = round($this->loanBalance() / $this->latestLoan()->monthly_fees);
+				$installments = ceil($loan_balance / $loan_refund);
 			}
 
 			// Add emergency loan if we have it
 			if ($this->has_active_emergency_loan) {
 				$emergency_loan = $this->active_emergency_loan;
-				$emergency_installments = round($emergency_loan->emergency_balance / $emergency_loan->monthly_fees);
+				$emergency_loan_refund = $emergency_loan->emergency_refund;
+				$emergency_balance     = $emergency_loan->emergency_balance;
+				$emergencyLoanAmount = $emergency_balance + $emergency_loan_refund;
+				$emergency_monthly_fee = $emergency_loan->monthly_fees;
+				$emergency_installments = ceil($emergency_balance / $emergency_monthly_fee);
 
+				// Remove emergency loan since we have added it in total loans
+				// and to recalculations for the installments
+				$loan_balance -= ($emergency_balance);
+
+				// If we have already paid for this loan, then don't count 
+				// the refund for the emergency loan, so that we can be 
+				// more accurate on the installments 
+				
+				// Add the emergency loan balance for us to be able to balance
+				// the installments
+				$installments = ceil($loan_balance / $loan_refund);
+				
 				// Add the difference of emergency loan installments 
 				// if installments are < than emergency loan installments
 				if ($installments < $emergency_installments) {
