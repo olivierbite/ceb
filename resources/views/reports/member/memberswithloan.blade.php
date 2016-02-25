@@ -6,7 +6,9 @@
 	  	 	<th>{{ trans('member.adhersion_id') }}</th>
 	     	<th>{{ trans('member.names') }}</th>
 			<th>{{ trans('member.service') }}</th>
-			<th>{{ trans('member.monthly_fees') }}</th>
+			<th>{{ trans('member.monthly_fees') }}</th>			
+			<th>{{ trans('member.emergency_fees') }}</th>				
+			<th>{{ trans('member.total') }}</th>
 	  	</tr>
    	 </thead>
  <tbody>

@@ -197,7 +197,19 @@ class Loan extends Model {
     				 ->where('status','approved');
     }
 
-/**
+
+    /**
+     * Get ordinary loan
+     * @param  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeIsNotReliquant($query)
+    {
+        return $query->where('operation_type','<>','loan_relicat')
+                     ->where('status','approved');
+    }
+
+    /**
      * Get emergency loan
      * @param  $query
      * @return \Illuminate\Database\Eloquent\Builder
@@ -424,23 +436,36 @@ class Loan extends Model {
 
     		$institition = " AND institution_id = ".$institition;
     	}
-    	$query = "SELECT withloans.adhersion_id,first_name,last_name,service,monthly_fees 
-    						    FROM 
-									(
-									SELECT a.adhersion_id,first_name,last_name,service FROM 
-									(
-									SELECT sum(amount) refunds,adhersion_id FROM refunds  group by adhersion_id) AS a,
-									(SELECT sum(loan_to_repay) loan,adhersion_id FROM loans where `status` ='approved'  group by adhersion_id) as b
-									 ,users
-									  WHERE loan > refunds and a.adhersion_id = b.adhersion_id and a.adhersion_id = users.adhersion_id
-									  $institition
-									) withloans,
 
-									(SELECT b.adhersion_id,monthly_fees from loans as a,
-									(SELECT adhersion_id,max(created_at)  as latestloandate from loans where `status` ='approved' group by adhersion_id) as b
-									WHERE a.adhersion_id = b.adhersion_id and a.created_at= latestloandate
-									) latestloan
-									where withloans.adhersion_id = latestloan.adhersion_id";
+    	$query = "SELECT a.*,CASE WHEN b.emergency_fees IS NULL THEN 0 ELSE b.emergency_fees END AS emergency_fees
+    FROM (
+                                SELECT withloans.adhersion_id,first_name,last_name,service,monthly_fees 
+                                FROM 
+                                    (
+                                    SELECT a.adhersion_id,first_name,last_name,service FROM 
+                                    (
+                                    SELECT sum(amount) refunds,adhersion_id FROM refunds  group by adhersion_id) AS a,
+                                    (SELECT sum(loan_to_repay) loan,adhersion_id FROM loans where `status` ='approved'  group by adhersion_id) as b
+                                     ,users
+                                      WHERE loan > refunds and a.adhersion_id = b.adhersion_id and a.adhersion_id = users.adhersion_id
+                                       $institition
+                                    ) withloans,
+
+                                    (SELECT b.adhersion_id,monthly_fees from loans as a,
+                                    (SELECT adhersion_id,max(created_at)  as latestloandate from loans where `status` ='approved' and operation_type <> 'loan_relicat' and operation_type <> 'emergency_loan' group by adhersion_id) as b
+                                    WHERE a.adhersion_id = b.adhersion_id and a.created_at= latestloandate
+                                    ) latestloan
+                                    where withloans.adhersion_id = latestloan.adhersion_id
+                                ) AS a
+                                 LEFT JOIN 
+                                (
+                                SELECT 
+                                adhersion_id,monthly_fees emergency_fees 
+                                FROM loans WHERE is_umergency = 1 AND `status`='approved'  
+                                AND emergency_refund < (monthly_fees * tranches_number) 
+           
+                                ) AS b
+                                ON a.adhersion_id= b.adhersion_id;";
     	return DB::select($query);
     }
 
