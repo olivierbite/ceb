@@ -342,9 +342,9 @@ class User extends SentinelModel {
 		$installments = 0;
 		try
 		{
-			if (!$this->has_active_loan) {
+			if ($this->has_active_loan) {
 				// No active loan therefore remaining installment is 0
-				$installment = round($this->loanBalance() / $this->latestLoan()->monthly_fees);
+				$installments = round($this->loanBalance() / $this->latestLoan()->monthly_fees);
 			}
 
 			// Add emergency loan if we have it
