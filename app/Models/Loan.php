@@ -449,7 +449,7 @@ class Loan extends Model {
 									) withloans,
 
 									(SELECT b.adhersion_id,monthly_fees from loans as a,
-									(SELECT adhersion_id,max(created_at)  as latestloandate from loans where `status` ='approved' group by adhersion_id) as b
+									(SELECT adhersion_id,max(created_at)  as latestloandate from loans where `status` ='approved' and operation_type <> 'loan_relicat' and operation_type <> 'emergency_loan' group by adhersion_id) as b
 									WHERE a.adhersion_id = b.adhersion_id and a.created_at= latestloandate
 									) latestloan
 									where withloans.adhersion_id = latestloan.adhersion_id";
