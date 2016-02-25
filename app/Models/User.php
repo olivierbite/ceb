@@ -518,18 +518,6 @@ class User extends SentinelModel {
            $monthly_fee =  0;
 		}
 
-		// If this user has a pending emergency loan then add monthly fee
-		if ($this->HasActiveEmergencyLoan) {
-
-			// Get the monthly fees and add it here
-			$emergencyLoan = $this->loans()->isNotPaidUmergency()->orderBy('updated_at','DESC')->first();
-
-			if (empty($emergencyLoan) == false) {
-				
-				$monthly_fee += $emergencyLoan->EmergencyMonthlyFee;
-			}
-		}
-
 		return $monthly_fee;
 		
 	}
