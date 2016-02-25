@@ -179,7 +179,7 @@ class RefundFactory {
 			
 			if ($refundMember->HasActiveEmergencyLoan) {
 				// Get the monthly fees and add it here
-				$emergencyLoan = $refundMember->loans()->isNotPaidUmergency()->orderBy('updated_at','DESC')->first();
+				$emergencyLoan = $refundMember->active_emergency_loan;
 
 				if (empty($emergencyLoan) == false) {
 
@@ -188,7 +188,7 @@ class RefundFactory {
 					$emergencyLoanRefundFee = $refundMember->refund_fee - $emergencyMonthlyFee;
 					
 					// Determine exact amount to record as emergency payback
-					$emergencyLoanRefundFee  = $refundMember->loan_montly_fee - $emergencyLoanRefundFee;
+					$emergencyLoanRefundFee  = $refundMember->refund_fee - $emergencyLoanRefundFee;
 
 					// Amount refunded has included the emergency loan then record it
 					if ($emergencyLoanRefundFee > 0 ) {
