@@ -608,7 +608,6 @@ class User extends SentinelModel {
 				$monthly_fee = $this->latestLoan()->monthly_fees;
 			}
 
-			//
 			if ($this->hasActiveEmergencyLoan) {
 				$monthly_fee+= $this->active_emergency_loan->monthly_fees;
 			}
