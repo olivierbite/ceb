@@ -175,6 +175,7 @@ class RefundFactory {
 					// Determine exact amount to record as emergency payback
 					$emergencyLoanRefundFee  = $refundMember->refund_fee - $emergencyLoanRefundFee;
 
+					dd($emergencyLoanRefundFe);
 					// Amount refunded has included the emergency loan then record it
 					if ($emergencyLoanRefundFee > 0 ) {
 					 	$emergencyLoan->emergency_refund += $emergencyLoanRefundFee;
@@ -183,11 +184,34 @@ class RefundFactory {
 					 	if (!$emergencyLoan->save()) {
 					 		return false;
 					 	}
-					 } 
-				}
+						 // Since we have emergency loan amount, let's save 
+						 // that amount with their corresponding loan id
+						$refund['adhersion_id']		= $refundMember->adhersion_id;
+						$refund['contract_number']	= $emergencyLoan->loan_contract;
+						$refund['month']			= $this->getMonth() ?:'N/A';
+						$refund['amount']			= $emergencyLoanRefundFee;
+						$refund['tranche_number']	= $emergencyLoan->tranches_number;
+						$refund['transaction_id']	= $transactionId;
+						$refund['member_id']		= $refundMember->id;
+						$refund['user_id']			= Sentry::getUser()->id;
+						$refund['loan_id']			= $emergencyLoan->id;
+						$refund['wording']			= 'Emergency refund'.$this->getWording();
+						$refund['refund_type']		= $this->getRefundType();
 
+						# try to save if it doesn't work then
+						# exist the loop
+						$newRefund = $this->refund->create($refund);
+						if (!$newRefund) {
+							return false;
+						}
+
+						// If we reach here, it means we have save emergency, now let's 
+						// remove emergency amount that we have saved and record the 
+						// amount for the existing non-emergency loan
+						$refundMember->refund_fee -=$emergencyLoanRefundFee;
+				  }
+				}
 			}
-		
 
 			$refund['adhersion_id']		= $refundMember->adhersion_id;
 			$refund['contract_number']	= $loan->loan_contract;
@@ -210,7 +234,7 @@ class RefundFactory {
 
 
 			// If the loan we are paying for has cautionneur, then make sure
-			// We are update our member cautionneur table by adding the
+			// We    update our member cautionneur table by adding the
 			// amount paid by this member to the refund amount as long 
 			// as cautionneur still have a balance
 			

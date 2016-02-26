@@ -5,6 +5,6 @@
 	<td>{{ $refund->wording }} </td>
     <td></td>
 	<td></td>
-    <td>{!! number_format((int)$refund->monthly_fees) !!} </td>
+    <td>{!! $refund->monthly_fees ? number_format((int)$refund->monthly_fees):'' !!} </td>
     <td>{!! number_format((int)$refund->amount) !!}</td>
 </tr>
