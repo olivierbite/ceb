@@ -53,16 +53,8 @@ class RefundFactory {
 			if ($member->refund_sum >= $member->loan_sum) {
 				continue;
 			}
-			
-			$monthly_fees =  $member->loan_montly_fee;
-			// Even if we have active loan but if the loan balance is 
-			// less than the 
-			if ($member->total_loan - $member->total_refunds < 0 ) {
-				$monthly_fees = 0;
-			}
-
 	        // Make sure amount is numeric
-	        $member->refund_fee = (int)  $monthly_fees + $member->emergency_monthly_fee;
+	        $member->refund_fee = (int)   $member->loan_montly_fee;
 			$membersWithNoLoan[] = $member;
 		}
 	
@@ -84,15 +76,8 @@ class RefundFactory {
 			return false;
 		}
 
-        $monthly_fees =  $member->loan_montly_fee;
-		// Even if we have active loan but if the loan balance is 
-		// less than the 
-		if ($member->total_loan - $member->total_refunds < 0 ) {
-			$monthly_fees = 0;
-		}
-
         // Make sure amount is numeric
-        $member->refund_fee = (int)  $monthly_fees + $member->emergency_monthly_fee;
+        $member->refund_fee = (int)  $member->loan_montly_fee;
         
 		$members[] = $member;
 		$this->setRefundMembers($members);
