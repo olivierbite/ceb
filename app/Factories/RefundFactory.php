@@ -175,7 +175,6 @@ class RefundFactory {
 					// Determine exact amount to record as emergency payback
 					$emergencyLoanRefundFee  = $refundMember->refund_fee - $emergencyLoanRefundFee;
 
-					dd($emergencyLoanRefundFe);
 					// Amount refunded has included the emergency loan then record it
 					if ($emergencyLoanRefundFee > 0 ) {
 					 	$emergencyLoan->emergency_refund += $emergencyLoanRefundFee;
