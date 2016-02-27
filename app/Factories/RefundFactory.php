@@ -152,6 +152,7 @@ class RefundFactory {
 		$month = $this->getMonth();
 		$contractNumber = $this->getContributionContractNumber();
 		$month = $this->getMonth();
+		$emergencyLoanRefundFee = 0;
 
 		foreach ($refundMembers as $refundMember) {
 			
@@ -204,13 +205,15 @@ class RefundFactory {
 							return false;
 						}
 
-						// If we reach here, it means we have save emergency, now let's 
-						// remove emergency amount that we have saved and record the 
-						// amount for the existing non-emergency loan
-						$refundMember->refund_fee -=$emergencyLoanRefundFee;
+
 				  }
 				}
 			}
+
+			// If we reach here, it means we have save emergency, now let's 
+			// remove emergency amount that we have saved and record the 
+			// amount for the existing non-emergency loan
+			$refundMember->refund_fee -=$emergencyLoanRefundFee;
 
 			$refund['adhersion_id']		= $refundMember->adhersion_id;
 			$refund['contract_number']	= $loan->loan_contract;
@@ -231,6 +234,12 @@ class RefundFactory {
 				return false;
 			}
 
+			// We have successfully managed to save refund, in order to 
+			// record proper amount for postings in the database,we
+			// need to add back the emergency amount fees that we
+			// have removed earlier
+			
+			$refundMember->refund_fee +=$emergencyLoanRefundFee;
 
 			// If the loan we are paying for has cautionneur, then make sure
 			// We    update our member cautionneur table by adding the
@@ -326,9 +335,11 @@ class RefundFactory {
 	public function getTotalRefunds() {
 		$sum = 0;
 		$members = $this->getRefundMembers();
+
 		foreach ($members as $member) {
 			$sum += $member->refund_fee;
 		}
+
 		return $sum;
 	}
 
