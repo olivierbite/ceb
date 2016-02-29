@@ -1,6 +1,5 @@
 <?php $loan = $member->latest_loan; ?>
 
-<?php dd($loan);?>
 
 <div class="row" style="background-color: #99C68E;margin-right:0px;margin-left: 0px;">
   <div class="col-md-3">
