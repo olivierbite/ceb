@@ -28,7 +28,7 @@
 	 --}}
 
 	@if (!empty($member))
-		@if ($member->has_active_loan == true)
+		@if ($member->has_active_loan == true && !is_null($member->latest_loan))
 			@include('loansandrepayments.previous_loan_details',['member'=>$member])
 		@endif
 	@endif
