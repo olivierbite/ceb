@@ -22,6 +22,11 @@ jQuery(document).ready(function($) {
   		window.location.href = window.location.protocol+'//'+window.location.host+'/loans'+'?operation_type='+loanType.val();
   	});
 
+  	// If administration fee is changed then update the amount
+  	$('#administration_fees').change(function(event) {
+  		event.preventDefault();
+  		calculateUrgentLoanFees();
+  	});
 
 	// Make sure that only number are entered in the box
 	$("input.loan-input").numeric();
@@ -145,9 +150,10 @@ jQuery(document).ready(function($) {
 		};
 
 		var netToReceive = loanToRepay - interests;
-		var administration_fees = 2;
+		var administration_fees = $('#administration_fees').val();
 		var operation_type  	= $('#operation_type').val();
 		var urgent_loan_interests = 0;
+
 		// Update fields		
 		$('#interests').val(Math.round(interests) );
 		data[$('#interests').attr('name')] = $('#interests').val();
@@ -162,7 +168,9 @@ jQuery(document).ready(function($) {
 		// And remove it from the net_to_receive
 		if (operation_type.toLowerCase() == 'urgent_ordinary_loan') {
 			
-			 urgent_loan_interests = loanToRepay * (administration_fees / 100);
+			 var percentageAdministrationFee =  parseInt(administration_fees) / 100;
+
+			 urgent_loan_interests = loanToRepay * percentageAdministrationFee;
 
 			$('#interest_on_urgently_loan').val(parseInt(urgent_loan_interests));
 			$('#netToReceive').val(parseInt(netToReceive - urgent_loan_interests ));
@@ -215,9 +223,11 @@ jQuery(document).ready(function($) {
             @if((new Ceb\Models\Setting)->hasKey('loan.administration.fee'))
             <?php $administration_fees =  \Ceb\Models\Setting::keyValue('loan.administration.fee'); ?>
             @endif
-            console.log(loanToRepay );
+
 			if (loanToRepay > 0 ) {
-				$('#interest_on_urgently_loan').val(Math.round(loanToRepay* {!! $administration_fees/100 !!}) );
+				var administration_fees = $('#administration_fees').val();
+				// $('#interest_on_urgently_loan').val(Math.round(loanToRepay* {!! $administration_fees/100 !!}) );
+				$('#interest_on_urgently_loan').val(Math.round(loanToRepay*  parseInt(administration_fees)/100) );
 				return true;
 			};
 
