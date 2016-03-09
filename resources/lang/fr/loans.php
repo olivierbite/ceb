@@ -6,4 +6,5 @@ return [
     'special_loan'=>'prêt special',
     'social_loan'=>'prêt social',
     'emergency_loan'=>'prêt urgence',
+     'Regularisation Pret'=>'Regularisation prêt',
 ];
