@@ -157,7 +157,9 @@ class RefundFactory {
 		foreach ($refundMembers as $refundMember) {
 			
 			$loan  = $refundMember->latestLoan();
-			
+
+			$loanTransactionId  = null;
+			$loanId = null;
 			// if this member has active emergency loan, remove the normal amount to refund
 			// without emergency loan and then the rest save it as emergency loan refund 
 			// so that we can record how much money on emergency loan has been paid
@@ -184,6 +186,9 @@ class RefundFactory {
 					 	if (!$emergencyLoan->save()) {
 					 		return false;
 					 	}
+
+					 	$loanTransactionId = $emergencyLoan->transactionid;
+					 	$loanId =  $emergencyLoan->id;
 						 // Since we have emergency loan amount, let's save 
 						 // that amount with their corresponding loan id
 						$refund['adhersion_id']		= $refundMember->adhersion_id;
@@ -210,29 +215,39 @@ class RefundFactory {
 				}
 			}
 
+			// Make sure we update the member object in order to avoid
+			// Double refunds when someone has emergency
+			$refundMember->refund_fee -=$emergencyLoanRefundFee;
+
 			// If we reach here, it means we have save emergency, now let's 
 			// remove emergency amount that we have saved and record the 
 			// amount for the existing non-emergency loan
-			$refundMember->refund_fee -=$emergencyLoanRefundFee;
 
-			$refund['adhersion_id']		= $refundMember->adhersion_id;
-			$refund['contract_number']	= $loan->loan_contract;
-			$refund['month']			= $this->getMonth() ?:'N/A';
-			$refund['amount']			= $refundMember->refund_fee;
-			$refund['tranche_number']	= $loan->tranches_number;
-			$refund['transaction_id']	= $transactionId;
-			$refund['member_id']		= $refundMember->id;
-			$refund['user_id']			= Sentry::getUser()->id;
-			$refund['loan_id']			= $loan->id;
-			$refund['wording']			= $this->getWording();
-			$refund['refund_type']		= $this->getRefundType();
+			// NOTE: ONLY RECORD THIS IF WE HAVE AN ACTIVE NON EMERGENCY LOAN
+			if (!empty($loan)) {
+				// set current trnsaction id
+				$loanTransactionId = $loan->transactionid;
+				$loanId =  $loan->id;
 
-			# try to save if it doesn't work then
-			# exist the loop
-			$newRefund = $this->refund->create($refund);
-			if (!$newRefund) {
-				return false;
-			}
+				$refund['adhersion_id']		= $refundMember->adhersion_id;
+				$refund['contract_number']	= $loan->loan_contract;
+				$refund['month']			= $this->getMonth() ?:'N/A';
+				$refund['amount']			= $refundMember->refund_fee;
+				$refund['tranche_number']	= $loan->tranches_number;
+				$refund['transaction_id']	= $transactionId;
+				$refund['member_id']		= $refundMember->id;
+				$refund['user_id']			= Sentry::getUser()->id;
+				$refund['loan_id']			= $loan->id;
+				$refund['wording']			= $this->getWording();
+				$refund['refund_type']		= $this->getRefundType();
+
+				# try to save if it doesn't work then
+				# exist the loop
+				$newRefund = $this->refund->create($refund);
+				if (!$newRefund) {
+					return false;
+				}
+		    }
 
 			// We have successfully managed to save refund, in order to 
 			// record proper amount for postings in the database,we
@@ -247,9 +262,9 @@ class RefundFactory {
 			// as cautionneur still have a balance
 			
 			$loanCautions = $this->memberLoanCautionneur
-								 ->byTransaction($loan->transactionid)
+								 ->byTransaction($loanTransactionId)
 								 ->byAdhersion($refundMember->adhersion_id)
-								 ->byLoanId($loan->id)
+								 ->byLoanId($loanId)
 								 ->Active()
 								 ->get();
 

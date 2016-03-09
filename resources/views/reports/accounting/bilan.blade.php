@@ -1,5 +1,5 @@
   <table class="pure-table pure-table-bordered">
-  <caption style="font-size: 16px;"> {{ trans('report.bilan') }} {{ Request::segment(5) }} </caption>
+  <caption style="font-size: 16px;"> {{ trans('report.bilan') }}  </caption>
 	<tr>
 		<td Valign="TOP">ACTIF_TABLE</td>
 		<td Valign="TOP">PASSIF_TABLE</td>
