@@ -306,7 +306,6 @@ class RefundFactory {
 			// We have recorded all refunds let's see if it comes from 
 			// refund on the saving (retire par epargne ) then we 
 			// need to deduct savings/contribution of this member.
-			
 			if ($this->getRefundType() =='refund_by_epargne') {
 
 				if (!empty($loan)) {
@@ -320,7 +319,7 @@ class RefundFactory {
 				$data['amount'] = $refundMember->refund_fee;
 				$data['movement_type']  ='withdrawal';
 				$data['operation_type'] ='other_withdrawals';
-				$data['wording'] = $this->getWording();
+				$data['wording'] = $this->getRefundType().'|'.$this->getWording();
 				$data['charges'] = 0;
 				$contribution = new MemberTransactionsFactory(new Institution, new Refund,new Posting,new User);
 				
