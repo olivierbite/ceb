@@ -71,6 +71,7 @@ class RefundFactory {
 	{
 		$member = $this->member->with('loans')->findOrFail($memberId);
 
+
 		if (!$member->hasActiveLoan()) {
 			flash()->error(trans('member.this_member_doesnot_have_active_loan'));
 			return false;
@@ -159,7 +160,9 @@ class RefundFactory {
 			$loan  = $refundMember->latestLoan();
 
 			$loanTransactionId  = null;
-			$loanId = null;
+			$loanId = null;			
+			$loanAmount = 0;
+
 			// if this member has active emergency loan, remove the normal amount to refund
 			// without emergency loan and then the rest save it as emergency loan refund 
 			// so that we can record how much money on emergency loan has been paid
@@ -300,10 +303,34 @@ class RefundFactory {
             	}
 			}
 
+			// We have recorded all refunds let's see if it comes from 
+			// refund on the saving (retire par epargne ) then we 
+			// need to deduct savings/contribution of this member.
+			
+			if ($this->getRefundType() =='refund_by_epargne') {
+
+				if (!empty($loan)) {
+					$data['contract_number'] = $loan->loan_contract;
+				}
+				elseif (isset($emergencyLoan)) {
+					$data['contract_number'] = $emergencyLoan->loan_contract;
+				}
+
+				$data['member'] = $refundMember;
+				$data['amount'] = $refundMember->refund_fee;
+				$data['movement_type']  ='withdrawal';
+				$data['operation_type'] ='other_withdrawals';
+				$data['wording'] = $this->getWording();
+				$data['charges'] = 0;
+				$contribution = new MemberTransactionsFactory(new Institution, new Refund,new Posting,new User);
+				
+				return $contribution->saveContibutions($loanTransactionId,$data);
+			}
 		}
 
 		return true;
 	}
+
 
 	/**
 	 * Save posting to the database

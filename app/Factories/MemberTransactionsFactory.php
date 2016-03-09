@@ -59,7 +59,7 @@ class MemberTransactionsFactory {
 	 *
 	 * @return bool
 	 */
-	private function saveContibutions($transactionId,$data = array()) {
+	public function saveContibutions($transactionId,$data = array()) {
 
 			if (count($data) == 0 ) { // Provided data is empty we have nothing to do here
 				flash()->error(trans('member.member_transaction_data_not_provided'));
