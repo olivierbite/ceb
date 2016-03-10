@@ -1,7 +1,7 @@
 <?php
 
 return array (
-  'dashboard'                 => 'Tableaux  De Bord ',
+  'dashboard'                 => 'Tableaux De Bord ',
   'members'                   => 'Members',
   'contributions_and_savings' => 'Cotisation & Epargne',
   'loans_and_repayments'      => 'Loans & repayments',
@@ -13,7 +13,7 @@ return array (
   'contributions'             => 'Saisie collectif de cotisations mensuelles',
   'groups'                    => 'Groupes',
   'help'                      => 'Aide',
-  'loans'                     => 'Prêt',
+  'loans'                     => 'Prêts',
   'refund'                    => 'Remboursement',
   'refunds'                   => 'Remboursements',
   'report_contrats'           => 'Rapport Contracts',
@@ -31,11 +31,9 @@ return array (
   'installments'              =>'Echeances',
   'amount'                    =>'Montant',
   'amount_installments'       =>'Montant et Echeance',  
-  'loans_and_repayments'      => 'Prêt et remboursement',
+  'loans_and_repayments'      => 'Prêts et remboursements',
   'accounting'                => 'Comptabilite',
    'institutions'              => 'Institutions',  
  
-  
-   
   
 );
