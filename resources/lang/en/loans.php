@@ -11,7 +11,8 @@ return [
 	'emergency_loan_balance'		=> 'Balance',	
 	'emergency_loan_monthly_fees'	=> 'Monthly fees',
 	'emergency_loan_refund'			=> 'Refunded',
-	'emergency_loan_remaining_tranches'			=> 'Remaining tranches',
+	'emergency_loan_remaining_tranches'=> 'Remaining tranches',
+	
 
 
 ];
