@@ -42,16 +42,9 @@ class LoanFactory {
 	 */
 	function addMember($memberId) {
 
-		// Only check member ceb age when it's not 
-		switch (strtolower($this->getOperationType()) ==  'emergency_loan') {
-			case true:
-				$member = $this->member->find($memberId);
-				break;
-			
-			default:
-				$member = $this->member->eligible($memberId)->find($memberId);
-				break;
-		}
+	// Only check member ceb age when it's not 
+	$member = $this->member;
+	$member = (strtolower($this->getOperationType()) ==  'emergency_loan') ? $member->find($memberId) : $member->eligible($memberId)->find($memberId);
 		
 
 		// Detect if this member is not more than 6 months
