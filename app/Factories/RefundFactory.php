@@ -318,8 +318,8 @@ class RefundFactory {
 				$data['member'] = $refundMember;
 				$data['amount'] = $refundMember->refund_fee;
 				$data['movement_type']  ='withdrawal';
-				$data['operation_type'] ='other_withdrawals';
-				$data['wording'] = $this->getRefundType().'|'.$this->getWording();
+				$data['operation_type'] =trans('member.other_withdrawals');
+				$data['wording'] = trans('refund.refund_by_epargne').'('.$this->getWording().')';
 				$data['charges'] = 0;
 				$contribution = new MemberTransactionsFactory(new Institution, new Refund,new Posting,new User);
 				
