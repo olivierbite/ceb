@@ -41,7 +41,11 @@ class LoanFactory {
 	 * @param integer $memberId ID of the member to add to the session
 	 */
 	function addMember($memberId) {
-		$member = $this->member->eligible($memberId)->find($memberId);
+
+	// Only check member ceb age when it's not 
+	$member = $this->member;
+	$member = (strtolower($this->getOperationType()) ==  'emergency_loan') ? $member->find($memberId) : $member->eligible($memberId)->find($memberId);
+		
 
 		// Detect if this member is not more than 6 months
 		// as per de definition of CEB
