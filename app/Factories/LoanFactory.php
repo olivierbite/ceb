@@ -38,13 +38,14 @@ class LoanFactory {
 
 	/**
 	 * Add member to is going to receive loan
-	 * @param integer $memberId ID of the member to add to the session
+	 * @param integer $mId ID of the member to add to the session
 	 */
-	function addMember($memberId) {
+	function addMember($mId) {
 
 	// Only check member ceb age when it's not 
 	$member = $this->member;
-	$member = (strtolower($this->getOperationType()) ==  'emergency_loan') ? $member->find($memberId) : $member->eligible($memberId)->find($memberId);
+	$opType = $this->getOperationType();
+	$member = (strtolower($opType) ==  'emergency_loan') ? $member->find($mId) : $member->eligible($mId)->find($mId);
 		
 
 		// Detect if this member is not more than 6 months
@@ -63,7 +64,9 @@ class LoanFactory {
 			}
 	 	}
 
-	 	if ($this->setting->keyValue('loan.allow.one.ordinary.loan.only') == 1) {
+	 	// Check if in the settings we have allowed people to hav more than 1 ordinary loan
+	 	// and the current loan is not an emergency loan
+	 	if ($this->setting->keyValue('loan.allow.one.ordinary.loan.only') == 1 && (strtolower($opType) !=  'emergency_loan')) {
 	 		if ($member->has_active_loan) {
 	 			flash()->warning(trans('loan.this_member_has_active_ordinary_loan'));
 
