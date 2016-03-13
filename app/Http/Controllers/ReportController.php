@@ -651,6 +651,9 @@ class ReportController extends Controller {
 			$this->labels->top_left_upper_value		= $posting->created_at->format('Y-m-d');
 			$this->labels->top_left_under_value		= $posting->user->names;
 			$this->labels->top_right_upper_value	= $refund->adhersion_id;
+			if (count($refund) > 0) {
+			  $this->labels->top_right_upper_value	= trans('general.many_members');
+			}
 			$this->labels->top_right_under_value	= $refund->cheque_number;
     	}
         
