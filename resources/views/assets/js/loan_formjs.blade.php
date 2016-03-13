@@ -224,9 +224,11 @@ jQuery(document).ready(function($) {
             <?php $administration_fees =  \Ceb\Models\Setting::keyValue('loan.administration.fee'); ?>
             @endif
 
+            var loanToRepay = parseInt($('#loanToRepay').val());
+
 			if (loanToRepay > 0 ) {
 				var administration_fees = $('#administration_fees').val();
-				// $('#interest_on_urgently_loan').val(Math.round(loanToRepay* {!! $administration_fees/100 !!}) );
+
 				$('#interest_on_urgently_loan').val(Math.round(loanToRepay*  parseInt(administration_fees)/100) );
 				return true;
 			};
