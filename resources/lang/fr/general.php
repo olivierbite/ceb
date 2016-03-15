@@ -1,3 +1,6 @@
+
+
+
 <?php
 
 return array (
@@ -19,6 +22,7 @@ return array (
     'view_full_lists'=>'Vue liste complet',
     'yes'=>'OUI',
     'no'=>'NON',
+    'select'=>'Selectionnez',
     'make_database_backup'=>'Faire backup du Base de donnee',
     'ceb_summary'=>'CEB Résumé',
     'actions'=>'Actions',
