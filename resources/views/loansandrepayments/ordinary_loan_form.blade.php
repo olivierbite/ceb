@@ -47,8 +47,16 @@
   <div class="col-md-3">
   <div class="form-group">
    <label>{{ trans('loan.operation_type') }}</label>
-   {{-- remove ordinary loan if this member has active loans --}}
-   @if ($member->has_active_loan)     
+   {{-- remove ordinary loan if this member has active loans --}} 
+   <?php
+    // Does this member has a loan ?
+    // if yes inspect the loan details
+    $latestLoan = $member->latestLoanWithEmergency(); 
+    
+    // if the latest taken loan is emergency then treat it in a special way
+    $latestLoan = !is_null($latestLoan)?$latestLoan->is_umergency:0;
+   ?>
+   @if ($member->has_active_loan && $latestLoan!=1)     
      <?php unset($loanTypes['ordinary_loan']); ?>
      <?php unset($loanTypes['urgent_ordinary_loan']); ?>
    @endif

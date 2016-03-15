@@ -197,7 +197,7 @@ class LoanController extends Controller {
 
 		if (isset($loanInputs['operation_type']) == false) {
 			$loanInputs['operation_type'] =  'ordinary_loan';
-
+			
 			if ($member->has_active_loan) {
 				$loanInputs['operation_type'] = 'special_loan';
 			}

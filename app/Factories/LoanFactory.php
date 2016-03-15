@@ -38,13 +38,14 @@ class LoanFactory {
 
 	/**
 	 * Add member to is going to receive loan
-	 * @param integer $memberId ID of the member to add to the session
+	 * @param integer $mId ID of the member to add to the session
 	 */
-	function addMember($memberId) {
+	function addMember($mId) {
 
 	// Only check member ceb age when it's not 
 	$member = $this->member;
-	$member = (strtolower($this->getOperationType()) ==  'emergency_loan') ? $member->find($memberId) : $member->eligible($memberId)->find($memberId);
+	$opType = $this->getOperationType();
+	$member = (strtolower($opType) ==  'emergency_loan') ? $member->find($mId) : $member->eligible($mId)->find($mId);
 		
 
 		// Detect if this member is not more than 6 months
@@ -54,6 +55,21 @@ class LoanFactory {
 			return false;
 		}
 
+	// Does this member has a loan ?
+	// if yes inspect the loan details
+  
+	$latestLoan = $member->latestLoanWithEmergency();
+
+
+	if (!is_null($latestLoan)) 
+	{
+    
+    // If latest loan this member took is emergency 
+    // there is no need to validate it like other
+    // types of loan just skip it as request by 
+    // Olivier on 11 March 2016 at 18:02
+	if ($latestLoan->is_umergency != 1) {
+	
 		/** If we are allowed to provide loan to people with negative right to loan */
 	 	if ($this->setting->keyValue('loan.allow.member.with.negative.right.to.loan') == 0) {
 	 		if ($member->right_to_loan < 1) {
@@ -63,17 +79,21 @@ class LoanFactory {
 			}
 	 	}
 
+	 	// Check if in the settings we have allowed people to hav more than 1 ordinary loan
+	 	// and the current loan is not an emergency loan
 	 	if ($this->setting->keyValue('loan.allow.one.ordinary.loan.only') == 1) {
-	 		if ($member->has_active_loan) {
-	 			flash()->warning(trans('loan.this_member_has_active_ordinary_loan'));
+		 		if ($member->has_active_loan) {
+		 			flash()->warning(trans('loan.this_member_has_active_ordinary_loan'));
 
-	 			// Change operation type to default if the member still has ordinary 
-	 			// loan to pay back
-	 			if (strpos($this->getLoanInput('operation_type'), 'ordinary_loan') !== false) {
-					$this->addLoanInput(['operation_type'=>'special_loan']);
-	 			}
-	 		}
-	 	}
+		 			// Change operation type to default if the member still has ordinary 
+		 			// loan to pay back
+		 			if (strpos($this->getLoanInput('operation_type'), 'ordinary_loan') !== false) {
+						$this->addLoanInput(['operation_type'=>'special_loan']);
+		 			}
+		 		}
+		 	}
+		  }
+		 }
 		
 		Session::put('loan_member', $member);
 
