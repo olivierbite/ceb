@@ -2,7 +2,7 @@
 
 return array (
   'dashboard'                 => 'Tableaux De Bord ',
-  'members'                   => 'Members',
+  'members'                   => 'Membres',
   'contributions_and_savings' => 'Cotisation & Epargne',
   'loans_and_repayments'      => 'Loans & repayments',
   'accounting'                => 'Comptabilite', 
@@ -33,7 +33,6 @@ return array (
   'amount_installments'       =>'Montant et Echeance',  
   'loans_and_repayments'      => 'Prêts et remboursements',
   'accounting'                => 'Comptabilite',
-   'institutions'              => 'Institutions',  
- 
+   
   
 );
