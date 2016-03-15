@@ -39,7 +39,7 @@ return array (
     'full_paid_loan'                                                                  => 'Prêt Rembourse  ',
     'nature'                                                                          =>'Nature',
     'wording'                                                                         =>'Libelle',
-    'loan'                                                                            =>'Prêts',
+    'loan'                                                                            =>'Prêt',
     'installment_payments'                                                            =>'Tranche a payer',
     'installements'                                                                   =>'Tranche ',
     'loan-icon'                                                                       => 'fa fa-dashboard text-aqua',
@@ -137,8 +137,6 @@ return array (
     'number_of_cheque'                                                                => 'Numéro de  Cheque',
     'number_of_installments'                                                          => 'Nombre de Tranche',
     'operation_type'                                                                  => 'Type d\'Operation',
-    'saving'                                                                          => 'Epargne',
-    'saving_caution'                                                                  => 'Cautions et Epargne',
     'wished_amount'                                                                   => 'Montant Souhaite',
     'ordinary_loans'                                                                  => 'Prêt ordinaire',
     'special_loans'                                                                   => 'Prêt Special',
@@ -214,9 +212,7 @@ return array (
     'previous_loan_to_repay'                                                          =>'Prêt precedent',
     'beneficiaire'                                                                    =>'beneficiaire',
     'contract_number'                                                                 =>'Numero contrat',
-    'cautionneur1'                                                                    =>'Cautionneur1',
-    'cautionneur2'                                                                    =>'Cautionneur2',
-
+   
     'provide_bank_details_to_unblock_this_loan'                                       =>'Fournir des détails bancaires pour débloquer ce prêt', 
 
 );
