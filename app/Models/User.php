@@ -348,7 +348,7 @@ class User extends SentinelModel {
 				$loan_balance = $this->loanBalance();
 				$loan_refund  = $this->latestLoan()->monthly_fees;
 				// No active loan therefore remaining installment is 0
-				$installments = ceil($loan_balance / $loan_refund);
+				$installments = $loan_balance / $loan_refund;
 			}
 
 			// Add emergency loan if we have it
@@ -358,7 +358,7 @@ class User extends SentinelModel {
 				$emergency_balance     = $emergency_loan->emergency_balance;
 				$emergencyLoanAmount = $emergency_balance + $emergency_loan_refund;
 				$emergency_monthly_fee = $emergency_loan->monthly_fees;
-				$emergency_installments = ceil($emergency_balance / $emergency_monthly_fee);
+				$emergency_installments = $emergency_balance / $emergency_monthly_fee;
 
 				// Remove emergency loan since we have added it in total loans
 				// and to recalculations for the installments
@@ -370,7 +370,7 @@ class User extends SentinelModel {
 				
 				// Add the emergency loan balance for us to be able to balance
 				// the installments
-				$installments = ceil($loan_balance / $loan_refund);
+				$installments = $loan_balance / $loan_refund;
 				
 				// Add the difference of emergency loan installments 
 				// if installments are < than emergency loan installments
@@ -384,7 +384,7 @@ class User extends SentinelModel {
 			Log::critical($e->getMessage());
 		}
 		
-		return $installments;
+		return intval(floor($installments));
 	}
 
 	/**
@@ -611,7 +611,10 @@ class User extends SentinelModel {
 			if ($this->hasActiveEmergencyLoan) {
 				$monthly_fee+= $this->active_emergency_loan->monthly_fees;
 			}
-
+       
+        if ($this->remainingInstallment() < 2) {
+        	return $this->loan_balance;
+        }
 		return $monthly_fee;	
 	}
 
