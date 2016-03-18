@@ -447,6 +447,7 @@ class RegularisationFactory {
 		$loanToRegulate->urgent_loan_interests	= round($inputs['additinal_charges']);
 		$loanToRegulate->user_id				= Sentry::getUser()->id;
 		$loanToRegulate->is_regulation			= true;
+		$loanToRegulate->letter_date			= date("Y-m-d h:i:s");
 		$loanToRegulate->regulation_type		= $inputs['operation_type'];
 
         if ($loanToRegulate->save() == false) {
