@@ -469,7 +469,7 @@ class LoanFactory {
 		$data['adhersion_id'] = $member->adhersion_id;
 		$data['movement_nature'] =isset( $inputs['movement_nature'])? $inputs['movement_nature']:'saving';
 		$data['operation_type'] = $this->getOperationType();
-		$data['letter_date'] = $this->getLetterDate();
+		$data['letter_date'] = $this->getLetterDate() .' '. date('H:i:s');
 		$data['right_to_loan'] = $inputs['right_to_loan'];
 		$data['wished_amount'] = $inputs['wished_amount'];
 		$data['loan_to_repay'] = $inputs['loan_to_repay'];
