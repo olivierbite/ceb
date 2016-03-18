@@ -602,11 +602,33 @@ class User extends SentinelModel {
 	 * @return numeric with the fees this member need to pay
 	 */
 	public function loanMonthlyFees() {
-		$monthly_fee = 0;		
+		    $monthly_fee = 0;		
 
 			if ($this->has_active_loan && !is_null($latest=$this->latestLoan())) {
 				$monthly_fee = $latest->monthly_fees;
 			}
+
+			// If this latest loan is not ordinary loan, then check if this member
+			// has taken an ordinary loan which is not paid yet and add monthly
+			// fees to the ordinary loan 
+			try
+			{
+				// Get latest loan  details
+				$latest_ordinary_loan = $this->latest_ordinary_loan;
+                
+				// Check if we have latest active loan that is not yet paid
+                if ($latest_ordinary_loan->id != $latest->id && !$latest_ordinary_loan->isFullPaid()) {
+                	// We need to add previous monthly fees, since this loan is either
+                	// social loan or special loan 
+                	$monthly_fee+=$latest_ordinary_loan->monthly_fees;
+
+                }
+			}
+			catch(\Exception $ex){
+				Log::alert($ex);
+			}
+
+
 
 			if ($this->hasActiveEmergencyLoan) {
 				$monthly_fee+= $this->active_emergency_loan->monthly_fees;
