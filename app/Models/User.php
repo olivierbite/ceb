@@ -616,10 +616,12 @@ class User extends SentinelModel {
 				// Get latest loan  details
 				$latest_ordinary_loan = $this->latest_ordinary_loan;
                 
-				// Check if we have latest active loan that is not yet paid
+				// Check if we have latest active ordinary loan that is not yet paid
+				// We need to add previous monthly fees, since this loan is either
+                // social loan or special loan 
+                
                 if ($latest_ordinary_loan->id != $latest->id && !$latest_ordinary_loan->isFullPaid()) {
-                	// We need to add previous monthly fees, since this loan is either
-                	// social loan or special loan 
+                	
                 	$monthly_fee+=$latest_ordinary_loan->monthly_fees;
 
                 }
