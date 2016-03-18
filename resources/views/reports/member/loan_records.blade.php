@@ -26,7 +26,7 @@
   @forelse ($loans as $loan)
 
   	{{-- HEADER TABLE ONLY SHOW HEADERS FOR ORDINARY LOAN--}}
-  	@if (strpos($loan->operation_type,'ordinary_loan') !== FALSE || strpos($loan->operation_type,'emergency_loan') !== FALSE)
+  	@if ((strpos($loan->operation_type,'ordinary_loan') !== FALSE || strpos($loan->operation_type,'emergency_loan') !== FALSE) && $loan->is_regulation == false)
   		{{-- SUMMARY TABLE --}}
 		@if ($loan->id !== $first_loan)
 			@include('reports.member.item_loan_record_summary')
