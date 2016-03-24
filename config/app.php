@@ -147,7 +147,7 @@ return [
 		Ceb\Providers\NotificationServiceProvider::class,
 
 		// Adding service provider for the 3rd parties
-		Barryvdh\Snappy\ServiceProvider::class,
+		Barryvdh\DomPDF\ServiceProvider::class,
 		Sentinel\SentinelServiceProvider::class,
 		Illuminate\Html\HtmlServiceProvider::class,
 		Laracasts\Flash\FlashServiceProvider::class,
@@ -212,9 +212,7 @@ return [
 		'Activity'		=> 'Spatie\Activitylog\ActivitylogFacade',
 		'Notifynder'	=> 'Fenos\Notifynder\Facades\Notifynder',
 		
-		'PDF'			=> Barryvdh\Snappy\Facades\SnappyPdf::class,
-		'Image'			=> Barryvdh\Snappy\Facades\SnappyImage::class,
-
+		'PDF'			=> Barryvdh\DomPDF\Facade::class,
 	],
 
 ];

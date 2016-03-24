@@ -17,7 +17,7 @@
         "fenos/notifynder": "dev-master",
         "guzzlehttp/guzzle": "^6.1",
         "rap2hpoutre/laravel-log-viewer": "dev-master",
-        "barryvdh/laravel-snappy": "^0.3.0"
+        "barryvdh/laravel-dompdf": "0.6.*"
         },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
