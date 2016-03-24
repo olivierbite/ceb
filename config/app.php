@@ -147,12 +147,13 @@ return [
 		Ceb\Providers\NotificationServiceProvider::class,
 
 		// Adding service provider for the 3rd parties
+		Barryvdh\Snappy\ServiceProvider::class,
 		Sentinel\SentinelServiceProvider::class,
 		Illuminate\Html\HtmlServiceProvider::class,
 		Laracasts\Flash\FlashServiceProvider::class,
+		Fenos\Notifynder\NotifynderServiceProvider::class,
 		Spatie\Activitylog\ActivitylogServiceProvider::class,
 		Barryvdh\TranslationManager\ManagerServiceProvider::class,
-		Fenos\Notifynder\NotifynderServiceProvider::class,
 		Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider::class,
 
 
@@ -205,11 +206,14 @@ return [
 		'View' => Illuminate\Support\Facades\View::class,
 
 		// Additional facades
-		'Form' => 'Illuminate\Html\FormFacade',
-		'HTML' => 'Illuminate\Html\HtmlFacade',
-		'Flash' => 'Laracasts\Flash\Flash',
-		'Activity' => 'Spatie\Activitylog\ActivitylogFacade',
-		'Notifynder'    => 'Fenos\Notifynder\Facades\Notifynder'
+		'Form'			=> 'Illuminate\Html\FormFacade',
+		'HTML'			=> 'Illuminate\Html\HtmlFacade',
+		'Flash'			=> 'Laracasts\Flash\Flash',
+		'Activity'		=> 'Spatie\Activitylog\ActivitylogFacade',
+		'Notifynder'	=> 'Fenos\Notifynder\Facades\Notifynder',
+		
+		'PDF'			=> Barryvdh\Snappy\Facades\SnappyPdf::class,
+		'Image'			=> Barryvdh\Snappy\Facades\SnappyImage::class,
 
 	],
 

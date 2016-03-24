@@ -233,3 +233,10 @@ $router->get('/js/regularisationform',['as'=>'assets.js.regularisationform','use
 
 /** ROUTE FOR LOGS */
 Route::get('logs', ['as'=>'logs','middleware'=>'sentry.admin','uses'=>'\Rap2hpoutre\LaravelLogViewer\LogViewerController@index']);
+
+
+/** TESTING ROUTES */
+Route::get('/test', function(){
+	$pdf = PDF::loadHTML('<h1>Test</h1>');;
+	return $pdf->download('invoice.pdf');
+});
