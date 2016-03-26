@@ -236,7 +236,8 @@ Route::get('logs', ['as'=>'logs','middleware'=>'sentry.admin','uses'=>'\Rap2hpou
 
 
 /** TESTING ROUTES */
-Route::get('/test', function(){
+Route::get('/pdf', function(){
+	$report = view('reports.accounting.bilan')->render();
 	    $account = new \Ceb\Models\Account; 
 	 /** @var Generate table for ACTIVE */
 		$accounts = $account->with('postings')->where(DB::raw('LOWER(account_nature)'),strtolower('ACTIF'))->orderBy('account_number','ASC')->get();
@@ -258,7 +259,9 @@ Route::get('/test', function(){
 		$report = str_replace('ACTIF_TABLE', $actifs, $report);
 		$report = str_replace('PASSIF_TABLE', $passif, $report);
 		$report = str_replace('CHARGES_TABLE', $charges, $report);
-		$report = str_replace('PRODUIT_TABLE', $produits, $report);
-	$pdf = PDF::loadHTML('<h1>Test</h1>');;
-	return $pdf->download('invoice.pdf');
+	 $report = str_replace('PRODUIT_TABLE', $produits, $report);
+
+$pdf = App::make('snappy.pdf.wrapper');
+$pdf->loadHTML('http://ceb.app/reports/accounting/bilan/2016-03-26/2016-03-26/0');
+return $pdf->inline();
 });
