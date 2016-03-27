@@ -35,10 +35,10 @@
 		{{-- empty expr --}}
 	@endforelse
 	   <tr>
-	 		<th colspan="2">{{ trans('general.summary') }}</th>
-{{-- 			<th>{!! number_format(abs($debits)) !!}</th>
-			<th>{!! number_format(abs($credits)) !!}</th>
- --}}			<th>{!! number_format(abs(abs($debits) - abs($credits))) !!}</th>
+	 		<td colspan="2">{{ trans('general.summary') }}</td>
+{{-- 			<td>{!! number_format(abs($debits)) !!}</td>
+			<td>{!! number_format(abs($credits)) !!}</td>
+ --}}			<td>{!! number_format(abs(abs($debits) - abs($credits))) !!}</td>
 		</tr>
 	</tbody>
 </table>

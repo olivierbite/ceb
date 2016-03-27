@@ -1,18 +1,28 @@
+
+body {
+  font-family: "sans-serif";
+}
+.hideextra { white-space: nowrap; overflow: hidden; text-overflow:ellipsis; }
 .pure-table {
   border-collapse: collapse;
   border-spacing: 0;
   empty-cells: show;
   border: 1px solid #cbcbcb;
   width: 100%;
+   display: inline-block;
 
 }
-
-.pure-table caption {
+/*thead { display: table-header-group; }
+tfoot { display: table-row-group; }
+tr { page-break-inside: initial; }
+*//*thead {display: table-row-group;}
+thead {display: table-row-group;}
+*/.pure-table caption {
   color: #000;
   font: italic 85%/1 arial,sans-serif;
   padding: 1em 0;
   text-align: center;
-  font-size: 14px;
+  font-size: 10px;
   font-weight: 600;
   text-decoration: underline;
 }
@@ -23,10 +33,9 @@
 .pure-table td,.pure-table th {
   border-left: 1px solid #cbcbcb;
   border-width: 0 0 0 1px;
-  font-size: inherit;
+  /*font-size: inherit;*/
   margin: 0;
   overflow: visible;
-  padding: 3px;
 }
 
 .pure-table td:first-child,.pure-table th:first-child {
@@ -36,7 +45,7 @@
 .pure-table thead {
   background-color: #e0e0e0;
   color: #000;
-  font-size: 16px;
+  font-size: 10px;
   text-align: center;
   vertical-align: bottom;
   border-bottom: 1px solid #e0e0e0;
@@ -44,7 +53,7 @@
 
 .pure-table td {
   background-color: transparent;
-  font-size: 16px;
+  font-size: 10px;
 }
 
 .pure-table-odd td {
@@ -96,6 +105,7 @@
   font-size: inherit;
   margin: 0;
   overflow: visible;
+  font-size: 10px;
   padding: 3px;
 }
 
@@ -106,7 +116,7 @@
 .pure-table thead {
   background-color: #e0e0e0;
   color: #000;
-  font-size: 12px;
+  font-size: 10px;
   text-align: left;
   vertical-align: bottom;
   border-bottom: 1px solid #e0e0e0;
@@ -114,7 +124,7 @@
 
 .pure-table td {
   background-color: transparent;
-  font-size: 12px;
+  font-size: 10px;
 }
 
 .pure-table-odd td {
@@ -132,7 +142,10 @@
 .pure-table-bordered tbody>tr:last-child>td {
   border-bottom-width: 0;
 }
-
+.pure-table-bordered tbody>tr:last-child>th {
+  border-bottom-width: 0;
+  font-size: 10px;
+}
 .pure-table-horizontal td,.pure-table-horizontal th {
   border-width: 0 0 0px;
   border-bottom: 1px solid #cbcbcb;
@@ -161,63 +174,6 @@
     max-width: 40%;
     padding-right:10px;
 }
-thead { display: table-header-group }
-tfoot { display: table-row-group }
-tr { page-break-inside: avoid }
-/** buttons area */
-.pure-button {
-    font-family: inherit;
-    font-size: 100%;
-    padding: .5em 1em;
-    color: #444;
-    color: rgba(0,0,0,.8);
-    border: 1px solid #999;
-    border: 0 rgba(0,0,0,0);
-    background-color: #E6E6E6;
-    text-decoration: none;
-    border-radius: 2px;
-}
-        .button-xsmall {
-            font-size: 70%;
-        }
-
-        .button-small {
-            font-size: 85%;
-        }
-
-        .button-large {
-            font-size: 110%;
-        }
-
-        .button-xlarge {
-            font-size: 125%;
-        }
-
- .button-success,
-        .button-error,
-        .button-warning,
-        .button-secondary {
-            color: white;
-
-            border-radius: 4px;
-            text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
-        }
-
-        .button-success {
-            background: rgb(28, 184, 65); /* this is a green */
-        }
-
-        .button-error {
-            background: rgb(202, 60, 60); /* this is a maroon */
-        }
-
-        .button-warning {
-            background: rgb(223, 117, 20); /* this is an orange */
-        }
-
-        .button-secondary {
-            background: rgb(66, 184, 221); /* this is a light blue */
-        }
 
 /** @type {PRINT IN LANDSCAPE}  */
  @media print{

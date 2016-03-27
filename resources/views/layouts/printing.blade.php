@@ -49,11 +49,12 @@
       <section class="invoice">
         <div class="row no-print">
             <div class="col-xs-12">
-              <button onclick="window.print();" class="btn btn-success pull-right" style="margin-right: 5px;"><i class="fa fa-print"></i> Print</button>
+           <!--    <button onclick="window.print();" class="btn btn-success pull-right" style="margin-right: 5px;"><i class="fa fa-print"></i> Print</button> -->
+           <a href="?pdf=1" target="_blank" class="button-success pure-button" >Print</a>
             </div>
           </div>
         <!-- title row -->
-        <img src="{!! url('assets/images/header.png') !!}" style=" display: block;margin-left: auto;margin-right: auto;">
+        @include('partials.report_header')
         <br/>
         {!! $report !!}
           <div class="row no-print">

@@ -261,7 +261,5 @@ Route::get('/pdf', function(){
 		$report = str_replace('CHARGES_TABLE', $charges, $report);
 	 $report = str_replace('PRODUIT_TABLE', $produits, $report);
 
-$pdf = App::make('snappy.pdf.wrapper');
-$pdf->loadHTML('http://ceb.app/reports/accounting/bilan/2016-03-26/2016-03-26/0');
-return $pdf->inline();
+	return htmlToPdf($report);
 });
