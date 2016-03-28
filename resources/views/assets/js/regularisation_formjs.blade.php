@@ -83,7 +83,7 @@ jQuery(document).ready(function($) {
 		
 		// Do this only when this is regularisation montant/amount
 		if (operation_type.indexOf("amount") > -1 && operation_type.indexOf("installment") == -1) {
-			console.log(Math.round(loanBalance) , Math.round(additional_amount),interestRate,numberOfInstallment);
+
 			totalInstallement_interests = Math.round(getInterest(Math.round(loanBalance) + Math.round(additional_amount),interestRate,numberOfInstallment));
 			interest_on_amount			= Math.round(totalInstallement_interests - remaining_interest);
 
@@ -93,6 +93,7 @@ jQuery(document).ready(function($) {
 
 			total_interests		= Math.round(interest_on_amount );
 			netToReceive		= additional_amount - interest_on_amount- additinal_charges;
+			console.log(interest_on_amount);
 			new_monthly_fees	= parseInt(Math.round((Math.round(loanBalance)+Math.round(additional_amount))/Math.round(numberOfInstallment)));
 			
 		}
@@ -111,6 +112,7 @@ jQuery(document).ready(function($) {
 
 			total_interests		= Math.round(interest_on_amount + interest_on_installements);
 			netToReceive		= additional_amount - interest_on_installements - interest_on_amount- additinal_charges;
+
 			new_monthly_fees	= parseInt(Math.round((Math.round(loanBalance)+Math.round(additional_amount))/Math.round(numberOfInstallment)));
 		}
 

@@ -201,7 +201,7 @@ class RegularisationController extends Controller {
         if ($member->exists) {
             $rightToLoan = $member->right_to_loan;
         }
-
+        
         $operation_type = strtolower($loanInputs['operation_type']);
         /**
          * Get what the user is allowed to have if configured 

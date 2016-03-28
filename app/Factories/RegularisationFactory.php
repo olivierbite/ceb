@@ -453,7 +453,7 @@ class RegularisationFactory {
         if ($loanToRegulate->save() == false) {
         	return false;
         }
-	    // If we have bond then save cautionneurs in also in the database
+	    // If we have bond then save cautionneurs also  in the database
 		if ($inputs['amount_bonded'] > 0 && ($inputs['additional_amount'] > $inputs['right_to_loan'])) {
 			// Attempt to record the loan
 			if ($this->recordCautionneurs($transactionid, $loanToRegulate->id) == false) {

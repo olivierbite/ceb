@@ -306,11 +306,6 @@ class User extends SentinelModel {
 		if ($this->has_active_loan) {
 			$balance = $this->totalLoans() - $this->totalRefunds();
 		}
-		// dd()
-		// //
-		// if ($this->hasActiveEmergencyLoan) {
-		// 	$balance+= $this->active_emergency_loan->emergency_balance;
-		// }
 
 		return $balance;
 	}
@@ -452,8 +447,8 @@ class User extends SentinelModel {
 		// had before we give him this loan
 		$latestLoan = $this->latestLoan();
 		$contributions 		= $this->contributions();
-		
-		if ($this->loan_to_regulate !==-1 ) {
+
+		if ($this->loan_to_regulate !==-1 and strpos($latestLoan->operation_type,'ordinary_loan') !== false) {
 			return $latestLoan->right_to_loan - $latestLoan->loan_to_repay;
 		}
 		
