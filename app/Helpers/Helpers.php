@@ -1,4 +1,28 @@
 <?php 
+
+/**
+ * Convert HTML to pdf
+ * @param  string $html 
+ * @return pdf
+ */
+function htmlToPdf($html)
+{
+	$title = \Request::segment(3);
+	if (is_null($title) || empty($title)) {
+		$title = 'document.pdf';
+	}
+    $html = view('partials.report_header')->render() . $html;
+	$pdf = App::make('snappy.pdf.wrapper');
+	$pdf->loadHTML($html);
+	$pdf->setOption('margin-bottom', 2);
+	$pdf->setOption('header-spacing', 5);
+
+	$pdf->setOption('margin-right', 0);
+	$pdf->setOption('margin-left', 0);
+
+
+	return $pdf->stream($title);
+}
 	/**
 	 * Export to Excel
 	 * 

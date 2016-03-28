@@ -15,6 +15,7 @@ use Ceb\Models\User;
 use Ceb\Repositories\Reports\GraphicReportRepository;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Log;
 use stdClass;
 
@@ -90,7 +91,9 @@ class ReportController extends Controller {
 
 		 $report   = $contract;
 
-
+ 	   if (Input::has('pdf')) {
+         	return  htmlToPdf($report);
+         }
 		return view('layouts.printing', compact('report'));
 	}
 	/**
@@ -134,7 +137,9 @@ class ReportController extends Controller {
 		}
 		
 		$report = $loan->contract;
-
+ if (Input::has('pdf')) {
+         	return  htmlToPdf($report);
+         }
  		return view('layouts.printing', compact('report'));
 	}
 
@@ -186,7 +191,9 @@ class ReportController extends Controller {
 		$report= view('reports.accounting.piece',compact('postings'))->render();
 		if ($excel==1) {
 		  toExcel($report,'account-piece-report');
-		}
+}         if (Input::has('pdf')) {
+         	return  htmlToPdf($report);
+         }
 		return view('layouts.printing', compact('report'));
 	}
 
@@ -214,7 +221,9 @@ class ReportController extends Controller {
 		$report  = view('reports.accounting.ledger',compact('postings'))->render();
 	    if ($excel==1) {
 			 toExcel($report,'ledger-report');
-		}
+}         if (Input::has('pdf')) {
+         	return  htmlToPdf($report);
+         }
 		return view('layouts.printing', compact('report'));
 	}
 
@@ -263,7 +272,9 @@ class ReportController extends Controller {
 
 		if ($excel==1) {
 			 toExcel($report,'bilan-report');
-		}
+}         if (Input::has('pdf')) {
+         	return  htmlToPdf($report);
+         }
 		return view('layouts.printing', compact('report'));
 	}
 
@@ -291,7 +302,9 @@ class ReportController extends Controller {
 		$report  = view('reports.accounting.journal',compact('postings'))->render();
 		if ($excel==1) {
 			 toExcel($report,'journal-report');
-		}
+}         if (Input::has('pdf')) {
+         	return  htmlToPdf($report);
+         }
 		return view('layouts.printing', compact('report'));
 	}
 
@@ -318,7 +331,9 @@ class ReportController extends Controller {
 		$report = view('reports.accounting.accounts-list',compact('accounts'))->render();
 		if ($excel==1) {
 			 toExcel($report,'journal-report');
-		}
+}         if (Input::has('pdf')) {
+         	return  htmlToPdf($report);
+         }
 		return view('layouts.printing', compact('report'));
 	}
 
@@ -350,7 +365,9 @@ class ReportController extends Controller {
 
 	    if ($excel==1) {
 			 toExcel($report,'loanRecords-report');
-		}
+}         if (Input::has('pdf')) {
+         	return  htmlToPdf($report);
+         }
 		return view('layouts.printing', compact('report'));
     }
 
@@ -378,7 +395,9 @@ class ReportController extends Controller {
     	$report = view('reports.member.contributions',compact('contributions','total_savings','total_withdrawal'))->render();
     	if ($excel==1) {
 			 toExcel($report,'contributions-report');
-		}
+}         if (Input::has('pdf')) {
+         	return  htmlToPdf($report);
+         }
     	return view('layouts.printing', compact('report'));
     }
 
@@ -412,7 +431,9 @@ class ReportController extends Controller {
 
     	if ($excel==1) {
 			 toExcel($report,$status.'_between_'.request()->segment(3).'_and_'.request()->segment(4));
-		}
+}         if (Input::has('pdf')) {
+         	return  htmlToPdf($report);
+         }
     	return view('layouts.printing', compact('report'));
     }
 
@@ -439,7 +460,9 @@ class ReportController extends Controller {
 		$report = view('reports.member.memberswithloan',compact('members','institution'))->render();
 		if ($excel==1) {
 			 toExcel($report,$status.'_between_'.request()->segment(3).'_and_'.request()->segment(4));
-		}
+}         if (Input::has('pdf')) {
+         	return  htmlToPdf($report);
+         }
     	return view('layouts.printing', compact('report'));
     }
 
@@ -462,7 +485,9 @@ class ReportController extends Controller {
 		$report = view('reports.member.memberssavings',compact('members'))->render();
 		if ($excel==1) {
 			 toExcel($report,'savings level');
-		}
+}         if (Input::has('pdf')) {
+         	return  htmlToPdf($report);
+         }
     	return view('layouts.printing', compact('report'));
     }
 
@@ -479,7 +504,9 @@ class ReportController extends Controller {
 		$report = view('reports.member.memberloans',compact('members'))->render();
 		if ($excel==1) {
 			 toExcel($report,'Loan levels');
-		}
+}         if (Input::has('pdf')) {
+         	return  htmlToPdf($report);
+         }
     	return view('layouts.printing', compact('report'));
     }
     /**
@@ -501,7 +528,9 @@ class ReportController extends Controller {
 		$report =  view('reports.member.members_not_contributed',compact('members'))->render();
 		if ($excel==1) {
 			 toExcel($report,'contribution irreguralities');
-		}
+}         if (Input::has('pdf')) {
+         	return  htmlToPdf($report);
+         }
     	return view('layouts.printing', compact('report'));
     }
 
@@ -525,7 +554,9 @@ class ReportController extends Controller {
 		$report =  view('reports.member.refund_irregularities',compact('members'))->render();
 		if ($excel==1) {
 			 toExcel($report,'refund irreguralities');
-		}
+}         if (Input::has('pdf')) {
+         	return  htmlToPdf($report);
+         }
     	return view('layouts.printing', compact('report'));
     }
 
@@ -554,7 +585,9 @@ class ReportController extends Controller {
     	$report =  view('reports.member.cautionned_me',compact('cautions','title','member','type'))->render();
 		if ($excel==1) {
 			 toExcel($report,'members who cautioned me');
-		}
+}         if (Input::has('pdf')) {
+         	return  htmlToPdf($report);
+         }
     	return view('layouts.printing', compact('report'));
     }
       /**
@@ -581,7 +614,9 @@ class ReportController extends Controller {
     	$report =  view('reports.member.cautionned_me',compact('cautions','title','member','type'))->render();
 		if ($excel==1) {
 			 toExcel($report,'members who cautioned me');
-		}
+}         if (Input::has('pdf')) {
+         	return  htmlToPdf($report);
+         }
     	return view('layouts.printing', compact('report'));
     }
     /**
@@ -620,7 +655,9 @@ class ReportController extends Controller {
     	if ($excel==1) {
 			 toExcel($report,'piece_debourse_saving');
 		}
-    
+     if (Input::has('pdf')) {
+         	return  htmlToPdf($report);
+         }
     	return view('layouts.printing', compact('report'));
     }
 
@@ -662,7 +699,9 @@ class ReportController extends Controller {
     	if ($excel==1) {
 			 toExcel($report,'piece_debourse_saving');
 		}
-    
+     if (Input::has('pdf')) {
+         	return  htmlToPdf($report);
+         }
     	return view('layouts.printing', compact('report'));
     }
 
@@ -697,7 +736,9 @@ class ReportController extends Controller {
 
     	if ($excel==1) {
 			 toExcel($report,'pierce_debource_comptable_between_'.request()->segment(3).'_and_'.request()->segment(4));
-		}
+}         if (Input::has('pdf')) {
+         	return  htmlToPdf($report);
+         }
     	return view('layouts.printing', compact('report'));
     }
 
@@ -732,7 +773,9 @@ class ReportController extends Controller {
 
     	if ($excel==1) {
 			 toExcel($report,'pierce_debource_comptable_between_'.request()->segment(3).'_and_'.request()->segment(4));
-		}
+}         if (Input::has('pdf')) {
+         	return  htmlToPdf($report);
+         }
     	return view('layouts.printing', compact('report'));
     }
      /**
@@ -780,7 +823,9 @@ class ReportController extends Controller {
     	if ($excel==1) {
 			 toExcel($report,'piece_debourse_pret');
 		}
-    
+     if (Input::has('pdf')) {
+         	return  htmlToPdf($report);
+         }
     	return view('layouts.printing', compact('report'));
     }
 
