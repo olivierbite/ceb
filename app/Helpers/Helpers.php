@@ -21,7 +21,7 @@ function htmlToPdf($html)
 	$pdf->setOption('margin-left', 0);
 
 
-	return $pdf->stream($title);
+	return $pdf->inline($title);
 }
 	/**
 	 * Export to Excel
