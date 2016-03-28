@@ -34,7 +34,7 @@ return array (
                   'the_management_reports'                    =>'Rapports de gestion',
                   'montly_refund_file'                        =>'Liste de remboursment mensuel',
                   'ledger'                                    =>'Grand Livre',
-                  'bilan'                                     =>'Bilan  du 31-01-2016',
+                  'bilan'                                     =>'Bilan du ',
                   'journal'                                   =>'Journal',
                   'operating_account'                         =>'Compte Operationel',
                   'account_list'                              =>'Liste de Comptes',
