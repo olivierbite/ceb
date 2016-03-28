@@ -12,7 +12,7 @@
         <!-- title row -->
         <img src="{!! url('assets/images/header.png') !!}" style=" display: block;margin-left: auto;margin-right: auto;">
   <table class="pure-table pure-table-bordered">
-  <caption style="font-size: 16px;"> {{ trans('account.operating_account') }}</caption>
+  <caption style="font-size: 16px;"> {{ trans('account.operating_account') }}  {{Request::segment(5)}}</caption>
 	<tr>
 		<td Valign="TOP">CHARGES_TABLE</td>
 		<td Valign="TOP">PRODUIT_TABLE</td>
