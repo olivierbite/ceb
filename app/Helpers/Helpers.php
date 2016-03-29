@@ -14,7 +14,7 @@ function htmlToPdf($html)
     $html = view('partials.report_header')->render() . $html;
 	$pdf = App::make('snappy.pdf.wrapper');
 	$pdf->loadHTML($html);
-	$pdf->setOption('margin-bottom', 2);
+	$pdf->setOption('footer-spacing', 2);
 	$pdf->setOption('header-spacing', 5);
 
 	$pdf->setOption('margin-right', 0);

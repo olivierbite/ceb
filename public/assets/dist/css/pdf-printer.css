@@ -12,12 +12,12 @@ body {
    display: inline-block;
 
 }
-/*thead { display: table-header-group; }
+thead { display: table-header-group; }
 tfoot { display: table-row-group; }
 tr { page-break-inside: initial; }
-*//*thead {display: table-row-group;}
-thead {display: table-row-group;}
-*/.pure-table caption {
+/*thead {display: table-row-group;}*/
+
+.pure-table caption {
   color: #000;
   font: italic 85%/1 arial,sans-serif;
   padding: 1em 0;
