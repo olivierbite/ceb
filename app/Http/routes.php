@@ -237,29 +237,22 @@ Route::get('logs', ['as'=>'logs','middleware'=>'sentry.admin','uses'=>'\Rap2hpou
 
 /** TESTING ROUTES */
 Route::get('/pdf', function(){
-	$report = view('reports.accounting.bilan')->render();
-	    $account = new \Ceb\Models\Account; 
-	 /** @var Generate table for ACTIVE */
-		$accounts = $account->with('postings')->where(DB::raw('LOWER(account_nature)'),strtolower('ACTIF'))->orderBy('account_number','ASC')->get();
-		$actifs = view('reports.accounting.bilan_item',compact('accounts'))->render();
 
-		/** @var string get passif  */
-		$accounts = $account->with('postings')->where(DB::raw('LOWER(account_nature)'),strtolower('passif'))->orderBy('account_number','ASC')->get();
-		$passif = view('reports.accounting.bilan_item',compact('accounts'))->render();
-		
-		/** @var string get passif  */
-		$accounts = $account->with('postings')->where(DB::raw('LOWER(account_nature)'),strtolower('charges'))->orderBy('account_number','ASC')->get();
-		$charges = view('reports.accounting.bilan_item',compact('accounts'))->render();
+$routes = (new Ceb\Generators\TestsGenerators)->writeTestClass();
+$routeCollection = Route::getRoutes();
 
-		/** @var string get passif  */
-		$accounts = $account->with('postings')->where(DB::raw('LOWER(account_nature)'),strtolower('produits'))->orderBy('account_number','ASC')->get();
-		$produits = view('reports.accounting.bilan_item',compact('accounts'))->render();
-
-		// POSITION REPORTS IN THE TABLE 
-		$report = str_replace('ACTIF_TABLE', $actifs, $report);
-		$report = str_replace('PASSIF_TABLE', $passif, $report);
-		$report = str_replace('CHARGES_TABLE', $charges, $report);
-	 $report = str_replace('PRODUIT_TABLE', $produits, $report);
-
-	return htmlToPdf($report);
+echo "<table style='width:100%'>";
+    echo "<tr>";
+        echo "<td width='10%'><h4>HTTP Method</h4></td>";
+        echo "<td width='10%'><h4>Route</h4></td>";
+        echo "<td width='80%'><h4>Corresponding Action</h4></td>";
+    echo "</tr>";
+    foreach ($routeCollection as $value) {
+        echo "<tr>";
+            echo "<td>" . $value->getMethods()[0] . "</td>";
+            echo "<td>" . $value->getPath() . "</td>";
+            echo "<td>" . $value->getActionName() . "</td>";
+        echo "</tr>";
+    }
+echo "</table>";
 });
