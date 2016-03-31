@@ -48,7 +48,7 @@ use Stringy\StaticStringy as S;
 
 			$fileName = explode('/',$router->path)[0];
 			if (is_null($fileName) || empty($fileName)) {
-				$fileName = 'default';
+				$fileName = 'Default';
 			}
  			$all[$fileName][$methodName] = $router;
  		}
