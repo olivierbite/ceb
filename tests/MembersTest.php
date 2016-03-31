@@ -1,63 +1,205 @@
 <?php
-
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+class members extends TestCase{
 
-class MembersTest extends TestCase
-{
-
-    /**
-     * A test welcome page for member module.
-     *
-     * @return void
-     */
-    public function testMemberList()
-    {
-    	$this->sentryUserBe();
-        $this->visit('/members')
-             ->seePageIs('/members')
-             ->see('members')
-             ->see('institution')
-             ->see('district')
-             ->see('service')
-             ->see('names');
-    }
-
-    /** Test click add new member */
-    public function testClickNewMember()
+	/**
+	 * A testMemberssearch functional.
+	 *
+	 * @return void
+	 */
+	public function testMemberssearch()
 	{
-		$this->sentryUserBe();
-	    $this->visit('/members')
-	         ->click('Add')
-	         ->seePageIs('/members/create');
+	    $this->get('members/search')
+	         ->seePageIs('members/search');
 	}
 
-	public function testNewMemberRegistration()
+	/**
+	 * A testMembersrefund functional.
+	 *
+	 * @return void
+	 */
+	public function testMembersrefund()
 	{
-		$absolutePathToFile = public_path('/assets/images/header.png');
+	    $this->get('members/1/refund')
+	         ->seePageIs('members/');
+	}
 
-		$this->sentryUserBe();
-	    $this->visit('/members/create')
-	         ->type('TestDistrict', 'district')
-		     ->type('TestProvince', 'province')
-		     ->select('1','institution_id')
-	         ->type('TestService', 'service')
-	         ->type('10000', 'monthly_fee')
-	         ->type('FirtName LastName', 'names')
-	         ->type('1970-01-01', 'date_of_birth')
-	         ->select('Female','sex')
-	         ->type('1198980002254699', 'member_nid')
-	         ->type('Rwandan', 'nationality')
-	         ->type('ceb@email.com', 'email')
-	         ->type('0722222222', 'telephone')
+	/**
+	 * A testMemberscontribute functional.
+	 *
+	 * @return void
+	 */
+	public function testMemberscontribute()
+	{
+	    $this->get('members/1/contribute')
+	         ->seePageIs('members/');
+	}
 
-	         /** ADD ATTACHMENTS */
-	         ->attach($absolutePathToFile, 'photo')
-	         ->attach($absolutePathToFile, 'signature')
-	         /** END OF ATTACHMENTS */
+	/**
+	 * A testMemberstransacts functional.
+	 *
+	 * @return void
+	 */
+	public function testMemberstransacts()
+	{
+	    $this->get('members/1/transacts')
+	         ->seePageIs('members/');
+	}
 
-	         ->press('Add New')
-	         ->seePageIs('/members/create');
+	/**
+	 * A testMemberscompletetransaction functional.
+	 *
+	 * @return void
+	 */
+	public function testMemberscompletetransaction()
+	{
+	    $this->post('members/1/completetransaction')
+	         ->seePageIs('members/');
+	}
+
+	/**
+	 * A testMembersattornies functional.
+	 *
+	 * @return void
+	 */
+	public function testMembersattornies()
+	{
+	    $this->get('members/1/attornies')
+	         ->seePageIs('members/');
+	}
+
+	/**
+	 * A testMembersloanrecords functional.
+	 *
+	 * @return void
+	 */
+	public function testMembersloanrecords()
+	{
+	    $this->get('members/loanrecords/1')
+	         ->seePageIs('members/loanrecords/');
+	}
+
+	/**
+	 * A testMemberscontributions functional.
+	 *
+	 * @return void
+	 */
+	public function testMemberscontributions()
+	{
+	    $this->get('members/contributions/1')
+	         ->seePageIs('members/contributions/');
+	}
+
+	/**
+	 * A testMemberscautionsactives functional.
+	 *
+	 * @return void
+	 */
+	public function testMemberscautionsactives()
+	{
+	    $this->get('members/cautions/1')
+	         ->seePageIs('members/cautions/');
+	}
+
+	/**
+	 * A testMemberscautionedactives functional.
+	 *
+	 * @return void
+	 */
+	public function testMemberscautionedactives()
+	{
+	    $this->get('members/cautioned/1')
+	         ->seePageIs('members/cautioned/');
+	}
+
+	/**
+	 * A testMembersindex functional.
+	 *
+	 * @return void
+	 */
+	public function testMembersindex()
+	{
+	    $this->get('members')
+	         ->seePageIs('members');
+	}
+
+	/**
+	 * A testMemberscreate functional.
+	 *
+	 * @return void
+	 */
+	public function testMemberscreate()
+	{
+	    $this->get('members/create')
+	         ->seePageIs('members/create');
+	}
+
+	/**
+	 * A testMembersstore functional.
+	 *
+	 * @return void
+	 */
+	public function testMembersstore()
+	{
+	    $this->post('members')
+	         ->seePageIs('members');
+	}
+
+	/**
+	 * A testMembersshow functional.
+	 *
+	 * @return void
+	 */
+	public function testMembersshow()
+	{
+	    $this->get('members/1')
+	         ->seePageIs('members/');
+	}
+
+	/**
+	 * A testMembersedit functional.
+	 *
+	 * @return void
+	 */
+	public function testMembersedit()
+	{
+	    $this->get('members/1/edit')
+	         ->seePageIs('members/');
+	}
+
+	/**
+	 * A testMembersupdate functional.
+	 *
+	 * @return void
+	 */
+	public function testMembersupdate()
+	{
+	    $this->put('members/1')
+	         ->seePageIs('members/');
+	}
+
+	/**
+	 * A testMembersmembers functional.
+	 *
+	 * @return void
+	 */
+	public function testMembersmembers()
+	{
+	    $this->patch('members/1')
+	         ->seePageIs('members/');
+	}
+
+	/**
+	 * A testMembersdestroy functional.
+	 *
+	 * @return void
+	 */
+	public function testMembersdestroy()
+	{
+	    $this->delete('members/1')
+	         ->seePageIs('members/');
 	}
 }
+?>

@@ -23,6 +23,69 @@ function htmlToPdf($html)
 
 	return $pdf->stream($title);
 }
+
+/**
+ * Check if a string contains another string or character 
+ * @param  string $haystack The string to search in.
+ * @param  string $needle   string that should be searched for
+ * @return bool           true/false
+ */
+
+function stringContains($haystack,$needle){
+	return (strpos($haystack, $needle) !== false);
+}
+
+/**
+ * Get index of a string or a character from another 
+ * @param  string $haystack The string to search in.
+ * @param  string $needle   string that should be searched for
+ * @param  string $offset   If specified, search will start this number of characters counted from the beginning of the string. 
+ * If the value is negative, search will instead start from that many characters from the end of the string, searching backwards.
+ * @return integer
+ */
+function stringIndexOf($haystack,$needle,$offset=1)
+{
+	return strrpos($haystack, $needle, $offset);
+}
+/**
+ * Check if a string start with another string 
+ * @param  string $haystack The string to search in.
+ * @param  string $needle   string that should be searched for
+ * @return bool           true/false
+ */
+function stringStartsWith($haystack, $needle) {
+    // search backwards starting from haystack length characters from the end
+    return $needle === "" || strrpos($haystack, $needle, -strlen($haystack)) !== false;
+}
+/**
+ * Check if a string ends with another string 
+ * @param  string $haystack The string to search in.
+ * @param  string $needle   string that should be searched for
+ * @return bool           true/false
+ */
+function stringEndsWith($haystack, $needle) {
+    // search forward starting from end minus needle length characters
+    return $needle === "" || (($temp = strlen($haystack) - strlen($needle)) >= 0 && strpos($haystack, $needle, $temp) !== false);
+}
+
+/**
+ * Get string between two string 
+ * @param  string $haystack The string to search in.
+ * @param  string $start    start string
+ * @param  string $end      end string string
+ * @return string
+ */
+function stringBetween($string, $start, $end){
+    $string = ' ' . $string;
+    $ini = strpos($string, $start);
+    if ($ini == 0){
+    	return '';
+    } 
+    $ini += strlen($start);
+	
+    $len = strpos($string, $end, $ini) - $ini;
+    return substr($string, $ini, $len);
+}
 	/**
 	 * Export to Excel
 	 * 

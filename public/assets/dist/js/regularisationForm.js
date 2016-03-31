@@ -72,7 +72,7 @@ jQuery(document).ready(function($) {
 		remaining_interest			= Math.round(getInterest(loanBalance,interestRate,remaining_installments));
 		interestRate				= getInterestRate(numberOfInstallment);
 
-		console.log(interestRate,remaining_installments,loanBalance,remaining_interest);
+		console.log(interestRate,remaining_installments,loanBalance,remaining_interest,numberOfInstallment);
 		// Do this only when this is regularisation echeance/installments
 		if (operation_type.indexOf("installment") > -1 && operation_type.indexOf("amount") == -1) {		
 			totalInstallement_interests	= Math.round(getInterest(loanBalance,interestRate,numberOfInstallment));
@@ -194,7 +194,7 @@ jQuery(document).ready(function($) {
 	 * @return  {[type]} [description]
 	 */
 	function getInterestRate(numberOfInstallment){
-
+		console.log('Number of installments',numberOfInstallment);
 			if (numberOfInstallment>=1 && numberOfInstallment<=12) {return 3.4;};
 			if (numberOfInstallment>=13 && numberOfInstallment<=24) {return 3.6;};
 			if (numberOfInstallment>=25 && numberOfInstallment<=36) {return 4.1;};
