@@ -5,6 +5,7 @@ use Ceb\Models\Institution;
 use Ceb\Models\Loan;
 use Ceb\Models\Refund;
 use Ceb\Models\User;
+use Ceb\Models\Contribution;
 use Illuminate\Contracts\View\View;
 
 /**
@@ -14,7 +15,7 @@ class DashboardViewComposer {
 	
 	public $dashboard  = [];
 
-	function __construct(Institution $institution,Loan $loan,User $member,Refund $refund) {
+	function __construct(Institution $institution,Loan $loan,User $member,Refund $refund,Contribution $contribution) {
 
 		$this->dashboard['ordinary_loan']			= $loan->ofStatus('approved')->ofType('ordinary_loan')->sum('loan_to_repay');
 		$this->dashboard['social_loan']				= $loan->ofStatus('approved')->ofType('social_loan')->sum('loan_to_repay');
@@ -26,7 +27,9 @@ class DashboardViewComposer {
 		$this->dashboard['active_members_count']	= $member->isActive()->count();
 		$this->dashboard['institutions']			= $institution->count();
 		$this->dashboard['outstandingLoans']		= $loan->countOutStanding();
-		$this->dashboard['paidLoans']				= $loan->countPaid();				
+		$this->dashboard['paidLoans']				= $loan->countPaid();	
+		// dd($contribution->sum('amount'));	
+		$this->dashboard['contributionTotal']		= $contribution->sum('amount');		
 	}
 
 	public function compose(View $view) {

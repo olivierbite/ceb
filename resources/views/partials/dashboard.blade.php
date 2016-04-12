@@ -132,6 +132,18 @@
                         </a>
                     </div>
                 </div>
+                 <div class="col-sm-6">
+                    <div class="small-box bg-blue">
+                        <div class="inner">
+                            <h3>{!! number_format($dashboarddata['contributionTotal']) !!}</h3>
+                            <p>{{ trans('member.total_contribution') }}</p>
+                        </div>
+                        <div class="icon"><i class="ion ion-thumbsup"></i></div>
+                        <a class="small-box-footer" href="#">
+                            
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
