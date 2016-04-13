@@ -15,7 +15,7 @@ body {
 thead { display: table-header-group; }
 tfoot { display: table-row-group; }
 tr { page-break-inside: initial; }
-/*thead {display: table-row-group;}*/
+thead {display: table-row-group;}
 
 .pure-table caption {
   color: #000;
