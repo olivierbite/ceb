@@ -25,7 +25,7 @@
        @if ($uploadsWithErrors == true)
             <a href="{{ route('contributions.export') }}?export-member-with-errors=yes" class="btn btn-inverse" target="_blank">
             <i class="fa fa-file-excel-o"></i>
-            {{ trans('contribution.export_uploaded_members_with_errors') }}         
+            {{ trans('contribution.export_uploaded_with_errors') }}         
             </a>
         @endif
     {!! Form::close() !!}
