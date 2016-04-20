@@ -94,11 +94,14 @@ function stringBetween($string, $start, $end){
 	 * @return file         
 	 */
     function toExcel($report,$name='report'){
+    		
 			$filename = $name .'.xls';
 			header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
 			header('Content-Disposition: attachment;filename="'.$filename.'"');
 			header('Cache-Control: max-age=0');
-			return $report;
+
+			echo $report;
+    		exit;
 	}
 /**
  * This will execute $cmd in the background (no cmd window) without PHP waiting for it to finish, on both Windows and Unix. 

@@ -176,6 +176,7 @@ class ContributionAndSavingsController extends Controller {
 
 		return redirect()->route('contributions.index');
 	}
+
 	/**
 	 * Reload the current transactions pages
 	 * @return mixed
@@ -188,9 +189,6 @@ class ContributionAndSavingsController extends Controller {
 		$this->setCreditAccount();
 		$this->setMonth();
 
-		// this determines if we need to export member with differences
-		$this->exportContributionWithDifference();
-
 		// This determines if we need to remove member with differences
 		$this->removeContributionWithDifference();
 
@@ -198,13 +196,16 @@ class ContributionAndSavingsController extends Controller {
 		$debitAccount = $this->contributionFactory->getDebitAccount();
 		$creditAccount = $this->contributionFactory->getCreditAccount();
         $contributionHasDifference = !$this->contributionFactory->getConstributionsWithDifference()->isEmpty();
+        $uploadsWithErrors = !$this->contributionFactory->getUploadWithErros()->isEmpty();
 		$members = $this->getMembers();
 		$pageLinks = $this->getMembersPageLinks();
 		$institutionId = $this->contributionFactory->getInstitution();
 		$wording = $this->contributionFactory->getWording();
 		$total = $this->contributionFactory->total();
 
-		return view('contributionsandsavings.list', compact('members','transactionid','pageLinks','wording', 'institutionId', 'total', 'debitAccount', 'creditAccount', 'month','contributionHasDifference'));
+		return view('contributionsandsavings.list',
+					 compact('members','transactionid','pageLinks','wording', 'institutionId', 'total', 
+					 	     'debitAccount', 'creditAccount', 'month','contributionHasDifference','uploadsWithErrors'));
 
 	}
 
@@ -415,6 +416,21 @@ class ContributionAndSavingsController extends Controller {
 			$this->contributionFactory->setByInsitution(Input::get('institution'));
 		}
 	}
+
+	/**
+	 * Export to CSV
+	 * @return [type] [description]
+	 */
+	public function export()
+	{
+		// this determines if we need to export member with differences
+		$this->exportContributionWithDifference();
+
+		// This determines if we have some numbers that has errors and help to remove them
+		$this->exportContributionWithErrors();
+
+	}
+
 	/**
 	 * Export contribution with differences
 	 * 
@@ -459,5 +475,32 @@ class ContributionAndSavingsController extends Controller {
 		if (Input::has('remove-member-with-differences') && Input::get('remove-member-with-differences') == 'yes') {
 			$this->contributionFactory->forgetWithDifferences();
 		}
+	}
+
+
+	/**
+	 * Export contribution with differences
+	 * 
+	 * @return void
+	 */
+	public function exportContributionWithErrors()
+	{
+				// First check if the user has the permission to do this
+        if (!$this->user->hasAccess('contribution.export.contribution.with.errors')) {
+            flash()->error(trans('Sentinel::users.noaccess').' - To export contribution with Errors');
+            return redirect()->back();
+        }
+
+        // First log
+        Log::info($this->user->email . ' exports contribution with Error');
+
+		if (Input::get('export-member-with-errors') == 'yes') {
+			$members = $this->contributionFactory->getUploadWithErros();
+			$report = view('contributionsandsavings.export_upload_with_errors',compact('members'))->render();
+			
+
+			toExcel($report, trans('contribution.with_errors'));
+		}
+
 	}
 }
