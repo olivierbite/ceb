@@ -45,6 +45,7 @@ Route::group(['prefix'=>'contributions'], function(){
 	Route::post('batch'					,['as'=>'contributions.batch', 'uses'=>'ContributionAndSavingsController@batch']);
 	Route::get('{adhersion_id}/remove'	,['as'=>'contributions.remove.member','uses'=>'ContributionAndSavingsController@removeMember']);
 	Route::get('samplecsv'				,['as'=>'contributions.sample.csv','uses'=>'ContributionAndSavingsController@downloadSample']);
+	Route::get('/export'				,['as'=>'contributions.export','uses'=>'ContributionAndSavingsController@export']);
 });
 
 Route::resource('contributions', 'ContributionAndSavingsController');

@@ -1,6 +1,9 @@
 @extends('layouts.default')
 @section('content_title')
   {{ trans('navigations.contributions') }}
+@stop
+
+@section('content')
 <script language="JavaScript">
 function toggle(source) {
  checkboxes = document.getElementsByName('memberIds[]');
@@ -9,9 +12,6 @@ function toggle(source) {
   }
 }
 </script>
-@stop
-
-@section('content')
 
 @if (!is_null($transactionid) && $transactionid !=false)
   <script type="text/javascript">

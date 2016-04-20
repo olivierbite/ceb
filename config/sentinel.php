@@ -67,7 +67,8 @@ return [
 		'contribution.index','contribution.add','contribution.view','contribution.update','contribution.complete',
 		'contribution.remove.member','contribution.cancel','contribution.batch.contribution',
 		'contribution.download.sample','contribution.set.month','contribution.set.credit.account',
-		'contribution.set.debit.account','contribution.set.by.institution','contribution.remove.contribution.with.differences','contribution.export.contribution.with.differences',
+		'contribution.set.debit.account','contribution.set.by.institution','contribution.remove.contribution.with.differences',
+		'contribution.export.contribution.with.differences','contribution.export.contribution.with.errors',
 		'files.view','files.add',
 		'institutions.view','institutions.edit','institutions.create','institutions.delete',
 		
@@ -75,7 +76,8 @@ return [
 		'items.index','items.add','items.edit','items.edit','items.view',
 		'refund.index','refund.update','refund.complete','refund.cancel','refund.set.institution','refund.set.debit.account',
 		'refund.set.credit.account','refund.set.month','refund.remove.member',
-		'loan.index','loan.add.member.to.loan.form','loan.complete.loan.request','loan.cancel.loan.request','loan.set.loan.cautionneur','loan.remove.loan.cautionneur','loan.check.loan.status','loan.can.approve.loan',
+		'loan.index','loan.add.member.to.loan.form','loan.complete.loan.request','loan.cancel.loan.request','loan.set.loan.cautionneur',
+		'loan.remove.loan.cautionneur','loan.check.loan.status','loan.can.approve.loan',
 		'loan.can.unblock.loan',
 		'regularisation.view','regularisation.index','regularisation.installments','regularisation.amount','regularisation.amount.installments',
 		'member.list', 'member.view', 'member.edit', 'member.create', 'member.delete', 
@@ -83,7 +85,8 @@ return [
 		'reports.index','reports.contract.saving','reports.contract.loan','reports.member','reports.accounting.piece','reports.ledger',
 		'reports.bilan','reports.journal','reports.accounts.list','reports.loans.records','reports.contributions','reports.loans.status','reports.loan.balance',
 		'reports.monthly.refound','reports.savings.level','reports.savings.irreguralities','reports.refunds.irreguralities','reports.members_who_cautionned_me',
-		'reports.members_cautionned_by_me','reports.piece.debourse.saving','reports.piece.debourse.account','reports.piece.debourse.accounting','reports.piece.debourse.loan',
+		'reports.members_cautionned_by_me','reports.piece.debourse.saving','reports.piece.debourse.account','reports.piece.debourse.accounting',
+		'reports.piece.debourse.loan',
 		'reports.piece.debourse.refund',
 
 
