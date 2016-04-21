@@ -681,10 +681,11 @@ class User extends SentinelModel {
      */
     public function generateAdhersionID()
     {
+    	$max = self::where('email','<>','admin@admin.com')->max('adhersion_id');
+	    $max = substr($max, 4);
         do {
-            $max = $this->user->max('adhersion_id');
-			$max = substr($max, 4);
-			$newAdhersionNumber = '2007'.($max+1);
+            $max++;
+			$newAdhersionNumber = '2007'.($max);
         } // Already in the DB? Fail. Try again
         while (self::adhersionIdExists($newAdhersionNumber));
 
