@@ -498,7 +498,6 @@ class ContributionAndSavingsController extends Controller {
 			$members = $this->contributionFactory->getUploadWithErros();
 			$report = view('contributionsandsavings.export_upload_with_errors',compact('members'))->render();
 			
-
 			toExcel($report, trans('contribution.with_errors'));
 		}
 

@@ -675,6 +675,39 @@ class User extends SentinelModel {
 	}
 
 	/**
+     * A sure method to generate a unique adhersionId 
+     *
+     * @return string
+     */
+    public function generateAdhersionID()
+    {
+    	$max = self::where('email','<>','admin@admin.com')->max('adhersion_id');
+	    $max = substr($max, 4);
+        do {
+            $max++;
+			$newAdhersionNumber = '2007'.($max);
+        } // Already in the DB? Fail. Try again
+        while (self::adhersionIdExists($newAdhersionNumber));
+
+        return $newAdhersionNumber;
+    }
+
+	 /**
+     * Checks whether a adhersionid exists in the database or not
+     *
+     * @param $key
+     * @return bool
+     */
+    private function adhersionIdExists($adhersionId)
+    {
+        $adhersionId = self::where('adhersion_id', '=', $adhersionId)->limit(1)->count();
+
+        if ($adhersionId > 0) return true;
+
+        return false;
+    }
+
+	/**
 	 * Find member by adhresion
 	 * @param   $query        
 	 * @param   $adhersion_id 

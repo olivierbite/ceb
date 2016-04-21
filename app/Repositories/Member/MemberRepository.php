@@ -70,8 +70,17 @@ class MemberRepository implements MemberRepositoryInterface {
 			// Trying to upload the attached images
 			$filename = time() . $this->slug($data['names']) . $data['adhersion_id'];
 
-			$data['photo'] = $this->addImage($formData['photo'], $filename . '-photo');
-			$data['signature'] = $this->addImage($formData['signature'], $filename . '-signature');
+			try
+			{
+				$data['photo'] = $this->addImage($formData['photo'], $filename . '-photo');
+				$data['signature'] = $this->addImage($formData['signature'], $filename . '-signature');
+			}
+			catch(\Exception $e)
+			{
+				// User image or photo cannot be loaded put a default one.
+				$data['photo'] = 'no-image.png';
+				$data['photo'] = 'no-image.png';
+			}
 
 			// Remove unnecessary information
 			$dataToInsert = [];
@@ -286,12 +295,8 @@ class MemberRepository implements MemberRepositoryInterface {
 	 * Generate unique Adhersion number
 	 */
 	protected function generateAdhersionNumber() {
-		$user = new Ceb\Models\User;
 		// Get latest adhersion id
-		$max = $user->max('adhersion_id');
-		$max = substr($max, 4);
-		$newAdhersionNumber = '2007'.($max+1);
-		return $newAdhersionNumber;
+		return $this->user->generateAdhersionID();
 	}
 
 }
