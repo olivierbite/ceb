@@ -100,7 +100,7 @@ function stringBetween($string, $start, $end){
 			header('Content-Disposition: attachment;filename="'.$filename.'"');
 			header('Cache-Control: max-age=0');
 
-			return $report;
+			echo $report;
 	}
 /**
  * This will execute $cmd in the background (no cmd window) without PHP waiting for it to finish, on both Windows and Unix. 

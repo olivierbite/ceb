@@ -2,7 +2,9 @@
 
 @section('content_title')
   {{ trans('navigations.refunds') }}
-  <script language="JavaScript">
+@stop
+@section('content')
+ <script language="JavaScript">
 function toggle(source) {
  checkboxes = document.getElementsByName('memberIds[]');
   for(var i=0, n=checkboxes.length;i<n;i++) {
@@ -10,16 +12,13 @@ function toggle(source) {
   }
 }
 </script>
-@stop
-@section('content')
-
 
 @if (!is_null($transactionid) && $transactionid !=false)
   <script type="text/javascript">
     OpenInNewTab("{!! route('piece.disbursed.refund',['transactionid'=>$transactionid]) !!}")
   </script>
 @endif
-
+  @include('refunds.upload_form',['route'=>'contributions.batch'])
 {!! Form::open(['route'=>'refunds.complete']) !!}
   @include('refunds.form',['institutionId'=>'institutionId'])
      {{-- only show this if we have members ... --}}
@@ -31,7 +30,11 @@ function toggle(source) {
               ['class'=>'form-control','placeholder'=>'refund for this month ....']) !!}
   @include('contributionsandsavings.buttons',['cancelRoute'=>'refunds.cancel'])
   {!! Form::close() !!}
+
+
+
   {!! str_replace('href="/?page=', 'href="'.Request::url().'?'.$_SERVER['QUERY_STRING'].'&page=', $pageLinks->render()) !!}
+
   <table class="table table-bordered">
   	 <thead>
   	 	<tr>

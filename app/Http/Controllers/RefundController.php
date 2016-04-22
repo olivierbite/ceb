@@ -4,11 +4,12 @@ namespace Ceb\Http\Controllers;
 
 use Ceb\Factories\RefundFactory;
 use Ceb\Http\Controllers\Controller;
-use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Pagination\LengthAwarePaginator as Paginator;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Log;
 use Input;
+use League\Csv\Reader;
 use Redirect;
 
 class RefundController extends Controller {
@@ -124,6 +125,9 @@ class RefundController extends Controller {
 		/** if we have any parameter passed, then set it  */
 		$this->setAnyThing();
 
+		/** Remove differences if they exists */
+		$this->removeRefundsWithDifference();
+
 		$month = $this->refundFactory->getMonth();
 		$institution = $this->refundFactory->getInstitution();
 
@@ -144,12 +148,153 @@ class RefundController extends Controller {
 		// Get page links
 		$pageLinks = new Paginator($members,$members->count(),20,$currentPage);
 
-		$totalRefunds	= $this->refundFactory->getTotalRefunds();
-		$refundType		= $this->refundFactory->getRefundType();
+		$totalRefunds				= $this->refundFactory->getTotalRefunds();
+		$refundType					= $this->refundFactory->getRefundType();
 
-		return view('refunds.list', compact('members','pageLinks','institution','transactionid','refundType', 'month', 'totalRefunds', 'creditAccount', 'debitAccount'));
+		$data = [
+					'members'					=> $members,
+					'pageLinks'					=> $pageLinks,
+					'institution'				=> $institution,
+					'transactionid'				=> $transactionid,
+					'refundType'				=> $refundType,
+					'month'						=> $month,
+					'totalRefunds'				=> $totalRefunds,
+					'creditAccount'				=> $creditAccount,
+					'debitAccount'				=> $debitAccount,
+					'refundHasDifference'		=> !$this->refundFactory->getRefundsWithDifference()->isEmpty(),
+					'uploadHasErrors'			=> !$this->refundFactory->getUploadWithErros()->isEmpty(),
+				 ];
+
+		return view('refunds.list', $data);
 	}
 
+	/**
+	 * Set multiple members by uploading a csv containing their adhersion id and amount
+	 * 
+	 * @return [type] [description]
+	 */
+	public function batch()
+	{
+		 // First check if the user has the permission to do this
+        if (!$this->user->hasAccess('refund.batch')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
+            return redirect()->back();
+        }
+
+        // First log
+        Log::info($this->user->email . ' did batch refund');
+
+		if (!Input::hasFile('file')) {
+			flash()->error('Please select a file to upload');
+			return $this->reload();
+		}
+		 if(Input::file('file')->getClientOriginalExtension() != 'csv') {
+		    Flash::error('You must upload a csv file');
+		    return $this->index();
+		  }
+
+	    // checking file is valid.
+	    if (Input::file('file')->isValid()) {
+	       
+	       $csv = Reader::createFromPath(Input::file('file'));
+
+	       $message = '';
+
+		   $csv->setOffset(1); //because we don't want to insert the header
+	       $members = $csv->fetchAll();
+
+           $this->refundFactory->setMember($members);
+		}
+
+		return $this->reload();
+	}
+
+	/**
+	 * Export to CSV
+	 * @return [type] [description]
+	 */
+	public function export()
+	{
+		// this determines if we need to export member with differences
+		$this->exportRefundsWithDifference();
+
+		// This determines if we have some numbers that has errors and help to remove them
+		$this->exportRefundsWithErrors();
+
+	}
+
+	/**
+	 * Export refunds with differences
+	 * 
+	 * @return void
+	 */
+	public function exportRefundsWithDifference()
+	{
+				// First check if the user has the permission to do this
+        if (!$this->user->hasAccess('refund.export.refunds.with.differences')) {
+            flash()->error(trans('Sentinel::users.noaccess').' - To export refund with differences');
+            return redirect()->back();
+        }
+
+        // First log
+        Log::info($this->user->email . ' exports contribution with differences');
+
+		if (Input::has('export-member-with-differences') && Input::get('export-member-with-differences') == 'yes') {
+			$members = $this->refundFactory->getRefundsWithDifference();
+			$report = view('contributionsandsavings.export_table',compact('members'))->render();
+	
+			toExcel($report, trans('refund.with_difference'));
+		}
+
+	}
+	
+
+	/**
+	 * Export refunds with differences
+	 * 
+	 * @return void
+	 */
+	public function exportRefundsWithErrors()
+	{
+				// First check if the user has the permission to do this
+        if (!$this->user->hasAccess('refund.export.refund.with.errors')) {
+            flash()->error(trans('Sentinel::users.noaccess').' - To export refund with Errors');
+            return redirect()->back();
+        }
+
+        // First log
+        Log::info($this->user->email . ' exports refund with Error');
+
+		if (Input::get('export-member-with-errors') == 'yes') {
+			$members = $this->refundFactory->getUploadWithErros();
+			$report = view('contributionsandsavings.export_upload_with_errors',compact('members'))->render();
+			
+			toExcel($report, trans('refund.with_errors'));
+		}
+
+	}
+
+	/**
+	 * Remove refunds with differences
+	 * 
+	 * @return void
+	 */
+	public function removeRefundsWithDifference()
+	{
+				// First check if the user has the permission to do this
+        if (!$this->user->hasAccess('refund.remove.refunds.with.differences')) {
+            flash()->error(trans('Sentinel::users.noaccess').' - To remove refunds with differences');
+            return redirect()->back();
+        }
+
+        // First log
+        Log::info($this->user->email . ' removed refunds with differences');
+
+		if (Input::has('remove-member-with-differences') && Input::get('remove-member-with-differences') == 'yes') {
+			$this->refundFactory->forgetRefundsWithDifferences();
+		}
+	}
+    
 
 	/**
 	 * Set anything that may have been passed

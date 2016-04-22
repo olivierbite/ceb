@@ -770,6 +770,17 @@ class User extends SentinelModel {
     }
 
     /**
+     * Get the user's first name.
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public function getEmployeeIdAttribute($value)
+    {
+        return is_null($value) ? trans('general.not_available') :  ucfirst($value);
+    }
+
+    /**
      * Get name attributes
      * @return  string
      */

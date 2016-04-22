@@ -18,8 +18,10 @@ function toggle(source) {
     OpenInNewTab("{!! route('piece.disbursed.saving',['transactionid'=>$transactionid]) !!}")
   </script>
 @endif
+
   @include('contributionsandsavings.form',['institutions'=>$institutions,'institutionId'=>$institutionId])
   @include('partials.batch_upload',['route'=>'contributions.batch'])
+  
   @if(!$members->isEmpty())
   {!! Form::open(array('route'=>'contributions.complete','method'=>'POST')) !!}
   <label>{{ trans('contribution.libelle') }}</label>
