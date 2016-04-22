@@ -78,11 +78,11 @@ class ContributionFactory {
                	{
 				    $memberFromDb = $this->member->findByAdhersion($member[0]);
 					$memberFromDb->monthly_fee = (int) $memberFromDb->monthly_fee;
-					$member[1] = (int) $member[1];
+
+			    	$memberFromDb->institution = $memberFromDb->institution->name;
 				    // Does contribution look same as the one registered
-				    if ($memberFromDb->monthly_fee !== $member[1]) {
-				    	$memberFromDb->monthly_fee = $member[1];
-				    	$memberFromDb->institution = $memberFromDb->institution->name;
+				    if ($memberFromDb->monthly_fee !== (int) $member[1]) {
+				    	$memberFromDb->monthly_fee = (int) $member[1];
 				    	$rowsWithDifferentAmount[] = $memberFromDb;
 				    }
                      
@@ -116,6 +116,7 @@ class ContributionFactory {
 		$this->setContributions($rowsWithSuccess->toArray());
 		return true;
 	}
+
     /**
 	 * Set members who are about to contribute
 	 * @param array $members

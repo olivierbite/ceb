@@ -11,8 +11,6 @@
         </a>
         @endif
         @if ($contributionHasDifference == true)
-        	<a href="{{ route('contributions.index') }}?show-member-with-difference=yes" class="btn btn-danger">
-            {{ trans('contribution.with_difference') }}</a>
 			<a href="{{ route('contributions.index') }}?remove-member-with-differences=yes" class="btn btn-warning">
             {{ trans('contribution.remove_with_difference') }}         
             </a>
@@ -29,6 +27,5 @@
             </a>
         @endif
     {!! Form::close() !!}
-
     
 </div>

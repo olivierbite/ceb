@@ -92,6 +92,8 @@ Route::resource('loans', 'LoanController');
 		Route::post('/complete', ['as'	=> 'refunds.complete', 'uses' => 'RefundController@complete']);
 		Route::get('/cancel', ['as'		=> 'refunds.cancel', 'uses' => 'RefundController@cancel']);
 		Route::get('{adhersion_id}/remove'	,['as'=>'refunds.remove.member','uses'=>'RefundController@removeMember']);
+		Route::any('batch',['as'=>'refunds.batch', 'uses'=>'RefundController@batch']);
+		Route::get('/export',['as'=>'refunds.export','uses'=>'RefundController@export']);
 	});
 	Route::resource('refunds', 'RefundController');
 
@@ -109,10 +111,15 @@ Route::resource('loans', 'LoanController');
 	Route::group(['prefix'=>'members'], function()
 	{
 		// CONTRACTS
-		Route::get('contracts/saving/{memberId}/{export_excel?}', ['as'				=> 'reports.members.contracts.saving', 'uses' => 'ReportController@contractSaving']);
-		Route::get('contracts/loan/{loanId}/{export_excel?}', ['as'					=> 'reports.members.contracts.loan', 'uses' => 'ReportController@contractLoan']);
-		Route::get('contracts/ordinaryloan/{export_excel?}', ['as'					=> 'reports.members.contracts.ordinaryloan', 'uses' => 'ReportController@ordinaryloan']);
-		Route::get('contracts/socialloan/{export_excel?}', ['as'					=> 'reports.members.contracts.socialloan', 'uses' => 'ReportController@socialloan']);
+		Route::get('contracts/saving/{memberId}/{export_excel?}',
+				   ['as'=> 'reports.members.contracts.saving', 
+				   'uses' => 'ReportController@contractSaving']);
+		Route::get('contracts/loan/{loanId}/{export_excel?}', 
+					['as'=> 'reports.members.contracts.loan', 'uses' => 'ReportController@contractLoan']);
+		Route::get('contracts/ordinaryloan/{export_excel?}', 
+					['as'=> 'reports.members.contracts.ordinaryloan', 'uses' => 'ReportController@ordinaryloan']);
+		Route::get('contracts/socialloan/{export_excel?}', 
+					['as'=> 'reports.members.contracts.socialloan', 'uses' => 'ReportController@socialloan']);
 		
 		// FILES
 		Route::get('loanrecords/{startDate}/{endDate}/{export_excel?}/{memberId}'	,['as'=>'reports.members.loanrecords','uses'=>'ReportController@loanRecords']);
@@ -137,7 +144,8 @@ Route::resource('loans', 'LoanController');
 			{
 				Route::get('saving/{transactionid}/{export_excel?}',['as'=>'piece.disbursed.saving','uses'=>'ReportController@pieceDisbursedSaving']);
 				Route::get('accounting/{transactionid}}',['as'=>'piece.disbursed.accounting','uses'=>'ReportController@pieceDisbursedAccounting']);
-				Route::get('account/{startDate}/{endDate}/{account}/{export_excel?}',['as'=>'piece.disbursed.account','uses'=>'ReportController@pieceDisbursedAccount']);
+				Route::get('account/{startDate}/{endDate}/{account}/{export_excel?}',['as'=>'piece.disbursed.account',
+																					  'uses'=>'ReportController@pieceDisbursedAccount']);
 				Route::get('loan/{transactionid}/{export_excel?}',['as'=>'piece.disbursed.account','uses'=>'ReportController@pieceDisbursedLoan']);
 				Route::get('refund/{transactionid}/{export_excel?}',['as'=>'piece.disbursed.refund','uses'=>'ReportController@pieceDisbursedRefund']);
 		});
@@ -257,3 +265,5 @@ echo "<table style='width:100%'>";
     }
 echo "</table>";
 });
+
+Route::get('test', 'RefundController@exportRefundsWithDifference');

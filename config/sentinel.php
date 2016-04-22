@@ -62,26 +62,44 @@ return [
 	 */
 
 	'default_permissions' => ['admin', 'users','ceb.view.own.profile',
+		
+		 // ACCOUNTING
 		'account.list','account.create','account.edit','account.delete',
 		'accounting.view','accounting.posting','attornies.add',
+		
+		// CONTRIBUTION
 		'contribution.index','contribution.add','contribution.view','contribution.update','contribution.complete',
 		'contribution.remove.member','contribution.cancel','contribution.batch.contribution',
 		'contribution.download.sample','contribution.set.month','contribution.set.credit.account',
 		'contribution.set.debit.account','contribution.set.by.institution','contribution.remove.contribution.with.differences',
 		'contribution.export.contribution.with.differences','contribution.export.contribution.with.errors',
+		
+		 // GENERAL FILES
 		'files.view','files.add',
 		'institutions.view','institutions.edit','institutions.create','institutions.delete',
 		
+		//LEAVE AND ITEMS
 		'leaves.view','leaves.approve','leaves.reject','leaves.view.my.leaves','leaves.request.leaves','leaves.view.leave.status',
 		'items.index','items.add','items.edit','items.edit','items.view',
+		
+		// REFUNDS
 		'refund.index','refund.update','refund.complete','refund.cancel','refund.set.institution','refund.set.debit.account',
-		'refund.set.credit.account','refund.set.month','refund.remove.member',
+		'refund.set.credit.account','refund.set.month','refund.remove.member','refund.batch','refund.export.refunds.with.differences',
+		'refund.export.refund.with.errors','refund.remove.refunds.with.differences',
+		
+		// LOANS
 		'loan.index','loan.add.member.to.loan.form','loan.complete.loan.request','loan.cancel.loan.request','loan.set.loan.cautionneur',
 		'loan.remove.loan.cautionneur','loan.check.loan.status','loan.can.approve.loan',
 		'loan.can.unblock.loan',
+		
+		// REGULARISATION
 		'regularisation.view','regularisation.index','regularisation.installments','regularisation.amount','regularisation.amount.installments',
+		
+		// MEMBERS
 		'member.list', 'member.view', 'member.edit', 'member.create', 'member.delete', 
 		'member.view.current.i.cautioned','member.view.current.cautioned.by.me',
+		
+		// REPORTS
 		'reports.index','reports.contract.saving','reports.contract.loan','reports.member','reports.accounting.piece','reports.ledger',
 		'reports.bilan','reports.journal','reports.accounts.list','reports.loans.records','reports.contributions','reports.loans.status','reports.loan.balance',
 		'reports.monthly.refound','reports.savings.level','reports.savings.irreguralities','reports.refunds.irreguralities','reports.members_who_cautionned_me',
