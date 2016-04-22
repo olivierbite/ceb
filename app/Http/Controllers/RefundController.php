@@ -241,7 +241,7 @@ class RefundController extends Controller {
 
 		if (Input::has('export-member-with-differences') && Input::get('export-member-with-differences') == 'yes') {
 			$members = $this->refundFactory->getRefundsWithDifference();
-			$report = view('contributionsandsavings.export_table',compact('members'))->render();
+			$report = view('refunds.export_table',compact('members'))->render();
 	
 			toExcel($report, trans('refund.with_difference'));
 		}
