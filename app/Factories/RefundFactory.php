@@ -118,11 +118,10 @@ class RefundFactory {
 						continue;
 			        }
 
-					$memberFromDb->refund_fee = (int) $memberFromDb->loan_montly_fee;
+					$memberFromDb->refund_fee = (int) $member[1];
 
 				    // Does contribution look same as the one registered
-				    if ($memberFromDb->refund_fee !== (int) $member[1]) {
-				    	$memberFromDb->refund_fee = (int) $member[1];
+				    if ($memberFromDb->refund_fee !== $memberFromDb->loan_montly_fee) {
 				    	$rowsWithDifferentAmount[] = $memberFromDb;
 				    }
                     

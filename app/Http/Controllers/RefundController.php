@@ -147,7 +147,7 @@ class RefundController extends Controller {
 
 		// Get page links
 		$pageLinks = new Paginator($members,$members->count(),20,$currentPage);
-
+		
 		$totalRefunds				= $this->refundFactory->getTotalRefunds();
 		$refundType					= $this->refundFactory->getRefundType();
 
