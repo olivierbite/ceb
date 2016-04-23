@@ -17,7 +17,7 @@
   <tr>
     <td>{!! $member->adhersion_id!!}</td>
     <td>{!! $member->first_name !!} {!! $member->last_name !!}</td>
-    <td>{!! isset($member->institution->name)?$member->institution->name:null !!}</td> 
+    <td>{!! $member->institution_name !!}</td> 
     <td>{!! $member->employee_id !!}</td>
     <td>{!! $member->monthly_fee!!}</td>
   </tr>
