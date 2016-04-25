@@ -189,7 +189,7 @@ class RefundController extends Controller {
 			return $this->reload();
 		}
 		 if(Input::file('file')->getClientOriginalExtension() != 'csv') {
-		    Flash::error('You must upload a csv file');
+		    flash()->error('You must upload a csv file');
 		    return $this->index();
 		  }
 
