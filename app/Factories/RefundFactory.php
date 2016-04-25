@@ -77,7 +77,7 @@ class RefundFactory {
         
 		// Check if the provided parameter is an id for one member or not
 		if (!is_array($memberToSet) && is_numeric($memberToSet)) {
-			$member = $this->member->with('loans')->findOrFail($memberId);
+			$member = $this->member->with('loans')->findOrFail($memberToSet);
 
 			if (!$member->hasActiveLoan()) {
 				flash()->error(trans('member.this_member_doesnot_have_active_loan'));
