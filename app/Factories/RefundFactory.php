@@ -245,6 +245,7 @@ class RefundFactory {
 	 * @return [type]                [description]
 	 */
 	private function saveRefund($transactionId) {
+
 		# Get data in the factory
 		$refundMembers = $this->getRefundMembers();
 		$month = $this->getMonth();
@@ -328,7 +329,7 @@ class RefundFactory {
 				// set current trnsaction id
 				$loanTransactionId = $loan->transactionid;
 				$loanId =  $loan->id;
-
+				
 				$refund['adhersion_id']		= $refundMember->adhersion_id;
 				$refund['contract_number']	= $loan->loan_contract;
 				$refund['month']			= $this->getMonth() ?:'N/A';
