@@ -252,9 +252,11 @@ class RefundFactory {
 		$month = $this->getMonth();
 		$emergencyLoanRefundFee = 0;
 
-		dd($refundMembers);
 		foreach ($refundMembers as $refundMember) {
 			
+			if ($refundMember->adhersion_id == '20072013') {
+				dd($refundMember);
+			}
 			$loan  = $refundMember->latestLoan();
 
 			$loanTransactionId  = null;
@@ -274,10 +276,24 @@ class RefundFactory {
 
 					// We have umergency loan, let's determine how much money to record as pay back
 					$emergencyMonthlyFee = $emergencyLoan->EmergencyMonthlyFee;
-					$emergencyLoanRefundFee = $refundMember->refund_fee - $emergencyMonthlyFee;
+
+					// Let's treat the case of when someone is paying back less money than 
+					// what he should even pay for the emergency loan, in this case
+					// we would need to consider the amount of money someone has
+					// paid and ignore emergency loan monthly fees as payback
 					
-					// Determine exact amount to record as emergency payback
-					$emergencyLoanRefundFee  = $refundMember->refund_fee - $emergencyLoanRefundFee;
+					if ($emergencyMonthlyFee > $refundMember->refund_fee) 
+					{
+						$emergencyLoanRefundFee = $refundMember->refund_fee;
+					}
+					else
+					{
+						// We  gave enough refund fees, let's do calculations
+						$emergencyLoanRefundFee = $refundMember->refund_fee - $emergencyMonthlyFee;
+						
+						// Determine exact amount to record as emergency payback
+						$emergencyLoanRefundFee = $refundMember->refund_fee - $emergencyLoanRefundFee;
+					}
 
 					// Amount refunded has included the emergency loan then record it
 					if ($emergencyLoanRefundFee > 0 ) {
@@ -310,12 +326,10 @@ class RefundFactory {
 						if (!$newRefund) {
 							return false;
 						}
-
-
 				  }
 				}
 			}
-
+			
 			// Make sure we update the member object in order to avoid
 			// Double refunds when someone has emergency
 			$refundMember->refund_fee -=$emergencyLoanRefundFee;
@@ -323,9 +337,14 @@ class RefundFactory {
 			// If we reach here, it means we have save emergency, now let's 
 			// remove emergency amount that we have saved and record the 
 			// amount for the existing non-emergency loan
+			// If we don't have any remain to pay another loan then 
+			// continue with the next loan refunds
 
+			// Don't proceed if we don't have money to recover after removing 
+			// emergency loan recovery money.
+			
 			// NOTE: ONLY RECORD THIS IF WE HAVE AN ACTIVE NON EMERGENCY LOAN
-			if (!empty($loan)) {
+			if (!empty($loan) && $refundMember->refund_fee > 0 ) {
 				// set current trnsaction id
 				$loanTransactionId = $loan->transactionid;
 				$loanId =  $loan->id;
