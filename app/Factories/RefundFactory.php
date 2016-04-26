@@ -11,6 +11,7 @@ use Ceb\Models\User;
 use Ceb\Traits\TransactionTrait;
 use DB;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Sentry;
 
@@ -120,7 +121,7 @@ class RefundFactory {
 
 					$memberFromDb->refund_fee = (int) $member[1];
 
-				    // Does contribution look same as the one registered
+					// Does contribution look same as the one registered
 				    if ($memberFromDb->refund_fee !== $memberFromDb->loan_montly_fee) {
 				    	$rowsWithDifferentAmount[] = $memberFromDb;
 				    }
@@ -254,9 +255,6 @@ class RefundFactory {
 
 		foreach ($refundMembers as $refundMember) {
 			
-			if ($refundMember->adhersion_id == '20072013') {
-				dd($refundMember);
-			}
 			$loan  = $refundMember->latestLoan();
 
 			$loanTransactionId  = null;
@@ -299,6 +297,7 @@ class RefundFactory {
 					if ($emergencyLoanRefundFee > 0 ) {
 					 	$emergencyLoan->emergency_refund += $emergencyLoanRefundFee;
 					 	$emergencyLoan->emergency_balance -= $emergencyLoanRefundFee;
+
 					 	// If we cannot save this operation let's fail the entire transaction
 					 	if (!$emergencyLoan->save()) {
 					 		return false;
@@ -340,7 +339,7 @@ class RefundFactory {
 			// If we don't have any remain to pay another loan then 
 			// continue with the next loan refunds
 
-			// Don't proceed if we don't have money to recover after removing 
+			// Skip if we don't have money to recover after removing 
 			// emergency loan recovery money.
 			
 			// NOTE: ONLY RECORD THIS IF WE HAVE AN ACTIVE NON EMERGENCY LOAN
@@ -377,8 +376,8 @@ class RefundFactory {
 			$refundMember->refund_fee +=$emergencyLoanRefundFee;
 
 			// If the loan we are paying for has cautionneur, then make sure
-			// We    update our member cautionneur table by adding the
-			// amount paid by this member to the refund amount as long 
+			// We update our member cautionneur table by adding the amount
+			// paid by this member to the refund amount as long 
 			// as cautionneur still have a balance
 			
 			$loanCautions = $this->memberLoanCautionneur
@@ -501,7 +500,7 @@ class RefundFactory {
 			}
 			catch(\Exception $ex)
 			{
-				dd($member);
+				Log::critical($member);
 			}
 		}
 
