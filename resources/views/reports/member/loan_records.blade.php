@@ -44,7 +44,7 @@
 	 	<td>{{  trans('loan.loan') }}</td>
 		<td>{!! trans('loans.'.$loan->operation_type)  !!}</td>
 		<td>{!! $loan->comment !!} </td>
-		<td>{!! number_format((int) $loan->loan_to_repay) !!} </td>
+		<td>{!! ($loan->operation_type == 'installments')?'': number_format((int) $loan->loan_to_repay) !!} </td>
 	    <td>{!! number_format((int) $loan->interests) !!} </td>
 	    <td>{!! number_format((int) $loan->monthly_fees) !!} </td>
 	    <td>0</td>
