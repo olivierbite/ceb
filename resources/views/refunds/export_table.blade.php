@@ -5,7 +5,8 @@
         <th> {{ trans('member.names') }}</th>
         <th> {{ trans('member.institution') }}</th>
         <th> {{ trans('member.employee_id') }}</th>
-        <th> {{ trans('member.monthly_fee') }}</th>
+        <th> {{ trans('member.refund_fee') }}</th>
+        <th> {{ trans('member.monthly_fee_experted_fee') }}</th>
   	 	</tr>
    	 </thead>
  <tbody>
@@ -19,6 +20,7 @@
     <td>{!! $member->first_name !!} {!! $member->last_name !!}</td>
     <td>{!! $member->institution_name !!}</td> 
     <td>{!! $member->employee_id !!}</td>
+    <td>{!! $member->refund_fee!!}</td>
     <td>{!! $member->monthly_fee!!}</td>
   </tr>
  @endforeach
