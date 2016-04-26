@@ -9,7 +9,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Sentry;
 
-abstract class Controller extends BaseController {
+abstract class 	Controller extends BaseController {
 	use DispatchesJobs, ValidatesRequests;
 
 	public $user;

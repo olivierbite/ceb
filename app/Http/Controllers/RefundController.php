@@ -189,7 +189,7 @@ class RefundController extends Controller {
 			return $this->reload();
 		}
 		 if(Input::file('file')->getClientOriginalExtension() != 'csv') {
-		    Flash::error('You must upload a csv file');
+		    flash()->error('You must upload a csv file');
 		    return $this->index();
 		  }
 
@@ -230,6 +230,8 @@ class RefundController extends Controller {
 	 */
 	public function exportRefundsWithDifference()
 	{
+		
+		if (Input::has('export-member-with-differences') && Input::get('export-member-with-differences') == 'yes') {
 				// First check if the user has the permission to do this
         if (!$this->user->hasAccess('refund.export.refunds.with.differences')) {
             flash()->error(trans('Sentinel::users.noaccess').' - To export refund with differences');
@@ -239,7 +241,6 @@ class RefundController extends Controller {
         // First log
         Log::info($this->user->email . ' exports contribution with differences');
 
-		if (Input::has('export-member-with-differences') && Input::get('export-member-with-differences') == 'yes') {
 			$members = $this->refundFactory->getRefundsWithDifference();
 			$report = view('refunds.export_table',compact('members'))->render();
 	
@@ -256,6 +257,7 @@ class RefundController extends Controller {
 	 */
 	public function exportRefundsWithErrors()
 	{
+		if (Input::get('export-member-with-errors') == 'yes') {
 				// First check if the user has the permission to do this
         if (!$this->user->hasAccess('refund.export.refund.with.errors')) {
             flash()->error(trans('Sentinel::users.noaccess').' - To export refund with Errors');
@@ -265,7 +267,7 @@ class RefundController extends Controller {
         // First log
         Log::info($this->user->email . ' exports refund with Error');
 
-		if (Input::get('export-member-with-errors') == 'yes') {
+		
 			$members = $this->refundFactory->getUploadWithErros();
 			$report = view('contributionsandsavings.export_upload_with_errors',compact('members'))->render();
 			
@@ -281,7 +283,8 @@ class RefundController extends Controller {
 	 */
 	public function removeRefundsWithDifference()
 	{
-				// First check if the user has the permission to do this
+		if (Input::has('remove-member-with-differences') && Input::get('remove-member-with-differences') == 'yes'){
+		// First check if the user has the permission to do this
         if (!$this->user->hasAccess('refund.remove.refunds.with.differences')) {
             flash()->error(trans('Sentinel::users.noaccess').' - To remove refunds with differences');
             return redirect()->back();
@@ -290,7 +293,6 @@ class RefundController extends Controller {
         // First log
         Log::info($this->user->email . ' removed refunds with differences');
 
-		if (Input::has('remove-member-with-differences') && Input::get('remove-member-with-differences') == 'yes') {
 			$this->refundFactory->forgetRefundsWithDifferences();
 		}
 	}
