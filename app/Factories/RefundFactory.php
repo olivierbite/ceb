@@ -254,13 +254,17 @@ class RefundFactory {
 		$emergencyLoanRefundFee = 0;
 
 		foreach ($refundMembers as $refundMember) {
-			
+
+			// Initialize emergency loan fee for each transaction to avoid
+			// considering previous transaction emergecny fee
+
 			$loan  = $refundMember->latestLoan();
 
 			$loanTransactionId  = null;
 			$loanId = null;			
 			$loanAmount = 0;
-
+			$emergencyMonthlyFee = 0;
+			$emergencyLoanRefundFee = 0;
 			// if this member has active emergency loan, remove the normal amount to refund
 			// without emergency loan and then the rest save it as emergency loan refund 
 			// so that we can record how much money on emergency loan has been paid
@@ -332,7 +336,7 @@ class RefundFactory {
 			// Make sure we update the member object in order to avoid
 			// Double refunds when someone has emergency
 			$refundMember->refund_fee -=$emergencyLoanRefundFee;
-
+			
 			// If we reach here, it means we have save emergency, now let's 
 			// remove emergency amount that we have saved and record the 
 			// amount for the existing non-emergency loan
@@ -500,7 +504,7 @@ class RefundFactory {
 			}
 			catch(\Exception $ex)
 			{
-				Log::critical($member);
+				Log::critical($ex->getMessage());
 			}
 		}
 
