@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Pagination\LengthAwarePaginator as Paginator;
 use Input;
 use Redirect;
-
+use flash;
 class RefundController extends Controller {
 	function __construct(RefundFactory $refundFactory) {
 		$this->refundFactory = $refundFactory;
