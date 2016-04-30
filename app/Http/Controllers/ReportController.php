@@ -359,7 +359,8 @@ class ReportController extends Controller {
     				  ->betweenDates($startDate,$endDate)
     				  ->where('status','approved')
     				  ->where('adhersion_id',$adhersionId)
-    				  ->orderBy('letter_date','ASC')->get();
+    				  ->orderBy(DB::raw('cast(loan_contract as unsigned)'))
+    				  ->orderBy('letter_date')->get();
 	    
 	    $report = view('reports.member.loan_records',compact('loans'))->render();
 

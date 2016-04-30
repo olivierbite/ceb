@@ -51,11 +51,12 @@
 	</tr>
 
   	<?php $loan_to_repay += $loan->loan_to_repay; ?>
-	<?php $interest += $loan->interests; ?>
-	<?php $monthly_fees += $loan->monthly_fees; ?>
+	<?php $interest 	 += $loan->interests; ?>
+	<?php $monthly_fees  += $loan->monthly_fees; ?>
 
   	{{-- REFUND TABLE  --}}
-	@foreach ($loan->refunds as $refund)
+  	<?php $refunds = $loan->refunds()->orderBy('created_at')->get();?>
+	@foreach ($refunds as $refund)
 	@include('reports.member.item_loan_record_refund')
 		<?php $tranches += $refund->amount; ?>
 	@endforeach
