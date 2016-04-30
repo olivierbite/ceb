@@ -354,13 +354,8 @@ class ReportController extends Controller {
 
         // First log 
         Log::info($this->user->email . ' is viewing loans records report');
-    
-    	$loans = $loan->with('member')
-    				  ->betweenDates($startDate,$endDate)
-    				  ->where('status','approved')
-    				  ->where('adhersion_id',$adhersionId)
-    				  ->orderBy(DB::raw('cast(loan_contract as unsigned)'))
-    				  ->orderBy('letter_date')->get();
+ 
+    	$loans = $loan->getLoanRecords($adhersionId);
 	    
 	    $report = view('reports.member.loan_records',compact('loans'))->render();
 

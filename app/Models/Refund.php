@@ -60,6 +60,11 @@ class Refund extends Model {
     }
 
 
+    /**
+     * Get Iregularities
+     * @param  integer $months
+     * @return 
+     */
     public function refundIrregularities($months = 3)
     {
     	/** GETTING ALL MEMBERS LOANS **/
