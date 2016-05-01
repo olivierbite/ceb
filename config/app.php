@@ -149,12 +149,14 @@ return [
 		// Adding service provider for the 3rd parties
 		Barryvdh\Snappy\ServiceProvider::class,
 		Sentinel\SentinelServiceProvider::class,
+		// Barryvdh\Debugbar\ServiceProvider::class,
 		Illuminate\Html\HtmlServiceProvider::class,
 		Laracasts\Flash\FlashServiceProvider::class,
 		Fenos\Notifynder\NotifynderServiceProvider::class,
 		Spatie\Activitylog\ActivitylogServiceProvider::class,
 		Barryvdh\TranslationManager\ManagerServiceProvider::class,
 		Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider::class,
+
 
 
 	],
@@ -213,6 +215,7 @@ return [
 		'Notifynder'	=> Fenos\Notifynder\Facades\Notifynder::class,
 		'PDF'			=> Barryvdh\Snappy\Facades\SnappyPdf::class,
 		'Image'			=> Barryvdh\Snappy\Facades\SnappyImage::class,
+		// 'Debugbar'		=> Barryvdh\Debugbar\Facade::class,
 	],
 
 ];
