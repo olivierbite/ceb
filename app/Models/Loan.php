@@ -507,7 +507,7 @@ class Loan extends Model {
     {
         // Get loans
         DB::statement('DROP TABLE IF EXISTS TEMP_loanRecords');
-        DB::statement('CREATE TEMPORARY TABLE TEMP_loanRecords (
+        DB::statement("CREATE TEMPORARY TABLE TEMP_loanRecords (
                         SELECT id,
                                is_regulation,
                                CAST(letter_date AS DATETIME) AS created_at,
@@ -519,10 +519,11 @@ class Loan extends Model {
                                loan_to_repay AS loan_amount,
                                interests,
                                monthly_fees monthly_fees,
+                               'loan      ' as record_type,
                                0 AS tranches 
-                        FROM ceb.loans 
+                        FROM loans 
                         WHERE adhersion_id=? 
-                        ORDER BY CAST(loan_contract as unsigned) ASC,CAST(letter_date AS DATETIME) ASC)',
+                        ORDER BY CAST(loan_contract as unsigned) ASC,CAST(letter_date AS DATETIME) ASC)",
                         [$adhersion_id]);
 
         // Get loan refunds
@@ -538,8 +539,9 @@ class Loan extends Model {
                                 0 as loan_amount,
                                 0 as interests,
                                 0 as monthly_fees,
+                                'refund' as record_type,
                                 amount as tranches 
-                        FROM ceb.refunds WHERE adhersion_id = ?
+                        FROM    refunds WHERE adhersion_id = ?
                                 ORDER BY created_at;",
                                 [$adhersion_id]);    
 

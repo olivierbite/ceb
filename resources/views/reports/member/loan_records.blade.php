@@ -41,11 +41,10 @@
 		@include('reports.member.item_loan_record_header')
   	@endif
 	
-
 	<tr>
 		<td>{!! date('Y-m-d',strtotime($loan->created_at)) !!}</td>
-	 	<td>{{  trans('loan.loan') }}</td>
-		<td>{!! trans('loans.'.$loan->operation_type)  !!}</td>
+	 	<td>{!! trans('loan.'.trim($loan->record_type)) !!}</td>
+		<td>{!! trans('loan.'.$loan->operation_type)  !!}</td>
 		<td>{!! $loan->wording !!} </td>
 		<td>{!! ($loan->operation_type == 'installments')?'': number_format((int) $loan->loan_amount) !!} </td>
 	    <td>{!! number_format((int) $loan->interests) !!} </td>
