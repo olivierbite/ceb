@@ -38,7 +38,7 @@ class CompleteMemberTransactionRequest extends Request
         ];
 
         if ($attributes['operation_type'] == 'remainers') {
-            $rules['contract_number'] = 'required|min:5';
+            $rules['contract_number'] = 'required|min:3';
         }
 
         return $rules;

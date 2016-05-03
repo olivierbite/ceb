@@ -1,6 +1,9 @@
 @extends('layouts.default')
 @section('content_title')
   {{ trans('navigations.contributions') }}
+@stop
+
+@section('content')
 <script language="JavaScript">
 function toggle(source) {
  checkboxes = document.getElementsByName('memberIds[]');
@@ -9,17 +12,16 @@ function toggle(source) {
   }
 }
 </script>
-@stop
-
-@section('content')
 
 @if (!is_null($transactionid) && $transactionid !=false)
   <script type="text/javascript">
     OpenInNewTab("{!! route('piece.disbursed.saving',['transactionid'=>$transactionid]) !!}")
   </script>
 @endif
+
   @include('contributionsandsavings.form',['institutions'=>$institutions,'institutionId'=>$institutionId])
   @include('partials.batch_upload',['route'=>'contributions.batch'])
+  
   @if(!$members->isEmpty())
   {!! Form::open(array('route'=>'contributions.complete','method'=>'POST')) !!}
   <label>{{ trans('contribution.libelle') }}</label>
@@ -29,7 +31,7 @@ function toggle(source) {
     @include('contributionsandsavings.buttons',['cancelRoute'=>'contributions.cancel'])
   {!! Form::close() !!}
 
-  {!! str_replace('href="/?page=', 'href="'.Request::url().'?'.$_SERVER['QUERY_STRING'].'&page=', $pageLinks->render()) !!}
+  {!! str_replace('href="/?page=', 'href="'.Request::url().'?'.$_SERVER['QUERY_STRING'].'page=', $pageLinks->render()) !!}
 
 
   <table class="table table-bordered">

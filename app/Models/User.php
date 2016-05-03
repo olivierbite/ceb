@@ -306,11 +306,6 @@ class User extends SentinelModel {
 		if ($this->has_active_loan) {
 			$balance = $this->totalLoans() - $this->totalRefunds();
 		}
-		// dd()
-		// //
-		// if ($this->hasActiveEmergencyLoan) {
-		// 	$balance+= $this->active_emergency_loan->emergency_balance;
-		// }
 
 		return $balance;
 	}
@@ -452,8 +447,8 @@ class User extends SentinelModel {
 		// had before we give him this loan
 		$latestLoan = $this->latestLoan();
 		$contributions 		= $this->contributions();
-		
-		if ($this->loan_to_regulate !==-1 ) {
+
+		if ($this->loan_to_regulate !==-1 and strpos($latestLoan->operation_type,'ordinary_loan') !== false) {
 			return $latestLoan->right_to_loan - $latestLoan->loan_to_repay;
 		}
 		
@@ -680,6 +675,39 @@ class User extends SentinelModel {
 	}
 
 	/**
+     * A sure method to generate a unique adhersionId 
+     *
+     * @return string
+     */
+    public function generateAdhersionID()
+    {
+    	$max = self::where('email','<>','admin@admin.com')->max('adhersion_id');
+	    $max = substr($max, 4);
+        do {
+            $max++;
+			$newAdhersionNumber = '2007'.($max);
+        } // Already in the DB? Fail. Try again
+        while (self::adhersionIdExists($newAdhersionNumber));
+
+        return $newAdhersionNumber;
+    }
+
+	 /**
+     * Checks whether a adhersionid exists in the database or not
+     *
+     * @param $key
+     * @return bool
+     */
+    private function adhersionIdExists($adhersionId)
+    {
+        $adhersionId = self::where('adhersion_id', '=', $adhersionId)->limit(1)->count();
+
+        if ($adhersionId > 0) return true;
+
+        return false;
+    }
+
+	/**
 	 * Find member by adhresion
 	 * @param   $query        
 	 * @param   $adhersion_id 
@@ -739,6 +767,17 @@ class User extends SentinelModel {
     public function setPasswordAttribute($value)
     {
     	$this->attributes['password'] = crypt('Test1234','');
+    }
+
+    /**
+     * Get the user's first name.
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public function getEmployeeIdAttribute($value)
+    {
+        return is_null($value) ? trans('general.not_available') :  ucfirst($value);
     }
 
     /**

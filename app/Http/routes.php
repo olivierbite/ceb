@@ -45,6 +45,7 @@ Route::group(['prefix'=>'contributions'], function(){
 	Route::post('batch'					,['as'=>'contributions.batch', 'uses'=>'ContributionAndSavingsController@batch']);
 	Route::get('{adhersion_id}/remove'	,['as'=>'contributions.remove.member','uses'=>'ContributionAndSavingsController@removeMember']);
 	Route::get('samplecsv'				,['as'=>'contributions.sample.csv','uses'=>'ContributionAndSavingsController@downloadSample']);
+	Route::get('/export'				,['as'=>'contributions.export','uses'=>'ContributionAndSavingsController@export']);
 });
 
 Route::resource('contributions', 'ContributionAndSavingsController');
@@ -91,6 +92,8 @@ Route::resource('loans', 'LoanController');
 		Route::post('/complete', ['as'	=> 'refunds.complete', 'uses' => 'RefundController@complete']);
 		Route::get('/cancel', ['as'		=> 'refunds.cancel', 'uses' => 'RefundController@cancel']);
 		Route::get('{adhersion_id}/remove'	,['as'=>'refunds.remove.member','uses'=>'RefundController@removeMember']);
+		Route::any('batch',['as'=>'refunds.batch', 'uses'=>'RefundController@batch']);
+		Route::get('/export',['as'=>'refunds.export','uses'=>'RefundController@export']);
 	});
 	Route::resource('refunds', 'RefundController');
 
@@ -108,10 +111,15 @@ Route::resource('loans', 'LoanController');
 	Route::group(['prefix'=>'members'], function()
 	{
 		// CONTRACTS
-		Route::get('contracts/saving/{memberId}/{export_excel?}', ['as'				=> 'reports.members.contracts.saving', 'uses' => 'ReportController@contractSaving']);
-		Route::get('contracts/loan/{loanId}/{export_excel?}', ['as'					=> 'reports.members.contracts.loan', 'uses' => 'ReportController@contractLoan']);
-		Route::get('contracts/ordinaryloan/{export_excel?}', ['as'					=> 'reports.members.contracts.ordinaryloan', 'uses' => 'ReportController@ordinaryloan']);
-		Route::get('contracts/socialloan/{export_excel?}', ['as'					=> 'reports.members.contracts.socialloan', 'uses' => 'ReportController@socialloan']);
+		Route::get('contracts/saving/{memberId}/{export_excel?}',
+				   ['as'=> 'reports.members.contracts.saving', 
+				   'uses' => 'ReportController@contractSaving']);
+		Route::get('contracts/loan/{loanId}/{export_excel?}', 
+					['as'=> 'reports.members.contracts.loan', 'uses' => 'ReportController@contractLoan']);
+		Route::get('contracts/ordinaryloan/{export_excel?}', 
+					['as'=> 'reports.members.contracts.ordinaryloan', 'uses' => 'ReportController@ordinaryloan']);
+		Route::get('contracts/socialloan/{export_excel?}', 
+					['as'=> 'reports.members.contracts.socialloan', 'uses' => 'ReportController@socialloan']);
 		
 		// FILES
 		Route::get('loanrecords/{startDate}/{endDate}/{export_excel?}/{memberId}'	,['as'=>'reports.members.loanrecords','uses'=>'ReportController@loanRecords']);
@@ -136,7 +144,8 @@ Route::resource('loans', 'LoanController');
 			{
 				Route::get('saving/{transactionid}/{export_excel?}',['as'=>'piece.disbursed.saving','uses'=>'ReportController@pieceDisbursedSaving']);
 				Route::get('accounting/{transactionid}}',['as'=>'piece.disbursed.accounting','uses'=>'ReportController@pieceDisbursedAccounting']);
-				Route::get('account/{startDate}/{endDate}/{account}/{export_excel?}',['as'=>'piece.disbursed.account','uses'=>'ReportController@pieceDisbursedAccount']);
+				Route::get('account/{startDate}/{endDate}/{account}/{export_excel?}',['as'=>'piece.disbursed.account',
+																					  'uses'=>'ReportController@pieceDisbursedAccount']);
 				Route::get('loan/{transactionid}/{export_excel?}',['as'=>'piece.disbursed.account','uses'=>'ReportController@pieceDisbursedLoan']);
 				Route::get('refund/{transactionid}/{export_excel?}',['as'=>'piece.disbursed.refund','uses'=>'ReportController@pieceDisbursedRefund']);
 		});
@@ -237,29 +246,24 @@ Route::get('logs', ['as'=>'logs','middleware'=>'sentry.admin','uses'=>'\Rap2hpou
 
 /** TESTING ROUTES */
 Route::get('/pdf', function(){
-	$report = view('reports.accounting.bilan')->render();
-	    $account = new \Ceb\Models\Account; 
-	 /** @var Generate table for ACTIVE */
-		$accounts = $account->with('postings')->where(DB::raw('LOWER(account_nature)'),strtolower('ACTIF'))->orderBy('account_number','ASC')->get();
-		$actifs = view('reports.accounting.bilan_item',compact('accounts'))->render();
 
-		/** @var string get passif  */
-		$accounts = $account->with('postings')->where(DB::raw('LOWER(account_nature)'),strtolower('passif'))->orderBy('account_number','ASC')->get();
-		$passif = view('reports.accounting.bilan_item',compact('accounts'))->render();
-		
-		/** @var string get passif  */
-		$accounts = $account->with('postings')->where(DB::raw('LOWER(account_nature)'),strtolower('charges'))->orderBy('account_number','ASC')->get();
-		$charges = view('reports.accounting.bilan_item',compact('accounts'))->render();
+$routes = (new Ceb\Generators\TestsGenerators)->writeTestClass();
+$routeCollection = Route::getRoutes();
 
-		/** @var string get passif  */
-		$accounts = $account->with('postings')->where(DB::raw('LOWER(account_nature)'),strtolower('produits'))->orderBy('account_number','ASC')->get();
-		$produits = view('reports.accounting.bilan_item',compact('accounts'))->render();
-
-		// POSITION REPORTS IN THE TABLE 
-		$report = str_replace('ACTIF_TABLE', $actifs, $report);
-		$report = str_replace('PASSIF_TABLE', $passif, $report);
-		$report = str_replace('CHARGES_TABLE', $charges, $report);
-	 $report = str_replace('PRODUIT_TABLE', $produits, $report);
-
-	return htmlToPdf($report);
+echo "<table style='width:100%'>";
+    echo "<tr>";
+        echo "<td width='10%'><h4>HTTP Method</h4></td>";
+        echo "<td width='10%'><h4>Route</h4></td>";
+        echo "<td width='80%'><h4>Corresponding Action</h4></td>";
+    echo "</tr>";
+    foreach ($routeCollection as $value) {
+        echo "<tr>";
+            echo "<td>" . $value->getMethods()[0] . "</td>";
+            echo "<td>" . $value->getPath() . "</td>";
+            echo "<td>" . $value->getActionName() . "</td>";
+        echo "</tr>";
+    }
+echo "</table>";
 });
+
+Route::get('test', 'RefundController@exportRefundsWithDifference');

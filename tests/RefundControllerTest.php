@@ -4,10 +4,14 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class AccountingTest extends TestCase
+class RefundControllerTest extends TestCase
 {
-    /** @test */
-    public function test_accounting_index_page()
+    /**
+     * A basic test example.
+     *
+     * @return void
+     */
+    public function testBatch()
     {
         $this->assertTrue(true);
     }

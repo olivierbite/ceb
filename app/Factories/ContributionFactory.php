@@ -68,23 +68,32 @@ class ContributionFactory {
 
 			foreach ($memberToSet as $member) {
 
+
 				    if (!isset($member[0]) || !isset($member[1])) {
 				    	$rowsWithErrors[] = $member;
 				    	continue;
 				    }
-               
+               	
+               	try
+               	{
 				    $memberFromDb = $this->member->findByAdhersion($member[0]);
 					$memberFromDb->monthly_fee = (int) $memberFromDb->monthly_fee;
-					$member[1] = (int) $member[1];
+
+			    	$memberFromDb->institution = $memberFromDb->institution->name;
 				    // Does contribution look same as the one registered
-				    if ($memberFromDb->monthly_fee !== $member[1]) {
-				    	$memberFromDb->monthly_fee = $member[1];
-				    	$memberFromDb->institution = $memberFromDb->institution->name;
+				    if ($memberFromDb->monthly_fee !== (int) $member[1]) {
+				    	$memberFromDb->monthly_fee = (int) $member[1];
 				    	$rowsWithDifferentAmount[] = $memberFromDb;
 				    }
                      
 				    $rowsWithSuccess[] = $memberFromDb;
-				}	
+				}
+				catch(\Exception $ex)
+				{
+						$member[] = $ex->getMessage().'| This member does not exist in our database';
+						$rowsWithErrors[] = $member;
+				}
+			}	
 		}
 
 		$rowsWithErrors  		  = new Collection($rowsWithErrors);
@@ -107,6 +116,7 @@ class ContributionFactory {
 		$this->setContributions($rowsWithSuccess->toArray());
 		return true;
 	}
+
     /**
 	 * Set members who are about to contribute
 	 * @param array $members
@@ -165,6 +175,16 @@ class ContributionFactory {
 	{
 		return new Collection(Session::get('contributionsWithDifference'));
 	}
+
+	/**
+	 * Get uploaded contribution with erros
+	 * @return Collection 
+	 */
+	public function getUploadWithErros()
+	{
+		return new Collection(Session::get('uploadsWithErrors'));
+	}
+
 	/**
 	 * Update a single monthly contribution for a given uses
 	 * @param  [type] $adhersion_number [description]

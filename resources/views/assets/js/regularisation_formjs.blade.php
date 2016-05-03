@@ -83,7 +83,7 @@ jQuery(document).ready(function($) {
 		
 		// Do this only when this is regularisation montant/amount
 		if (operation_type.indexOf("amount") > -1 && operation_type.indexOf("installment") == -1) {
-			console.log(Math.round(loanBalance) , Math.round(additional_amount),interestRate,numberOfInstallment);
+			
 			totalInstallement_interests = Math.round(getInterest(Math.round(loanBalance) + Math.round(additional_amount),interestRate,numberOfInstallment));
 			interest_on_amount			= Math.round(totalInstallement_interests - remaining_interest);
 
@@ -93,6 +93,7 @@ jQuery(document).ready(function($) {
 
 			total_interests		= Math.round(interest_on_amount );
 			netToReceive		= additional_amount - interest_on_amount- additinal_charges;
+			
 			new_monthly_fees	= parseInt(Math.round((Math.round(loanBalance)+Math.round(additional_amount))/Math.round(numberOfInstallment)));
 			
 		}
@@ -111,6 +112,7 @@ jQuery(document).ready(function($) {
 
 			total_interests		= Math.round(interest_on_amount + interest_on_installements);
 			netToReceive		= additional_amount - interest_on_installements - interest_on_amount- additinal_charges;
+
 			new_monthly_fees	= parseInt(Math.round((Math.round(loanBalance)+Math.round(additional_amount))/Math.round(numberOfInstallment)));
 		}
 
@@ -217,10 +219,13 @@ jQuery(document).ready(function($) {
 	 * @return  {[type]} [description]
 	 */
 	function getInterestRate(numberOfInstallment){
-
 		@foreach ($loanRates as $loanRate)
 			if (numberOfInstallment>={!! $loanRate->start_month !!} && numberOfInstallment<={!! $loanRate->end_month !!}) {return {!! (float) $loanRate->rate !!};};
 		@endforeach
+
+		// If we cannot find any rate related to this
+		// then return maximum
+		return {!! (float) $loanRates->max('rate') !!};
 	}
 
    $('.search-cautionneur').click(function(event) {
