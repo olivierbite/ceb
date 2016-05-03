@@ -140,7 +140,7 @@ class User extends SentinelModel {
 	 */
 	public function getLoanToRegulateAttribute()
 	{
-		$loan = $this->latest_ordinary_loan;
+		$loan = $this->loans()->isOrdinary()->IsNotUmergency()->first();
 		// If not have active loan we have nothing to do here
 		if ($this->hasActiveLoan() == false || is_null($loan)) {
 			return -1;
@@ -473,7 +473,7 @@ class User extends SentinelModel {
     
     public function getLatestOrdinaryLoanAttribute()
     {
-    	return $this->loans()->isOrdinary()->IsNotUmergency()->orderBy('id','DESC')->first();
+    	return $this->loans()->isOrdinary()->orderBy('id','DESC')->first();
     }
 	/**
 	 * Determine if this member still have right to loan
