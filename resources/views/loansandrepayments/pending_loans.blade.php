@@ -3,6 +3,14 @@
 	{{ trans('loan.process_pending_loans') }}
 @endsection
 @section('content')
+<style type="text/css">
+	th{
+		font-size: 12px !important;
+	}
+	td{
+		font-size: 12px !important;
+	}
+</style>
 {!! method_exists(get_class($loans),'render') ? $loans->render() : null !!}
 <table class="table table-bordered table-striped">
 	<thead>
@@ -16,7 +24,8 @@
 		<th>{{ trans('loan.number_of_installments') }}</th>
 		<th>{{ trans('loan.monthly_installments') }}</th>
 		<th>{{ trans('loan.loan_to_repay') }}</th>
-		<th>{{ trans('loan.interests') }}</th>
+		<th>{{ trans('loan.interests') }}</th>		
+    	<th>{{ trans('loan.is_regulation') }}</th>
  		<th style="width: 170px;"><i class="fa fa-gear"></i>{{ trans('general.action') }}</th>
 	</thead>
 

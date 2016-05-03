@@ -24,11 +24,6 @@
 <div class="small-box bg-yellow">
     <div class="inner">
         <?php $loanMontlyFee = $member->loan_montly_fee; ?>
-        <?php try{ ?>
-        <?php $remainingInstallments = intval(floor($loanBalance / $loanMontlyFee)); ?>
-        <?php }catch(\Exception $e){ ?>
-        <?php $remainingInstallments =$e->getMessage() ;?>
-        <?php } ?>
         <h4>{!! number_format($loanMontlyFee, 0, null, ",") !!} Rwf</h4> 
     </div>
     <div class="icon"><i class="ion ion-edit"></i></div>
@@ -39,7 +34,7 @@
 <div class="col-sm-6">
 <div class="small-box bg-olive">
     <div class="inner">
-        <h4>{!! $remainingInstallments !!}</h4>
+        <h4>{!! $member->remaining_tranches !!}</h4>
     </div>
     <div class="icon"><i class="ion ion-share"></i></div>
         <h5 class="small-box-footer">{{ trans('member.remaining_installments') }}</h5>

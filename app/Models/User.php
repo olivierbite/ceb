@@ -343,7 +343,7 @@ class User extends SentinelModel {
 				$loan_balance = $this->loanBalance();
 				
 				// Get monthly fee that is supposed to be paid by this member
-				$monthly_fee  = $this->latestLoan()->monthly_fees;
+				$monthly_fee  = $this->loanMonthlyFees();//$this->latestLoan()->monthly_fees;
 				// No active loan therefore remaining installment is 0
 				$installments = $loan_balance / $monthly_fee;
 			}
@@ -473,7 +473,7 @@ class User extends SentinelModel {
     
     public function getLatestOrdinaryLoanAttribute()
     {
-    	return $this->loans()->isOrdinary()->orderBy('id','DESC')->first();
+    	return $this->loans()->isOrdinary()->IsNotUmergency()->orderBy('id','DESC')->first();
     }
 	/**
 	 * Determine if this member still have right to loan
@@ -630,10 +630,11 @@ class User extends SentinelModel {
 			if ($this->hasActiveEmergencyLoan) {
 				$monthly_fee+= $this->active_emergency_loan->monthly_fees;
 			}
+			
         
-        if ($this->remainingInstallment() < 2) {
-        	return $this->loan_balance;
-        }
+        // if ($this->remainingInstallment() < 2) {
+        // 	return $this->loan_balance;
+        // }
 		return $monthly_fee;	
 	}
 
