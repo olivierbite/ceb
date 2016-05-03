@@ -140,7 +140,7 @@ class User extends SentinelModel {
 	 */
 	public function getLoanToRegulateAttribute()
 	{
-		$loan = $this->latest_ordinary_loan;
+		$loan = $this->loans()->isOrdinary()->IsNotUmergency()->first();
 		// If not have active loan we have nothing to do here
 		if ($this->hasActiveLoan() == false || is_null($loan)) {
 			return -1;
@@ -336,14 +336,16 @@ class User extends SentinelModel {
 	public function remainingInstallment()
 	{
 		$installments = 0;
-		
 		try
 		{
+			
 			if ($this->has_active_loan) {
 				$loan_balance = $this->loanBalance();
-				$loan_refund  = $this->latestLoan()->monthly_fees;
+				
+				// Get monthly fee that is supposed to be paid by this member
+				$monthly_fee  = $this->loanMonthlyFees();//$this->latestLoan()->monthly_fees;
 				// No active loan therefore remaining installment is 0
-				$installments = $loan_balance / $loan_refund;
+				$installments = $loan_balance / $monthly_fee;
 			}
 
 			// Add emergency loan if we have it
@@ -365,7 +367,7 @@ class User extends SentinelModel {
 				
 				// Add the emergency loan balance for us to be able to balance
 				// the installments
-				$installments = $loan_balance / $loan_refund;
+				$installments = $loan_balance / $monthly_fee;
 				
 				// Add the difference of emergency loan installments 
 				// if installments are < than emergency loan installments
@@ -598,7 +600,6 @@ class User extends SentinelModel {
 	 */
 	public function loanMonthlyFees() {
 		    $monthly_fee = 0;		
-
 			if ($this->has_active_loan && !is_null($latest=$this->latestLoan())) {
 				$monthly_fee = $latest->monthly_fees;
 			}
@@ -620,20 +621,20 @@ class User extends SentinelModel {
                 	$monthly_fee+=$latest_ordinary_loan->monthly_fees;
 
                 }
+               
 			}
 			catch(\Exception $ex){
 				Log::alert($ex);
 			}
 
-
-
 			if ($this->hasActiveEmergencyLoan) {
 				$monthly_fee+= $this->active_emergency_loan->monthly_fees;
 			}
-       
-        if ($this->remainingInstallment() < 2) {
-        	return $this->loan_balance;
-        }
+			
+        
+        // if ($this->remainingInstallment() < 2) {
+        // 	return $this->loan_balance;
+        // }
 		return $monthly_fee;	
 	}
 

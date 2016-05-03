@@ -79,7 +79,7 @@ return [
      'rejected'                                                                        =>'Rejected',
      'all'                                                                             =>'All',
      'process_pending_loans'                                                           =>'Process pending loan',
-     'unblocking_loans'                                                                =>'uUblocking loans',
+     'unblocking_loans'                                                                =>'Unblocking loans',
      'rate'                                                                            =>'Rate',
      'unblock'                                                                         =>'Unblock',
      'refund'                                                                          =>'Refund',

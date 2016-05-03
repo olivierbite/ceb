@@ -11,8 +11,9 @@
 	<td>{{ number_format($loan->monthly_fees) }} </td>
 	<td>{{ number_format($loan->loan_to_repay) }}</td>
 	<td>{{ number_format($loan->interests) }}</td>
-      <td>{{ number_format($loan->urgent_loan_interest) }}</td>
-      <td>{{ number_format($loan->amount_received) }}</td>
+	<td>{{ number_format($loan->urgent_loan_interest) }}</td>
+	<td>{{ number_format($loan->amount_received) }}</td>
+	<td>{{ $loan->is_regulation==1?trans('general.yes'):trans('general.no') }}</td>
 	<td>
 	<?php $popdown = ($loan->is_regulation == true && $loan->regulation_type == 'installments') ? null : 'popdown' ;?>
 	<?php $route = ($loan->is_regulation == true && $loan->regulation_type == 'installments') ? 'loan.unblock.store' : 'loan.unblock.form' ;?>

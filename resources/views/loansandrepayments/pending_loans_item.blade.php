@@ -11,6 +11,7 @@
 	<td>{{ $loan->monthly_fees }} </td>
 	<td>{{ $loan->loan_to_repay }}</td>
 	<td>{{ $loan->interests }}</td>
+	<td>{{ $loan->is_regulation==1?trans('general.yes'):trans('general.no') }}</td>
 	<td>
 		<a href="{!! route('loan.process',['loanId'=> $loan->id,'status'=>'approved']) !!}" class="btn btn-success">
 			<i class="fa fa-check"></i>

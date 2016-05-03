@@ -497,4 +497,54 @@ class Loan extends Model {
         $results = DB::select(DB::raw($query));
         return new Collection($results);
     }
+
+    /**
+     * Get loan records per adhersion_id
+     * @param  string $adhersion_id 
+     * @return array             
+     */
+    public function getLoanRecords($adhersion_id =null)
+    {
+        // Get loans
+        DB::statement('DROP TABLE IF EXISTS TEMP_loanRecords');
+        DB::statement("CREATE TEMPORARY TABLE TEMP_loanRecords (
+                        SELECT id,
+                               is_regulation,
+                               CAST(letter_date AS DATETIME) AS created_at,
+                               CAST(loan_contract as unsigned) loan_contract,
+                               adhersion_id,
+                               movement_nature,
+                               operation_type,
+                               comment AS wording,
+                               loan_to_repay AS loan_amount,
+                               interests,
+                               monthly_fees monthly_fees,
+                               'loan      ' as record_type,
+                               0 AS tranches 
+                        FROM loans 
+                        WHERE adhersion_id=? 
+                        ORDER BY CAST(loan_contract as unsigned) ASC,CAST(letter_date AS DATETIME) ASC)",
+                        [$adhersion_id]);
+
+        // Get loan refunds
+        DB::statement("INSERT INTO TEMP_loanRecords
+                       SELECT   id,
+                                0 is_regulation,
+                                CAST(created_at AS DATETIME) as letter_date,
+                                contract_number as loan_contract,
+                                adhersion_id,
+                                'refund' AS movement_nature,
+                                'refund' AS operation_type,
+                                wording,
+                                0 as loan_amount,
+                                0 as interests,
+                                0 as monthly_fees,
+                                'refund' as record_type,
+                                amount as tranches 
+                        FROM    refunds WHERE adhersion_id = ?
+                                ORDER BY created_at;",
+                                [$adhersion_id]);    
+
+        return $users = DB::select('SELECT  * FROM TEMP_loanRecords ORDER BY loan_contract,created_at');
+    }
 }
