@@ -57,6 +57,10 @@ class RefundFactory {
 			}
 	        // Make sure amount is numeric
 	        $member->refund_fee = (int)   $member->loan_montly_fee;
+	        if ($member->has_active_emergency_loan) {
+	        	$member->refund_fee +=(int)$member->active_emergency_loan->emergency_balance;
+	        }
+
 			$membersWithNoLoan[] = $member;
 		}
 	
@@ -87,7 +91,9 @@ class RefundFactory {
 
 	        // Make sure amount is numeric
 	        $member->refund_fee = (int)  $member->loan_montly_fee;
-	        
+	         if ($member->has_active_emergency_loan) {
+	        	$member->refund_fee +=(int)$member->active_emergency_loan->emergency_balance;
+	        }
 			$members[] = $member;
 			$this->setRefundMembers($members);
 			return true;
@@ -120,7 +126,9 @@ class RefundFactory {
 			        }
 
 					$memberFromDb->refund_fee = (int) $member[1];
-
+					 if ($member->has_active_emergency_loan) {
+			        	$member->refund_fee +=(int)$member->active_emergency_loan->emergency_balance;
+			        }
 					// Does contribution look same as the one registered
 				    if ($memberFromDb->refund_fee !== $memberFromDb->loan_montly_fee) {
 				    	$rowsWithDifferentAmount[] = $memberFromDb;
