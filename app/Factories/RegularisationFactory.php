@@ -426,7 +426,6 @@ class RegularisationFactory {
 		}
 		$loan = $member->latest_ordinary_loan;
 		$loanToRegulate = $loan->replicate();
-		
 		$loanToRegulate->transactionid			= $transactionid;
 		$loanToRegulate->loan_contract			= $loanToRegulate->loan_contract.'200';
 		$loanToRegulate->right_to_loan			= (int) round($inputs['right_to_loan'] - $inputs['additional_amount']);
