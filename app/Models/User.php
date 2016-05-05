@@ -49,7 +49,7 @@ class User extends SentinelModel {
 	 * @var integer
 	 */
 	public $refund_fee = 0;
-
+	
 	/**
 	 * Minimum months a user needs to have before having a loan.
 	 * @var 
@@ -360,7 +360,7 @@ class User extends SentinelModel {
 				// Remove emergency loan since we have added it in total loans
 				// and to recalculations for the installments
 				$loan_balance -= ($emergency_balance);
-
+				// $monthly_fee  -=$emergency_monthly_fee;
 				// If we have already paid for this loan, then don't count 
 				// the refund for the emergency loan, so that we can be 
 				// more accurate on the installments 
@@ -626,10 +626,9 @@ class User extends SentinelModel {
 			catch(\Exception $ex){
 				Log::alert($ex);
 			}
-
-			if ($this->hasActiveEmergencyLoan) {
-				$monthly_fee+= $this->active_emergency_loan->monthly_fees;
-			}
+			// if ($this->hasActiveEmergencyLoan) {
+			// 	$monthly_fee+= $this->active_emergency_loan->monthly_fees;
+			// }
 			
         
         // if ($this->remainingInstallment() < 2) {

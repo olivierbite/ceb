@@ -22,6 +22,7 @@
 	<?php	$interest 	 =0; ?>
 	<?php	$monthly_fees  =0; ?>
 	<?php	$tranches  =0; ?>
+	<?php   $loan_contract = 0 ;?>
 
   <?php $first_loan = $loans[0]->id; ?>
   @foreach ($loans as $loan)
