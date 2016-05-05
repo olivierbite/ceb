@@ -307,6 +307,10 @@ class User extends SentinelModel {
 			$balance = $this->totalLoans() - $this->totalRefunds();
 		}
 
+		if($this->has_active_emergency_loan){
+			$balance = abs($balance - $this->active_emergency_loan->emergency_balance);
+		}
+
 		return $balance;
 	}
 
@@ -473,7 +477,7 @@ class User extends SentinelModel {
     
     public function getLatestOrdinaryLoanAttribute()
     {
-    	return $this->loans()->isOrdinary()->orderBy('id','DESC')->first();
+    	return $this->loans()->isOrdinary()->isNotUmergency()->orderBy('id','DESC')->first();
     }
 	/**
 	 * Determine if this member still have right to loan
