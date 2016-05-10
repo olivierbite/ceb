@@ -612,10 +612,14 @@ class User extends SentinelModel {
 					$monthly_fee = $latest->monthly_fees;
 				}
 
+				// If we have emergency loan, check if this emergency
+				// loan is not the one being returned
 			 	if ($this->has_active_emergency_loan) {
 
-				if ($this->active_emergency_loan->id !== $latest->id) {
-					return $monthly_fee;
+			 	// If this one is an emergency loan, then reset 
+			 	// monthly loan to zero.
+				if ($this->active_emergency_loan->id == $latest->id) {
+					$monthly_fee = 0;
 				}
 			}
 			// If this latest loan is not ordinary loan, then check if this member
@@ -623,18 +627,18 @@ class User extends SentinelModel {
 			// fees to the ordinary loan 
 			// try
 			// {
-			// 	// Get latest loan  details
-			// 	$latest_ordinary_loan = $this->latest_ordinary_loan;
+				// Get latest loan  details
+				$latest_ordinary_loan = $this->latest_ordinary_loan;
                 
-			// 	// Check if we have latest active ordinary loan that is not yet paid
-			// 	// We need to add previous monthly fees, since this loan is either
-   //              // social loan or special loan 
+				// Check if we have latest active ordinary loan that is not yet paid
+				// We need to add previous monthly fees, since this loan is either
+                // social loan or special loan 
                 
-   //              if ($latest_ordinary_loan->id != $latest->id && !$latest_ordinary_loan->isFullPaid()) {
+                if ($latest_ordinary_loan->id != $latest->id && !$latest_ordinary_loan->isFullPaid()) {
                 	
-   //              	$monthly_fee+=$latest_ordinary_loan->monthly_fees;
+                	$monthly_fee+=$latest_ordinary_loan->monthly_fees;
 
-   //              }
+                }
                
 			}
 			catch(\Exception $ex)
@@ -646,9 +650,9 @@ class User extends SentinelModel {
 			// }
 			
         
-        // if ($this->remainingInstallment() < 2) {
-        // 	return $this->loan_balance;
-        // }
+   //      if ($this->remainingInstallment() < 2) {
+   //      	return $this->loan_balance;
+   //      }
 		return $monthly_fee;	
 	}
 

@@ -6,9 +6,10 @@
 	<td>{{ $member->loan_balance }} </td>
 	<td>{{ $loan->right_to_loan }} </td>
 	<td>{{ $loan->wished_amount }} </td>
+	<td>{{ number_format($loan->amount_received) }}</td>
 	<td>{{ $loan->rate }}</td>
 	<td>{{ $loan->tranches_number }}</td>
-	<td>{{ $loan->monthly_fees }} </td>
+	<td>{{ $loan->calculated_monthly_fee }} </td>
 	<td>{{ $loan->loan_to_repay }}</td>
 	<td>{{ $loan->interests }}</td>
 	<td>{{ $loan->is_regulation==1?trans('general.yes'):trans('general.no') }}</td>

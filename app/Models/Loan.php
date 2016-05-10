@@ -106,6 +106,27 @@ class Loan extends Model {
     	return $this->cautions()->get()->last();
     }
 
+    /**
+     * Get calculated monthly fees attribute
+     * @return numeric
+     */
+    public function getCalculatedMonthlyFeeAttribute()
+    {
+    if (trim(strtolower($this->operation_type))=='special_loan') {
+        try
+        {
+         $previous = \DB::select("SELECT * FROM loans WHERE status='approved' AND is_umergency = 0 AND id < ? order by id desc LIMIT 1", [$this->id]);
+
+            return $this->monthly_fees - $previous[0]->monthly_fees;
+        }
+        catch(\Exception $ex)
+        {
+            Log::critical($ex->getMessage());
+        }
+        }
+
+        return $this->monthly_fees;
+    }
 
 	/**
 	 * Refunds done to this loan

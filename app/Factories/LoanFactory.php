@@ -487,7 +487,7 @@ class LoanFactory {
 		$data['comment'] = $inputs['wording'];
 		$data['special_loan_contract_number'] = 0;
 		$data['remaining_tranches'] = isset($inputs['tranches_number']) ? $inputs['tranches_number'] : 1;
-		$data['monthly_fees']    = $data['loan_to_repay'] / $data['remaining_tranches'];
+		$data['monthly_fees']    = $inputs['monthly_fees'];
 		$data['special_loan_tranches'] = 0;
 		$data['special_loan_interests'] = 0;
 		$data['special_loan_amount_to_receive'] = 0;
@@ -630,12 +630,13 @@ class LoanFactory {
 		$interestRate = $this->getInterestRate();
 		$administration_fees = (int) $this->setting->keyValue('loan.administration.fee');
 		$numberOfInstallment = $this->getTranschesNumber();
+		$totalLoanToRepay = 0;
 
 		if (isset($loanDetails['operation_type'])==true) {
 		 		 if (!isset($loanDetails['previous_loan_balance'])) {
 			   			$loanDetails['previous_loan_balance'] = 0;
 			   		}
-			       $loanToRepay+=(int) $loanDetails['previous_loan_balance'];
+			       $totalLoanToRepay= $loanToRepay+(int) $loanDetails['previous_loan_balance'];
 		}
 		else
 		{
@@ -665,7 +666,7 @@ class LoanFactory {
 		$this->addLoanInput(['interests' => round($interests, 0)]);
 		$this->addLoanInput(['net_to_receive' => round($netToReceive, 0)]);
 	    $this->addLoanInput(['urgent_loan_interests' => 0]);
-		$this->addLoanInput(['monthly_fees' => round(($loanToRepay / $numberOfInstallment), 0)]);
+		$this->addLoanInput(['monthly_fees' => round(($totalLoanToRepay / $numberOfInstallment), 0)]);
 		$this->addLoanInput(['adhersion_id' => $this->getMember()->adhersion_id]);
 		$this->addLoanInput(['rate' => $interestRate]);
 		
