@@ -140,7 +140,7 @@ class User extends SentinelModel {
 	 */
 	public function getLoanToRegulateAttribute()
 	{
-		$loan = $this->loans()->isOrdinary()->IsNotUmergency()->first();
+		$loan = $this->loans()->isOrdinary()->IsNotUmergency()->orderBy('created_at','DESC')->first();
 		// If not have active loan we have nothing to do here
 		if ($this->hasActiveLoan() == false || is_null($loan)) {
 			return -1;
@@ -621,20 +621,19 @@ class User extends SentinelModel {
 			// If this latest loan is not ordinary loan, then check if this member
 			// has taken an ordinary loan which is not paid yet and add monthly
 			// fees to the ordinary loan 
-			// try
-			// {
-			// 	// Get latest loan  details
-			// 	$latest_ordinary_loan = $this->latest_ordinary_loan;
+			
+				// Get latest loan  details
+				$latest_ordinary_loan = $this->latest_ordinary_loan;
                 
-			// 	// Check if we have latest active ordinary loan that is not yet paid
-			// 	// We need to add previous monthly fees, since this loan is either
-   //              // social loan or special loan 
+				// Check if we have latest active ordinary loan that is not yet paid
+				// We need to add previous monthly fees, since this loan is either
+                // social loan or special loan 
                 
-   //              if ($latest_ordinary_loan->id != $latest->id && !$latest_ordinary_loan->isFullPaid()) {
+                if ($latest_ordinary_loan->id != $latest->id && !$latest_ordinary_loan->isFullPaid() && $latest_ordinary_loan->is_umergency == 0) {
                 	
-   //              	$monthly_fee+=$latest_ordinary_loan->monthly_fees;
+                	$monthly_fee+=$latest_ordinary_loan->monthly_fees;
 
-   //              }
+                }
                
 			}
 			catch(\Exception $ex)
