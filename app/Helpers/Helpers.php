@@ -272,10 +272,12 @@ function generateContract($member,$contract_type)
 				 $contract = view('reports.contracts_loan_ordinary',compact('transactionid'))->render();
 				break;
 			case 'special_loan':
+			    $loan->monthly_fees = $loan->calculated_monthly_fee;
 				// Special loan	
 			    $contract = view('reports.contracts_loan_special', compact('transactionid'))->render();
 				break;
 			case 'social_loan':
+				$loan->monthly_fees = $loan->calculated_monthly_fee;
 				// Social loan.			
 			    $contract = view('reports.contracts_loan_social', compact('transactionid'))->render();
 				break;
