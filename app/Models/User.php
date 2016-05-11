@@ -646,7 +646,7 @@ class User extends SentinelModel {
 
                 }
                
-			}
+			}}
 			catch(\Exception $ex)
 			{
 				Log::alert($ex);
