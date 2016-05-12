@@ -497,4 +497,14 @@ class Loan extends Model {
         $results = DB::select(DB::raw($query));
         return new Collection($results);
     }
+
+    /**
+     * Get loan records per adhersion_id
+     * @param  string $adhersion_id 
+     * @return array             
+     */
+    public function getLoanRecords($adhersion_id =null)
+    {
+         return DB::select('call SP_LOAN_RECORDS(?)',array($adhersion_id));
+    }
 }

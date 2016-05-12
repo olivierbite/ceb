@@ -4,8 +4,13 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
+<<<<<<< HEAD
     "hash": "84b1e6739f2af70ca6034602fcb593a8",
     "content-hash": "0ffd363b9b5045c1e65e84c816a0f665",
+=======
+    "hash": "eb484944758017f630ae22a67226de89",
+    "content-hash": "750025f45e5508d818dd1d8aee95d6f3",
+>>>>>>> 29875989265fcfc8ae4126255767918c4a25e674
     "packages": [
         {
             "name": "anlutro/l4-settings",
@@ -54,6 +59,63 @@
             "time": "2016-02-28 18:37:50"
         },
         {
+<<<<<<< HEAD
+=======
+            "name": "barryvdh/laravel-debugbar",
+            "version": "v2.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/barryvdh/laravel-debugbar.git",
+                "reference": "13b7058d2120c8d5af7f1ada21b7c44dd87b666a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/barryvdh/laravel-debugbar/zipball/13b7058d2120c8d5af7f1ada21b7c44dd87b666a",
+                "reference": "13b7058d2120c8d5af7f1ada21b7c44dd87b666a",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "5.1.*|5.2.*",
+                "maximebf/debugbar": "~1.11.0",
+                "php": ">=5.5.9",
+                "symfony/finder": "~2.7|~3.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.2-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Barryvdh\\Debugbar\\": "src/"
+                },
+                "files": [
+                    "src/helpers.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Barry vd. Heuvel",
+                    "email": "barryvdh@gmail.com"
+                }
+            ],
+            "description": "PHP Debugbar integration for Laravel",
+            "keywords": [
+                "debug",
+                "debugbar",
+                "laravel",
+                "profiler",
+                "webprofiler"
+            ],
+            "time": "2016-02-17 08:32:21"
+        },
+        {
+>>>>>>> 29875989265fcfc8ae4126255767918c4a25e674
             "name": "barryvdh/laravel-dompdf",
             "version": "v0.6.1",
             "source": {
@@ -562,6 +624,7 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fenos/Notifynder.git",
+<<<<<<< HEAD
                 "reference": "cc4d966f1b71fed0a69e765e03601f968f6b1717"
             },
             "dist": {
@@ -572,12 +635,29 @@
             },
             "require": {
                 "illuminate/support": "5.*",
+=======
+                "reference": "587974faabfe37739471e25b9fe79a5846b8f530"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/fenos/Notifynder/zipball/f2af67a77b49dcd336a70d6162d9e1f870d1ecdf",
+                "reference": "587974faabfe37739471e25b9fe79a5846b8f530",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "~5.0",
+>>>>>>> 29875989265fcfc8ae4126255767918c4a25e674
                 "php": ">=5.5.0"
             },
             "require-dev": {
                 "laracasts/testdummy": "~2.0",
+<<<<<<< HEAD
                 "laravel/framework": "5.0.*",
                 "orchestra/testbench": "3.0.*",
+=======
+                "laravel/framework": "~5.0",
+                "orchestra/testbench": "~3.0",
+>>>>>>> 29875989265fcfc8ae4126255767918c4a25e674
                 "phpspec/phpspec": "~2.1",
                 "phpunit/phpunit": "~4.0"
             },
@@ -604,7 +684,11 @@
                 "laravel",
                 "notifications"
             ],
+<<<<<<< HEAD
             "time": "2016-03-26 12:35:52"
+=======
+            "time": "2016-04-20 15:28:02"
+>>>>>>> 29875989265fcfc8ae4126255767918c4a25e674
         },
         {
             "name": "graham-campbell/manager",
@@ -780,6 +864,7 @@
         },
         {
             "name": "guzzlehttp/psr7",
+<<<<<<< HEAD
             "version": "1.2.3",
             "source": {
                 "type": "git",
@@ -790,6 +875,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/guzzle/psr7/zipball/2e89629ff057ebb49492ba08e6995d3a6a80021b",
                 "reference": "2e89629ff057ebb49492ba08e6995d3a6a80021b",
+=======
+            "version": "1.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/guzzle/psr7.git",
+                "reference": "31382fef2889136415751badebbd1cb022a4ed72"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/guzzle/psr7/zipball/31382fef2889136415751badebbd1cb022a4ed72",
+                "reference": "31382fef2889136415751badebbd1cb022a4ed72",
+>>>>>>> 29875989265fcfc8ae4126255767918c4a25e674
                 "shasum": ""
             },
             "require": {
@@ -834,7 +931,11 @@
                 "stream",
                 "uri"
             ],
+<<<<<<< HEAD
             "time": "2016-02-18 21:54:00"
+=======
+            "time": "2016-04-13 19:56:01"
+>>>>>>> 29875989265fcfc8ae4126255767918c4a25e674
         },
         {
             "name": "h4cc/wkhtmltoimage-amd64",
@@ -1274,6 +1375,7 @@
         },
         {
             "name": "laravel/framework",
+<<<<<<< HEAD
             "version": "v5.1.31",
             "source": {
                 "type": "git",
@@ -1284,6 +1386,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/laravel/framework/zipball/d899fbda59bf3ffcde11a9b443c01043b76f40b3",
                 "reference": "d899fbda59bf3ffcde11a9b443c01043b76f40b3",
+=======
+            "version": "v5.1.34",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/framework.git",
+                "reference": "0e73cba565b0ef5b158da62f641dc6770b806102"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/0e73cba565b0ef5b158da62f641dc6770b806102",
+                "reference": "0e73cba565b0ef5b158da62f641dc6770b806102",
+>>>>>>> 29875989265fcfc8ae4126255767918c4a25e674
                 "shasum": ""
             },
             "require": {
@@ -1297,7 +1411,11 @@
                 "monolog/monolog": "~1.11",
                 "mtdowling/cron-expression": "~1.0",
                 "nesbot/carbon": "~1.19",
+<<<<<<< HEAD
                 "paragonie/random_compat": "~1.1",
+=======
+                "paragonie/random_compat": "~1.4",
+>>>>>>> 29875989265fcfc8ae4126255767918c4a25e674
                 "php": ">=5.5.9",
                 "psy/psysh": "0.7.*",
                 "swiftmailer/swiftmailer": "~5.1",
@@ -1398,7 +1516,11 @@
                 "framework",
                 "laravel"
             ],
+<<<<<<< HEAD
             "time": "2016-02-24 15:13:21"
+=======
+            "time": "2016-04-07 14:12:37"
+>>>>>>> 29875989265fcfc8ae4126255767918c4a25e674
         },
         {
             "name": "league/csv",
@@ -1541,6 +1663,7 @@
             "time": "2016-03-14 21:54:11"
         },
         {
+<<<<<<< HEAD
             "name": "monolog/monolog",
             "version": "1.18.1",
             "source": {
@@ -1552,6 +1675,80 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/Seldaek/monolog/zipball/a5f2734e8c16f3aa21b3da09715d10e15b4d2d45",
                 "reference": "a5f2734e8c16f3aa21b3da09715d10e15b4d2d45",
+=======
+            "name": "maximebf/debugbar",
+            "version": "v1.11.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/maximebf/php-debugbar.git",
+                "reference": "d9302891c1f0a0ac5a4f66725163a00537c6359f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/maximebf/php-debugbar/zipball/d9302891c1f0a0ac5a4f66725163a00537c6359f",
+                "reference": "d9302891c1f0a0ac5a4f66725163a00537c6359f",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0",
+                "psr/log": "^1.0",
+                "symfony/var-dumper": "^2.6|^3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.0|^5.0"
+            },
+            "suggest": {
+                "kriswallsmith/assetic": "The best way to manage assets",
+                "monolog/monolog": "Log using Monolog",
+                "predis/predis": "Redis storage"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.11-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "DebugBar\\": "src/DebugBar/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Maxime Bouroumeau-Fuseau",
+                    "email": "maxime.bouroumeau@gmail.com",
+                    "homepage": "http://maximebf.com"
+                },
+                {
+                    "name": "Barry vd. Heuvel",
+                    "email": "barryvdh@gmail.com"
+                }
+            ],
+            "description": "Debug bar in the browser for php application",
+            "homepage": "https://github.com/maximebf/php-debugbar",
+            "keywords": [
+                "debug",
+                "debugbar"
+            ],
+            "time": "2016-01-22 12:22:23"
+        },
+        {
+            "name": "monolog/monolog",
+            "version": "1.19.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Seldaek/monolog.git",
+                "reference": "5f56ed5212dc509c8dc8caeba2715732abb32dbf"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/5f56ed5212dc509c8dc8caeba2715732abb32dbf",
+                "reference": "5f56ed5212dc509c8dc8caeba2715732abb32dbf",
+>>>>>>> 29875989265fcfc8ae4126255767918c4a25e674
                 "shasum": ""
             },
             "require": {
@@ -1566,13 +1763,21 @@
                 "doctrine/couchdb": "~1.0@dev",
                 "graylog2/gelf-php": "~1.0",
                 "jakub-onderka/php-parallel-lint": "0.9",
+<<<<<<< HEAD
+=======
+                "php-amqplib/php-amqplib": "~2.4",
+>>>>>>> 29875989265fcfc8ae4126255767918c4a25e674
                 "php-console/php-console": "^3.1.3",
                 "phpunit/phpunit": "~4.5",
                 "phpunit/phpunit-mock-objects": "2.3.0",
                 "raven/raven": "^0.13",
                 "ruflin/elastica": ">=0.90 <3.0",
+<<<<<<< HEAD
                 "swiftmailer/swiftmailer": "~5.3",
                 "videlalvaro/php-amqplib": "~2.4"
+=======
+                "swiftmailer/swiftmailer": "~5.3"
+>>>>>>> 29875989265fcfc8ae4126255767918c4a25e674
             },
             "suggest": {
                 "aws/aws-sdk-php": "Allow sending log messages to AWS services like DynamoDB",
@@ -1581,11 +1786,19 @@
                 "ext-mongo": "Allow sending log messages to a MongoDB server",
                 "graylog2/gelf-php": "Allow sending log messages to a GrayLog2 server",
                 "mongodb/mongodb": "Allow sending log messages to a MongoDB server via PHP Driver",
+<<<<<<< HEAD
                 "php-console/php-console": "Allow sending log messages to Google Chrome",
                 "raven/raven": "Allow sending log messages to a Sentry server",
                 "rollbar/rollbar": "Allow sending log messages to Rollbar",
                 "ruflin/elastica": "Allow sending log messages to an Elastic Search server",
                 "videlalvaro/php-amqplib": "Allow sending log messages to an AMQP server using php-amqplib"
+=======
+                "php-amqplib/php-amqplib": "Allow sending log messages to an AMQP server using php-amqplib",
+                "php-console/php-console": "Allow sending log messages to Google Chrome",
+                "raven/raven": "Allow sending log messages to a Sentry server",
+                "rollbar/rollbar": "Allow sending log messages to Rollbar",
+                "ruflin/elastica": "Allow sending log messages to an Elastic Search server"
+>>>>>>> 29875989265fcfc8ae4126255767918c4a25e674
             },
             "type": "library",
             "extra": {
@@ -1616,7 +1829,11 @@
                 "logging",
                 "psr-3"
             ],
+<<<<<<< HEAD
             "time": "2016-03-13 16:08:35"
+=======
+            "time": "2016-04-12 18:29:35"
+>>>>>>> 29875989265fcfc8ae4126255767918c4a25e674
         },
         {
             "name": "mtdowling/cron-expression",
@@ -1711,6 +1928,7 @@
         },
         {
             "name": "nikic/php-parser",
+<<<<<<< HEAD
             "version": "v2.0.1",
             "source": {
                 "type": "git",
@@ -1721,6 +1939,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/ce5be709d59b32dd8a88c80259028759991a4206",
                 "reference": "ce5be709d59b32dd8a88c80259028759991a4206",
+=======
+            "version": "v2.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nikic/PHP-Parser.git",
+                "reference": "47b254ea51f1d6d5dc04b9b299e88346bf2369e3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/47b254ea51f1d6d5dc04b9b299e88346bf2369e3",
+                "reference": "47b254ea51f1d6d5dc04b9b299e88346bf2369e3",
+>>>>>>> 29875989265fcfc8ae4126255767918c4a25e674
                 "shasum": ""
             },
             "require": {
@@ -1736,7 +1966,11 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
+<<<<<<< HEAD
                     "dev-master": "2.0-dev"
+=======
+                    "dev-master": "2.1-dev"
+>>>>>>> 29875989265fcfc8ae4126255767918c4a25e674
                 }
             },
             "autoload": {
@@ -1758,7 +1992,11 @@
                 "parser",
                 "php"
             ],
+<<<<<<< HEAD
             "time": "2016-02-28 19:48:28"
+=======
+            "time": "2016-04-19 13:41:41"
+>>>>>>> 29875989265fcfc8ae4126255767918c4a25e674
         },
         {
             "name": "paragonie/random_compat",
@@ -2011,7 +2249,11 @@
             },
             "dist": {
                 "type": "zip",
+<<<<<<< HEAD
                 "url": "https://api.github.com/repos/rap2hpoutre/laravel-log-viewer/zipball/111628d33a138553a1494a6fd9f6572afe01beea",
+=======
+                "url": "https://api.github.com/repos/rap2hpoutre/laravel-log-viewer/zipball/a874952f470429e5f85291acc65e1967ae21c69b",
+>>>>>>> 29875989265fcfc8ae4126255767918c4a25e674
                 "reference": "111628d33a138553a1494a6fd9f6572afe01beea",
                 "shasum": ""
             },
@@ -2109,12 +2351,21 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/activitylog.git",
+<<<<<<< HEAD
                 "reference": "b734982a3a238f0b5371a5f9230ffce25a1ef4ab"
             },
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/spatie/activitylog/zipball/b734982a3a238f0b5371a5f9230ffce25a1ef4ab",
                 "reference": "b734982a3a238f0b5371a5f9230ffce25a1ef4ab",
+=======
+                "reference": "66943336d7629482326adab3f52c3115f124eb84"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/activitylog/zipball/66943336d7629482326adab3f52c3115f124eb84",
+                "reference": "66943336d7629482326adab3f52c3115f124eb84",
+>>>>>>> 29875989265fcfc8ae4126255767918c4a25e674
                 "shasum": ""
             },
             "require": {
@@ -2152,7 +2403,11 @@
                 "log",
                 "user"
             ],
+<<<<<<< HEAD
             "time": "2016-03-23 19:16:40"
+=======
+            "time": "2016-04-06 11:46:25"
+>>>>>>> 29875989265fcfc8ae4126255767918c4a25e674
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -4380,6 +4635,7 @@
         },
         {
             "name": "symfony/yaml",
+<<<<<<< HEAD
             "version": "v3.0.3",
             "source": {
                 "type": "git",
@@ -4390,6 +4646,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/yaml/zipball/b5ba64cd67ecd6887f63868fa781ca094bd1377c",
                 "reference": "b5ba64cd67ecd6887f63868fa781ca094bd1377c",
+=======
+            "version": "v3.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/yaml.git",
+                "reference": "0047c8366744a16de7516622c5b7355336afae96"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/0047c8366744a16de7516622c5b7355336afae96",
+                "reference": "0047c8366744a16de7516622c5b7355336afae96",
+>>>>>>> 29875989265fcfc8ae4126255767918c4a25e674
                 "shasum": ""
             },
             "require": {
@@ -4425,7 +4693,11 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
+<<<<<<< HEAD
             "time": "2016-02-23 15:16:06"
+=======
+            "time": "2016-03-04 07:55:57"
+>>>>>>> 29875989265fcfc8ae4126255767918c4a25e674
         }
     ],
     "aliases": [],

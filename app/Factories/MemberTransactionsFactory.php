@@ -115,7 +115,7 @@ class MemberTransactionsFactory {
 		$data['adhersion_id']					= $input['adhersion_id'];
 		$data['movement_nature']				= $input['transaction_reason'];
 		$data['operation_type']					= 'loan_relicat';
-		$data['letter_date']					=   Date('Y-m-d');
+		$data['letter_date']					=  Date('Y-m-d');
 		$data['right_to_loan']					= 0;
 		$data['wished_amount']					= $input['amount'];
 		$data['loan_to_repay']					= $input['amount'];
@@ -139,7 +139,7 @@ class MemberTransactionsFactory {
 		$data['special_loan_amount_to_receive']	= 0;
 		$data['rate']							= 0;
 		$data['status']							= 'approved';
-		$data['reason']							=  'Transaction relicat';
+		$data['reason']							= 'Transaction relicat';
 		$data['urgent_loan_interests']			= 0;
 		$data['user_id']						= Sentry::getUser()->id;
 

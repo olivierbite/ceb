@@ -426,14 +426,14 @@ class RegularisationFactory {
 		}
 		$loan = $member->latest_ordinary_loan;
 		$loanToRegulate = $loan->replicate();
-		
+		$inputs['amount_received'] = isset($inputs['amount_received']) ?$inputs['amount_received']:$inputs['netToReceive'];
 		$loanToRegulate->transactionid			= $transactionid;
 		$loanToRegulate->loan_contract			= $loanToRegulate->loan_contract.'200';
 		$loanToRegulate->right_to_loan			= (int) round($inputs['right_to_loan'] - $inputs['additional_amount']);
 		$loanToRegulate->wished_amount			= round($inputs['additional_amount'],0);
 		$loanToRegulate->loan_to_repay			= round($inputs['additional_amount'],0);
 		$loanToRegulate->interests				= round($inputs['total_interests'], 0);
-		$loanToRegulate->amount_received		= round($inputs['netToReceive'],0);
+		$loanToRegulate->amount_received		= round($inputs['amount_received'],0);
 		$loanToRegulate->monthly_fees			= round($inputs['new_monthly_fees'],0);
 		$loanToRegulate->tranches_number		= isset($inputs['new_installments']) ? $inputs['new_installments'] : 0;
 		$loanToRegulate->cheque_number			= '';

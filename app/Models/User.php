@@ -49,7 +49,7 @@ class User extends SentinelModel {
 	 * @var integer
 	 */
 	public $refund_fee = 0;
-
+	
 	/**
 	 * Minimum months a user needs to have before having a loan.
 	 * @var 
@@ -140,7 +140,7 @@ class User extends SentinelModel {
 	 */
 	public function getLoanToRegulateAttribute()
 	{
-		$loan = $this->latest_ordinary_loan;
+		$loan = $this->loans()->isOrdinary()->IsNotUmergency()->first();
 		// If not have active loan we have nothing to do here
 		if ($this->hasActiveLoan() == false || is_null($loan)) {
 			return -1;
@@ -307,6 +307,10 @@ class User extends SentinelModel {
 			$balance = $this->totalLoans() - $this->totalRefunds();
 		}
 
+		if($this->has_active_emergency_loan){
+			$balance = abs($balance - $this->active_emergency_loan->emergency_balance);
+		}
+
 		return $balance;
 	}
 
@@ -336,43 +340,46 @@ class User extends SentinelModel {
 	public function remainingInstallment()
 	{
 		$installments = 0;
-		
 		try
 		{
+			
 			if ($this->has_active_loan) {
 				$loan_balance = $this->loanBalance();
-				$loan_refund  = $this->latestLoan()->monthly_fees;
+				
+				// Get monthly fee that is supposed to be paid by this member
+				$monthly_fee  = $this->loanMonthlyFees();//$this->latestLoan()->monthly_fees;
 				// No active loan therefore remaining installment is 0
-				$installments = $loan_balance / $loan_refund;
+				$installments = $loan_balance / $monthly_fee;
+				return round($installments);
 			}
 
 			// Add emergency loan if we have it
-			if ($this->has_active_emergency_loan) {
-				$emergency_loan = $this->active_emergency_loan;
-				$emergency_loan_refund = $emergency_loan->emergency_refund;
-				$emergency_balance     = $emergency_loan->emergency_balance;
-				$emergencyLoanAmount = $emergency_balance + $emergency_loan_refund;
-				$emergency_monthly_fee = $emergency_loan->monthly_fees;
-				$emergency_installments = $emergency_balance / $emergency_monthly_fee;
+			// if ($this->has_active_emergency_loan) {
+			// 	$emergency_loan = $this->active_emergency_loan;
+			// 	$emergency_loan_refund = $emergency_loan->emergency_refund;
+			// 	$emergency_balance     = $emergency_loan->emergency_balance;
+			// 	$emergencyLoanAmount = $emergency_balance + $emergency_loan_refund;
+			// 	$emergency_monthly_fee = $emergency_loan->monthly_fees;
+			// 	$emergency_installments = $emergency_balance / $emergency_monthly_fee;
 
-				// Remove emergency loan since we have added it in total loans
-				// and to recalculations for the installments
-				$loan_balance -= ($emergency_balance);
-
-				// If we have already paid for this loan, then don't count 
-				// the refund for the emergency loan, so that we can be 
-				// more accurate on the installments 
+			// 	// Remove emergency loan since we have added it in total loans
+			// 	// and to recalculations for the installments
+			// 	$loan_balance -= ($emergency_balance);
+			// 	// $monthly_fee  -=$emergency_monthly_fee;
+			// 	// If we have already paid for this loan, then don't count 
+			// 	// the refund for the emergency loan, so that we can be 
+			// 	// more accurate on the installments 
 				
-				// Add the emergency loan balance for us to be able to balance
-				// the installments
-				$installments = $loan_balance / $loan_refund;
+			// 	// Add the emergency loan balance for us to be able to balance
+			// 	// the installments
+			// 	$installments = $loan_balance / $monthly_fee;
 				
-				// Add the difference of emergency loan installments 
-				// if installments are < than emergency loan installments
-				if ($installments < $emergency_installments) {
-					$installments += abs($installments - $emergency_installments);
-				}
-			}
+			// 	// Add the difference of emergency loan installments 
+			// 	// if installments are < than emergency loan installments
+			// 	if ($installments < $emergency_installments) {
+			// 		$installments += abs($installments - $emergency_installments);
+			// 	}
+			// }
 		}
 		catch(Exception $e)
 		{
@@ -471,7 +478,7 @@ class User extends SentinelModel {
     
     public function getLatestOrdinaryLoanAttribute()
     {
-    	return $this->loans()->isOrdinary()->orderBy('id','DESC')->first();
+    	return $this->loans()->isOrdinary()->isNotUmergency()->orderBy('id','DESC')->first();
     }
 	/**
 	 * Determine if this member still have right to loan
@@ -598,42 +605,50 @@ class User extends SentinelModel {
 	 */
 	public function loanMonthlyFees() {
 		    $monthly_fee = 0;		
+		    
+		    try
+			{
+				if ($this->has_active_loan && !is_null($latest=$this->latestLoan())) {
+					$monthly_fee = $latest->monthly_fees;
+				}
 
-			if ($this->has_active_loan && !is_null($latest=$this->latestLoan())) {
-				$monthly_fee = $latest->monthly_fees;
+			 	if ($this->has_active_emergency_loan) {
+
+				if ($this->active_emergency_loan->id !== $latest->id) {
+					return $monthly_fee;
+				}
 			}
-
 			// If this latest loan is not ordinary loan, then check if this member
 			// has taken an ordinary loan which is not paid yet and add monthly
 			// fees to the ordinary loan 
-			try
-			{
-				// Get latest loan  details
-				$latest_ordinary_loan = $this->latest_ordinary_loan;
+			// try
+			// {
+			// 	// Get latest loan  details
+			// 	$latest_ordinary_loan = $this->latest_ordinary_loan;
                 
-				// Check if we have latest active ordinary loan that is not yet paid
-				// We need to add previous monthly fees, since this loan is either
-                // social loan or special loan 
+			// 	// Check if we have latest active ordinary loan that is not yet paid
+			// 	// We need to add previous monthly fees, since this loan is either
+   //              // social loan or special loan 
                 
-                if ($latest_ordinary_loan->id != $latest->id && !$latest_ordinary_loan->isFullPaid()) {
+   //              if ($latest_ordinary_loan->id != $latest->id && !$latest_ordinary_loan->isFullPaid()) {
                 	
-                	$monthly_fee+=$latest_ordinary_loan->monthly_fees;
+   //              	$monthly_fee+=$latest_ordinary_loan->monthly_fees;
 
-                }
+   //              }
+               
 			}
-			catch(\Exception $ex){
+			catch(\Exception $ex)
+			{
 				Log::alert($ex);
 			}
-
-
-
-			if ($this->hasActiveEmergencyLoan) {
-				$monthly_fee+= $this->active_emergency_loan->monthly_fees;
-			}
-       
-        if ($this->remainingInstallment() < 2) {
-        	return $this->loan_balance;
-        }
+			// if ($this->hasActiveEmergencyLoan) {
+			// 	$monthly_fee+= $this->active_emergency_loan->monthly_fees;
+			// }
+			
+        
+        // if ($this->remainingInstallment() < 2) {
+        // 	return $this->loan_balance;
+        // }
 		return $monthly_fee;	
 	}
 
