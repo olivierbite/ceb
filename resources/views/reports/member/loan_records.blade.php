@@ -1,7 +1,8 @@
 @include('partials.landscapecss')
 {{-- Start by pulling this member profile --}}
-@if (empty($loans))
-	@include('reports.member.partials.profile',['member'=>$loans->last()->member]) 
+@if (!empty($loans))
+    <?php $member = (new \Ceb\Models\User)->findByAdhersion($loans[0]->adhersion_id) ;?>
+	@include('reports.member.partials.profile',['member'=>$member]) 
 @endif
 <table class="pure-table pure-table-bordered">
 <caption> {{ trans('reports.member_loan_records_file') }} </caption>
