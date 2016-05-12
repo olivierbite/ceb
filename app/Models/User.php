@@ -612,17 +612,21 @@ class User extends SentinelModel {
 					$monthly_fee = $latest->monthly_fees;
 				}
 
-			 	if ($this->has_active_emergency_loan) {
+			// 	// If we have emergency loan, check if this emergency
+			// 	// loan is not the one being returned
+			//  	if ($this->has_active_emergency_loan) {
 
-				if ($this->active_emergency_loan->id !== $latest->id) {
-					return $monthly_fee;
-				}
-			}
-			// If this latest loan is not ordinary loan, then check if this member
-			// has taken an ordinary loan which is not paid yet and add monthly
-			// fees to the ordinary loan 
-			// try
-			// {
+			//  	// If this one is an emergency loan, then reset 
+			//  	// monthly loan to zero.
+			// 	if ($this->active_emergency_loan->id == $latest->id) {
+			// 		return $mon;
+			// 	}
+			// }
+			// // If this latest loan is not ordinary loan, then check if this member
+			// // has taken an ordinary loan which is not paid yet and add monthly
+			// // fees to the ordinary loan 
+			// // try
+			// // {
 			// 	// Get latest loan  details
 			// 	$latest_ordinary_loan = $this->latest_ordinary_loan;
                 
@@ -646,9 +650,9 @@ class User extends SentinelModel {
 			// }
 			
         
-        // if ($this->remainingInstallment() < 2) {
-        // 	return $this->loan_balance;
-        // }
+   // //      if ($this->remainingInstallment() < 2) {
+   // //      	return $this->loan_balance;
+   // //      }
 		return $monthly_fee;	
 	}
 
