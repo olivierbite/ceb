@@ -505,7 +505,7 @@ class LoanFactory {
 		}
 		
 		// If Loan is social loan or special loan use latest ordinary loan contract number
-		if (strtolower(trim($data['operation_type'])) == 'special_loan' || strtolower(trim($data['operation_type'])) == 'social_loan' || ) {
+		if (strtolower(trim($data['operation_type'])) == 'special_loan' || strtolower(trim($data['operation_type'])) == 'social_loan' ) {
 			try
 			{
 				$data['loan_contract'] = $member->Latest_ordinary_loan->loan_contract;
@@ -514,9 +514,12 @@ class LoanFactory {
 			{
 				Log::error($ex->getMessage());
 			}
-		}
-
+		
         $newLoan = $this->loan->create($data);
+
+        }
+
+
 	    // If we have bond then save cautionneurs also in the database
 		if ($inputs['amount_bonded'] > 0 && ($inputs['loan_to_repay'] > $member->totalContributions())) {
 			// Attempt to record the loan
@@ -527,6 +530,7 @@ class LoanFactory {
 		// if we reach here it means that we didn't have bond therefore let's continue
 		return $newLoan;
 	}
+
 
 	/**
 	 * Record cautionneur details for this loan

@@ -41,4 +41,5 @@ return array (
     'are_you_sure_you_want_to_remove_this_item'=>'êtes-vous sûr que vous voulez supprimer cet article',
     'select'=>'Selectionnez',
     'view_payments'=>'Vue remboursement',
+    'contract_number'=>'Numero contract',
 );
