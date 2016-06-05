@@ -6,32 +6,33 @@ CREATE PROCEDURE SP_LOAN_RECORDS( IN AdhersionId VARCHAR(25))
 BEGIN
   DECLARE n INT DEFAULT 0;
   DECLARE i INT DEFAULT 0;
-  DECLARE VAR_LOAN_CONTRACT VARCHAR(100) DEFAULT 0;
-  DECLARE VAR_ID VARCHAR(100) DEFAULT 0;
-  DECLARE VAR_LOAN_START_DATE VARCHAR(100) DEFAULT  DATE('1970-01-01');
-  DECLARE VAR_LOAN_END_DATE VARCHAR(100) DEFAULT DATE(current_timestamp);
-  DECLARE NEXTLOAN_NUMER  INT DEFAULT 0;
-  DECLARE COUNT_SAME_LOANS INT DEFAULT 0;
-  DECLARE PREVIOUS_LOAN_CONTRACT VARCHAR(100) DEFAULT 0;
-  DECLARE MAXIMUM_LOAN_CONTRACT INT DEFAULT 0;
+    DECLARE VAR_LOAN_CONTRACT VARCHAR(100) DEFAULT 0;
+    DECLARE VAR_ID VARCHAR(100) DEFAULT 0;
+    DECLARE VAR_LOAN_START_DATE VARCHAR(100) DEFAULT  DATE('1970-01-01');
+    DECLARE VAR_LOAN_END_DATE VARCHAR(100) DEFAULT DATE(current_timestamp);
+    DECLARE NEXTLOAN_NUMER  INT DEFAULT 0;
+    DECLARE COUNT_SAME_LOANS INT DEFAULT 0;
+    DECLARE PREVIOUS_LOAN_CONTRACT VARCHAR(100) DEFAULT 0;
+    DECLARE MAXIMUM_LOAN_CONTRACT INT DEFAULT 0;
     
     -- 1. CREATE RESULTS TEMP TABLEL
-  DROP TABLE IF EXISTS TEMP_loanRecords;
-  CREATE TABLE TEMP_loanRecords(
-     id INT(11) AUTO_INCREMENT,
-     is_regulation VARCHAR(1),
-     created_at  DATETIME,
-     loan_contract VARCHAR(200),
-     adhersion_id VARCHAR(100),
-     movement_nature VARCHAR(200),
-     operation_type VARCHAR(200),
-     wording VARCHAR(255),
-     loan_amount decimal(10,2) ,
-     interests decimal(10,2),
-     monthly_fees decimal(10,2),
-     record_type VARCHAR(200),
-     tranches VARCHAR(200),
-      primary key (id));
+    DROP TABLE IF EXISTS TEMP_loanRecords;
+    CREATE TABLE TEMP_loanRecords(
+       id INT(11) AUTO_INCREMENT,
+       is_regulation VARCHAR(1),
+       created_at  DATETIME,
+       loan_contract VARCHAR(200),
+       adhersion_id VARCHAR(100),
+       movement_nature VARCHAR(200),
+       operation_type VARCHAR(200),
+       wording VARCHAR(255),
+       loan_amount decimal(10,2) ,
+       interests decimal(10,2),
+       monthly_fees decimal(10,2),
+       record_type VARCHAR(200),
+       tranches VARCHAR(200),
+     primary key (id)
+       );
        
     -- 2. GET ALL LOANS FOR THIS MEMBER
     DROP TABLE IF EXISTS TEMP_loans;
@@ -111,7 +112,6 @@ BEGIN
             SET MAXIMUM_LOAN_CONTRACT = 0;
             SET VAR_LOAN_END_DATE = DATE(current_timestamp);
       END IF;
-
       -- INSERT REFUNDS INTO results table
       INSERT INTO TEMP_loanRecords
                        SELECT   null as id,
@@ -128,7 +128,7 @@ BEGIN
                                 'refund' as record_type,
                                 amount as tranches 
                         FROM    refunds WHERE adhersion_id = AdhersionId AND contract_number =VAR_LOAN_CONTRACT
-                                AND (DATE(CAST(created_at AS DATETIME)) BETWEEN DATE(VAR_LOAN_START_DATE) AND  DATE(VAR_LOAN_END_DATE) )
+                                AND (DATE(CAST(created_at AS DATETIME)) > DATE(VAR_LOAN_START_DATE) AND DATE(CAST(created_at AS DATETIME)) <=  DATE(VAR_LOAN_END_DATE) )
                                 ORDER BY created_at;
     SET i = i + 1;
   END WHILE;
@@ -136,4 +136,5 @@ BEGIN
 End;
 ;;
 
-CALL SP_LOAN_RECORDS(20071977);
+CALL SP_LOAN_RECORDS(20071431);
+
