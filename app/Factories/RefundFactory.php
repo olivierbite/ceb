@@ -752,7 +752,7 @@ class RefundFactory {
 
 	/**
 	 * Remove all things from the session;
-	 */ @return [type] [description]
+	 * @return [type] [description]
 	 */
 	private function clearAll() {
 		$this->removeRefundMembers();
