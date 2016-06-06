@@ -58,13 +58,13 @@
   <div class="col-md-2">
   <div class="form-group">
    <label>{{ trans('member.letter_date') }}</label>
-	{!! Form::input('text', 'letter_date',date('Y-m-d'), ['class'=>'form-control loan-input','id'=>'letter_date']) !!}
+	{!! Form::input('text', 'letter_date',date('Y-m-d'), ['class'=>'form-control','id'=>'letter_date']) !!}
   </div>
   </div>
   <div class="col-md-2">
   <div class="form-group">
    <label>{{ trans('member.date_of_today') }}</label>
-	{!! Form::input('text', 'date_of_today',date('Y-m-d'), ['class'=>'form-control loan-input','id'=>'today']) !!}
+	{!! Form::input('text', 'date_of_today',date('Y-m-d'), ['class'=>'form-control','id'=>'today']) !!}
   </div>
   </div>
 </div>
