@@ -504,6 +504,18 @@ class LoanFactory {
 			$data['emergency_balance'] = $data['loan_to_repay'];
 		}
 		
+		// If Loan is social loan or special loan use latest ordinary loan contract number
+		if (strtolower(trim($data['operation_type'])) == 'special_loan' || strtolower(trim($data['operation_type'])) == 'social_loan' ) {
+			try
+			{
+				$data['loan_contract'] = $member->Latest_ordinary_loan->loan_contract;
+			}
+			catch(\Exception $ex)
+			{
+				Log::error($ex->getMessage());
+			}
+		}
+
         $newLoan = $this->loan->create($data);
 	    // If we have bond then save cautionneurs also in the database
 		if ($inputs['amount_bonded'] > 0 && ($inputs['loan_to_repay'] > $member->totalContributions())) {
