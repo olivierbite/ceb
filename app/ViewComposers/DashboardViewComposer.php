@@ -1,6 +1,7 @@
 <?php
 namespace Ceb\ViewComposers;
 
+use Ceb\Models\Contribution;
 use Ceb\Models\Institution;
 use Ceb\Models\Loan;
 use Ceb\Models\Refund;
@@ -14,7 +15,7 @@ class DashboardViewComposer {
 	
 	public $dashboard  = [];
 
-	function __construct(Institution $institution,Loan $loan,User $member,Refund $refund) {
+	function __construct(Institution $institution,Loan $loan,User $member,Refund $refund,Contribution $contribution) {
 
 		$this->dashboard['ordinary_loan']			= $loan->ofStatus('approved')->ofType('ordinary_loan')->sum('loan_to_repay');
 		$this->dashboard['social_loan']				= $loan->ofStatus('approved')->ofType('social_loan')->sum('loan_to_repay');
@@ -26,7 +27,8 @@ class DashboardViewComposer {
 		$this->dashboard['active_members_count']	= $member->isActive()->count();
 		$this->dashboard['institutions']			= $institution->count();
 		$this->dashboard['outstandingLoans']		= $loan->countOutStanding();
-		$this->dashboard['paidLoans']				= $loan->countPaid();				
+		$this->dashboard['paidLoans']				= $loan->countPaid();			
+		$this->dashboard['savings_level']			= $contribution->isSaving()->sum('amount') - $contribution->isWithdrawal()->sum('amount');
 	}
 
 	public function compose(View $view) {
