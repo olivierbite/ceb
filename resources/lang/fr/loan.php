@@ -215,5 +215,6 @@ return array (
    
     'provide_bank_details_to_unblock_this_loan'                                       =>'Fournir des détails bancaires pour débloquer ce prêt', 
    'is_regulation '                                                                   =>'Est regularise?',
+   'social_loan'                                                                      =>'Prêt social',
 );
 
