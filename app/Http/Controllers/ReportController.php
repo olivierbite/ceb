@@ -487,7 +487,7 @@ class ReportController extends Controller {
     	return view('layouts.printing', compact('report'));
     }
 
-    public function loansBalance(Loan $loan,$institition=null,$excel = 0 )
+    public function loansBalance(Loan $loan,$excel = 0 )
     {
 
     	if (!$this->user->hasAccess('reports.loan.balance')) {
@@ -495,6 +495,7 @@ class ReportController extends Controller {
 
             return redirect()->back();
         }
+
     	$members = $loan->getMembersLoanBalance();
 
 		$report = view('reports.member.memberloans',compact('members'))->render();
