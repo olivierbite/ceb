@@ -498,7 +498,8 @@ class Loan extends Model {
     {
         DB::statement('DROP TABLE IF EXISTS TEMP_MEMBER_LOAN_REFUND');
         DB::statement('CREATE TEMPORARY TABLE TEMP_MEMBER_LOAN_REFUND(
-                        SELECT a.adhersion_id,sum_loan  - sum_refund as balance FROM
+                        SELECT a.adhersion_id,
+                              CASE WHEN sum_refund is null THEN sum_loan ELSE sum_loan  - sum_refund end as balance FROM
                         (
                             SELECT adhersion_id,sum(loan_to_repay) as sum_loan FROM 
                                 loans as a where a.status=\'approved\' group by adhersion_id) as a

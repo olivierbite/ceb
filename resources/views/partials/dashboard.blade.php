@@ -56,7 +56,6 @@
                 </div>
 
                 <div class="col-sm-6">
-
                     <div class="small-box bg-green">
                         <div class="inner">
                             <h3>{!! number_format( $dashboarddata['refunded_amount']) !!}</h3>
@@ -65,6 +64,19 @@
                         <div class="icon"><i class="ion ion-heart"></i></div>
                         <a class="small-box-footer" href="#">
                             {{ trans('general.view_payments') }} <i class="fa fa-arrow-circle-right"></i>
+                        </a>
+                    </div>
+                </div>
+            
+                 <div class="col-sm-12">
+                    <div class="small-box bg-olive">
+                        <div class="inner" style="text-align: center">
+                            <h1 >{!! number_format( $dashboarddata['savings_level']) !!} RWF</h1>
+                           
+                        </div>
+                        <div class="icon"><i class="ion ion-heart"></i></div>
+                        <a class="small-box-footer" href="#">
+                             <h3>{{ trans('contribution.savings_level') }}</h3>
                         </a>
                     </div>
                 </div>
