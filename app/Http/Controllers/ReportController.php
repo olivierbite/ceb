@@ -455,8 +455,9 @@ class ReportController extends Controller {
 
 		$report = view('reports.member.memberswithloan',compact('members','institution'))->render();
 		if ($excel==1) {
-			 toExcel($report,$status.'_between_'.request()->segment(3).'_and_'.request()->segment(4));
-}         if (Input::has('pdf')) {
+			 toExcel($report,$institution.'_monthly_refund_between_'.request()->segment(3).'_and_'.request()->segment(4));
+		}
+         if (Input::has('pdf')) {
          	return  htmlToPdf($report);
          }
     	return view('layouts.printing', compact('report'));
