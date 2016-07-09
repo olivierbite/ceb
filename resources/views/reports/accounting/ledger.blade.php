@@ -1,6 +1,6 @@
 @if (!$postings->isEmpty())
 <?php $account = $postings->first()->account; ?>
-
+<center><b><caption> {{ ucfirst(trans('reports.grand_livre') )}} </caption></b></center><br></br>
 <strong>{{ trans('account.account_number') }} : </strong>{!! $account->account_number !!}, 
 <strong>{{ trans('account.entitled') }} :</strong> {!! $account->entitled !!}, 
 <strong>{{ trans('accounting_nature.account_nature') }} :</strong> {!! $account->account_nature !!}, 

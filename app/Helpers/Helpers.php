@@ -11,6 +11,8 @@ function htmlToPdf($html)
 	if (is_null($title) || empty($title)) {
 		$title = 'document.pdf';
 	}
+	$html = htmlspecialchars_decode($html);
+	
     $html = view('partials.report_header')->render() . $html;
 	$pdf = App::make('snappy.pdf.wrapper');
 	$pdf->loadHTML($html);
@@ -341,7 +343,8 @@ function generateContract($member,$contract_type)
 		$cautionnairesTable = view('reports.cautionneurs',compact('loan'))->render();
 		
 		$contract = str_replace('{cautionnaires_table}',$cautionnairesTable,$contract);
-		return $contract = str_replace('{today_date}',date('d-m-Y'),$contract);
+
+	    $contract = str_replace('{today_date}',date('d-m-Y'),$contract);
 
 	return $contract;	
 }

@@ -42,4 +42,9 @@ return array (
     'select'=>'Selectionnez',
     'view_payments'=>'Vue remboursement',
     'contract_number'=>'Numero contract',
+    'many_members'=>'Membres',
+    'id'=>'ID',
+    'name'=>'Nom',
+ 
+
 );

@@ -17,7 +17,7 @@ use Sentry;
 
 /**
  * Refund Factory
- */
+*/
 class RefundFactory {
 	use TransactionTrait;
 
@@ -116,7 +116,7 @@ class RefundFactory {
                	
                	try
                	{
-				    $memberFromDb = $this->member->findByAdhersion($member[0]);
+				    $memberFromDb = $this->member->findByAdhersion(trim($member[0]));
 
 				    // If the member doesn't have active loan just skipp him
 				    if (!$memberFromDb->hasActiveLoan()) {
@@ -126,8 +126,8 @@ class RefundFactory {
 			        }
 
 					$memberFromDb->refund_fee = (int) $member[1];
-					 if ($member->has_active_emergency_loan) {
-			        	$member->refund_fee +=(int)$member->active_emergency_loan->emergency_balance;
+					 if ($memberFromDb->has_active_emergency_loan) {
+			        	$memberFromDb->refund_fee +=(int)$memberFromDb->active_emergency_loan->emergency_balance;
 			        }
 					// Does contribution look same as the one registered
 				    if ($memberFromDb->refund_fee !== $memberFromDb->loan_montly_fee) {
@@ -140,6 +140,7 @@ class RefundFactory {
 				catch(\Exception $ex)
 				{
 						$member[] = $ex->getMessage().'| This member does not exist in our database';
+						dd($member,$member->has_active_emergency_loan);
 						$rowsWithErrors[] = $member;
 				}
 			}	

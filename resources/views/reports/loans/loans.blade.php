@@ -38,7 +38,8 @@
 
 			@if ($loanType !== $loan->operation_type)
 			<tr>
-				<th colspan="20">{!! $loanType = $loan->operation_type; !!}</th>
+				<?php $loanType = $loan->operation_type; ?>
+				<th colspan="20">{!! trans('loans.'.$loanType) !!}</th>
 			</tr>
 			<?php $number = 1; ?>
 			@endif

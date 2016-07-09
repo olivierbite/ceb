@@ -13,9 +13,9 @@ return array (
  'reports_loans_records'=>'Fiche de prêts',
  'reports_contributions'=>'Epargne',
  'report_range'=>'Report range',
- 'export_excel'=>'Export Excel',
+ 'export_excel'=>'Exporte Excel',
    'select_loan_status'=>'Selectionne status du prêts',
-   'all_loans'=>'All loans',
+   'all_loans'=>'Tous les prêts',
    'member_loan_records_file'=>'Fiche de prêts',
    'member_contribution_file'=>'Fiche de cotisations',
    'select_account'  =>'Selectionner compte',
@@ -33,6 +33,7 @@ return array (
        'ledger'=>'Grand Livre',
        'journal'=>'Journal',
        'Bilan'=>'Bilan',
+       'grand_livre'=>'Grand livre',
 
 1  
 

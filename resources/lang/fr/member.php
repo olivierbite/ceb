@@ -109,5 +109,7 @@ return array (
   'withdrawal_returned_interests'=>'Retrait Intérêt retournés',
   'withdrawal_remaining_balances'=>'Retrait Reliquats',
   'other_withdrawals'=>'Autre retraits',
+  'to_pay'=>'A payer',
+
 
 );
