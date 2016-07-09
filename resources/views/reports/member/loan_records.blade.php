@@ -22,7 +22,7 @@
 	<?php $interest = 0; ?>
 	<?php $monthly_fees = 0; ?>
 
-  <?php $first_loan = $loans->first()->id; ?>
+ 
   @forelse ($loans as $loan)
 
   	{{-- HEADER TABLE ONLY SHOW HEADERS FOR ORDINARY LOAN--}}
