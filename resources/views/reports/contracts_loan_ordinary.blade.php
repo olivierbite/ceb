@@ -2,6 +2,7 @@
 	/** @type {PRINT IN LANDSCAPE}  */
  @media print{@page {size: portrait}}
 </style>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <script type="text/javascript">
    window.open("{!! route('piece.disbursed.account',['transactionid'=>$transactionid,'export_excel'=>0]) !!}", "_blank");
   window.focus();

@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
   <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  
     <meta charset="UTF-8">
     <title>CEB | PRINTING</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <!-- aaddiing heree piece ddebbuurree priinnt seccttiioonn-->
     <link rel="stylesheet" type="text/css" href="{!! url('/assets/dist/css/report.css') !!}">
     @yield('headercss')
@@ -36,7 +36,7 @@
         size: A4;
       }
     </style>
-
+<meta charset="UTF-8" />
     <style type="text/css">
      p{
             font-size: 16px;
@@ -45,6 +45,7 @@
   </head>
   <body>
     <div class="wrapper">
+
       <!-- Main content -->
       <section class="invoice">
         <div class="row no-print">
