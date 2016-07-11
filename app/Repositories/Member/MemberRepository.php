@@ -167,6 +167,12 @@ class MemberRepository implements MemberRepositoryInterface {
 
 			unset($data['names']);
 
+			$existingMemberMonthlyFees = 0;
+			
+			if ($user->monthly_fee == $data['monthly_fee']) {
+				$existingMemberMonthlyFees = $user->monthly_fee;
+			}
+
 			// Start setting new data and update them here.
 			foreach ($data as $key => $value) {
 				// if this field is empty go to the next one

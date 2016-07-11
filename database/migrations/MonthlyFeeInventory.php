@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class ContributionInventories extends Migration
+class MonthlyFeeInventory extends Migration
 {
     /**
      * Run the migrations.
@@ -12,7 +12,7 @@ class ContributionInventories extends Migration
      */
     public function up()
     {
-        Schema::create('contribution_inventories', function(Blueprint $table){
+        Schema::create('monthly_fee_inventories', function(Blueprint $table){
             $table->increments('id');
             $table->string('amount');
             $table->string('adhersion_id');
@@ -28,6 +28,6 @@ class ContributionInventories extends Migration
      */
     public function down()
     {
-        Schema::drop('contribution_inventories');
+        Schema::drop('monthly_fee_inventories');
     }
 }
