@@ -4,6 +4,7 @@ use Cartalyst\Sentry\Facades\Laravel\Sentry as AuthenticatedUser;
 use Cartalyst\Sentry\Sentry;
 use Cartalyst\Sentry\Users\UserExistsException;
 use Cartalyst\Sentry\Users\UserNotFoundException;
+use Ceb\Models\MonthlyFeeInventory;
 use Ceb\Models\User;
 use Ceb\Traits\FileTrait;
 use Ceb\Traits\TransactionTrait;
@@ -95,6 +96,12 @@ class MemberRepository implements MemberRepositoryInterface {
 			$insertId = Db::table('users')->insertGetId($dataToInsert);
 			$user = $this->sentry->getUserProvider()->findById($insertId);
 
+			// record the history of the inventory
+			$monthlyFeeInventory = ['adhersion_id'=>$user->adhersion_id,'amount'=>$user->monthly_fee];
+
+			MonthlyFeeInventory::unguard();
+			MonthlyFeeInventory::insert($monthlyFeeInventory);
+
 			// If no group memberships were specified, use the default groups from config
 			if (array_key_exists('groups', $data)) {
 				$groups = $data['groups'];
@@ -169,12 +176,16 @@ class MemberRepository implements MemberRepositoryInterface {
 
 			$existingMemberMonthlyFees = 0;
 			
-			if ($user->monthly_fee == $data['monthly_fee']) {
-				$existingMemberMonthlyFees = $user->monthly_fee;
+			if ($user->monthly_fee != $data['monthly_fee']) {
+				$monthlyFeeInventory = ['adhersion_id'=>$user->adhersion_id,'amount'=>$user->monthly_fee];
+
+				MonthlyFeeInventory::unguard();
+				MonthlyFeeInventory::insert($monthlyFeeInventory);
 			}
 
 			// Start setting new data and update them here.
 			foreach ($data as $key => $value) {
+
 				// if this field is empty go to the next one
 				if (is_null($value) || empty($value) || trim($value) == '') {
 					continue;

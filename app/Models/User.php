@@ -184,6 +184,13 @@ class User extends SentinelModel {
 	}
 
 	/**
+	 * Get the monthly fees inventory for the Member.
+	 */
+	public function monthlyFeeInventories() {
+		return $this->hasMany('Ceb\Models\MonthlyFeeInventory', 'adhersion_id', 'adhersion_id');
+	}
+
+	/**
 	 * Get member loans
 	 */
 	public function loans() {

@@ -7,4 +7,6 @@ use Illuminate\Support\Facades\DB;
 class MonthlyFeeInventory extends Model {
 
 	protected $table = 'monthly_fee_inventories';
+
+	
 }
