@@ -4,9 +4,7 @@ namespace Ceb\Models;
 use Ceb\Models\Model;
 use Illuminate\Support\Facades\DB;
 
-class MonthlyFeeInventory extends Model {
+class MemberMontlyFeeLog extends Model {
+	protected $table = 'member_monthly_fees_logs';
 
-	protected $table = 'monthly_fee_inventories';
-
-	
 }

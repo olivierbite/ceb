@@ -12,11 +12,11 @@ class MonthlyFeeInventory extends Migration
      */
     public function up()
     {
-        Schema::create('monthly_fee_inventories', function(Blueprint $table){
+        Schema::create('monthly_fee_inventory', function(Blueprint $table){
             $table->increments('id');
             $table->string('amount');
             $table->string('adhersion_id');
-            $table->timestamps();
+            $table->timeStamps();
             $table->softDeletes();
         });
     }
@@ -28,6 +28,6 @@ class MonthlyFeeInventory extends Migration
      */
     public function down()
     {
-        Schema::drop('monthly_fee_inventories');
+        Schema::drop('monthly_fee_inventory');
     }
 }
