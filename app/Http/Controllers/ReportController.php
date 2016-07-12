@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Log;
 use stdClass;
 
 class ReportController extends Controller {
-	public $report;
+public $report;
 	public $labels;
 	function __construct(User $member) {
 		$this->report = trans('report.nothing_to_show');
@@ -136,7 +136,8 @@ class ReportController extends Controller {
 			$loan->save();
 		}
 		
-		$report = $loan->contract;
+		$report = utf8_encode($loan->contract);
+
  if (Input::has('pdf')) {
          	return  htmlToPdf($report);
          }

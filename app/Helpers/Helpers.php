@@ -7,6 +7,8 @@
  */
 function htmlToPdf($html)
 {
+	
+
 	$title = \Request::segment(3);
 	if (is_null($title) || empty($title)) {
 		$title = 'document.pdf';
@@ -15,6 +17,8 @@ function htmlToPdf($html)
 	
     $html = view('partials.report_header')->render() . $html;
 	$pdf = App::make('snappy.pdf.wrapper');
+
+
 	$pdf->loadHTML($html);
 	$pdf->setOption('footer-spacing', 2);
 	$pdf->setOption('header-spacing', 5);
@@ -24,6 +28,24 @@ function htmlToPdf($html)
 
 
 	return $pdf->inline($title);
+}
+
+function utf8_encode_deep(&$input) {
+    if (is_string($input)) {
+        $input = utf8_encode($input);
+    } else if (is_array($input)) {
+        foreach ($input as &$value) {
+            utf8_encode_deep($value);
+        }
+
+        unset($value);
+    } else if (is_object($input)) {
+        $vars = array_keys(get_object_vars($input));
+
+        foreach ($vars as $var) {
+            utf8_encode_deep($input->$var);
+        }
+    }
 }
 
 /**
@@ -345,6 +367,7 @@ function generateContract($member,$contract_type)
 		$contract = str_replace('{cautionnaires_table}',$cautionnairesTable,$contract);
 
 	    $contract = str_replace('{today_date}',date('d-m-Y'),$contract);
+
 
 	return $contract;	
 }
