@@ -1,5 +1,4 @@
 <?php 
-
 /**
  * Convert HTML to pdf
  * @param  string $html 
@@ -8,28 +7,19 @@
 function htmlToPdf($html)
 {
 	
-
 	$title = \Request::segment(3);
 	if (is_null($title) || empty($title)) {
 		$title = 'document.pdf';
 	}
-	$html = htmlspecialchars_decode($html);
-	
     $html = view('partials.report_header')->render() . $html;
 	$pdf = App::make('snappy.pdf.wrapper');
-
-
 	$pdf->loadHTML($html);
 	$pdf->setOption('footer-spacing', 2);
 	$pdf->setOption('header-spacing', 5);
-
 	$pdf->setOption('margin-right', 0);
 	$pdf->setOption('margin-left', 0);
-
-
-	return $pdf->inline($title);
+	return $pdf->stream($title);
 }
-
 function utf8_encode_deep(&$input) {
     if (is_string($input)) {
         $input = utf8_encode($input);
@@ -37,28 +27,23 @@ function utf8_encode_deep(&$input) {
         foreach ($input as &$value) {
             utf8_encode_deep($value);
         }
-
         unset($value);
     } else if (is_object($input)) {
         $vars = array_keys(get_object_vars($input));
-
         foreach ($vars as $var) {
             utf8_encode_deep($input->$var);
         }
     }
 }
-
 /**
  * Check if a string contains another string or character 
  * @param  string $haystack The string to search in.
  * @param  string $needle   string that should be searched for
  * @return bool           true/false
  */
-
 function stringContains($haystack,$needle){
 	return (strpos($haystack, $needle) !== false);
 }
-
 /**
  * Get index of a string or a character from another 
  * @param  string $haystack The string to search in.
@@ -91,7 +76,6 @@ function stringEndsWith($haystack, $needle) {
     // search forward starting from end minus needle length characters
     return $needle === "" || (($temp = strlen($haystack) - strlen($needle)) >= 0 && strpos($haystack, $needle, $temp) !== false);
 }
-
 /**
  * Get string between two string 
  * @param  string $haystack The string to search in.
@@ -123,7 +107,6 @@ function stringBetween($string, $start, $end){
 			header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
 			header('Content-Disposition: attachment;filename="'.$filename.'"');
 			header('Cache-Control: max-age=0');
-
 			echo $report;
 	}
 /**
@@ -139,7 +122,6 @@ function execInBackground($cmd) {
         exec($cmd . " > /dev/null &");   
     } 
 } 
-
 /**
  * Get simple range dates
  * @return  
@@ -169,7 +151,6 @@ function get_simple_date_ranges()
 			$start_of_time . '/' . 	$today						=> trans('report.reports_all_time'),
 		);
 }
-
 /**
  * Get months
  * @return months as array
@@ -185,7 +166,6 @@ function get_months()
 	
 	return $months;
 }
-
 /**
  * Get days
  * @return  days as array
@@ -202,7 +182,6 @@ function get_days()
 	
 	return $days;
 }
-
 /**
  * Get yeards 
  * @return years as array
@@ -233,7 +212,6 @@ function get_random_colors($how_many)
 	
 	return $colors;
 }
-
 /**
  * Get random color
  * @return  
@@ -247,7 +225,6 @@ function random_color()
     }
     return $c;
 }
-
 /**
  * Calcuate interest loan interest
  *
@@ -266,14 +243,13 @@ function calculateInterest($amount,$rate,$installments)
 		//     ------------
 		//     1200 + (TI*N)
 		//
-		// Where :   I : Interest
-		//           P : Amount to Repay
-		//           TI: Interest Rate
-		//           N : Montly payment
+		// Where :   I : Interest
+		//           P : Amount to Repay
+		//           TI: Interest Rate
+		//           N : Montly payment
 		$rate_installments = $rate * $installments;
 	return ($amount * $rate_installments ) / (1200 + $rate_installments);
 }
-
 /**
  * This method helps to generate a written contrat
  * @param  Ceb\Models\User $member who has the contratc
@@ -283,12 +259,10 @@ function calculateInterest($amount,$rate,$installments)
 function generateContract($member,$contract_type)
 {
 	$loan   = $member->latestLoanWithEmergency();
-
 		
 	if ($loan->is_regulation) {
 		$contract_type = $loan->regulation_type;
 	}
-
 	$transactionid =  $loan->transactionid;
 	switch ($contract_type) {
 			case (strpos($contract_type,'ordinary_loan') !== FALSE):
@@ -325,8 +299,6 @@ function generateContract($member,$contract_type)
 				$contract = 'Unable to determine the contract type';
 				break;
 		}
-
-
 		$contract = str_replace('{contract_id}',$loan->loan_contract,$contract);
 		$contract = str_replace('{names}',$member->names,$contract);
 		$contract = str_replace('{adhersion_id}',$member->adhersion_id,$contract);
@@ -335,13 +307,10 @@ function generateContract($member,$contract_type)
 		$contract = str_replace('{province}',$member->province,$contract);
 		$contract = str_replace('{names}',$member->names,$contract);
 		$contract = str_replace('{institution_name}',$member->institution_name,$contract);
-
 		$loan_to_repay = (int) $loan->loan_to_repay;
-
 		$contract = str_replace('{loan_to_repay_word}',convert_number_to_words($loan_to_repay),$contract);
 		$contract = str_replace('{loan_to_repay}',number_format($loan_to_repay),$contract);
 		$contract = str_replace('{cheque_number}',$loan->cheque_number,$contract);
-
 		$tranches =  $loan->tranches_number;
 		$letter_date = $loan->letter_date;
 		// If the loan is regulated then use the total amount
@@ -349,7 +318,6 @@ function generateContract($member,$contract_type)
 			$tranches = $member->remaining_tranches;
 			$letter_date = $loan->created_at;
 		}
-
 		$contract = str_replace('{tranches_number}',$tranches,$contract);
 		$contract = str_replace('{monthly_fees}',number_format((int)$loan->monthly_fees),$contract);
 		$contract = str_replace('{interests}',number_format((int) $loan->interests),$contract);
@@ -365,9 +333,6 @@ function generateContract($member,$contract_type)
 		$cautionnairesTable = view('reports.cautionneurs',compact('loan'))->render();
 		
 		$contract = str_replace('{cautionnaires_table}',$cautionnairesTable,$contract);
-
 	    $contract = str_replace('{today_date}',date('d-m-Y'),$contract);
-
-
 	return $contract;	
 }
