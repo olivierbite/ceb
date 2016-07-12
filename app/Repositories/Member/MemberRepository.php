@@ -97,10 +97,12 @@ class MemberRepository implements MemberRepositoryInterface {
 			$user = $this->sentry->getUserProvider()->findById($insertId);
 
 			// record the history of the inventory
-			$monthlyFeeInventory = ['adhersion_id'=>$user->adhersion_id,'amount'=>$user->monthly_fee];
+			// 
+			$inventory =  new MonthlyFeeInventory;
+			$inventory->amount = $user->monthly_fee;
+			$inventory->adhersion_id = $user->adhersion_id;
 
-			MonthlyFeeInventory::unguard();
-			MonthlyFeeInventory::insert($monthlyFeeInventory);
+			$inventory->save();
 
 			// If no group memberships were specified, use the default groups from config
 			if (array_key_exists('groups', $data)) {
@@ -178,9 +180,12 @@ class MemberRepository implements MemberRepositoryInterface {
 			
 			if ($user->monthly_fee != $data['monthly_fee']) {
 				$monthlyFeeInventory = ['adhersion_id'=>$user->adhersion_id,'amount'=>$data['monthly_fee']];
+				$inventory =  new MonthlyFeeInventory;
+				$inventory->type = 'decrease';
+				$inventory->amount = $user->monthly_fee;
+				$inventory->adhersion_id = $user->adhersion_id;
 
-				MonthlyFeeInventory::unguard();
-				MonthlyFeeInventory::insert($monthlyFeeInventory);
+				$inventory->save();
 			}
 
 			// Start setting new data and update them here.

@@ -15,6 +15,7 @@ class MonthlyFeeInventory extends Migration
         Schema::create('monthly_fee_inventory', function(Blueprint $table){
             $table->increments('id');
             $table->string('amount');
+            $table->string('type')->default('increase');
             $table->string('adhersion_id');
             $table->timeStamps();
             $table->softDeletes();
