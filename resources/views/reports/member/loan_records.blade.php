@@ -24,13 +24,15 @@
 	<?php	$monthly_fees  =0; ?>
 	<?php	$tranches  =0; ?>
 	<?php   $loan_contract = 0 ;?>
-  <?php $first_loan = $loans[0]->id; ?>
+
+  <?php $first_loan = isset($loans[0])? $loans[0]->id:null; ?>
   @foreach ($loans as $loan)
+
 
   	{{-- HEADER TABLE ONLY SHOW HEADERS FOR ORDINARY LOAN--}}
   	@if ((strpos($loan->operation_type,'ordinary_loan') !== FALSE || strpos($loan->operation_type,'emergency_loan') !== FALSE) && $loan->is_regulation == false)
   		{{-- SUMMARY TABLE --}}
-		@if ($loan->id !== $first_loan)
+		@if ($loan->id!== $first_loan)
 			@include('reports.member.item_loan_record_summary')
 			     	<?php	$loan_to_repay =0; ?>
 					<?php	$interest 	 =0; ?>
