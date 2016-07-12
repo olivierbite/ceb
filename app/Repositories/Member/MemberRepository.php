@@ -177,7 +177,7 @@ class MemberRepository implements MemberRepositoryInterface {
 			$existingMemberMonthlyFees = 0;
 			
 			if ($user->monthly_fee != $data['monthly_fee']) {
-				$monthlyFeeInventory = ['adhersion_id'=>$user->adhersion_id,'amount'=>$user->monthly_fee];
+				$monthlyFeeInventory = ['adhersion_id'=>$user->adhersion_id,'amount'=>$data['monthly_fee']];
 
 				MonthlyFeeInventory::unguard();
 				MonthlyFeeInventory::insert($monthlyFeeInventory);
