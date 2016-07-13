@@ -9,6 +9,7 @@ use Ceb\Models\Contribution;
 use Ceb\Models\Institution;
 use Ceb\Models\Loan;
 use Ceb\Models\MemberLoanCautionneur;
+use Ceb\Models\MonthlyFeeInventory;
 use Ceb\Models\Posting;
 use Ceb\Models\Refund;
 use Ceb\Models\User;
@@ -362,7 +363,42 @@ public $report;
 
 	    if ($excel==1) {
 			 toExcel($report,'loanRecords-report');
-}         if (Input::has('pdf')) {
+		}
+         if (Input::has('pdf')) {
+         	return  htmlToPdf($report);
+         }
+		return view('layouts.printing', compact('report'));
+    }
+
+    
+    /**
+     * Monthly fee inventory history
+     * @param  string  $startDate   
+     * @param  string  $endDate     
+     * @param  integer $excel       
+     * @param  string  $adhersionId 
+     * @return string               
+     */
+    public function monthlyFeeInventory($startDate=null,$endDate=null,$excel=0,$adhersionId=null)
+    { 
+	    // First check if the user has the permission to do this
+        if (!$this->user->hasAccess('reports.loans.records')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
+
+            return redirect()->back();
+        }
+
+        // First log 
+        Log::info($this->user->email . ' is viewing loans records report');
+ 
+    	$history = MonthlyFeeInventory::history($startDate,$endDate);
+	    
+	    $report = view('reports.member.monthly-fee-inventory',compact('history'))->render();
+
+	    if ($excel==1) {
+			 toExcel($report,'Monthly-fee-inventory-report');
+		}
+         if (Input::has('pdf')) {
          	return  htmlToPdf($report);
          }
 		return view('layouts.printing', compact('report'));

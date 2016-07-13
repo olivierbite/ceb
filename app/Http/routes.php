@@ -1,5 +1,6 @@
 <?php
 
+use Ceb\Models\MonthlyFeeInventory;
 use Ceb\Models\Setting;
 /*
 |--------------------------------------------------------------------------
@@ -124,6 +125,9 @@ Route::resource('loans', 'LoanController');
 		// FILES
 		Route::get('loanrecords/{startDate}/{endDate}/{export_excel?}/{memberId}'	,['as'=>'reports.members.loanrecords','uses'=>'ReportController@loanRecords']);
 		Route::get('contributions/{startDate}/{endDate}/{export_excel?}/{memberId}'	,['as'=>'reports.members.contributions','uses'=>'ReportController@contributions']);
+
+		// MONTHLY FEE INVENTORY
+		Route::get('history/{startDate}/{endDate}/{export_excel?}/{anotherparam?}', 'ReportController@monthlyFeeInventory');
 
 	});
 
@@ -265,5 +269,3 @@ echo "<table style='width:100%'>";
     }
 echo "</table>";
 });
-
-Route::get('test', 'RefundController@exportRefundsWithDifference');
