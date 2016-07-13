@@ -5,6 +5,6 @@ use Ceb\Models\Model;
 use Illuminate\Support\Facades\DB;
 
 class MemberMontlyFeeLog extends Model {
-	protected $table = 'member_monthly_fees_logs';
+	protected $table = 'MonthlyFeeInventory';
 
 }
