@@ -1,6 +1,7 @@
 <?php
 
 use Ceb\Models\MonthlyFeeInventory;
+use Ceb\Models\Refund;
 use Ceb\Models\Setting;
 /*
 |--------------------------------------------------------------------------
@@ -128,6 +129,7 @@ Route::resource('loans', 'LoanController');
 
 		// MONTHLY FEE INVENTORY
 		Route::get('history/{startDate}/{endDate}/{export_excel?}/{anotherparam?}', 'ReportController@monthlyFeeInventory');
+		Route::get('octroye',['as'=>'reports.members.octroye','uses'=>'ReportController@octroye']);
 
 	});
 

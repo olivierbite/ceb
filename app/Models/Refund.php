@@ -59,7 +59,42 @@ class Refund extends Model {
      	return array_shift($sum)->amount;
     }
 
+    public static function octroye()
+    {
+    	// GET LOANS 
+    	DB::statement('DROP TABLE IF EXISTS TEMP_LOANS_PER_MEMBER');
+    	DB::statement("CREATE TEMPORARY TABLE TEMP_LOANS_PER_MEMBER
+						(
+							 SELECT 
+									adhersion_id,
+						            SUM(loan_to_repay) as loan 
+							 FROM loans 
+						     WHERE STATUS ='approved' GROUP BY adhersion_id
+						)");
 
+        // GET REFUNDS
+        DB::statement('DROP TABLE IF EXISTS TEMP_REFUND_PER_MEMBER');
+        DB::statement("CREATE TEMPORARY TABLE TEMP_REFUND_PER_MEMBER
+						(
+							SELECT adhersion_id,sum(amount) refund FROM refunds GROUP BY adhersion_id
+						)");
+
+        // GET THE REPORT
+        $result = DB::select("SELECT  CASE 
+								WHEN c.first_name IS NULL THEN c.last_name
+					            WHEN c.last_name  IS NULL THEN c.first_name
+							ELSE CONCAT(c.first_name,' ',c.last_name) END AS names,
+						        a.adhersion_id,
+						        a.loan,
+						        b.refund,
+								a.loan - b.refund AS balance
+							FROM TEMP_LOANS_PER_MEMBER AS a
+					        LEFT JOIN TEMP_REFUND_PER_MEMBER AS b ON a.adhersion_id = b.adhersion_id AND b.refund >= a.loan
+					        AND b.refund IS NOT NULL
+					        LEFT JOIN  users AS c ON a.adhersion_id = c.adhersion_id");
+
+        return $result;
+    }
     /**
      * Get Iregularities
      * @param  integer $months
