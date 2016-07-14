@@ -382,14 +382,14 @@ public $report;
     public function monthlyFeeInventory($startDate=null,$endDate=null,$excel=0,$adhersionId=null)
     { 
 	    // First check if the user has the permission to do this
-        if (!$this->user->hasAccess('reports.loans.records')) {
+        if (!$this->user->hasAccess('reports.member.montly.fee.inventory')) {
             flash()->error(trans('Sentinel::users.noaccess'));
 
             return redirect()->back();
         }
 
         // First log 
-        Log::info($this->user->email . ' is viewing loans records report');
+        Log::info($this->user->email . ' is viewing Member monthly fee inventory report');
  
     	$history = MonthlyFeeInventory::history($startDate,$endDate);
 	    
@@ -398,6 +398,34 @@ public $report;
 	    if ($excel==1) {
 			 toExcel($report,'Monthly-fee-inventory-report');
 		}
+         if (Input::has('pdf')) {
+         	return  htmlToPdf($report);
+         }
+		return view('layouts.printing', compact('report'));
+    }
+
+     /**
+     * Monthly fee inventory history
+     * @param  string  $startDate   
+     * @param  string  $endDate     
+     * @param  integer $excel       
+     * @param  string  $adhersionId 
+     * @return string               
+     */
+    public function octroye()
+    { 
+	    // First check if the user has the permission to do this
+        if (!$this->user->hasAccess('reports.loans.records')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
+
+            return redirect()->back();
+        }
+
+        // First log 
+        Log::info($this->user->email . ' is viewing octroye report');
+		$loans = Refund::octroye();
+	    $report =view('reports.loans.octroye',compact('loans'))->render();
+
          if (Input::has('pdf')) {
          	return  htmlToPdf($report);
          }
