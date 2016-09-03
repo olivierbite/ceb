@@ -137,9 +137,10 @@ public $report;
 			$loan->save();
 		}
 		
-		$report = utf8_encode($loan->contract);
+		// Handles french and other special characters
+		$report = htmlentities_keepHtmlTags($loan->contract);
 
- if (Input::has('pdf')) {
+		 if (Input::has('pdf')) {
          	return  htmlToPdf($report);
          }
  		return view('layouts.printing', compact('report'));

@@ -41,6 +41,25 @@ function htmlToPdf($html)
 	return $pdf->stream($title);
 }
 
+/**
+ * htmlentities in PHP but preserving html tags
+ * @param  string $htmlString
+ * @return string
+ */
+function htmlentities_keepHtmlTags($htmlString)
+{
+	$list = get_html_translation_table(HTML_ENTITIES);
+	unset($list['"']);
+	unset($list['<']);
+	unset($list['>']);
+	unset($list['&']);
+
+	$search = array_keys($list);
+	$values = array_values($list);
+	$search = array_map('utf8_encode', $search);
+
+	return str_replace($search, $values, $htmlString);
+}
 function utf8_encode_deep(&$input) {
     if (is_string($input)) {
         $input = utf8_encode($input);
