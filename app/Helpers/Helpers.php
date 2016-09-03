@@ -7,7 +7,17 @@
  */
 function htmlToPdf($html)
 {
-	
+	$options = [
+				"encoding"=>"UTF-8",
+			    "page-size"=>"A4",
+			    "margin-top"=>"0.25in",
+			    "margin-right"=>"0.1in",
+			    "margin-bottom"=>"0.25in",
+			    "margin-left"=>"0.1in",
+			    'footer-spacing'=> 2,
+				'header-spacing'=> 5,			
+			    "disable-smart-shrinking"=> false,
+			    ];
 
 	$title = \Request::segment(3);
 	if (is_null($title) || empty($title)) {
@@ -18,11 +28,14 @@ function htmlToPdf($html)
 
 
 	$pdf->loadHTML($html);
-	$pdf->setOption('footer-spacing', 2);
-	$pdf->setOption('header-spacing', 5);
+	foreach ($options as $key => $value) {
+		$pdf->setOption($key, $value);
+	}
+	// $pdf->setOption('footer-spacing', 2);
+	// $pdf->setOption('header-spacing', 5);
 
-	$pdf->setOption('margin-right', 0);
-	$pdf->setOption('margin-left', 0);
+	// $pdf->setOption('margin-right', 0);
+	// $pdf->setOption('margin-left', 0);
 
 
 	return $pdf->stream($title);
