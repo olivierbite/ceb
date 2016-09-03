@@ -31,7 +31,7 @@ function toggle(source) {
     @include('contributionsandsavings.buttons',['cancelRoute'=>'contributions.cancel'])
   {!! Form::close() !!}
 
-  {!! str_replace('href="/?page=', 'href="'.Request::url().'?'.$_SERVER['QUERY_STRING'].'page=', $pageLinks->render()) !!}
+  {!! str_replace('href="/?page=', 'href="'.Request::url().'?'.$_SERVER['QUERY_STRING'].'&page=', $pageLinks->render()) !!}
 
 
   <table class="table table-bordered">
