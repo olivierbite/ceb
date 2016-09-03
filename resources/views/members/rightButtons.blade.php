@@ -31,7 +31,7 @@
 {{ trans('member.loan_records') }}
 </a>
 @endif
-@if($member->hasActiveLoan())
+@if($member->hasActiveLoan() || $member->hasActiveEmergencyLoan)
 <a 	class="col-xs-5 col-md-5 btn btn-warning btn-box warning"
 	href="{{ route('members.refund',['memberId' => $member->id]) }}"
 >
