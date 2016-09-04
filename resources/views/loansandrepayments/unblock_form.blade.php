@@ -66,7 +66,7 @@
   </div>
   </div>
 
-  @if ($show_caution_form == true)
+  @if ($show_caution_form == true && $loan->operation_type!='emergency_loan')
   <div class="col-md-12">
     @include('loansandrepayments.caution_form')
   </div>

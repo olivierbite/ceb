@@ -327,7 +327,7 @@ class User extends SentinelModel {
 	 */
 	public function scopeEligible($query)
 	{
-		return $query->where('created_at','<=',DB::raw('DATE_SUB(now(), INTERVAL 6 MONTH)'));
+		return $query->where('created_at','<=',DB::raw('DATE_SUB(now(), INTERVAL '.env('LOAN_MINIMUM_MONTHS',6).' MONTH)'));
 	}
 
 	/**

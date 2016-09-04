@@ -6,7 +6,17 @@
  */
 function htmlToPdf($html)
 {
-	
+	$options = [
+				"encoding"=>"UTF-8",
+			    "page-size"=>"A4",
+			    "margin-top"=>"0.25in",
+			    "margin-right"=>"0.1in",
+			    "margin-bottom"=>"0.25in",
+			    "margin-left"=>"0.1in",
+			    'footer-spacing'=> 2,
+				'header-spacing'=> 5,			
+			    "disable-smart-shrinking"=> false,
+			    ];
 	$title = \Request::segment(3);
 	if (is_null($title) || empty($title)) {
 		$title = 'document.pdf';
@@ -14,11 +24,31 @@ function htmlToPdf($html)
     $html = view('partials.report_header')->render() . $html;
 	$pdf = App::make('snappy.pdf.wrapper');
 	$pdf->loadHTML($html);
-	$pdf->setOption('footer-spacing', 2);
-	$pdf->setOption('header-spacing', 5);
-	$pdf->setOption('margin-right', 0);
-	$pdf->setOption('margin-left', 0);
+	foreach ($options as $key => $value) {
+		$pdf->setOption($key, $value);
+	}
+	// $pdf->setOption('footer-spacing', 2);
+	// $pdf->setOption('header-spacing', 5);
+	// $pdf->setOption('margin-right', 0);
+	// $pdf->setOption('margin-left', 0);
 	return $pdf->stream($title);
+}
+/**
+ * htmlentities in PHP but preserving html tags
+ * @param  string $htmlString
+ * @return string
+ */
+function htmlentities_keepHtmlTags($htmlString)
+{
+	$list = get_html_translation_table(HTML_ENTITIES);
+	unset($list['"']);
+	unset($list['<']);
+	unset($list['>']);
+	unset($list['&']);
+	$search = array_keys($list);
+	$values = array_values($list);
+	$search = array_map('utf8_encode', $search);
+	return str_replace($search, $values, $htmlString);
 }
 function utf8_encode_deep(&$input) {
     if (is_string($input)) {
