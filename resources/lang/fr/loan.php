@@ -218,5 +218,6 @@ return array (
    'social_loan'                                                                      =>'Prêt social',
   'loan_regularisation'=>'Regularisation prêt',
   'urgent_ordinary_loan'=>'Prêt ordinaire urgent',
+   'is_regulation'=>'Regularise ?',
 );
 

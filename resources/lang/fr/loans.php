@@ -11,4 +11,5 @@ return [
     'emergency_loan_refund'=>'Deja Payer',
     'emergency_loan_remaining_tranches'=>'Tranche Restant',
     'loan_regularisation'=>'Prêt Regularisation',
+    'is_regulation'=>'Regularise ?',
 ];
