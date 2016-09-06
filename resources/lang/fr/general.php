@@ -45,6 +45,7 @@ return array (
     'many_members'=>'Membres',
     'id'=>'ID',
     'name'=>'Nom',
+    'president'=>'President',
  
 
 );

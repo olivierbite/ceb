@@ -783,7 +783,7 @@ class User extends SentinelModel {
 	 */
 	public function scopeHasLeft($query)
 	{
-		return $query->whereNotNull('termination_date');
+		return $query->where('institution_id','11');
 	}
 
 	/**
@@ -793,7 +793,7 @@ class User extends SentinelModel {
 	 */
 	public function scopeIsActive($query)
 	{
-		return $query->whereNull('termination_date');
+		return $query->where('institution_id','<>','11');
 	}
 
 	
