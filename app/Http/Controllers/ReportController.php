@@ -9,6 +9,7 @@ use Ceb\Models\Contribution;
 use Ceb\Models\Institution;
 use Ceb\Models\Loan;
 use Ceb\Models\MemberLoanCautionneur;
+use Ceb\Models\MonthlyFeeInventory;
 use Ceb\Models\Posting;
 use Ceb\Models\Refund;
 use Ceb\Models\User;
@@ -20,7 +21,7 @@ use Illuminate\Support\Facades\Log;
 use stdClass;
 
 class ReportController extends Controller {
-	public $report;
+public $report;
 	public $labels;
 	function __construct(User $member) {
 		$this->report = trans('report.nothing_to_show');
@@ -136,8 +137,10 @@ class ReportController extends Controller {
 			$loan->save();
 		}
 		
-		$report = $loan->contract;
- if (Input::has('pdf')) {
+		// Handles french and other special characters
+		$report = htmlentities_keepHtmlTags($loan->contract);
+
+		 if (Input::has('pdf')) {
          	return  htmlToPdf($report);
          }
  		return view('layouts.printing', compact('report'));
@@ -361,7 +364,70 @@ class ReportController extends Controller {
 
 	    if ($excel==1) {
 			 toExcel($report,'loanRecords-report');
-}         if (Input::has('pdf')) {
+		}
+         if (Input::has('pdf')) {
+         	return  htmlToPdf($report);
+         }
+		return view('layouts.printing', compact('report'));
+    }
+
+    
+    /**
+     * Monthly fee inventory history
+     * @param  string  $startDate   
+     * @param  string  $endDate     
+     * @param  integer $excel       
+     * @param  string  $adhersionId 
+     * @return string               
+     */
+    public function monthlyFeeInventory($startDate=null,$endDate=null,$excel=0,$adhersionId=null)
+    { 
+	    // First check if the user has the permission to do this
+        if (!$this->user->hasAccess('reports.member.montly.fee.inventory')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
+
+            return redirect()->back();
+        }
+
+        // First log 
+        Log::info($this->user->email . ' is viewing Member monthly fee inventory report');
+ 
+    	$history = MonthlyFeeInventory::history($startDate,$endDate);
+	    
+	    $report = view('reports.member.monthly-fee-inventory',compact('history'))->render();
+
+	    if ($excel==1) {
+			 toExcel($report,'Monthly-fee-inventory-report');
+		}
+         if (Input::has('pdf')) {
+         	return  htmlToPdf($report);
+         }
+		return view('layouts.printing', compact('report'));
+    }
+
+     /**
+     * Monthly fee inventory history
+     * @param  string  $startDate   
+     * @param  string  $endDate     
+     * @param  integer $excel       
+     * @param  string  $adhersionId 
+     * @return string               
+     */
+    public function octroye()
+    { 
+	    // First check if the user has the permission to do this
+        if (!$this->user->hasAccess('reports.loans.records')) {
+            flash()->error(trans('Sentinel::users.noaccess'));
+
+            return redirect()->back();
+        }
+
+        // First log 
+        Log::info($this->user->email . ' is viewing octroye report');
+		$loans = Refund::octroye();
+	    $report =view('reports.loans.octroye',compact('loans'))->render();
+
+         if (Input::has('pdf')) {
          	return  htmlToPdf($report);
          }
 		return view('layouts.printing', compact('report'));
@@ -455,8 +521,9 @@ class ReportController extends Controller {
 
 		$report = view('reports.member.memberswithloan',compact('members','institution'))->render();
 		if ($excel==1) {
-			 toExcel($report,$status.'_between_'.request()->segment(3).'_and_'.request()->segment(4));
-}         if (Input::has('pdf')) {
+			 toExcel($report,$institution.'_monthly_refund_between_'.request()->segment(3).'_and_'.request()->segment(4));
+		}
+         if (Input::has('pdf')) {
          	return  htmlToPdf($report);
          }
     	return view('layouts.printing', compact('report'));

@@ -51,7 +51,7 @@ class RefundFactory {
 		/** Make sure we only get member with loan */
 		foreach ($members as $member) {
 
-			if (!$member->hasActiveLoan()) {
+			if (!$member->hasActiveLoan() && !$member->hasActiveEmergencyLoan) {
 				flash()->error(trans('member.this_member_doesnot_have_active_loan'));
 			    continue;
 			}
@@ -84,13 +84,16 @@ class RefundFactory {
 		if (!is_array($memberToSet) && is_numeric($memberToSet)) {
 			$member = $this->member->with('loans')->findOrFail($memberToSet);
 
-			if (!$member->hasActiveLoan()) {
+			if (!$member->hasActiveLoan() && !$member->hasActiveEmergencyLoan) {
 				flash()->error(trans('member.this_member_doesnot_have_active_loan'));
 				return false;
 			}
-
+			 $member->refund_fee = 0;
 	        // Make sure amount is numeric
-	        $member->refund_fee = (int)  $member->loan_montly_fee;
+	        if ($member->hasActiveLoan()) {
+		         $member->refund_fee = (int)  $member->loan_montly_fee;
+	        }
+	       
 	       
 	         if ($member->has_active_emergency_loan) {
 	        	 $member->refund_fee +=(int)$member->active_emergency_loan->monthly_fees;

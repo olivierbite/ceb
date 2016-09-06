@@ -7,7 +7,8 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 class MemberRepositoryTest extends TestCase
 {
     /**
-     * A generateAdhersionID test.
+     * A genera
+     eAdhersionID test.
      *
      * @return void
      */
