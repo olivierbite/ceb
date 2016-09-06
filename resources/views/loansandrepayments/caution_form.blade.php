@@ -24,21 +24,19 @@
               ]
             )
   </div>
+  <div class="col-md-3">
+    @include('loansandrepayments.search',
+              ['cautionneur'=>isset($cautionneurs['cautionneur2'])?$cautionneurs['cautionneur2']:null,
+              'label'=> trans('loan.cautionneur_number2'),
+              'fieldname' =>'cautionneur2'
+              ]
+            )
 
-    <div class="col-md-3">
-      @include('loansandrepayments.search',
-                ['cautionneur'=>isset($cautionneurs['cautionneur2'])?$cautionneurs['cautionneur2']:null,
-                'label'=> trans('loan.cautionneur_number2'),
-                'fieldname' =>'cautionneur2'
-                ]
-              )
-
-    </div>
-    
+  </div>
   <div class="col-md-3">
   <div class="form-group">
    <label>{{ trans('loan.amount_bonded') }}</label>
-  {!! Form::input('text', 'amount_bonded',isset($bonded_amount)?$bonded_amount:null, ['class'=>'form-control loan-input','id'=>'amount_bonded']) !!}
+  {!! Form::input('text', 'amount_bonded',isset($loanInputs['amount_bonded'])?$loanInputs['amount_bonded']:null, ['class'=>'form-control loan-input','id'=>'amount_bonded']) !!}
   </div>
   </div>
 </div>
