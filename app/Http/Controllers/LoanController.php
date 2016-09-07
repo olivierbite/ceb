@@ -499,14 +499,16 @@ class LoanController extends Controller {
         $cautionneurs = $this->loanFactory->getCautionneurs();
         $loan = $this->loan->findOrFail($loanid);
         $member = $loan->member;
-
+        // dd($cautionneurs);
         $bonded_amount = 0;
         $show_caution_form = false;
+
         /** if this loan is ordinary loan the check if the requested amount is higher than the contributions */
         if ($loan->loan_to_repay > $member->total_contribution) {
         	$bonded_amount = $loan->loan_to_repay - $member->total_contribution;
         	$show_caution_form = true;
         }
+
         // First log 
         Log::info($this->user->email . ' is viewing blocking form loan with id'.$loanid);
 

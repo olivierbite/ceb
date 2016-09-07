@@ -206,7 +206,6 @@ class LoanFactory {
 		$arrayKey = array_keys($cautionneur)[0];
 		$cautionneurId = array_values($cautionneur)[0];
 		$cautionneurs = $this->getCautionneurs();
-
 		// Get rid of any empty array element we may have
         $cautionneurs = is_array($cautionneurs) ? array_filter($cautionneurs):[];
 
