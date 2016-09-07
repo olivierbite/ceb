@@ -50,7 +50,7 @@ class UnblockLoanRequest extends Request
       $loan = Loan::findOrFail($attributes['loanid']);
       $member = $loan->member;
 
-      if ($loan->loan_to_repay > $member->total_contribution & $loan->operation_type !='emergency_loan') {
+      if ($loan->loan_to_repay > $member->total_contribution && $loan->operation_type !='emergency_loan') {
        $rules['cautionneur1']    =  'required';
        $rules['cautionneur2']    =  'required';
        $rules['amount_bonded']   =  'required|numeric';
