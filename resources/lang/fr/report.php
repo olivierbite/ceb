@@ -115,4 +115,6 @@ return array (
                   'reports_cautions_cautioned_me'=>'Cautionner par :',
                     'reports_loans_balance'=>'Niveau credit',
                     'member_loan_balance'=>'Niveau Credit/dette',
+                    'octorey_report'=>'Fin de dette entre deux date',
+                    'monthly_fee_inventory'=>'Cotisation mensuel Modifier',
   );

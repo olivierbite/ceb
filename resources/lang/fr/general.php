@@ -23,7 +23,7 @@ return array (
     'ceb_summary'=>'CEB Résumé',
     'actions'=>'Actions',
     'all'=>'Tous',
-    'between'=>'Entre',
+    'between'=>'entre',
     'and'=>'Et',
   'nothing_to_show_here'=>'Rien à afficher ici',
   'view_all'=>'Voir tous',

@@ -34,7 +34,7 @@ return array (
        'journal'=>'Journal',
        'Bilan'=>'Bilan',
        'grand_livre'=>'Grand livre',
-
-1  
+       'loan_payback'=>'Rapport de fin de dette',
+       'monthly_fees_inventory' =>'Rapport de cotisation mensuel modifier',
 
   );
