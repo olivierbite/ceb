@@ -1,12 +1,9 @@
 <?php
-
 namespace Ceb\Models;
 use Ceb\Models\Model;
 use Illuminate\Support\Facades\DB;
-
 class MonthlyFeeInventory extends Model {
 	protected $table = 'monthly_fee_inventory';
-
 	/**
 	 * Get history of the monthly fees
 	 * @param  string $startDate start date in format of YYYY-MM-DD
@@ -28,11 +25,7 @@ class MonthlyFeeInventory extends Model {
 						LEFT JOIN 
 				         monthly_fee_inventory AS m ON a.adhersion_id = m.adhersion_id
 				     WHERE m.amount IS NOT NULL AND date(m.updated_at) BETWEEN ? AND ?";
-
-
 	    $results = DB::select($query, [$startDate,$endDate]);
-
 	    return $results;
-
 	}
 }

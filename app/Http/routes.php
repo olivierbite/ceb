@@ -129,7 +129,9 @@ Route::resource('loans', 'LoanController');
 
 		// MONTHLY FEE INVENTORY
 		Route::get('history/{startDate}/{endDate}/{export_excel?}/{anotherparam?}', 'ReportController@monthlyFeeInventory');
-		Route::get('octroye',['as'=>'reports.members.octroye','uses'=>'ReportController@octroye']);
+		
+        //Fin de dette entre deux date
+		Route::get('octroye/{startDate}/{endDate}/{export_excel?}/{anotherparam?}','ReportController@octroye');
 
 	});
 

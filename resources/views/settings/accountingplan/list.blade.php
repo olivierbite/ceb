@@ -1,4 +1,3 @@
-@extends('layouts.default')
 @section('content_title')
 	{{ trans('navigations.accounting_plan') }}
 @endsection

@@ -383,11 +383,11 @@ public $report;
     public function monthlyFeeInventory($startDate=null,$endDate=null,$excel=0,$adhersionId=null)
     { 
 	    // First check if the user has the permission to do this
-        if (!$this->user->hasAccess('reports.member.montly.fee.inventory')) {
+       /** if (!$this->user->hasAccess('reports.member.montly.fee.inventory')) {
             flash()->error(trans('Sentinel::users.noaccess'));
 
             return redirect()->back();
-        }
+        }**/
 
         // First log 
         Log::info($this->user->email . ' is viewing Member monthly fee inventory report');
@@ -413,7 +413,7 @@ public $report;
      * @param  string  $adhersionId 
      * @return string               
      */
-    public function octroye()
+    public function octroye($startDate=null,$endDate=null,$excel=0,$adhersionId=null)
     { 
 	    // First check if the user has the permission to do this
         if (!$this->user->hasAccess('reports.loans.records')) {
@@ -424,7 +424,7 @@ public $report;
 
         // First log 
         Log::info($this->user->email . ' is viewing octroye report');
-		$loans = Refund::octroye();
+		$loans = Refund::octroye($startDate,$endDate);
 	    $report =view('reports.loans.octroye',compact('loans'))->render();
 
          if (Input::has('pdf')) {

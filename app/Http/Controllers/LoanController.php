@@ -1,6 +1,5 @@
 <?php
 namespace Ceb\Http\Controllers;
-
 use Ceb\Factories\LoanFactory;
 use Ceb\Http\Controllers\Controller;
 use Ceb\Http\Requests\CompleteLoanRequest;
@@ -18,14 +17,12 @@ use Illuminate\Support\Facades\Mail;
 use Input;
 use Redirect;
 use Session;
-
 class LoanController extends Controller {
 	protected $loanId = 0;
 	protected $currentMember = null;
 	protected $loanFactory;
 	protected $member;
 	protected $loan;
-
 	function __construct(LoanFactory $loanFactory,Member $member,Loan $loan) {
 	
 		$this->member = $member;
@@ -57,7 +54,6 @@ class LoanController extends Controller {
 		
 		return $this->reload();
 	}
-
 	/**
 	 * Display the specified resource.
 	 *
@@ -68,10 +64,8 @@ class LoanController extends Controller {
 	   // First check if the user has the permission to do this
         if (!$this->user->hasAccess('loan.add.member.to.loan.form')) {
             flash()->error(trans('Sentinel::users.noaccess'));
-
             return redirect()->back();
         }
-
         // First log 
         Log::info($this->user->email . ' is adding member to loan form');
 		
@@ -79,7 +73,6 @@ class LoanController extends Controller {
 		$this->loanFactory->addMember($id);
 		return $this->reload();
 	}
-
 	/**
 	 * Complete loan transaction
 	 * @return mixed
@@ -90,18 +83,14 @@ class LoanController extends Controller {
             flash()->error(trans('Sentinel::users.noaccess'));
             return redirect()->back();
         }
-
         // First log 
         Log::info($this->user->email . ' is completing loan request');
 	
 		$memberId = $this->loanFactory->getMember()->id;
-
 		// Make sure we update with latest form inputs
 		$this->loanFactory->addLoanInput($request->all());
-
         // Update accounting fields too
         $this->ajaxAccountingFeilds();
-
         // Only complete transaction when someone does a post request
         if ($request->isMethod('post')) {
 	        // Complete transaction
@@ -110,7 +99,6 @@ class LoanController extends Controller {
 				$this->loanId = $loanId;
 				flash()->success($message);
 				$this->currentMember = $memberId;
-
 				// If this user doesn't have right to view the contract
 				// Then show him an error
 		        if (!$this->user->hasAccess('reports.contract.loan')) {
@@ -130,20 +118,16 @@ class LoanController extends Controller {
 		// First check if the user has the permission to do this
         if (!$this->user->hasAccess('loan.cancel.loan.request')) {
             flash()->error(trans('Sentinel::users.noaccess'));
-
             return redirect()->back();
         }
-
         // First log 
         Log::info($this->user->email . ' is cancelling loan request');
 	
 		$this->loanFactory->cancel();
 		$message = trans('loan.loan_cancelled');
 		flash()->success($message);
-
 		return Redirect::route('loans.index');
 	}
-
 	/**
 	 * Set new cautionneur
 	 */
@@ -151,10 +135,8 @@ class LoanController extends Controller {
 		// First check if the user has the permission to do this
         if (!$this->user->hasAccess('loan.set.loan.cautionneur')) {
             flash()->error(trans('Sentinel::users.noaccess'));
-
             return redirect()->back();
         }
-
         // First log 
         Log::info($this->user->email . ' is setting loan cautionneur');
 	
@@ -162,7 +144,6 @@ class LoanController extends Controller {
 		{			
 			flash()->success(trans('loan.cautionneur_has_been_added_successfully'));
 		}
-
 		$loanid = Session::get('loan_id', null);
 		return $this->showUnblockingForm($loanid); //$this->reload();
 	}
@@ -175,26 +156,21 @@ class LoanController extends Controller {
 	    // First check if the user has the permission to do this
         if (!$this->user->hasAccess('loan.remove.loan.cautionneur')) {
             flash()->error(trans('Sentinel::users.noaccess'));
-
             return redirect()->back();
         }
-
         // First log 
         Log::info($this->user->email . ' is setting loan cautionneur');
 	
 		$this->loanFactory->removeCautionneur($cautionneur);
 		return $this->reload();
 	}
-
 	/**
 	 * Reload loan page
 	 * @return mixed
 	 */
 	private function reload($loanId = 0) {
-
 		$member = $this->loanFactory->getMember();
 		$loanInputs = $this->loanFactory->getLoanInputs();
-
 		if (isset($loanInputs['operation_type']) == false) {
 			$loanInputs['operation_type'] =  'ordinary_loan';
 			
@@ -202,7 +178,6 @@ class LoanController extends Controller {
 				$loanInputs['operation_type'] = 'special_loan';
 			}
 		}
-
 		$creditAccounts = $this->loanFactory->getCreditAccounts();
 		$debitAccounts = $this->loanFactory->getDebitAccounts();
 		$cautionneurs = $this->loanFactory->getCautionneurs();
@@ -210,28 +185,23 @@ class LoanController extends Controller {
 		$currentMemberId = $this->currentMember;
 		$activeLoan = $this->loan;
 		$rightToLoan = 0;
-
 		if ($member->exists) {
 			$rightToLoan = $member->right_to_loan;
 		}
-
 		$operation_type = strtolower($loanInputs['operation_type']);
 		/**
 		 * Get what the user is allowed to have if configured 
 		 */
 		$settingKey = $operation_type.'.amount';
-
 		if ($this->setting->hasKey($settingKey) !== false) {
 			 $rightToLoan = $this->setting->keyValue($settingKey);
 			 $activeLoan = $member->latestLoan();
 		}
-
         /** DETERMINE WHICH DEFAULT ACCOUNTS TO SET */
         
         $defaultAccounts = $this->getDefaultAccounts($operation_type);
 		return view('loansandrepayments.index', compact('member','loanId','defaultAccounts','rightToLoan','activeLoan', 'loanInputs','operationType', 'cautionneurs', 'debitAccounts', 'creditAccounts', 'currentMemberId'));
 	}
-
 	/**
      * Get default accounts for this modules
      * @return array 
@@ -261,13 +231,11 @@ class LoanController extends Controller {
 		            'credits' => [],
 		        ];
 			break;
-
         }
         
         
         $debitsAccounts = [];
         $creditsAccounts = [];
-
 		foreach ($defaultDebitsAccounts as $defaultDebitAccount) 
 		{
 			foreach ($defaultDebitAccount->accounts as $account) 
@@ -276,7 +244,6 @@ class LoanController extends Controller {
 			}
 		}
 	
-
 		foreach ($defaultCreditsAccounts as $defaultCreditAccount) 
 		{
             foreach ($defaultCreditAccount->accounts as $account) 
@@ -285,7 +252,6 @@ class LoanController extends Controller {
             }
         }
         
-
         return [
             'debits' => (object) $debitsAccounts,
             'credits' => (object) $creditsAccounts
@@ -303,14 +269,12 @@ class LoanController extends Controller {
 		try
 		{
 		$this->loanFactory->addLoanInput(Input::all());
-
 		$this->loanFactory->calculateLoanDetails();
 		}
 		catch(\Exception $e){
 			return $e->getMessage();
 		}
 	}
-
 	/**
 	 * Stores in the session the debit accounts ids and credit accounts IDs
 	 * @return void
@@ -323,15 +287,12 @@ class LoanController extends Controller {
 		if (Input::has('debitAccounts')) {
 			$this->loanFactory->setDebitsAccounts(Input::get('debitAccounts'), Input::get('debitAmounts'));
 		}
-
 		if (Input::has('creditAccounts')) {
 			$this->loanFactory->setCreditAccounts(Input::get('creditAccounts'), Input::get('creditAmounts'));
 		}
-
 		$this->loanFactory->setBondedAmount();
 	}
    
-
 	/**
 	 * Get loan by transaction ID
 	 * @param  Ceb\Models\loan   $loan          
@@ -343,21 +304,16 @@ class LoanController extends Controller {
    	    // First check if the user has the permission to do this
         if (!$this->user->hasAccess('loan.check.loan.status')) {
             flash()->error(trans('Sentinel::users.noaccess'));
-
             return redirect()->back();
         }
-
         /** we can only allow to reject or approve a loan */
         if ((strtolower($toSetstatus) !== 'rejected') && (strtolower($toSetstatus) !== 'approved')) {
         	flash()->error(trans('loan.loan_can_either_be_approved_or_rejected'));
         	return redirect()->back();
         }
-
         // First log 
         Log::info($this->user->email . ' is checking loan status');	
-
    		$loan = $this->loan->with('member')->unBlocked()->find($loanId);
-
    		if (is_null($loan)) {
    			flash()->warning(trans('loan.we_could_not_find_the_loan_you_are_looking_for'));
    			return redirect()->back();
@@ -382,11 +338,9 @@ class LoanController extends Controller {
 				return redirect()->back();
 			}
 		}
-
 		// Lastly, Let's commit a transaction since we reached here
 		DB::commit();
 	  	flash()->success(trans('loan.loan_with_transaction_id_'.$loan->transactionid.'_has_been_'.$loan->status));
-
   		if(($isWellUpdated == true) && (strtolower($toSetstatus) === 'approved' ))
   		{
   			
@@ -403,7 +357,6 @@ class LoanController extends Controller {
        $user = $loan->member;
     
 	   $data['names'] = $user->names;
-
 	   $data['status'] = $toSetstatus;
 	   Mail::queue('emails.loanstatus', $data, function ($message) use ($user) {
 		    $message->to($user->email);
@@ -412,12 +365,9 @@ class LoanController extends Controller {
                    
 	  		return redirect()->route('reports.members.contracts.loan',['loanId'=>$loan->member->adhersion_id]);
   		}
-
   		return redirect()->route('loan.pending');
    	    
    }
-
-
    /**
     * Show pending loans 
     * @param  numeric $loanId optional showing one loan id
@@ -428,13 +378,10 @@ class LoanController extends Controller {
    	    // First check if the user has the permission to do this
         if (!$this->user->hasAccess('loan.can.approve.loan')) {
             flash()->error(trans('Sentinel::users.noaccess'));
-
             return redirect()->back();
         }
-
         // First log 
         Log::info($this->user->email . ' is viewing pending loan');
-
         if (!is_null($loanId)) {
         	// we are looking for a special loan, let's grab it  	
 	   		$loans = $this->loan->unBlocked()->where('id',$loanId)->orderBy('updated_at','DESC')->paginate(20);;
@@ -443,10 +390,8 @@ class LoanController extends Controller {
         {
 	   		$loans = $this->loan->with('member.institution')->unBlocked()->orderBy('updated_at','DESC')->paginate(20);
         }
-
    	    return view('loansandrepayments.pending_loans',compact('loans'));
    }
-
    /**
     * Show blocked loans 
     * @param  numeric $loanId optional showing one loan id
@@ -457,13 +402,10 @@ class LoanController extends Controller {
    	    // First check if the user has the permission to do this
         if (!$this->user->hasAccess('loan.can.unblock.loan')) {
             flash()->error(trans('Sentinel::users.noaccess'));
-
             return redirect()->back();
         }
-
         // First log 
         Log::info($this->user->email . ' is viewing blocked loan');
-
         if (!is_null($loanId)) {
         	// we are looking for a special loan, let's grab it  	
 	   		$loans = $this->loan->blocked()->where('id',$loanId)->orderBy('updated_at','DESC')->paginate(20);
@@ -472,11 +414,8 @@ class LoanController extends Controller {
         {
 	   		$loans = $this->loan->with('member.institution')->blocked()->orderBy('updated_at','DESC')->paginate(20);
         }
-
    	    return view('loansandrepayments.blocked_loans',compact('loans'));
-
    }
-
    /**
     * Show form to provide bank details of unblocking a loan
     * @param  numeric $loanid 
@@ -487,19 +426,16 @@ class LoanController extends Controller {
    		// First check if the user has the permission to do this
         if (!$this->user->hasAccess('loan.can.unblock.loan')) {
             flash()->error(trans('Sentinel::users.noaccess'));
-
             return redirect()->back();
         }
         if (!is_null($loanid)) {
         	Session::put('loan_id', $loanid);
         }
-
         $loanid = Session::get('loan_id', null);
-
         $cautionneurs = $this->loanFactory->getCautionneurs();
         $loan = $this->loan->findOrFail($loanid);
         $member = $loan->member;
-
+        // dd($cautionneurs);
         $bonded_amount = 0;
         $show_caution_form = false;
         /** if this loan is ordinary loan the check if the requested amount is higher than the contributions */
@@ -509,12 +445,9 @@ class LoanController extends Controller {
         }
         // First log 
         Log::info($this->user->email . ' is viewing blocking form loan with id'.$loanid);
-
         $title = trans('loan.provide_bank_details_to_unblock_this_loan');
         return view('loansandrepayments.unblock_form',compact('loanid','title','loan','member','cautionneurs','bonded_amount','show_caution_form'));
-
    }
-
    /**
     * Unblock loan
     * @return
@@ -524,13 +457,10 @@ class LoanController extends Controller {
    		// First check if the user has the permission to do this
         if (!$this->user->hasAccess('loan.can.unblock.loan')) {
             flash()->error(trans('Sentinel::users.noaccess'));
-
             return redirect()->back();
         }
-
 	    // First log 
 	    Log::info($this->user->email . ' is  unblocking loan with details '.json_encode($request->all()));
-
 	    /////////////////////////////////////
 	    // Prepare the passed information  //
 	    /////////////////////////////////////
@@ -538,20 +468,17 @@ class LoanController extends Controller {
 	  	$loanid = is_array($request->all()) ? $requestData['loanid'] : $request->get('loanid');
 	  	
 	    $loan = $this->loan->find($loanid);
-
 	    /** If we cannot find the loan we are trying to unblock then display error */
 	    if (is_null($loan)) {
 	    	flash()->error(trans('loan.we_could_not_find_the_loan_you_are_trying_to_unlock'));
 	    	return redirect()->route('loan.blocked');
 	    }
-
 	    ////////////////////////////
 	    // We are safe to go now  //
 	    ////////////////////////////
 	    
 	    // Start saving if something fails cancel everything
 		DB::beginTransaction();
-
 		//  Update the loan only if the loan
 		$loan->cheque_number = $request->get('cheque_number');
 		$loan->bank_id       = $request->get('bank_id');
@@ -559,31 +486,26 @@ class LoanController extends Controller {
 		$loan->movement_nature = Input::get('movement_nature', 	$loan->movement_nature);
 		
 		$saveLoan = $loan->save();
-
 		$member = $loan->member;
 		$cautionneurs  = $this->loanFactory->getCautionneurs();
 		$amount_bonded  = Input::get('amount_bonded', 0);
 		$transactionid = $loan->transactionid;
 		$cautionneursSaved = $this->recordCautionneurs($transactionid,$loan,$member,$cautionneurs,$amount_bonded);
-
 		if ($cautionneursSaved == false) {
 			flash()->error('loan.we_could_not_save_cautionneurs_therefore_we_have_rollback_this_action');
 			DB::rollBack();
 			return redirect()->route('loan.blocked');
 		}
-
 		// If we cannot save this posting then rollback transaction
 		if ($loan->postings->isEmpty()) {
 			flash()->warning(trans('loan.we_could_not_find_postings_that_are_related_to_this_loan_therefore_this_operation_did_not_take_effect'));
 				DB::rollBack();
 				return redirect()->route('loan.blocked');
 		}
-
 		// Update posting
 		foreach ($loan->postings as $posting) {
 			$posting->cheque_number = $loan->cheque_number;
 			$posting->bank 			= $loan->bank_id;
-
 			// If we cannot save this posting then rollback transaction
 			if ($posting->save() == false ) {
 				flash()->warning(trans('loan.we_could_not_update_postings_that_are_related_to_this_loan_therefore_this_operation_did_not_take_effect'));
@@ -591,7 +513,6 @@ class LoanController extends Controller {
 				return redirect()->route('loan.blocked');
 			}
 		}
-
 		////////////////////////////////////////////////////////////////////////
 		// Did we update loan with the bank information ? if no then rollback //
 		////////////////////////////////////////////////////////////////////////
@@ -600,18 +521,15 @@ class LoanController extends Controller {
 			DB::rollBack();
 			return redirect()->route('loan.blocked');
 		}
-
 		//////////////////////////////////////////////////////////////
 		// Lastly, Let's commit a transaction since we reached here //
 		//////////////////////////////////////////////////////////////
 		DB::commit();
-
 		 // Notify all people who has right to approve loan 
         // Get all users who have the right to approve leave
         // if we found them then ilitirate them and 
         // make sure, we notify all of them
         $groups = UserGroup::with('users')->get();
-
         foreach ($groups as $group) {      
             
             // If this group doesn't have access then 
@@ -620,7 +538,6 @@ class LoanController extends Controller {
             if (!$group->hasAccess('loan.can.approve.loan')) {
                 continue;
             }
-
             // Group has access let's notify them
            foreach ($group->users as $user) {
                Notifynder::category('loan.approval')
@@ -630,23 +547,17 @@ class LoanController extends Controller {
                    ->send();
            }
 		}
-
 		$user = $loan->member;
     
 	   $data['names'] = $user->names;
-
 	   $data['status'] = $loan->status;
 	   Mail::queue('emails.loanstatus', $data, function ($message) use ($user) {
 		    $message->to($user->email);
 		    $message->subject("Loan status changed");
 	   });
 		flash()->success(trans('loan.loan_successfully_unblocked'));
-
 		return redirect()->route('loan.blocked');
    }
-
-
-
    /**
 	 * Record cautionneur details for this loan
 	 * @param  string $transactionid 
@@ -657,14 +568,11 @@ class LoanController extends Controller {
 	{
 		// Devide amount equally 
 		$cautionneursCount = count($cautionneurs);
-
 		// If we don't have cautinneurs, just pass the method
 		if ($cautionneursCount == 0 ) {
 			return true;
 		}
-
 		$amount  = $amount_bonded / count($cautionneurs);
-
 		foreach ($cautionneurs as $cautionneur) 
 		{
 				$memberLoanCautionneur = new MemberLoanCautionneur;
@@ -674,14 +582,12 @@ class LoanController extends Controller {
 				$memberLoanCautionneur->transaction_id			  = $transactionid;
 				$memberLoanCautionneur->loan_id                   = $loan->id;
 				$memberLoanCautionneur->letter_date			  	  = $loan->letter_date;
-
 				// Fail transaction if something went wrong
 				if(!$memberLoanCautionneur->save())
 				{
 					return false;
 				}
 		}
-
 		return true;
 	}
 }

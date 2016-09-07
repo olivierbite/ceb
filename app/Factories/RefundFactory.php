@@ -1,7 +1,5 @@
 <?php 
-
 namespace Ceb\Factories;
-
 use Ceb\Models\DefaultAccount;
 use Ceb\Models\Institution;
 use Ceb\Models\MemberLoanCautionneur;
@@ -14,16 +12,13 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Sentry;
-
 /**
  * Refund Factory
  */
 class RefundFactory {
 	use TransactionTrait;
-
 	/** Variable to  hold the object that are going to be injected */
 	private $institution;
-
 	function __construct(Institution $institution, Refund $refund, Posting $posting,User $member,MemberLoanCautionneur $memberLoanCautionneur) {
 		$this->institution = $institution;
 		$this->refund = $refund;
@@ -31,7 +26,6 @@ class RefundFactory {
 		$this->member = $member;
 		$this->memberLoanCautionneur = $memberLoanCautionneur;
 	}
-
 	/**
 	 * Set members by institutions
 	 * @param integer $institutionId
@@ -43,14 +37,11 @@ class RefundFactory {
 			// Clear the session befor continuing
 			$this->clearAll();
 		}
-
 		// Get the institution by its id
 		$members = $this->member->with('loans')->where('institution_id',(int)$institutionId)->get();
-
 		$membersWithNoLoan = [];
 		/** Make sure we only get member with loan */
 		foreach ($members as $member) {
-
 			if (!$member->hasActiveLoan() && !$member->hasActiveEmergencyLoan) {
 				flash()->error(trans('member.this_member_doesnot_have_active_loan'));
 			    continue;
@@ -60,13 +51,11 @@ class RefundFactory {
 	        if ($member->has_active_emergency_loan) {
 	        	 $member->refund_fee +=(int)$member->active_emergency_loan->monthly_fees;
 	        }
-
 			$membersWithNoLoan[] = $member;
 		}
 	
 		$this->setRefundMembers($membersWithNoLoan);
 	}
-
 	/**
 	 * Set members
 	 * @param integer $memberId
@@ -77,13 +66,11 @@ class RefundFactory {
 	{	
 		// Clean whatever member we have
 		$this->removeRefundMembers();
-
 		$members = array();
         
 		// Check if the provided parameter is an id for one member or not
 		if (!is_array($memberToSet) && is_numeric($memberToSet)) {
 			$member = $this->member->with('loans')->findOrFail($memberToSet);
-
 			if (!$member->hasActiveLoan() && !$member->hasActiveEmergencyLoan) {
 				flash()->error(trans('member.this_member_doesnot_have_active_loan'));
 				return false;
@@ -102,17 +89,12 @@ class RefundFactory {
 			$this->setRefundMembers($members);
 			return true;
 		}
-
 		// We have many members to upload
 		if (is_array($memberToSet)) {
-
 			$rowsWithErrors  		 = [];
 			$rowsWithSuccess 		 = [];
 			$rowsWithDifferentAmount = [];
-
 			foreach ($memberToSet as $member) {
-
-
 				    if (!isset($member[0]) || !isset($member[1])) {
 				    	$rowsWithErrors[] = $member;
 				    	continue;
@@ -121,14 +103,12 @@ class RefundFactory {
                	try
                	{
 				    $memberFromDb = $this->member->findByAdhersion($member[0]);
-
 				    // If the member doesn't have active loan just skipp him
 				    if (!$memberFromDb->hasActiveLoan()) {
 				    	$member[] = '| This member does not have an active loan.';
 						$rowsWithErrors[] = $member;
 						continue;
 			        }
-
 					$memberFromDb->refund_fee = (int) $member[1];
 					 if ($member->has_active_emergency_loan) {
 			        	$member->refund_fee +=(int)$member->active_emergency_loan->emergency_balance;
@@ -139,7 +119,6 @@ class RefundFactory {
 				    }
                     
 				    $rowsWithSuccess[] = $memberFromDb;
-
 				}
 				catch(\Exception $ex)
 				{
@@ -148,27 +127,21 @@ class RefundFactory {
 				}
 			}	
 		}
-
 		$rowsWithErrors  		  = new Collection($rowsWithErrors);
 		$rowsWithDifferentAmount  = new Collection($rowsWithDifferentAmount);
 		
 		if (!$rowsWithErrors->isEmpty()) {
 		   $message = 'We have identified '.$rowsWithErrors->count().' member(s) with wrong format, therefore we did not consider them.';	
 		}
-
 		if (!$rowsWithDifferentAmount->isEmpty()) {
 		   $message = 'We have identified '.$rowsWithDifferentAmount->count().' member(s) with  diffent contributions amount.';	
 		}
-
 		flash()->error($message);
-
 		Session::put('refundsWithDifference',$rowsWithDifferentAmount);
 		Session::put('uploadsWithErrors', $rowsWithErrors);
-
 		$this->setRefundMembers($rowsWithSuccess);
 		return true;
 	}
-
 	/**
 	 * Get contributions with differences
 	 * 
@@ -178,7 +151,6 @@ class RefundFactory {
 	{
 		return new Collection(Session::get('refundsWithDifference'));
 	}
-
 	/**
 	 * Get uploaded contribution with erros
 	 * @return Collection 
@@ -187,7 +159,6 @@ class RefundFactory {
 	{
 		return new Collection(Session::get('uploadsWithErrors'));
 	}
-
 	public function forgetWithErrors($value='')
 	{
 		Session::forget('uploadsWithErrors');
@@ -204,54 +175,41 @@ class RefundFactory {
 	public function updateRefundFee($adhersion_number, $newFee) {
 		// First get what is in the session now
 		$users = $this->getRefundMembers();
-
         $users = array_map( function($user) use($adhersion_number, $newFee)
         		{
 	        	// If we need to  update this key then update it before returning
 	        	if ($user->adhersion_id == (int) $adhersion_number) {
 	        		 $user->refund_fee = $newFee;
 	        	}
-
         	return $user;
         },$users);
-
-
 		// Now we are ready to go
 		return $this->setRefundMembers($users);
 	}
-
 	/**
 	 * Complete current transactions in refund
 	 *
 	 * @return  bool
 	 */
 	public function complete() {
-
 		$transactionId = $this->getTransactionId(); // Generating unique transactionid
-
 		// Start saving if something fails cancel everything
 		DB::beginTransaction();
-
 		$saveRefund = $this->saveRefund($transactionId);
-
 		$savePosting = $this->savePostings($transactionId);
 		// Rollback the transaction via if one of the insert fails
 		if (!$saveRefund || !$savePosting) {
 			DB::rollBack();
-
 			flash()->error(trans('refund.error_occured_during_the_processes_of_registering_refund_please_try_again'));
 			return false;
 		}
-
 		// Lastly, Let's commit a transaction since we reached here
 		DB::commit();
 		// Remove everything from the session
 		$this->clearAll();
 		flash()->success(trans('refund.refun_transaction_sucessfully_registered'));
 		return $transactionId;
-
 	}
-
 	/**
 	 * Saving refunds in the database
 	 * @param  [type] $transactionId [description]
@@ -264,14 +222,10 @@ class RefundFactory {
 		$contractNumber = $this->getContributionContractNumber();
 		$month = $this->getMonth();
 		$emergencyLoanRefundFee = 0;
-
 		foreach ($refundMembers as $refundMember) {
-
 			// Initialize emergency loan fee for each transaction to avoid
 			// considering previous transaction emergecny fee
-
 			$loan  = $refundMember->latestLoan();
-
 			$loanTransactionId  = null;
 			$loanId = null;			
 			$loanAmount = 0;
@@ -285,12 +239,9 @@ class RefundFactory {
 			if ($refundMember->HasActiveEmergencyLoan) {
 				// Get the monthly fees and add it here
 				$emergencyLoan = $refundMember->active_emergency_loan;
-
 				if (empty($emergencyLoan) == false) {
-
 					// We have umergency loan, let's determine how much money to record as pay back
 					$emergencyMonthlyFee = $emergencyLoan->EmergencyMonthlyFee;
-
 					// Let's treat the case of when someone is paying back less money than 
 					// what he should even pay for the emergency loan, in this case
 					// we would need to consider the amount of money someone has
@@ -308,17 +259,14 @@ class RefundFactory {
 						// Determine exact amount to record as emergency payback
 						$emergencyLoanRefundFee = $refundMember->refund_fee - $emergencyLoanRefundFee;
 					}
-
 					// Amount refunded has included the emergency loan then record it
 					if ($emergencyLoanRefundFee > 0 ) {
 					 	$emergencyLoan->emergency_refund += $emergencyLoanRefundFee;
 					 	$emergencyLoan->emergency_balance -= $emergencyLoanRefundFee;
-
 					 	// If we cannot save this operation let's fail the entire transaction
 					 	if (!$emergencyLoan->save()) {
 					 		return false;
 					 	}
-
 					 	$loanTransactionId = $emergencyLoan->transactionid;
 					 	$loanId =  $emergencyLoan->id;
 						 // Since we have emergency loan amount, let's save 
@@ -334,7 +282,6 @@ class RefundFactory {
 						$refund['loan_id']			= $emergencyLoan->id;
 						$refund['wording']			= 'Emergency refund'.$this->getWording();
 						$refund['refund_type']		= $this->getRefundType();
-
 						# try to save if it doesn't work then
 						# exist the loop
 						$newRefund = $this->refund->create($refund);
@@ -354,7 +301,6 @@ class RefundFactory {
 			// amount for the existing non-emergency loan
 			// If we don't have any remain to pay another loan then 
 			// continue with the next loan refunds
-
 			// Skip if we don't have money to recover after removing 
 			// emergency loan recovery money.
 			
@@ -363,7 +309,6 @@ class RefundFactory {
 				// set current trnsaction id
 				$loanTransactionId = $loan->transactionid;
 				$loanId =  $loan->id;
-
 				$refund['adhersion_id']		= $refundMember->adhersion_id;
 				$refund['contract_number']	= $loan->loan_contract;
 				$refund['month']			= $this->getMonth() ?:'N/A';
@@ -375,7 +320,6 @@ class RefundFactory {
 				$refund['loan_id']			= $loan->id;
 				$refund['wording']			= $this->getWording();
 				$refund['refund_type']		= $this->getRefundType();
-
 				# try to save if it doesn't work then
 				# exist the loop
 				$newRefund = $this->refund->create($refund);
@@ -383,14 +327,12 @@ class RefundFactory {
 					return false;
 				}
 		    }
-
 			// We have successfully managed to save refund, in order to 
 			// record proper amount for postings in the database,we
 			// need to add back the emergency amount fees that we
 			// have removed earlier
 			
 			$refundMember->refund_fee +=$emergencyLoanRefundFee;
-
 			// If the loan we are paying for has cautionneur, then make sure
 			// We update our member cautionneur table by adding the amount
 			// paid by this member to the refund amount as long 
@@ -402,15 +344,11 @@ class RefundFactory {
 								 ->byLoanId($loanId)
 								 ->Active()
 								 ->get();
-
-
             // If we have cautionneurs then divide equally the amount of 
             // money to deposit on each person as be current payment
             // before we record it.								 
-
 			if (!$loanCautions->isEmpty()) {	
             	$cautionneurAmount  = $newRefund->amount / $loanCautions->count();
-
             	// Ilitarate all cautions and save them one by one
             	foreach ($loanCautions as $loanCaution) {
             		// First get the loan balance, and if we want to pay more than
@@ -425,28 +363,22 @@ class RefundFactory {
             		{
             			$loanCaution->refunded_amount += $cautionneurAmount;
             		}
-
             		// If we cannot save then fail this transaction
-
             		if (!$loanCaution->save()) {
             			return false;
             		}
-
             	}
 			}
-
 			// We have recorded all refunds let's see if it comes from 
 			// refund on the saving (retire par epargne ) then we 
 			// need to deduct savings/contribution of this member.
 			if ($this->getRefundType() =='refund_by_epargne') {
-
 				if (!empty($loan)) {
 					$data['contract_number'] = $loan->loan_contract;
 				}
 				elseif (isset($emergencyLoan)) {
 					$data['contract_number'] = $emergencyLoan->loan_contract;
 				}
-
 				$data['member'] = $refundMember;
 				$data['amount'] = $refundMember->refund_fee;
 				$data['movement_type']  ='withdrawal';
@@ -458,18 +390,14 @@ class RefundFactory {
 				return $contribution->saveContibutions($loanTransactionId,$data);
 			}
 		}
-
 		return true;
 	}
-
-
 	/**
 	 * Save posting to the database
 	 * @param  STRING $transactionId UNIQUE TRANSACTIONID
 	 * @return bool
 	 */
 	private function savePostings($transactionId) {
-
 		// First prepare data to use for the debit account
 		// Once are have debited(deducted data) then we can
 		// Credit the account to be credited
@@ -483,18 +411,13 @@ class RefundFactory {
 		$posting['transaction_type'] = 'debit';
 		$posting['wording']			 = $this->getWording();
 		$posting['status']			 = 'approved';
-
 		// Try to post the debit before crediting another account
 		$debiting = $this->posting->create($posting);
-
-
 		// Change few data for crediting
 		// Then try to credit the account too
 		$posting['transaction_type'] = 'credit';
 		$posting['account_id'] = $this->getCreditAccount();
-
 		$crediting = $this->posting->create($posting);
-
 		if (!$debiting || !$crediting) {
 			return false;
 		}
@@ -508,7 +431,6 @@ class RefundFactory {
 	public function getTotalRefunds() {
 		$sum = 0;
 		$members = $this->getRefundMembers();
-
 		foreach ($members as $member) {
 			try
 			{
@@ -519,10 +441,8 @@ class RefundFactory {
 				Log::critical($ex->getMessage());
 			}
 		}
-
 		return $sum;
 	}
-
 	/**
 	 * Remove one member from current contribution session
 	 * 
@@ -532,22 +452,16 @@ class RefundFactory {
 	public function removeMember($adhersion_number)
 	{
       $adhersion_number = (int) $adhersion_number;
-
       $members = $this->getRefundMembers();
-
       $filtered = array_filter($members, function($member) use($adhersion_number){
       	 if ($member['adhersion_id'] == $adhersion_number) {
 	  	  	 flash()->warning($member['first_name'].' '.$member['last_name'].'('.$adhersion_number.')'.trans('refund.has_been_removed_from_current_contribution_session'));
 	  	  	return false;
 	  	  }
-
 	  	  return $member;
       });
-
-
 	  $this->setRefundMembers($filtered);	
 	}
-
 	/**
 	 * Set members who are about to refund
 	 * @param array $members
@@ -562,7 +476,6 @@ class RefundFactory {
 	public function getRefundMembers() {
 		return Session::get('refundMembers', []);
 	}
-
 	/**
 	 * Remove members who are refunding from the session
 	 * @return void
@@ -570,17 +483,14 @@ class RefundFactory {
 	public function removeRefundMembers() {
 		Session::forget('refundMembers');
 	}
-
 	public function setRefundType($refundType)
 	{
 		Session::put('refundType', $refundType);
 	}
-
 	public function getRefundType()
 	{
 		return Session::get('refundType',null);
 	}
-
 	public function removeRefundType()
 	{
 		Session::forget('refundType');
@@ -599,7 +509,6 @@ class RefundFactory {
 	public function getMonth() {
 		return Session::get('refundMonth');
 	}
-
 	/**
 	 * Remove refund month from the session
 	 * @return void
@@ -626,15 +535,12 @@ class RefundFactory {
 	 * @return numeric account ID
 	 */
 	public function getDebitAccount() {
-
 		$defaultDebitAccount	=  DefaultAccount::with('accounts')->debit()->refundsIndividual()->first()->accounts->first();
-
 		// If we have many members then it's not individual refund
 		// Let's change the default account
 		if (count($this->getRefundMembers()) > 1) {
 			$defaultDebitAccount	=  DefaultAccount::with('accounts')->debit()->RefundsBatch()->first()->accounts->first();
 		}
-
 		return Session::get('refundDebitAccount', $defaultDebitAccount->id);
 	}
 	/**
@@ -642,14 +548,12 @@ class RefundFactory {
 	 * @return numeric unique
 	 */
 	public function getCreditAccount() {
-
 		$defaultCreditAccount	=  DefaultAccount::with('accounts')->credit()->refundsIndividual()->first()->accounts->first();
 		// If we have many members then it's not individual refund
 		// Let's change the default account
 		if (count($this->getRefundMembers()) > 1) {
 			$defaultDebitAccount	=  DefaultAccount::with('accounts')->credit()->refundsBatch()->first()->accounts->first();
 		}
-
 		return Session::get('refundCreditAccount', $defaultCreditAccount->id);
 	}
 	/**
@@ -696,7 +600,6 @@ class RefundFactory {
 	{
 		Session::put('refund_wording', $wording);
 	}
-
 	/**
 	 * Get wording for current contributionsession
 	 * 
@@ -706,7 +609,6 @@ class RefundFactory {
 	{
 		return Session::get('refund_wording', null);
 	}
-
 	/**
 	 * Forget contribution with differences
 	 * 		
@@ -716,17 +618,14 @@ class RefundFactory {
 	{
 		$withDifference = new Collection($this->getRefundsWithDifference());
 		$members        = new Collection($this->getRefundMembers());
-
 		$members = $members->filter(function($member) use($withDifference){
 		    return $withDifference->where('adhersion_id',$member['adhersion_id'])->isEmpty();
 		});
 		
 		flash()->success($withDifference->count() - $members->count() . trans('refund.members_are_removed_from_this_refund_session'));
-
 		$this->setRefundMembers($members->toArray());
 		$this->forgetRefundsWithDifferences();
 	}
-
 	    /**
 	 * Remove Refunds with differencdes
 	 * 
@@ -736,8 +635,6 @@ class RefundFactory {
 	{
 		Session::forget('refundsWithDifference');
 	}
-
-
 	/**
 	 * Remove wording from the session
 	 * @return [type] [description]
@@ -753,7 +650,6 @@ class RefundFactory {
 	public function cancel() {
 		$this->clearAll();
 	}
-
 	/**
 	 * Remove all things from the session;
 	 * @return [type] [description]
@@ -769,5 +665,4 @@ class RefundFactory {
 		$this->forgetWithErrors();
 		$this->forgetMembersWithDifferences();
 	}
-
 }

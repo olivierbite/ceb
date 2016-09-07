@@ -34,7 +34,9 @@
 <div class="col-sm-6">
 <div class="small-box bg-olive">
     <div class="inner">
+       
         <h4>{!! $member->remaining_tranches !!}</h4>
+
     </div>
     <div class="icon"><i class="ion ion-share"></i></div>
         <h5 class="small-box-footer">{{ trans('member.remaining_installments') }}</h5>

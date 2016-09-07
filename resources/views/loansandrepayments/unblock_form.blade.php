@@ -67,6 +67,7 @@
   </div>
 
   @if ($show_caution_form == true)
+  
   <div class="col-md-12">
     @include('loansandrepayments.caution_form')
   </div>
@@ -93,10 +94,8 @@
       window.location.href = window.location.protocol+'//'+window.location.host+'/loans/setcautionneur'+'?'+cautionneur.attr('name')+'='+cautionneur.val();   
         return true;
       }
-
       // If we reach here it means we have nothing to do, just return false
       return false;
       });
-
 </script>
 @endsection

@@ -1,18 +1,13 @@
 <?php
-
 namespace Ceb\Http\Requests;
-
 use Cartalyst\Sentry\Facades\Laravel\Sentry;
 use Ceb\Factories\LoanFactory;
 use Ceb\Http\Requests\Request;
 use Ceb\Models\Setting;
 use Ceb\Models\User;
 use Ceb\Models\Loan;
-
-
 class UnblockLoanRequest extends Request
 {
-
 /**
      * @var Ceb\Factories\LoanFactory
      */
@@ -26,7 +21,6 @@ class UnblockLoanRequest extends Request
     {
         return Sentry::check();
     }
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -37,34 +31,28 @@ class UnblockLoanRequest extends Request
       if ($this->isMethod('get')) {
            return [];
         }
-
       $rules = [
               'cheque_number'     =>  'required|unique:loans',
               'bank_id'           =>  'required|min:1',
               'loanid'            =>  'required|numeric',
               ];
-
       // If loan taken is higher than total contribution then make 
       // Cautionneur mandatory
       $attributes = $this->all();
       $loan = Loan::findOrFail($attributes['loanid']);
       $member = $loan->member;
-
-      if ($loan->loan_to_repay > $member->total_contribution & $loan->operation_type !='emergency_loan') {
+      if ($loan->loan_to_repay > $member->total_contribution && $loan->operation_type !='emergency_loan') {
        $rules['cautionneur1']    =  'required';
        $rules['cautionneur2']    =  'required';
        $rules['amount_bonded']   =  'required|numeric';
       }
-
       return $rules;
        
     }
-
    
     public function all()
     {
         $attributes = parent::all();
-
         $attributes['amount_bonded'] = isset($attributes['amount_bonded'])?$attributes['amount_bonded']:0;
         $bondedAmount = (int) $attributes['amount_bonded'];
         
