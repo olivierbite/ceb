@@ -34,11 +34,11 @@ IL EST LIBREMENT CONVENU CE QUI SUIT : <br/>
 	rembourser en cas de défaillance du débiteur principal. 
 </p>
 <p>
-	<strong>Art 5 :</strong> En cas de perte de la qualité du membre avant l'apurement de la dette ou le retard de remboursement de trois mois, le 
+	<strong>Art 5 :</strong> En cas de perte de la qualité du membre avant l'apurement de la dette ou le retard de remboursement de trois mois, le 
 	débiteur accepte et autorise la CEB de se faire payer automatiquement par son épargne constituée à la CEB. 
 </p>
 <p>
-	<strong>Art 6 :</strong> Les cautionnaires acceptent solidairement que la CEB se fasse  payer automatiquement le solde du crédit par leurs 
+	<strong>Art 6 :</strong> Les cautionnaires acceptent solidairement que la CEB se fasse  payer automatiquement le solde du crédit par leurs 
 	épargnes à la CEB lorsque le débiteur défaillant totalise un retard de remboursement de 6 mois sans exiger préalablement de 
 	poursuivre le débiteur. Chaque cautionnaire consent et accepte de payer automatiquement tout solde du crédit du débiteur qu'il 
 	a cautionné même si l'épargne du débiteur et/ou du Co-cautionneur a été utilisée pour rembourser les autres crédits qu'ils ont 
@@ -63,7 +63,7 @@ IL EST LIBREMENT CONVENU CE QUI SUIT : <br/>
 	<strong>Art 8 :</strong> Tout litige ou contestation résultant de l'application et de l'interprétation ou exécution du présent contrat sera réglé à l'amiable. A défaut  le litige sera soumis à la juridiction rwandaise compétente en la matière.
 </p>
 <p>
-	<strong>Art 9 : </strong> Ce contrat entre en vigueur le jour de sa signature par les parties contractantes. Signé en deux exemplaires ayant la valeur originale et constitue le document de complet de références des obligations réciproques entre les parties contractantes.
+	<strong>Art 9 : </strong> Ce contrat entre en vigueur le jour de sa signature par les parties contractantes. Signé en deux exemplaires ayant la valeur originale et constitue le document de complet de références des obligations réciproques entre les parties contractantes.
 </p>
 
 <p style="text-align: center">Fait à Huye, le <strong>{today_date}</strong>.</p>
@@ -78,7 +78,7 @@ IL EST LIBREMENT CONVENU CE QUI SUIT : <br/>
 
 <div class="right">
 	<h4 style="text-decoration: underline">Pour le Conseil d'Administration de la CEB</h4>
-	Président : {president}<br/>
+	Président:{president}<br/>
 	Signature: ...................................................................................<br/>
 	Trésorier: {treasurer} <br/>
 	Signature: .................................................................................<br/>

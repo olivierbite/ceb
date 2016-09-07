@@ -23,7 +23,7 @@ return array (
     'ceb_summary'=>'CEB Résumé',
     'actions'=>'Actions',
     'all'=>'Tous',
-    'between'=>'Entre',
+    'between'=>'entre',
     'and'=>'Et',
   'nothing_to_show_here'=>'Rien à afficher ici',
   'view_all'=>'Voir tous',
@@ -41,4 +41,11 @@ return array (
     'are_you_sure_you_want_to_remove_this_item'=>'êtes-vous sûr que vous voulez supprimer cet article',
     'select'=>'Selectionnez',
     'view_payments'=>'Vue remboursement',
+    'contract_number'=>'Numero contract',
+    'many_members'=>'Membres',
+    'id'=>'ID',
+    'name'=>'Nom',
+    'president'=>'President',
+ 
+
 );

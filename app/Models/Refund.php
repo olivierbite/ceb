@@ -59,7 +59,7 @@ class Refund extends Model {
      	return array_shift($sum)->amount;
     }
 
-    public static function octroye()
+    public static function octroye($startDate,$endDate)
     {
     	// GET LOANS 
     	DB::statement('DROP TABLE IF EXISTS TEMP_LOANS_PER_MEMBER');
@@ -69,14 +69,16 @@ class Refund extends Model {
 									adhersion_id,
 						            SUM(loan_to_repay) as loan 
 							 FROM loans 
-						     WHERE STATUS ='approved' GROUP BY adhersion_id
-						)");
+						     WHERE STATUS ='approved' AND date(created_at) BETWEEN ? AND ? GROUP BY adhersion_id
+						)",[$startDate,$endDate]);
 
         // GET REFUNDS
         DB::statement('DROP TABLE IF EXISTS TEMP_REFUND_PER_MEMBER');
         DB::statement("CREATE TEMPORARY TABLE TEMP_REFUND_PER_MEMBER
 						(
-							SELECT adhersion_id,sum(amount) refund FROM refunds GROUP BY adhersion_id
+							SELECT adhersion_id,sum(amount) refund 
+							FROM refunds 
+							GROUP BY adhersion_id
 						)");
 
         // GET THE REPORT

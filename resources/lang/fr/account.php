@@ -12,5 +12,7 @@ return [
     'titled'=> 'Intitule',
     'account_nature'=>'Nature',
     'balance'=>'Solde',
-    'operating_account' =>'compte d\'exploitation',
+    'operating_account' =>'compte d\'exploitation du ',
+    'update'=>'Modifier',
+    'add_new_account'=>'Ajouter un nouveau  compte',
 ];

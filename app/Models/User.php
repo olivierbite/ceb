@@ -140,7 +140,7 @@ class User extends SentinelModel {
 	 */
 	public function getLoanToRegulateAttribute()
 	{
-		$loan = $this->loans()->isOrdinary()->IsNotUmergency()->first();
+		$loan = $this->loans()->isOrdinary()->IsNotUmergency()->orderBy('created_at','DESC')->first();
 		// If not have active loan we have nothing to do here
 		if ($this->hasActiveLoan() == false || is_null($loan)) {
 			return -1;
@@ -619,6 +619,27 @@ class User extends SentinelModel {
 					$monthly_fee = $latest->monthly_fees;
 				}
 
+
+				// If we have emergency loan, check if this emergency
+				// loan is not the one being returned
+			 	if ($this->has_active_emergency_loan) {
+
+			 	// If this one is an emergency loan, then reset 
+			 	// monthly loan to zero.
+				if ($this->active_emergency_loan->id == $latest->id) {
+					$monthly_fee = 0;
+				}
+			}
+			// If this latest loan is not ordinary loan, then check if this member
+			// has taken an ordinary loan which is not paid yet and add monthly
+			// fees to the ordinary loan 
+
+			// try
+			// {
+
+				// Get latest loan  details
+				$latest_ordinary_loan = $this->latest_ordinary_loan;
+
 			// 	// If we have emergency loan, check if this emergency
 			// 	// loan is not the one being returned
 			//  	if ($this->has_active_emergency_loan) {
@@ -636,22 +657,33 @@ class User extends SentinelModel {
 			// // {
 			// 	// Get latest loan  details
 			// 	$latest_ordinary_loan = $this->latest_ordinary_loan;
+
                 
 			// 	// Check if we have latest active ordinary loan that is not yet paid
 			// 	// We need to add previous monthly fees, since this loan is either
    //              // social loan or special loan 
                 
+
+
+                if ($latest_ordinary_loan->id != $latest->id && !$latest_ordinary_loan->isFullPaid() && $latest_ordinary_loan->is_umergency == 0) {
+
+                if ($latest_ordinary_loan->id != $latest->id && !$latest_ordinary_loan->isFullPaid()) {
+
+
    //              if ($latest_ordinary_loan->id != $latest->id && !$latest_ordinary_loan->isFullPaid()) {
+
                 	
    //              	$monthly_fee+=$latest_ordinary_loan->monthly_fees;
 
    //              }
                
 			}
+		}}
 			catch(\Exception $ex)
 			{
 				Log::alert($ex);
 			}
+
 			// if ($this->hasActiveEmergencyLoan) {
 			// 	$monthly_fee+= $this->active_emergency_loan->monthly_fees;
 			// }
@@ -751,7 +783,7 @@ class User extends SentinelModel {
 	 */
 	public function scopeHasLeft($query)
 	{
-		return $query->whereNotNull('termination_date');
+		return $query->where('institution_id','11');
 	}
 
 	/**
@@ -761,7 +793,7 @@ class User extends SentinelModel {
 	 */
 	public function scopeIsActive($query)
 	{
-		return $query->whereNull('termination_date');
+		return $query->where('institution_id','<>','11');
 	}
 
 	

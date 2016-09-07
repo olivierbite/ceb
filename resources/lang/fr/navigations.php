@@ -9,7 +9,7 @@ return array (
   'settings'                  => 'Parametre',
   'institutions'              => 'institutions',
   'accounting_plan'           => 'Plan Comptable',
-  'closing_exercise'          => 'Ferme l\' exercice ',
+  'closing_exercise'          => 'Clôture de l\' exercice ',
   'contributions'             => 'Saisie collectif de cotisations mensuelles',
   'groups'                    => 'Groupes',
   'help'                      => 'Aide',

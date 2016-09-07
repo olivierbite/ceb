@@ -66,8 +66,8 @@ return array (
 'member_delete'=>'Efface',
 'total_cautions_amount'=>'Montant Total Cautionnne',
 'view_members'=>'Vue Membres',
-'left_members'=>'Membres Retire',
-'active_members'=>'Membre Active',
+'left_members'=>'Membres Inactive',
+'active_members'=>'Membres Active',
 'member_not_found'=>'Membre n\'est pas  trouve',
 'this_member_still_has_contribution_therefore_you_cannot_remove_him'=>'Ce membre a toujours l\'eparge donc vous ne pouvez pas  la supprime avant d\'enlever son epargne',
 'view_current_cautionneurs'=>'Voir tes cautionneurs',
@@ -109,5 +109,9 @@ return array (
   'withdrawal_returned_interests'=>'Retrait Intérêt retournés',
   'withdrawal_remaining_balances'=>'Retrait Reliquats',
   'other_withdrawals'=>'Autre retraits',
+  'to_pay'=>'A payer',
+  'loan'=>'Pret',
+  'refund'=>'Payer',
+
 
 );

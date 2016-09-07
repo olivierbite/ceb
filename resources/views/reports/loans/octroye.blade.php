@@ -2,9 +2,9 @@
 <caption>	
 		{{ trans('reports.loan_payback') }}  
 		{{ trans('general.between') }} 
-			{!! date('d/M/Y',strtotime(request()->segment(3))) !!} 
+			{!! date('d/M/Y',strtotime(request()->segment(4))) !!} 
 		{{ trans('general.and') }} 
-			{!! date('d/M/Y',strtotime(request()->segment(4))) !!}
+			{!! date('d/M/Y',strtotime(request()->segment(5))) !!}
 </caption>
 	<thead>
 		<tr>

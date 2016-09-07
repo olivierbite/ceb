@@ -33,4 +33,5 @@ return array (
 'has_been_removed_from_current_contribution_session'=>'a été retiré de la session de cotisation actuelle',
 'contribution_for_the_month_of'=>'Cotisation du mois:',
 'members_are_removed_from_this_contribution_session'=>'Membres sont retirés de cette session de cotisation',
+'savings_level'=>'Epargne Total',
 );

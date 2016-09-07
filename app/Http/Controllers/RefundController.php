@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Log;
 use Input;
 use League\Csv\Reader;
 use Redirect;
-
+use flash;
 class RefundController extends Controller {
 	function __construct(RefundFactory $refundFactory) {
 		$this->refundFactory = $refundFactory;
