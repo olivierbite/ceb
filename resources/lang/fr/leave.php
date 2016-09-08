@@ -5,7 +5,7 @@ return [
 'approved-icon' =>'fa fa-check text-green',   
  'Leaves_Management'=>'Gestion Congés',
  'new_leave'=>'Nouveau Congés',
- 'user'=>'Utilisateur',
+ 'user'=>'Nom',
  'backup'=>'Remplaçant',
  'phone'=>'Phone',
  'days'=>'Jours',

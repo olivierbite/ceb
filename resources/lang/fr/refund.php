@@ -22,7 +22,8 @@ return [
 	'refund_by_interets_retournes'	=> 'Remboursement par interets retournes',
 	'refund_by_interets_annuels'	=> 'Remboursement par interets annuels',
 	'refund_type'=>'Moyen de rembursement',
-];
+	'successfully_cancelled'=>'Remboursement annuler avec succes ',
+	];
 
 
  

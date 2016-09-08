@@ -51,16 +51,27 @@
         <i class="icon-chevron-right"></i> {{ trans('report.monthly_refund_file') }}
       </a>
   </li>
+
+<!--
+    <li>
+      <a  href="{{ route('reports.filter') }}/?reporturl=reports/refunds/monthly&show_exports=true&show_institution=true" class="popdown">
+        <i class="icon-chevron-right"></i> {{ trans('report.monthly_contribution') }}
+      </a>
+  </li>
+-->
+
+
   <li>
       <a  href="{{ route('reports.filter') }}/?reporturl=reports/members/history&show_exports=true&show_dates=true" class="popdown">
         <i class="icon-chevron-right"></i> {{ trans('report.monthly_fee_inventory') }}
       </a>
   </li> 
   <li>
-      <a  href="{{ route('reports.members.octroye') }}" target="_blank">
-        <i class="icon-chevron-right"></i> {{ trans('report.octorey-report') }}
+      <a  href="{{ route('reports.filter') }}/?reporturl=reports/members/octroye&show_exports=true&show_dates=true" class="popdown">
+        <i class="icon-chevron-right"></i> {{ trans('report.octorey_report') }}
       </a>
   </li>
+
 </ul>
 </div> 
 <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">

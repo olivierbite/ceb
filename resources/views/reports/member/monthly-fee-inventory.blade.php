@@ -1,7 +1,14 @@
 @include('partials.landscapecss')
 
 <table class="pure-table pure-table-bordered">
-<caption> {{ trans('reports.monthly_fees_inventory') }} </caption>
+<caption> {{ trans('reports.monthly_fees_inventory') }}
+{{ trans('general.between') }} 
+      {!! date('d/M/Y',strtotime(request()->segment(4))) !!} 
+    {{ trans('general.and') }} 
+      {!! date('d/M/Y',strtotime(request()->segment(5))) !!}
+
+
+ </caption>
   	 <thead>
   	 	<tr>
 	  	 	<th>{{ trans('general.date') }}</th>

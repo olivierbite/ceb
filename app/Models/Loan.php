@@ -514,7 +514,7 @@ class Loan extends Model {
         $query = 'SELECT a.adhersion_id,balance,first_name,last_name,service,c.name institution 
                   FROM TEMP_MEMBER_LOAN_REFUND as a
                   LEFT JOIN users as b on a.adhersion_id = b.adhersion_id
-                  LEFT JOIN institutions as c on b.institution_id = c.id   WHERE balance > 0 ';
+                  LEFT JOIN institutions as c on b.institution_id = c.id   WHERE balance <>0 ';
 
         $results = DB::select(DB::raw($query));
         return new Collection($results);

@@ -661,10 +661,10 @@ class LoanFactory {
 		//     ------------
 		//     1200 + (TI*N)
 		//
-		// Where :   I : Interest
-		//           P : Amount to Repay
-		//           TI: Interest Rate
-		//           N : Montly payment
+		// Where :   I : Interest
+		//           P : Amount to Repay
+		//           TI: Interest Rate
+		//           N : Montly payment
 		// LoanToRepay * (InterestRate*NumberOfInstallment) / 1200 +(InterestRate*NumberOfInstallment)
 
 		$interests = calculateInterest($loanToRepay,$interestRate,$numberOfInstallment);
