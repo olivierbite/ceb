@@ -4,7 +4,7 @@ DROP PROCEDURE IF EXISTS SP_LOAN_RECORDS;
 DELIMITER ;;
 CREATE PROCEDURE SP_LOAN_RECORDS( IN AdhersionId VARCHAR(25))
 BEGIN
-  DECLARE n INT DEFAULT 0;
+DECLARE n INT DEFAULT 0;
   DECLARE i INT DEFAULT 0;
     DECLARE VAR_LOAN_CONTRACT VARCHAR(100) DEFAULT 0;
     DECLARE VAR_ID VARCHAR(100) DEFAULT 0;
@@ -31,6 +31,8 @@ BEGIN
        monthly_fees decimal(10,2),
        record_type VARCHAR(200),
        tranches VARCHAR(200),
+       loan_id VARCHAR(100),
+       transactionid VARCHAR(100),
      primary key (id)
        );
        
@@ -47,6 +49,7 @@ BEGIN
              comment AS wording,
              loan_to_repay AS loan_amount,
              interests,
+             transactionid,
              monthly_fees monthly_fees,
              'loan      ' as record_type,
              0 AS tranches 
@@ -82,7 +85,9 @@ BEGIN
                                     interests, 
                                     monthly_fees, 
                                     record_type,
-                                    tranches
+                                    tranches,
+                                    TEMP_loans.id as loan_id,
+                                    transactionid
                 FROM TEMP_loans WHERE loan_contract = VAR_LOAN_CONTRACT AND id = VAR_ID;
       
       -- IF WE HAVE MULTIPLE LOANS WITH SAME LOAN CONTRACT 
@@ -126,7 +131,9 @@ BEGIN
                                 0 as interests,
                                 0 as monthly_fees,
                                 'refund' as record_type,
-                                amount as tranches 
+                                amount as tranches,
+                                0 loan_id,
+                  0 transactionid
                         FROM    refunds WHERE adhersion_id = AdhersionId AND contract_number =VAR_LOAN_CONTRACT
                                 AND (DATE(CAST(created_at AS DATETIME)) > DATE(VAR_LOAN_START_DATE) AND DATE(CAST(created_at AS DATETIME)) <=  DATE(VAR_LOAN_END_DATE) )
                                 ORDER BY created_at;
