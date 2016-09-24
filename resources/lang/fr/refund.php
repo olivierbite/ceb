@@ -11,7 +11,7 @@ return [
  'refund_set_month'=>'Mettre Mois',    
  'you_must_write_wording_for_this_transaction'=>'Vous  deviez rempliere le libelle de cette transaction',
   'libelle'=>'Libelle',
-    'refun_transaction_sucessfully_registered'=>'Transaction pour remboursement enrgistre avec success',
+    'refun_transaction_sucessfully_registered'=>'Transaction pour remboursement enregistre avec success',
     'refund_for_the_month_of'=>'Remboursement du mois de ',
     'refund_by_banque'	=> 'Remboursement par banque',
 	'refund_by_salaire'				=> 'Remboursement par salaire',

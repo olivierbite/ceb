@@ -5,7 +5,7 @@
 	@include('reports.member.partials.profile',['member'=>$contributions->last()->member])
 @endif 
 <table class="pure-table pure-table-bordered">
-<caption> {{ trans('reports.member_contribution_file') }} </caption>
+<caption> {{ trans('reports.member_contribution_file') }} {{ Request::segment(4).' Et '.Request::segment(5) }} </caption>
   	 <thead>
   	 	<tr>
 	  	 	<th>{{ trans('general.date') }}</th>

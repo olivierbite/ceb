@@ -112,6 +112,6 @@ return array (
   'to_pay'=>'A payer',
   'loan'=>'Pret',
   'refund'=>'Payer',
-
+  'transaction_well_recorded'=>'Transaction bien enregistre',
 
 );

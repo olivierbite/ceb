@@ -681,10 +681,10 @@ class LoanFactory {
 		$this->addLoanInput(['adhersion_id' => $this->getMember()->adhersion_id]);
 		$this->addLoanInput(['rate' => $interestRate]);
 		
-		// If this loan is urgent loan, then calculate administration fees
+		// If this loan is urgent loan, then calculate administration fees of 5% on loan to repay
 		// And remove it from the net_to_receive
 		if (strtolower($loanDetails['operation_type']) == 'urgent_ordinary_loan') {
-		 $urgent_loan_interests = round($netToReceive, 0) * ($administration_fees / 100);
+		 $urgent_loan_interests = round($loanToRepay, 0) * ($administration_fees / 100);
 		 $this->addLoanInput(['urgent_loan_interests' => $urgent_loan_interests]);
 		 $this->addLoanInput(['net_to_receive' =>  round($netToReceive, 0) - $urgent_loan_interests]);
 		}
