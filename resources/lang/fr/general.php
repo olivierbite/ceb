@@ -1,3 +1,6 @@
+
+
+
 <?php
 
 return array (
@@ -19,6 +22,7 @@ return array (
     'view_full_lists'=>'Vue liste complet',
     'yes'=>'OUI',
     'no'=>'NON',
+    'select'=>'Selectionnez',
     'make_database_backup'=>'Faire backup du Base de donnee',
     'ceb_summary'=>'CEB Résumé',
     'actions'=>'Actions',
@@ -39,13 +43,15 @@ return array (
           'please_start_by_selecting_others_input_before_selecting_a_member'=>'s\'il vous plaît commencer par sélectionner d\'autres entrée avant de choisir un membre',
     'not_available'=>'Indisponible',
     'are_you_sure_you_want_to_remove_this_item'=>'êtes-vous sûr que vous voulez supprimer cet article',
-    'select'=>'Selectionnez',
+
     'view_payments'=>'Vue remboursement',
+
     'contract_number'=>'Numero contract',
     'many_members'=>'Membres',
     'id'=>'ID',
     'name'=>'Nom',
     'president'=>'President',
  
+
 
 );

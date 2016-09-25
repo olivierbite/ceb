@@ -214,10 +214,14 @@ return array (
     'contract_number'                                                                 =>'Numero contrat',
    
     'provide_bank_details_to_unblock_this_loan'                                       =>'Fournir des détails bancaires pour débloquer ce prêt', 
+
+    'loan_regularisation'=>'Regularisation Pret',
+
    'is_regulation '                                                                   =>'Est regularise?',
    'social_loan'                                                                      =>'Prêt social',
   'loan_regularisation'=>'Regularisation prêt',
   'urgent_ordinary_loan'=>'Prêt ordinaire urgent',
    'is_regulation'=>'Regularise ?',
+
 );
 

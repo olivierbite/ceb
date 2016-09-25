@@ -4,8 +4,10 @@ use Cartalyst\Sentry\Facades\Laravel\Sentry as AuthenticatedUser;
 use Cartalyst\Sentry\Sentry;
 use Cartalyst\Sentry\Users\UserExistsException;
 use Cartalyst\Sentry\Users\UserNotFoundException;
+
 use Ceb\Models\MonthlyFeeInventory;
 use Ceb\Models\User;
+
 use Ceb\Traits\FileTrait;
 use Ceb\Traits\TransactionTrait;
 use Illuminate\Config\Repository;
@@ -317,6 +319,8 @@ class MemberRepository implements MemberRepositoryInterface {
 	 * Generate unique Adhersion number
 	 */
 	protected function generateAdhersionNumber() {
+
+	
 		// Get latest adhersion id
 		return $this->user->generateAdhersionID();
 	}
