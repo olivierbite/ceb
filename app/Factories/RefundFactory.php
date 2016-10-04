@@ -109,12 +109,14 @@ class RefundFactory {
 						$rowsWithErrors[] = $member;
 						continue;
 			        }
+
 					$memberFromDb->refund_fee = (int) $member[1];
-					 if ($member->has_active_emergency_loan) {
-			        	$member->refund_fee +=(int)$member->active_emergency_loan->emergency_balance;
+					 if ($memberFromDb->has_active_emergency_loan) {
+			        	$memberFromDb->refund_fee +=(int)$memberFromDb->active_emergency_loan->emergency_balance;
 			        }
+
 					// Does contribution look same as the one registered
-				    if ($memberFromDb->refund_fee !== $memberFromDb->loan_montly_fee) {
+				    if ($memberFromDb->refund_fee !== (int) $memberFromDb->loan_montly_fee) {
 				    	$rowsWithDifferentAmount[] = $memberFromDb;
 				    }
                     

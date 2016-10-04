@@ -183,7 +183,8 @@ class LoanController extends Controller {
         Log::info($this->user->email . ' is setting loan cautionneur');
 	
 		$this->loanFactory->removeCautionneur($cautionneur);
-		return $this->reload();
+		  return redirect()->back();
+		///return $this->reload();
 	}
 
 	/**
@@ -607,6 +608,10 @@ class LoanController extends Controller {
 		// Lastly, Let's commit a transaction since we reached here //
 		//////////////////////////////////////////////////////////////
 		DB::commit();
+
+		// We have completed all we need to do to unblock this loan,
+		// Now lets clear some resources we have used
+		$this->loanFactory->clearAll();
 
 		 // Notify all people who has right to approve loan 
         // Get all users who have the right to approve leave
