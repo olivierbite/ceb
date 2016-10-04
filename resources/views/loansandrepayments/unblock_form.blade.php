@@ -94,10 +94,8 @@
       window.location.href = window.location.protocol+'//'+window.location.host+'/loans/setcautionneur'+'?'+cautionneur.attr('name')+'='+cautionneur.val();   
         return true;
       }
-
       // If we reach here it means we have nothing to do, just return false
       return false;
       });
-
 </script>
 @endsection

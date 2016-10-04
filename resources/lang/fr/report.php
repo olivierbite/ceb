@@ -34,7 +34,9 @@ return array (
                   'the_management_reports'                    =>'Rapports de gestion',
                   'montly_refund_file'                        =>'Liste de remboursment mensuel',
                   'ledger'                                    =>'Grand Livre',
+
                   'bilan'                                     =>'Bilan du ',
+
                   'journal'                                   =>'Journal',
                   'operating_account'                         =>'Compte Operationel',
                   'account_list'                              =>'Liste de Comptes',
@@ -109,7 +111,7 @@ return array (
                   'members_who_cautionned_me'                 =>'Membre qui m\'ont cautionnee',
                   'members_cautionned_by_me'                  =>'Membres que j\'ai cautionnee',
                   'reports_savings_level'                     =>'Rapport niveau epargne',
-                  'piece_debourse_refund_number'=>'Piece debourse N⁰',
+         'piece_debourse_refund_number'=>'Piece debourse N⁰',
                   'beneficiaire'=>'Beneficiaire',
                   'reports_accounting_bilan'=>'Bilan comptable',
                   'reports_cautions_cautioned_me'=>'Cautionner par :',
@@ -117,4 +119,5 @@ return array (
                     'member_loan_balance'=>'Niveau Credit/dette',
                     'octorey_report'=>'Fin de dette entre deux date',
                     'monthly_fee_inventory'=>'Cotisation mensuel Modifier',
+
   );

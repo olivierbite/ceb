@@ -77,9 +77,9 @@ class Refund extends Model {
         DB::statement("CREATE TEMPORARY TABLE TEMP_REFUND_PER_MEMBER
 						(
 							SELECT adhersion_id,sum(amount) refund 
-							FROM refunds 
+							FROM refunds WHERE  date(created_at) BETWEEN ? AND ?
 							GROUP BY adhersion_id
-						)");
+						)",[$startDate,$endDate]);
 
         // GET THE REPORT
         $result = DB::select("SELECT  CASE 
