@@ -436,6 +436,19 @@ class User extends SentinelModel {
 	 */
 	public function generalRightToLoan() 
 	{
+		// If the user has active loan then consider 
+		// Latest ordinary loan right to loan 
+		// as his /her current right to loan
+		if ($this->hasActiveLoan()) {
+		    $loan = $this->loans()->isOrdinary()->IsNotUmergency()->orderBy('created_at','DESC')->first();
+		    
+		    // If we found ordinary loan then 
+		    // use it as right to loan
+			
+		    if($loan){
+		     return $loan->right_to_loan - $loan->loan_to_repay;
+		    }
+		}
 		return $this->total_contribution * $this->rightToLoanPercentage;
 	}
 	/**
@@ -445,7 +458,7 @@ class User extends SentinelModel {
 	 */
 	public function getGeneralRightToLoanAttribute()
 	{
-		return $this->totalContributions() * $this->rightToLoanPercentage;
+		return $this->generalRightToLoan();
 	}
 
 	/**
@@ -460,7 +473,7 @@ class User extends SentinelModel {
 		// need to consider right to loan a member
 		// had before we give him this loan
 		$latestLoan = $this->latestLoan();
-		$contributions 		= $this->contributions();
+		$contributions 	= $this->contributions();
 
 		if ($this->loan_to_regulate !==-1 and strpos($latestLoan->operation_type,'ordinary_loan') !== false) {
 			return $latestLoan->right_to_loan - $latestLoan->loan_to_repay;
