@@ -54,6 +54,7 @@ class ContributionFactory {
 		if (!is_array($memberToSet) && is_numeric($memberToSet)) {
 			$member = $this->member->findOrFail($memberId);
 			$member->monthly_fee = (int) $member->monthly_fee;
+			$member->timestamps = false;
 		    $members[] = $member->toArray();
 		    $this->setContributions($members);
 			return true;
@@ -78,7 +79,7 @@ class ContributionFactory {
                	{
 				    $memberFromDb = $this->member->findByAdhersion($member[0]);
 					$memberFromDb->monthly_fee = (int) $memberFromDb->monthly_fee;
-
+					$memberFromDb->timestamps = false;
 			    	$memberFromDb->institution = $memberFromDb->institution->name;
 				    // Does contribution look same as the one registered
 				    if ($memberFromDb->monthly_fee !== (int) $member[1]) {
