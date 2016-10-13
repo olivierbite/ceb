@@ -26,6 +26,7 @@ jQuery(document).ready(function($) {
   	$('#administration_fees').change(function(event) {
   		event.preventDefault();
   		calculateUrgentLoanFees();
+  		calculateLoanDetails();
   	});
 
 	// Make sure that only number are entered in the box
@@ -149,7 +150,8 @@ jQuery(document).ready(function($) {
 		 	interests =  loanToRepay * parseFloat({!! (float) $setting->keyValue('loan.emergency.rate') !!}) / 100 ;
 		};
 
-		var netToReceive = loanToRepay - interests;
+		var netToReceive = Math.round(loanToRepay - interests);
+
 		var administration_fees = $('#administration_fees').val();
 		var operation_type  	= $('#operation_type').val();
 		var urgent_loan_interests = 0;
@@ -178,7 +180,7 @@ jQuery(document).ready(function($) {
 		}
 		else{
 			$('.administration_fees').css('display', 'none');
-			$('#netToReceive').val(Math.round(netToReceive) );
+			$('#netToReceive').val(parseInt(netToReceive) );
 			data[$('#netToReceive').attr('name')] = $('#netToReceive').val();
 		};
 
@@ -209,7 +211,8 @@ jQuery(document).ready(function($) {
   		/** UPDATE ACCOUNTS AMOUNT */
 		$('#debit_amount_0').val($('#loanToRepay').val());
 		$('#credit_amounts_0').val($('#netToReceive').val());
-		$('#credit_amounts_2').val($('#interests').val());	
+		$('#credit_amounts_1').val($('#interests').val());
+		$('#credit_amounts_2').val($('#interest_on_urgently_loan').val());
 	}
 
 	

@@ -132,18 +132,18 @@
       $("#add-credit-account").bind("click", function(){
         $("#credit-accounts-container").addCreditForms();
       });
-
+      
       $('.debit-amount').on('click keyup keydown keypress change',function(event) {
         $('.total-debit').html('total debit '+$getSum('.debit-amount'));
       });
-
+ $('.total-debit').html('total debit '+$getSum('.debit-amount'));
      $(".debit-amount").on('click keyup keydown keypress change',function(event) {
        console.log(event);
     });
       $('.credit-amount').on('click keyup keydown keypress change',function(event) {
         $('.total-credit').html('total credit '+$getSum('.credit-amount'));
       });
-
+      $('.total-credit').html('total credit '+$getSum('.credit-amount'));
     });
     
 </script>

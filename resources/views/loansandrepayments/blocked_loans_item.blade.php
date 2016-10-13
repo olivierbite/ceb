@@ -11,7 +11,7 @@
 	<td>{{ number_format($loan->calculated_monthly_fee) }} </td>
 	<td>{{ number_format($loan->loan_to_repay) }}</td>
 	<td>{{ number_format($loan->interests) }}</td>
-	<td>{{ number_format($loan->urgent_loan_interest) }}</td>
+	<td>{{ number_format($loan->urgent_loan_interests) }}</td>
 	<td>{{ number_format($loan->amount_received) }}</td>
 	<td>{{ $loan->is_regulation==1?trans('general.yes'):trans('general.no') }}</td>
 	<td>
