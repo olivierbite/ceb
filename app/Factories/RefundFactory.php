@@ -81,10 +81,11 @@ class RefundFactory {
 		         $member->refund_fee = (int)  $member->loan_montly_fee;
 	        }
 	       
-	       
-	         if ($member->has_active_emergency_loan) {
+	        // Consider emergency
+	        if ($member->has_active_emergency_loan) {
 	        	 $member->refund_fee +=(int)$member->active_emergency_loan->monthly_fees;
 	        }
+
 			$members[] = $member;
 			$this->setRefundMembers($members);
 			return true;
@@ -111,7 +112,8 @@ class RefundFactory {
 			        }
 
 					$memberFromDb->refund_fee = (int) $member[1];
-					 if ($memberFromDb->has_active_emergency_loan) {
+					
+					if ($memberFromDb->has_active_emergency_loan) {
 			        	$memberFromDb->refund_fee +=(int)$memberFromDb->active_emergency_loan->emergency_balance;
 			        }
 
