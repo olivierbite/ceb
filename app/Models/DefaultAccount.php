@@ -2,8 +2,6 @@
 
 namespace Ceb\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
 class DefaultAccount extends Model
 {
     protected $table = 'default_accounts';
