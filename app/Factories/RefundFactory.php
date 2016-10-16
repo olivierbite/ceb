@@ -67,7 +67,7 @@ class RefundFactory {
 		// Clean whatever member we have
 		$this->removeRefundMembers();
 		$members = array();
-        
+
 		// Check if the provided parameter is an id for one member or not
 		if (!is_array($memberToSet) && is_numeric($memberToSet)) {
 			$member = $this->member->with('loans')->findOrFail($memberToSet);
@@ -90,11 +90,13 @@ class RefundFactory {
 			$this->setRefundMembers($members);
 			return true;
 		}
+
 		// We have many members to upload
 		if (is_array($memberToSet)) {
 			$rowsWithErrors  		 = [];
 			$rowsWithSuccess 		 = [];
 			$rowsWithDifferentAmount = [];
+
 			foreach ($memberToSet as $member) {
 				    if (!isset($member[0]) || !isset($member[1])) {
 				    	$rowsWithErrors[] = $member;
@@ -104,6 +106,7 @@ class RefundFactory {
                	try
                	{
 				    $memberFromDb = $this->member->findByAdhersion($member[0]);
+				          
 				    // If the member doesn't have active loan just skipp him
 				    if (!$memberFromDb->hasActiveLoan()) {
 				    	$member[] = '| This member does not have an active loan.';
@@ -116,7 +119,7 @@ class RefundFactory {
 					if ($memberFromDb->has_active_emergency_loan) {
 			        	$memberFromDb->refund_fee +=(int)$memberFromDb->active_emergency_loan->emergency_balance;
 			        }
-
+			         // dd($memberFromDb,$memberFromDb->refund_fee,$memberFromDb->loan_montly_fee);			
 					// Does contribution look same as the one registered
 				    if ($memberFromDb->refund_fee !== (int) $memberFromDb->loan_montly_fee) {
 				    	$rowsWithDifferentAmount[] = $memberFromDb;
@@ -637,8 +640,31 @@ class RefundFactory {
 	 */
 	public function forgetRefundsWithDifferences()
 	{
+		//1. Get the members with differences
+		$allRefunds = $this->getRefundMembers();
+
+		$withDifference = $this->getRefundsWithDifference();
+
+		// Remove them from others
+		$rowsWithSuccess = array_filter($allRefunds,function($value) use ($withDifference) {
+		
+			foreach ($withDifference as $item) {
+					if($item->adhersion_id == $value->adhersion_id){
+						return false;
+					}
+			}
+			
+			return true;
+		},ARRAY_FILTER_USE_BOTH);
+
+		// refresh refund members
+		$this->setRefundMembers($rowsWithSuccess);
+		
+		// then forget members with differences	
 		Session::forget('refundsWithDifference');
 	}
+
+
 	/**
 	 * Remove wording from the session
 	 * @return [type] [description]

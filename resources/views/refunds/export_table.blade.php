@@ -6,14 +6,12 @@
         <th> {{ trans('member.institution') }}</th>
         <th> {{ trans('member.employee_id') }}</th>
         <th> {{ trans('member.refund_fee') }}</th>
-        <th> {{ trans('member.monthly_fee_experted_fee') }}</th>
+        <th> {{ trans('member.expected_loan_refund') }}</th>
   	 	</tr>
    	 </thead>
  <tbody>
 
  @foreach ($members as $member)
-  
-
    {{-- populate the table --}}
   <tr>
     <td>{!! $member->adhersion_id!!}</td>
@@ -21,7 +19,7 @@
     <td>{!! $member->institution_name !!}</td> 
     <td>{!! $member->employee_id !!}</td>
     <td>{!! $member->refund_fee!!}</td>
-    <td>{!! $member->monthly_fee!!}</td>
+    <td>{!! $member->loan_montly_fee!!}</td>
   </tr>
  @endforeach
  </tbody>
