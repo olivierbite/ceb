@@ -142,11 +142,11 @@ class RefundController extends Controller {
 		//Create a new Laravel collection from the array data
   		$members = new Collection($members);
 
-  		//Define how many items we want to be visible in each page
-		$members = $members->forPage($currentPage,20);
-
 		// Get page links
 		$pageLinks = new Paginator($members,$members->count(),20,$currentPage);
+
+  		//Define how many items we want to be visible in each page
+		$members = $members->forPage($currentPage,20);
 		
 		$totalRefunds				= $this->refundFactory->getTotalRefunds();
 		$refundType					= $this->refundFactory->getRefundType();
@@ -188,6 +188,7 @@ class RefundController extends Controller {
 			flash()->error('Please select a file to upload');
 			return $this->reload();
 		}
+
 		 if(Input::file('file')->getClientOriginalExtension() != 'csv') {
 		    flash()->error('You must upload a csv file');
 		    return $this->index();

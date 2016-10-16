@@ -318,12 +318,14 @@ class ContributionAndSavingsController extends Controller {
 	private function getMembersPageLinks()
 	{
 		$currentPage = Input::get('page', 1);
+
 		if (Input::has('show-member-with-difference') && Input::get('show-member-with-difference') == 'yes') {
 			$members = $this->contributionFactory->getConstributionsWithDifference();
 			return new Paginator($members,$members->count(),20,$currentPage);
 		}	
-			$members = $this->contributionFactory->getConstributions();
-			return new Paginator($members,$members->count(),20,$currentPage);
+		
+		$members = $this->contributionFactory->getConstributions();
+		return new Paginator($members,$members->count(),20,$currentPage);
 	}
 
 	/**
