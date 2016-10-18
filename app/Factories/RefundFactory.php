@@ -115,10 +115,12 @@ class RefundFactory {
 			        }
 
 					$memberFromDb->refund_fee = (int) $member[1];
-					
-					if ($memberFromDb->has_active_emergency_loan) {
-			        	$memberFromDb->refund_fee +=(int)$memberFromDb->active_emergency_loan->emergency_balance;
-			        }
+
+					///////////////////////////////////////////////////////////////
+					// WE DON'T NEED TO ADD EMERGENCY LOAN FEES WHILE DOING BULK //
+					///////////////////////////////////////////////////////////////
+
+			        
 			         // dd($memberFromDb,$memberFromDb->refund_fee,$memberFromDb->loan_montly_fee);			
 					// Does contribution look same as the one registered
 				    if ($memberFromDb->refund_fee !== (int) $memberFromDb->loan_montly_fee) {
