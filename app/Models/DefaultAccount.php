@@ -127,6 +127,16 @@ class DefaultAccount extends Model
 	{
 		return $this->scopeOfFunction($query,'member_transaction_saving');
 	}
+    /**
+     * Get the Default accounts for Member transaction Saving.
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public function scopeMemberTransaction($query,$functionName)
+    {
+        return $this->scopeOfFunction($query,$functionName);
+    }
 	 /**
      * Get the Default accounts for Refunds Individual Attribute.
      *

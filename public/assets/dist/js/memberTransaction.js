@@ -1,22 +1,26 @@
 jQuery(document).ready(function($) {
-  $('#contract_number').hide();
+  // $('#contract_number').hide();
     /** SET Operation type if it is changed */
     $(".movement_type").change(function(event) {
-      var loanType = $(this);
-  
-      window.location.href = window.location.protocol+'//'+window.location.host+window.location.pathname+'?movement_type='+loanType.val();
+      var movement_type = $(this);
+      var operationType = $(".operation_type");
+      window.location.href = window.location.protocol+'//'+window.location.host+window.location.pathname+'?movement_type='+movement_type.val()+'&operation_type='+operationType.val();
     });
     
-        /** SET Operation type if it is changed */
-    $(".operation_type").change(function(event) {
+     /** SET Operation type if it is changed */
+     $(".operation_type").change(function(event) {
+       var operationType = $(this);
+       var movement_type = $(".movement_type");
+       window.location.href = window.location.protocol+'//'+window.location.host+window.location.pathname+'?movement_type='+movement_type.val()+'&operation_type='+operationType.val();
+      });
 
-      if ($(this).val() == 'remainers') {
-         $('#contract_number').show();
-      }
-      else{
-         $('#contract_number').hide();
-      }
-    });
+     // if (operationType.val() == 'remainers') {
+     //     $('#contract_number').show();
+     //  }
+     //  else{
+     //     $('#contract_number').hide();
+     //  }
+
 
     /** UPDATE ACCOUNTS AMOUNT */
     /** @todo map the right amount to the right account */
