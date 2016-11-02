@@ -222,32 +222,36 @@ class MemberController extends Controller {
 	{
 		$member = $this->member->with(['loans','contributions','refunds','cautions','cautioned','attornies','institution'])->findOrfail($memberId);
 
-		$movement_type = 'saving';
+		$movement_type  = Input::has('movement_type') ? Input::get('movement_type') : 'saving' ;
+		$operation_type = Input::has('operation_type') ? Input::get('operation_type') :'individual_monthly_contribution' ;	
 
-		if (Input::has('movement_type')) 	
-		{
-			$movement_type  = Input::get('movement_type');
-		}
+        $defaultAccounts = $this->getDefaultAccounts($movement_type,$operation_type);
 
-        $defaultAccounts = $this->getDefaultAccounts($movement_type);
-		return view('members.transactions',compact('member','transactionid','movement_type','defaultAccounts'));
+        // dd($defaultAccounts,$movement_type);
+		return view('members.transactions',compact('member','transactionid','movement_type','operation_type','defaultAccounts'));
 	}
 	/**
      * Get default accounts for this modules
      * @return array 
      */
-    public function getDefaultAccounts($movement_type)
 
- 
+    public function getDefaultAccounts($movement_type,$operation_type)
+
     {
+    	$functionName = $movement_type.'.'.$operation_type;
+
         switch ($movement_type) {
             case 'saving':
-				$defaultDebitsAccounts	=  DefaultAccount::with('accounts')->debit()->memberTransactionSaving()->get();
-				$defaultCreditsAccounts	=  DefaultAccount::with('accounts')->credit()->memberTransactionSaving()->get();
+				// $defaultDebitsAccounts	=  DefaultAccount::with('accounts')->debit()->memberTransactionSaving()->get();
+				// $defaultCreditsAccounts	=  DefaultAccount::with('accounts')->credit()->memberTransactionSaving()->get();
+				$defaultDebitsAccounts	=  DefaultAccount::with('accounts')->debit()->memberTransaction($functionName)->get();
+				$defaultCreditsAccounts	=  DefaultAccount::with('accounts')->credit()->memberTransaction($functionName)->get();
                 break;
             case 'withdrawal':
-				$defaultDebitsAccounts	=  DefaultAccount::with('accounts')->debit()->memberTransactionWithdraw()->get();
-				$defaultCreditsAccounts	=  DefaultAccount::with('accounts')->credit()->memberTransactionWithdraw()->get();
+				// $defaultDebitsAccounts	=  DefaultAccount::with('accounts')->debit()->memberTransactionWithdraw()->get();
+				// $defaultCreditsAccounts	=  DefaultAccount::with('accounts')->credit()->memberTransactionWithdraw()->get();
+				$defaultDebitsAccounts	=  DefaultAccount::with('accounts')->debit()->memberTransaction($functionName)->get();
+				$defaultCreditsAccounts	=  DefaultAccount::with('accounts')->credit()->memberTransaction($functionName)->get();
                 break;   
             default:
              return [
@@ -257,7 +261,7 @@ class MemberController extends Controller {
 			break;
 
         }
-        
+        // dd($defaultDebitsAccounts);
         $debitsAccounts = [];
         $creditsAccounts = [];
 
