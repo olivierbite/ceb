@@ -237,6 +237,8 @@ class MemberController extends Controller {
      * @return array 
      */
     public function getDefaultAccounts($movement_type)
+
+ 
     {
         switch ($movement_type) {
             case 'saving':
