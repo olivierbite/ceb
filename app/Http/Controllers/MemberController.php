@@ -223,7 +223,7 @@ class MemberController extends Controller {
 		$member = $this->member->with(['loans','contributions','refunds','cautions','cautioned','attornies','institution'])->findOrfail($memberId);
 
 		$movement_type  = Input::has('movement_type') ? Input::get('movement_type') : 'saving' ;
-		$operation_type = Input::has('operation_type') ? Input::get('operation_type') :'' ;	
+		$operation_type = Input::has('operation_type') ? Input::get('operation_type') :'individual_monthly_contribution' ;	
 
         $defaultAccounts = $this->getDefaultAccounts($movement_type,$operation_type);
 
