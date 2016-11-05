@@ -14,6 +14,47 @@ jQuery(document).ready(function($) {
        window.location.href = window.location.protocol+'//'+window.location.host+window.location.pathname+'?movement_type='+movement_type.val()+'&operation_type='+operationType.val();
       });
 
+     //  When transactions charges select is changed
+     //  Then determine the action to be done.
+     $('#transaction-charges').change(function(event) {
+       /* Act on the event */
+       var percentage = parseInt($(this).val());
+
+
+       // Do the following only if we have 
+       // additional charges
+       if (percentage > 0 ) {
+
+        // 1. Resize charges boxes
+        $('.cheque-section').removeClass('col-xs-4 col-md-4');
+        $('.cheque-section').addClass('col-xs-2 col-md-2');
+        $('.charges-section').show('400', function() {
+ 
+       });
+
+        // 2. Calculate the fees based on the provided amount
+        var amount = parseInt($('.amount').val());
+        var charges = amount * (percentage / 100);
+
+        // Now we are done with calculating charges
+        // Set charges input and let the user 
+        // be aware of the charges
+        $('.charges-amount').val(charges);
+        $('#credit_amounts_1').val(charges);
+        
+        return;
+       }
+
+      $('.cheque-section').removeClass('col-xs-2 col-md-2');
+      $('.cheque-section').addClass('col-xs-4 col-md-4');
+      $('.charges-section').hide('400', function() {
+         // Clean the content
+          $(this).val(0);
+      });
+
+       
+     });
+
      // if (operationType.val() == 'remainers') {
      //     $('#contract_number').show();
      //  }
