@@ -19,7 +19,8 @@ jQuery(document).ready(function($) {
      $('#transaction-charges').change(function(event) {
        /* Act on the event */
        var percentage = parseInt($(this).val());
-
+       
+      
 
        // Do the following only if we have 
        // additional charges
@@ -33,14 +34,7 @@ jQuery(document).ready(function($) {
        });
 
         // 2. Calculate the fees based on the provided amount
-        var amount = parseInt($('.amount').val());
-        var charges = amount * (percentage / 100);
-
-        // Now we are done with calculating charges
-        // Set charges input and let the user 
-        // be aware of the charges
-        $('.charges-amount').val(charges);
-        $('#credit_amounts_1').val(charges);
+        computeDebitCredit();
         
         return;
        }
@@ -52,8 +46,40 @@ jQuery(document).ready(function($) {
           $(this).val(0);
       });
 
+      computeDebitCredit();
        
      });
+     
+     // if  amount entry do  the calculation and display on account  interface
+   
+     $('.amount').on('input',function(e){
+         computeDebitCredit();
+     });
+
+
+     function computeDebitCredit () {
+        var amount = parseInt($('.amount').val());
+        var transactionCharges = parseInt($('#transaction-charges').val());
+        
+        // if we don't have transaction charges set it to 0
+        if (isNaN(transactionCharges)) {
+          transactionCharges = 0;
+        };
+
+        var chargedAmount = amount * (transactionCharges / 100);
+        var creditAmount = amount - chargedAmount;
+
+        // Now we are done with calculating charges
+        // Set charges input and let the user 
+        // be aware of the charges
+        $('.charges-amount').val(Math.round(chargedAmount));
+         
+        // Assign debit and credit amount
+        $('#debit_amount_0').val(amount);
+        $('#credit_amounts_0').val(Math.round(creditAmount));
+        $('#credit_amounts_1').val(Math.round(chargedAmount));
+     }
+
 
      // if (operationType.val() == 'remainers') {
      //     $('#contract_number').show();
@@ -65,7 +91,7 @@ jQuery(document).ready(function($) {
 
     /** UPDATE ACCOUNTS AMOUNT */
     /** @todo map the right amount to the right account */
-    if ($('#operation_type').val()=='saving') {
+ /*   if ($('#operation_type').val()=='saving') {
       $('#debit_amount_0').val($('#additional_amount').val());
       $('#debit_amount_2').val($('#additional_amount').val());
 
@@ -81,7 +107,7 @@ jQuery(document).ready(function($) {
       $('#credit_amounts_0').val($('#netToReceive').val());
       $('#credit_amounts_2').val($('#interests_to_pay').val());
       $('#credit_amounts_4').val($('#additinal_charges').val());
-    };
+    };*/
   });
   /**
    * Implement validation

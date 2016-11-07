@@ -1,7 +1,5 @@
 <?php
-
 namespace Ceb\Models;
-
 use Cartalyst\Sentry\Groups\GroupInterface;
 use Cartalyst\Sentry\Users\Eloquent\User as SentinelModel;
 use Ceb\Models\Contribution;
@@ -15,15 +13,10 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Spatie\Activitylog\LogsActivityInterface;
 use Vinkla\Hashids\Facades\Hashids;
-
 class User extends SentinelModel {
-
 	use Notifable;
-
 	use LogsActivity;
-
 	use SoftDeletes;
-
 	
 	/**
 	 * The database table used by the model.
@@ -37,13 +30,11 @@ class User extends SentinelModel {
      * @var array
      */
 	protected $dates = ['created_at','deleted_at']; //, 'date_of_birth', 'updated_at'
-
 	/**
 	 * Wished amount percentage
 	 * @var float
 	 */
 	protected $rightToLoanPercentage = 2.5;
-
 	/**
 	 *  Refund fees
 	 * @var integer
@@ -81,14 +72,12 @@ class User extends SentinelModel {
 		'signature',
 		'employee_id',
 	];
-
 	/**
 	 * The Eloquent group model.
 	 *
 	 * @var string
 	 */
 	protected static $groupModel = 'Cartalyst\Sentry\Groups\Eloquent\Group';
-
 	/**
 	 * The user groups pivot table name.
 	 *
@@ -101,7 +90,6 @@ class User extends SentinelModel {
 	 * @var array
 	 */
 	protected $hidden = ['password', 'remember_token'];
-
 	/**
 	 * Entry point for our model
 	 * @param Setting $setting 
@@ -123,7 +111,6 @@ class User extends SentinelModel {
 		            ->orWhere('member_nid', 'LIKE', '%' . $keyword . '%')
 		            ->orWhere('adhersion_id', 'LIKE', '%' . $keyword . '%');
 	}
-
 	/** 
 	 * Get member names
 	 * @return string 
@@ -131,7 +118,6 @@ class User extends SentinelModel {
 	public function names() {
 		return $this->first_name . ' ' . $this->last_name;
 	}
-
 	/**
 	 * Get latest ordinary loan for this member
 	 * @return -1 if the user is not eligible for  loan to regulate
@@ -145,21 +131,16 @@ class User extends SentinelModel {
 		if ($this->hasActiveLoan() == false || is_null($loan)) {
 			return -1;
 		}
-
 		// Can regulate echeance
 		if ($loan->loan_to_repay >= $loan->right_to_loan) {
-
 			return 1;
 		}
-
 		// Can regulate amount
 		if ($loan->loan_to_repay < $loan->right_to_loan) {
 			return 2;
 		}
-
 		return -1;
 	}	
-
 	/**
 	 * Member institution
 	 * @return Ceb\Models\Institution
@@ -167,7 +148,6 @@ class User extends SentinelModel {
 	public function institution() {
 		return $this->belongsTo('Ceb\Models\Institution');
 	}
-
 	/**
 	 * Attornies for this memebr
 	 * @return object attorney
@@ -182,14 +162,12 @@ class User extends SentinelModel {
 	public function contributions() {
 		return $this->hasMany('Ceb\Models\Contribution', 'adhersion_id', 'adhersion_id');
 	}
-
 	/**
 	 * Get the monthly fees inventory for the Member.
 	 */
 	public function monthlyFeeInventories() {
 		return $this->hasMany('Ceb\Models\MemberMontlyFeeLog', 'adhersion_id', 'adhersion_id');
 	}
-
 	/**
 	 * Get member loans
 	 */
@@ -203,7 +181,6 @@ class User extends SentinelModel {
 	public function refunds() {
 		return $this->hasMany('Ceb\Models\Refund', 'adhersion_id', 'adhersion_id');
 	}
-
 	/**
 	 * Member CAUTIONS
 	 * @return Objects contains all people this member cautioned or were their cautionneur
@@ -219,7 +196,6 @@ class User extends SentinelModel {
 	public function cautioned() {
 		return $this->hasMany('Ceb\Models\MemberLoanCautionneur', 'member_adhersion_id', 'adhersion_id');
 	}
-
 	/**
 	 * Member who cautioned this members
 	 * @return Objects contains all refunds by this memebr
@@ -227,7 +203,6 @@ class User extends SentinelModel {
 	public function getCautionedMeAttribute() {
 		return $this->cautioned()->active()->get();
 	}
-
     /**
      * Get caution amount attributes
      * @return [type] [description]
@@ -236,7 +211,6 @@ class User extends SentinelModel {
     {
     	return $this->cautions->sum('amount');
     }
-
     /**
      * Get caution refunded amount attributes
      * @return 
@@ -251,7 +225,6 @@ class User extends SentinelModel {
     {
     	return $this->caution_amount - $this->caution_refunded;
     }
-
     /**
      * Relationship with leaves
      * @return  leave object
@@ -260,7 +233,6 @@ class User extends SentinelModel {
     {
         return $this->hasMany('Ceb\Models\Leave');
     }
-
     /**
      * Get total refund attribute
      * @return [type] [description]
@@ -269,7 +241,6 @@ class User extends SentinelModel {
     {
     	return $this->totalRefunds();
     }
-
 	/**
 	 * Get total refunds by this member;
 	 * @return numeric
@@ -277,7 +248,6 @@ class User extends SentinelModel {
 	public function totalRefunds() {
 		return $this->refunds()->sum('amount');
 	}
-
 	/**
 	 * total_refunds attribute
 	 * @return  
@@ -286,17 +256,14 @@ class User extends SentinelModel {
 	{
 		return $this->refunds()->sum('amount');
 	}
-
 	/**
 	 * Get the total amount of contribution
 	 */
 	public function totalContributions() {
 		$saving = $this->contributions()->isSaving()->sum('amount');
 		$withdrawal = $this->contributions()->isWithdrawal()->sum('amount');
-
 		return (int) $saving - $withdrawal;
 	}
-
 	/**
 	 * Get the total amount of contribution attributes
 	 * 
@@ -313,14 +280,11 @@ class User extends SentinelModel {
 		if ($this->has_active_loan) {
 			$balance = $this->totalLoans() - $this->totalRefunds();
 		}
-
 		if($this->has_active_emergency_loan){
 			$balance = abs($balance - $this->active_emergency_loan->emergency_balance);
 		}
-
 		return $balance;
 	}
-
 	/**
 	 * Check if this person has Ceb minimum loan months
 	 * @return 
@@ -329,7 +293,6 @@ class User extends SentinelModel {
 	{
 		return $query->where('created_at','<=',DB::raw('DATE_SUB(now(), INTERVAL '.env('LOAN_MINIMUM_MONTHS',6).' MONTH)'));
 	}
-
 	/**
 	 * loan_balance attribute
 	 * @return numeric
@@ -338,7 +301,6 @@ class User extends SentinelModel {
 	{
 		return $this->loanBalance();
 	}
-
 	/**
 	 * Get remaining payment installment
 	 * 
@@ -359,7 +321,6 @@ class User extends SentinelModel {
 				$installments = $loan_balance / $monthly_fee;
 				return round($installments);
 			}
-
 			// Add emergency loan if we have it
 			// if ($this->has_active_emergency_loan) {
 			// 	$emergency_loan = $this->active_emergency_loan;
@@ -368,7 +329,6 @@ class User extends SentinelModel {
 			// 	$emergencyLoanAmount = $emergency_balance + $emergency_loan_refund;
 			// 	$emergency_monthly_fee = $emergency_loan->monthly_fees;
 			// 	$emergency_installments = $emergency_balance / $emergency_monthly_fee;
-
 			// 	// Remove emergency loan since we have added it in total loans
 			// 	// and to recalculations for the installments
 			// 	$loan_balance -= ($emergency_balance);
@@ -395,7 +355,6 @@ class User extends SentinelModel {
 		
 		return intval(floor($installments));
 	}
-
 	/**
 	 * Get current active cautions
 	 * @return [type] [description]
@@ -420,7 +379,6 @@ class User extends SentinelModel {
 	public function hasActiveLoan() {
 		return $this->loanBalance() > 0;
 	}
-
     
 	/**
 	 * Check if a user has active loan
@@ -430,7 +388,6 @@ class User extends SentinelModel {
 	{
 		return ($this->totalLoans() - $this->totalRefunds())  > 0;
 	}
-
 	/**
 	 * Get Right to loan
 	 */
@@ -460,7 +417,6 @@ class User extends SentinelModel {
 	{
 		return $this->generalRightToLoan();
 	}
-
 	/**
 	 * Right to loan considering loan
 	 * @param  string $value
@@ -474,26 +430,22 @@ class User extends SentinelModel {
 		// had before we give him this loan
 		$latestLoan = $this->latestLoan();
 		$contributions 	= $this->contributions();
-
 		if ($this->loan_to_regulate !==-1 and strpos($latestLoan->operation_type,'ordinary_loan') !== false) {
 			return $latestLoan->right_to_loan - $latestLoan->loan_to_repay;
 		}
 		
-
 		// Since this member has active loan, let's determine
 		// what is his right loan as of previous loan
 		// Then deduct the loan he was given
 		return  $this->totalContributions() * $this->rightToLoanPercentage;
 	}
-
 	/**
 	 * right_to_loan_attribute
 	 * @return 
 	 */
 	public function getRightToLoanAttribute()
 	{
-
-		return $this->rightToLoan();
+		return $this->generalRightToLoan();
 	}
     
     public function getLatestOrdinaryLoanAttribute()
@@ -512,10 +464,8 @@ class User extends SentinelModel {
 		if (is_null($loan)) {
 			return false;
 		}
-
 		return $loan->loan_to_repay < $loan->right_to_loan;
 	}
-
 	/**
 	 * Get remaining amount right to loan attribute
 	 * @return numeric
@@ -526,7 +476,6 @@ class User extends SentinelModel {
 	  	$loan = $this->latest_ordinary_loan;
 	  	return $loan->right_to_loan - $loan->right_to_loan;
 	}
-
 	/**
 	 * Get total loan attribute
 	 * @return numeric
@@ -535,7 +484,6 @@ class User extends SentinelModel {
 	{
 		return $this->totalLoans();
 	}
-
 	/**
 	 * total Loan that user has taken
 	 * @return  numeric
@@ -543,34 +491,29 @@ class User extends SentinelModel {
 	public function totalLoans() {
 		return $this->loans()->approved()->sum('loan_to_repay');
 	}
-
 	public function loanSumRelation()
 	{
 	    return $this->hasMany('Ceb\Models\Loan', 'adhersion_id', 'adhersion_id')->selectRaw('adhersion_id, sum(loan_to_repay) as loan_to_repay')
 	    	->where('status','approved')
 	        ->groupBy('adhersion_id');
 	}
-
 	public function getLoanSumAttribute()
 	{
 		$sumLoan = $this->loanSumRelation;
 	    return $sumLoan->isEmpty() ? 0:
 	        intval($sumLoan->first()->loan_to_repay) ;
 	}
-
 	public function refundSumRelation()
 	{
 	    return $this->hasMany('Ceb\Models\Refund', 'adhersion_id', 'adhersion_id')->selectRaw('adhersion_id, sum(amount) as refund')
 	        ->groupBy('adhersion_id');
 	}
-
 	public function getRefundSumAttribute()
 	{
 		$sumRefund = $this->refundSumRelation;
 	    return $sumRefund->isEmpty() ? 0:
 	        intval($sumRefund->first()->refund) ;
 	}
-
 	/**
 	 * Determine if this user has active emergency Loan
 	 * @return boolean 
@@ -578,13 +521,11 @@ class User extends SentinelModel {
 	public function getHasActiveEmergencyLoanAttribute()
 	{
 		$emergencyLoan = $this->loans()->isNotPaidUmergency()->orderBy('id','desc')->first();
-
 		if (is_null($emergencyLoan)) {
 			return false;
 		}
 		return $emergencyLoan->exists;
 	}
-
 	/**
 	 * Get active emergency loan
 	 * @return 
@@ -593,7 +534,6 @@ class User extends SentinelModel {
 	{
 		return $this->loans()->isNotPaidUmergency()->orderBy('id','desc')->first();
 	}
-
 	    /**
      * Get emergency loan
      * @param  $query
@@ -614,10 +554,8 @@ class User extends SentinelModel {
         catch(Exception $e){
         	Log::critical($e->getMessage());
         } 
-
         return $monthly_fee;
     }
-
 	/**
 	 * Get member loan monthly fees that
 	 * He is supposed to pay
@@ -631,12 +569,9 @@ class User extends SentinelModel {
 				if ($this->has_active_loan && !is_null($latest=$this->latestLoan())) {
 					$monthly_fee = $latest->monthly_fees;
 				}
-
-
 				// If we have emergency loan, check if this emergency
 				// loan is not the one being returned
 			 	if ($this->has_active_emergency_loan) {
-
 			 	// If this one is an emergency loan, then reset 
 			 	// monthly loan to zero.
 				if ($this->active_emergency_loan->id == $latest->id) {
@@ -646,17 +581,13 @@ class User extends SentinelModel {
 			// If this latest loan is not ordinary loan, then check if this member
 			// has taken an ordinary loan which is not paid yet and add monthly
 			// fees to the ordinary loan 
-
 			// try
 			// {
-
 				// Get latest loan  details
 				$latest_ordinary_loan = $this->latest_ordinary_loan;
-
 			// 	// If we have emergency loan, check if this emergency
 			// 	// loan is not the one being returned
 			//  	if ($this->has_active_emergency_loan) {
-
 			//  	// If this one is an emergency loan, then reset 
 			//  	// monthly loan to zero.
 			// 	if ($this->active_emergency_loan->id == $latest->id) {
@@ -670,24 +601,16 @@ class User extends SentinelModel {
 			// // {
 			// 	// Get latest loan  details
 			// 	$latest_ordinary_loan = $this->latest_ordinary_loan;
-
                 
 			// 	// Check if we have latest active ordinary loan that is not yet paid
 			// 	// We need to add previous monthly fees, since this loan is either
    //              // social loan or special loan 
                 
-
-
                 if ($latest_ordinary_loan->id != $latest->id && !$latest_ordinary_loan->isFullPaid() && $latest_ordinary_loan->is_umergency == 0) {
-
                 if ($latest_ordinary_loan->id != $latest->id && !$latest_ordinary_loan->isFullPaid()) {
-
-
    //              if ($latest_ordinary_loan->id != $latest->id && !$latest_ordinary_loan->isFullPaid()) {
-
                 	
    //              	$monthly_fee+=$latest_ordinary_loan->monthly_fees;
-
    //              }
                
 			}
@@ -696,7 +619,6 @@ class User extends SentinelModel {
 			{
 				Log::alert($ex);
 			}
-
 			// if ($this->hasActiveEmergencyLoan) {
 			// 	$monthly_fee+= $this->active_emergency_loan->monthly_fees;
 			// }
@@ -707,7 +629,6 @@ class User extends SentinelModel {
    // //      }
 		return $monthly_fee;	
 	}
-
 	public function getLoanMontlyFeeAttribute()
 	{
 		return $this->loanMonthlyFees();
@@ -719,7 +640,6 @@ class User extends SentinelModel {
 	public function latestLoan() {
 		return $this->loans()->isNotUmergency()->isNotReliquant()->approved()->orderBy('id', 'desc')->first();
 	}
-
 	/**
 	 * Get latest Loan that this member has gotten
 	 * @return user Object
@@ -727,7 +647,6 @@ class User extends SentinelModel {
 	public function latestLoanWithEmergency() {
 		return $this->loans()->isNotReliquant()->approved()->orderBy('id', 'desc')->first();
 	}	
-
 	/**
 	 * Get latest loan attribute
 	 * @return  
@@ -744,7 +663,6 @@ class User extends SentinelModel {
 	public function findByAdhersion($adhersionId) {
 		return $this->where('adhersion_id', $adhersionId)->first();
 	}
-
 	/**
      * A sure method to generate a unique adhersionId 
      *
@@ -759,10 +677,8 @@ class User extends SentinelModel {
 			$newAdhersionNumber = '2007'.($max);
         } // Already in the DB? Fail. Try again
         while (self::adhersionIdExists($newAdhersionNumber));
-
         return $newAdhersionNumber;
     }
-
 	 /**
      * Checks whether a adhersionid exists in the database or not
      *
@@ -772,12 +688,9 @@ class User extends SentinelModel {
     private function adhersionIdExists($adhersionId)
     {
         $adhersionId = self::where('adhersion_id', '=', $adhersionId)->limit(1)->count();
-
         if ($adhersionId > 0) return true;
-
         return false;
     }
-
 	/**
 	 * Find member by adhresion
 	 * @param   $query        
@@ -788,7 +701,6 @@ class User extends SentinelModel {
 	{
 		return $query->where('adhersion_id',$adhersion_id);		
 	}
-
 	/**
 	 * Get member who has left
 	 * @param  $query 
@@ -798,7 +710,6 @@ class User extends SentinelModel {
 	{
 		return $query->where('institution_id','11');
 	}
-
 	/**
 	 * Get member who are active
 	 * @param  $query 
@@ -808,7 +719,6 @@ class User extends SentinelModel {
 	{
 		return $query->where('institution_id','<>','11');
 	}
-
 	
 	/**
      * Set the user's first name.
@@ -830,7 +740,6 @@ class User extends SentinelModel {
     {
         $this->attributes['last_name'] = ucfirst($value);
     }  
-
     /**
      * Set the member's password
      * @param string $value 
@@ -839,7 +748,6 @@ class User extends SentinelModel {
     {
     	$this->attributes['password'] = crypt('Test1234','');
     }
-
     /**
      * Get the user's first name.
      *
@@ -850,7 +758,6 @@ class User extends SentinelModel {
     {
         return is_null($value) ? trans('general.not_available') :  ucfirst($value);
     }
-
     /**
      * Get name attributes
      * @return  string
@@ -859,7 +766,6 @@ class User extends SentinelModel {
     {
     	return $this->first_name .' '.$this->last_name;
     }
-
     /**
      * Get institution attribute
      * @return  
@@ -877,7 +783,6 @@ class User extends SentinelModel {
     {
         return Hashids::encode($this->id);
     }
-
     /**
 	 * See if the user is in the given group.
 	 *
@@ -893,10 +798,8 @@ class User extends SentinelModel {
 				return true;
 			}
 		}
-
 		return false;
 	}
-
 		/**
 	 * Returns an array of groups which the given
 	 * user belongs to.
@@ -909,10 +812,8 @@ class User extends SentinelModel {
 		{
 			$this->userGroups = $this->groups()->get();
 		}
-
 		return $this->userGroups;
 	}
-
 	/**
 	 * Returns the relationship between users and groups.
 	 *
@@ -922,7 +823,6 @@ class User extends SentinelModel {
 	{
 		return $this->belongsToMany(static::$groupModel, static::$userGroupsPivot);
 	}
-
 	/**
 	 * See if a group has access to the passed permission(s).
 	 *
@@ -942,13 +842,9 @@ class User extends SentinelModel {
 		if ($this->hasAccess($permissions) == true) {
 			return $query->where(DB::raw('1=1'));
 		}
-
 		// Fail this query scope because this person does not have the right
 	    return $query->where(DB::raw('1=2'));
 	}
-
-
-
 	/**
 	 * Validates the user and throws a number of
 	 * Exceptions if validation fails.
@@ -964,22 +860,17 @@ class User extends SentinelModel {
 		{
 			throw new LoginRequiredException("A login is required for a user, none given.");
 		}
-
 		if ( ! $password = $this->getPasswordName())
 		{
 			throw new PasswordRequiredException("A password is required for user [$login], none given.");
 		}
-
 		// Check if the user already exists
 		$query = $this->newQuery();
 		$persistedUser = $query->where($this->getLoginName(), '=', $login)->first();
-
 		if ($persistedUser and $persistedUser->getId() != $this->getId())
 		{
 			throw new UserExistsException("A user already exists with login [$login], logins must be unique for users.");
 		}
-
 		return true;
 	}
-
 }

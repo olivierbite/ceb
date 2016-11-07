@@ -234,7 +234,9 @@ class MemberController extends Controller {
      * Get default accounts for this modules
      * @return array 
      */
+
     public function getDefaultAccounts($movement_type,$operation_type)
+
     {
     	$functionName = $movement_type.'.'.$operation_type;
 
