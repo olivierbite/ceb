@@ -222,6 +222,6 @@ return array (
   'loan_regularisation'=>'Regularisation prêt',
   'urgent_ordinary_loan'=>'Prêt ordinaire urgent',
    'is_regulation'=>'Regularise ?',
-
+   'emergency_loan'=>'Emergency loan',
 );
 

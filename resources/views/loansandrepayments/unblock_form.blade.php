@@ -43,7 +43,7 @@
       <td>{{ number_format($loan->loan_to_repay) }}</td>
       <td>{{ number_format($loan->interests) }}</td>
       <td>{{ number_format($loan->urgent_loan_interest) }}</td>
-      <td>{{ number_format($loan->net_to_receive) }}</td>
+      <td>{{ number_format($loan->amount_received) }}</td>
     </tr>
   </tbody>
 </table>  

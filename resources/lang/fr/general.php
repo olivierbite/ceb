@@ -23,7 +23,7 @@ return array (
     'yes'=>'OUI',
     'no'=>'NON',
     'select'=>'Selectionnez',
-    'make_database_backup'=>'Faire backup du Base de donnee',
+    'make_database_backup'=>'Faire backup de la  Base de donnee',
     'ceb_summary'=>'CEB Résumé',
     'actions'=>'Actions',
     'all'=>'Tous',
@@ -51,6 +51,7 @@ return array (
     'id'=>'ID',
     'name'=>'Nom',
     'president'=>'President',
+    'database_backup_has_been_done_at'=>'Base de donnes genere avec succes du ',
  
 
 
