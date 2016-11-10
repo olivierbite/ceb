@@ -303,7 +303,8 @@ class MemberController extends Controller {
 		 $transactionid = null;
 		 if (($transactionid = $factory->complete($data)) != false) {
 		 	flash()->success(trans('member.transaction_well_recorded'));
-		 	return $this->transacts($memberId,$transactionid);
+		 	return Redirect::route('members.index');
+
 		 }
 
 		 // Error happened here

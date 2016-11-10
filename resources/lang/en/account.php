@@ -12,5 +12,10 @@ return [
 	'entitled'			=>'Entitled',
 	'accounting_nature'	=>'Nature',
 	'operating_account' =>'Operating account',
+    'account_entitled'=>'Entitled',
+    'titled'=> 'Titled',
+    'account_nature'=>'Nature',
+    'update'=>'update',
+    'add_new_account'=>'Add new account',
     
 ];

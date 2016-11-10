@@ -1,6 +1,3 @@
-
-
-
 <?php
 
 return array (
@@ -29,23 +26,21 @@ return array (
     'all'=>'Tous',
     'between'=>'entre',
     'and'=>'Et',
-  'nothing_to_show_here'=>'Rien à afficher ici',
-  'view_all'=>'Voir tous',
+    'nothing_to_show_here'=>'Rien à afficher ici',
+    'view_all'=>'Voir tous',
     'your'=>'Votre',
-     'notifications'=>'notifications',
-      'sickness'=>'Maladie',
-     'accident'=>'Accident',
-     'death'=>'Dece d\'un proche',
-     'other_reasons'=>'Autre raisons',
-     'select_reason'=>'Sélectionnez la raison',
-       'are_you_sure_you_want_to_this_this_action_cannot_be_reverted'=>'Etes-vous sûr que vous voulez que cette action \ cette action ne peut pas être inversée',
-      'summary'=>'Total',
-          'please_start_by_selecting_others_input_before_selecting_a_member'=>'s\'il vous plaît commencer par sélectionner d\'autres entrée avant de choisir un membre',
+    'notifications'=>'notifications',
+    'sickness'=>'Maladie',
+    'accident'=>'Accident',
+    'death'=>'Dece d\'un proche',
+    'other_reasons'=>'Autre raisons',
+    'select_reason'=>'Sélectionnez la raison',
+    'are_you_sure_you_want_to_this_this_action_cannot_be_reverted'=>'Etes-vous sûr que vous voulez que cette action \ cette action ne peut pas être inversée',
+    'summary'=>'Total',
+    'please_start_by_selecting_others_input_before_selecting_a_member'=>'s\'il vous plaît commencer par sélectionner d\'autres entrée avant de choisir un membre',
     'not_available'=>'Indisponible',
     'are_you_sure_you_want_to_remove_this_item'=>'êtes-vous sûr que vous voulez supprimer cet article',
-
     'view_payments'=>'Vue remboursement',
-
     'contract_number'=>'Numero contract',
     'many_members'=>'Membres',
     'id'=>'ID',

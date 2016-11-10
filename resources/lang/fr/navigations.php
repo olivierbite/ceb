@@ -3,8 +3,7 @@
 return array (
   'dashboard'                 => 'Tableaux De Bord ',
   'members'                   => 'Membres',
-  'contributions_and_savings' => 'Cotisation & Epargne',
-  
+  'contributions_and_savings' => 'Cotisation & Epargne',  
   'accounting'                => 'Comptabilite', 
   'settings'                  => 'Parametre',
   'institutions'              => 'institutions',
@@ -30,9 +29,6 @@ return array (
   'items'                     =>'Gestion inventaire',
   'installments'              =>'Echeances',
   'amount'                    =>'Montant',
-  'amount_installments'       =>'Montant et Echeance',  
-
-  'loans_and_repayments'      => 'Prêts et remboursements',
- 
-  
+  'amount_installments'       =>'Montant et Echeance', 
+  'loans_and_repayments'      => 'Prêts et remboursements',  
 );

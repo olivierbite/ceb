@@ -21,4 +21,6 @@ return array (
    'accounting_nature'                                      =>'Nature',
    'transaction_is_recorded_successfully_transaction_id_is' =>'Transaction recorded successfully, Transaction ID is :transactionid',
 
-	);
+  'you_have_done_accounting_transaction_successfully'=>'You have done accounting transaction successfully',
+
+   );

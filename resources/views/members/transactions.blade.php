@@ -120,7 +120,7 @@
                	 {!! Form::select('bank', $banks, null, ['class'=>'form-control']) !!}
             </div>
         </div>
-        @if($operation_type =='remainers')
+     
         <div class="col-xs-12 col-md-12" id="contract_number">
             <div class="form-group">
                 <label for="contract_number">
@@ -129,7 +129,7 @@
                    {!! Form::input('text', 'contract_number', null, ['class'=>'form-control','placeholder'=>trans('general.contract_number')]) !!}
             </div>
         </div>
-        @endif
+       
         <div class="{!! $movement_type == 'withdrawal' ? 'col-xs-12 col-md-12 ' : 'col-xs-4 col-md-4'!!}">
             <div class="form-group">
                 <label for="wording">

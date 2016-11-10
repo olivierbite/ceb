@@ -22,4 +22,17 @@ return array (
   'groups'                    => 'Groups',
   'refunds'                   => 'Remboursements',
   'logs'                      => 'logs',
+
+  'reporting'                 =>'Reporting',
+  'reports'                   => 'Reporting',
+  'give_loan'                 =>'Give loan',
+  'unblock_loan'              =>'Unblock loan',
+  'pending_loans'             =>'Prêts en attente',
+  'regularisation'            =>'Regularisation',
+  'leaves'                    =>'Gestion conges',
+  'items'                     =>'Gestion inventaire',
+  'installments'              =>'Echeances',
+  'amount'                    =>'Montant',
+  'amount_installments'       =>'Montant et Echeance', 
+  'loans_and_repayments'      => 'Prêts et remboursements',  
 );

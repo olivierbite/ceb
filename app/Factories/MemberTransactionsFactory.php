@@ -82,7 +82,7 @@ class MemberTransactionsFactory {
 			$contribution['wording']			= $data['wording'];
 			$contribution['adhersion_id']		= $data['member']->adhersion_id;
 			$contribution['charged_amount']		= $charges;
-			$contribution['charged_percentage']	= $data['charges'];
+			//$contribution['charged_percentage']	= $data['charges'];
 			
 			//Remove unwanted column
 			unset($contribution['id']);
