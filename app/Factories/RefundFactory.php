@@ -67,7 +67,7 @@ class RefundFactory {
 		// Clean whatever member we have
 		$this->removeRefundMembers();
 		$members = array();
-
+     
 		// Check if the provided parameter is an id for one member or not
 		if (!is_array($memberToSet) && is_numeric($memberToSet)) {
 			$member = $this->member->with('loans')->findOrFail($memberToSet);
@@ -98,6 +98,7 @@ class RefundFactory {
 			$rowsWithDifferentAmount = [];
 
 			foreach ($memberToSet as $member) {
+
 				    if (!isset($member[0]) || !isset($member[1])) {
 				    	$rowsWithErrors[] = $member;
 				    	continue;
@@ -105,28 +106,36 @@ class RefundFactory {
                	
                	try
                	{
+
 				    $memberFromDb = $this->member->findByAdhersion($member[0]);
-				          
+				    $memberHasEmergencyLoan = $memberFromDb->has_active_emergency_loan;
+
+				    
 				    // If the member doesn't have active loan just skipp him
-				    if (!$memberFromDb->hasActiveLoan()) {
+				    if (!$memberFromDb->hasActiveLoan() && !$memberHasEmergencyLoan) {
 				    	$member[] = '| This member does not have an active loan.';
 						$rowsWithErrors[] = $member;
 						continue;
 			        }
 
+			        $memberFromDb->loanMonthlyRefundFee = $memberFromDb->loan_montly_fee;  // Monthly payment fees
+
 					$memberFromDb->refund_fee = (int) $member[1];
 
-					///////////////////////////////////////////////////////////////
-					// WE DON'T NEED TO ADD EMERGENCY LOAN FEES WHILE DOING BULK //
-					///////////////////////////////////////////////////////////////
+					//////////////////////////////////////////////////////////////////////
+					// ADD EMERGENCY LOAN MONTHLY FEES IF THE MEMBER HAS EMERGENCY LOAN //
+					//////////////////////////////////////////////////////////////////////
 
-			        
-			         // dd($memberFromDb,$memberFromDb->refund_fee,$memberFromDb->loan_montly_fee);			
+					if ($memberHasEmergencyLoan) {
+						$emergencyLoan = $memberFromDb->activeEmergencyLoan;
+						$memberFromDb->loanMonthlyRefundFee += $emergencyLoan->monthly_fees;
+					}
+
 					// Does contribution look same as the one registered
-				    if ($memberFromDb->refund_fee !== (int) $memberFromDb->loan_montly_fee) {
+				    if ($memberFromDb->refund_fee !== (int) $memberFromDb->loanMonthlyRefundFee) {
 				    	$rowsWithDifferentAmount[] = $memberFromDb;
 				    }
-                    
+				    
 				    $rowsWithSuccess[] = $memberFromDb;
 				}
 				catch(\Exception $ex)

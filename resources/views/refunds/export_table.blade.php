@@ -19,7 +19,7 @@
     <td>{!! $member->institution_name !!}</td> 
     <td>{!! $member->employee_id !!}</td>
     <td>{!! $member->refund_fee!!}</td>
-    <td>{!! $member->loan_montly_fee!!}</td>
+    <td>{!! $member->loanMonthlyRefundFee!!}</td>
   </tr>
  @endforeach
  </tbody>

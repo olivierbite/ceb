@@ -20,7 +20,6 @@ jQuery(document).ready(function($) {
        /* Act on the event */
        var percentage = parseInt($(this).val());
 
-
        // Do the following only if we have 
        // additional charges
        if (percentage > 0 ) {
@@ -54,14 +53,6 @@ jQuery(document).ready(function($) {
 
        
      });
-
-     // if (operationType.val() == 'remainers') {
-     //     $('#contract_number').show();
-     //  }
-     //  else{
-     //     $('#contract_number').hide();
-     //  }
-
 
     /** UPDATE ACCOUNTS AMOUNT */
     /** @todo map the right amount to the right account */
