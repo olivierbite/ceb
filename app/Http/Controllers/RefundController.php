@@ -203,7 +203,7 @@ class RefundController extends Controller {
 
 		   $csv->setOffset(1); //because we don't want to insert the header
 	       $members = $csv->fetchAll();
-	       // dd($members);
+
            $this->refundFactory->setMember($members);
 		}
 
@@ -242,10 +242,10 @@ class RefundController extends Controller {
         // First log
         Log::info($this->user->email . ' exports contribution with differences');
 
-			$members = $this->refundFactory->getRefundsWithDifference();
-			$report = view('refunds.export_table',compact('members'))->render();
-	
-			toExcel($report, trans('refund.with_difference'));
+		$members = $this->refundFactory->getRefundsWithDifference();
+		$report = view('refunds.export_table',compact('members'))->render();
+
+		toExcel($report, trans('refund.with_difference'));
 		}
 
 	}

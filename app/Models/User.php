@@ -40,7 +40,13 @@ class User extends SentinelModel {
 	 * @var integer
 	 */
 	public $refund_fee = 0;
-	
+
+	/**
+	 * Montly amount the user should refund
+	 * @var integer
+	 */
+	public $loanMonthlyRefundFee = 0;
+
 	/**
 	 * Minimum months a user needs to have before having a loan.
 	 * @var 

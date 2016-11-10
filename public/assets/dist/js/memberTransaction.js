@@ -19,8 +19,11 @@ jQuery(document).ready(function($) {
      $('#transaction-charges').change(function(event) {
        /* Act on the event */
        var percentage = parseInt($(this).val());
+<<<<<<< HEAD
+=======
        
       
+>>>>>>> 606b155a61f1fbc33373d0ecb06ab93c7aae056f
 
        // Do the following only if we have 
        // additional charges
@@ -79,14 +82,6 @@ jQuery(document).ready(function($) {
         $('#credit_amounts_0').val(Math.round(creditAmount));
         $('#credit_amounts_1').val(Math.round(chargedAmount));
      }
-
-
-     // if (operationType.val() == 'remainers') {
-     //     $('#contract_number').show();
-     //  }
-     //  else{
-     //     $('#contract_number').hide();
-     //  }
 
 
     /** UPDATE ACCOUNTS AMOUNT */
