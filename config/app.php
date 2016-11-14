@@ -149,6 +149,8 @@ return [
 		// Adding service provider for the 3rd parties
 		Barryvdh\Snappy\ServiceProvider::class,
 		Sentinel\SentinelServiceProvider::class,
+	    Spatie\Backup\BackupServiceProvider::class,
+
 		// Barryvdh\Debugbar\ServiceProvider::class,
 		Illuminate\Html\HtmlServiceProvider::class,
 		Laracasts\Flash\FlashServiceProvider::class,

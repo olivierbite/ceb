@@ -22,7 +22,8 @@
         "knplabs/knp-snappy": "^0.4.3",
         "h4cc/wkhtmltoimage-amd64": "^0.12.3",
         "barryvdh/laravel-snappy": "^0.3.0",
-        "barryvdh/laravel-debugbar": "^2.2"
+        "barryvdh/laravel-debugbar": "^2.2",
+        "spatie/laravel-backup": "^3.0.0"
         },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
