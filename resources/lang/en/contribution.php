@@ -33,4 +33,5 @@ return array (
   'add_new'                                                            => 'Add  New',
   'libelle'                                                            =>'Wording',
   'please_select_account_to_credit_before_completing_this_transaction' =>'Please select account to credit before completing this transaction',
+  'savings_level'                                                      =>'Savings Level',
 );

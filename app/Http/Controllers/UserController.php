@@ -61,4 +61,5 @@ class UserController extends Controller
 
     	return view('sentinel.users.edit',compact('user','groups'));
     }
+    
 }

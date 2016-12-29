@@ -50,4 +50,6 @@ return array (
       'reason_for_this_transaction'                               =>'Reason of this transaction',
       'options'                                                   =>'Options',
       'urgent_administration_fee'                                 => 'Urgent fees (:charges %)',
+      'view_payments'                                            =>'View Payment',
+ 
 );
